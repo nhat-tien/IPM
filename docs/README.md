@@ -8,6 +8,9 @@
 ### 
 
 ## Index
+-  [Architecture](/docs/architecture.md)
+
+
 
 
 
