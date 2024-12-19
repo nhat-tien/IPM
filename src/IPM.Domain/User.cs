@@ -1,5 +1,10 @@
 namespace IPM.Domain;
 
-class User
+public class User
 {
+    private string? UserLastName { get; set;}
+    private int UserId { get; set;}
+
 }
+
+

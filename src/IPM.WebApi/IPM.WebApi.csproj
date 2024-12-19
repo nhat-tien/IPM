@@ -7,4 +7,8 @@
         <RootNamespace>IPM.WebApi</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+    </ItemGroup>
+
 </Project>
