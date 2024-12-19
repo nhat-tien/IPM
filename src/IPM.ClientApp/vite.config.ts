@@ -5,7 +5,7 @@ import { svelte } from '@sveltejs/vite-plugin-svelte'
 export default defineConfig({
   plugins: [svelte()],
   build: {
-    outDir: '../wwwroot/client-app/',
+    outDir: '../IPM.WebApi/wwwroot/client-app/',
     emptyOutDir: true, 
     rollupOptions: {
       output: {

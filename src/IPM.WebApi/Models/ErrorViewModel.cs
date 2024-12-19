@@ -1,4 +1,4 @@
-namespace IPM.Infrastructure.Models;
+namespace IPM.WebApi.Models;
 
 public class ErrorViewModel
 {

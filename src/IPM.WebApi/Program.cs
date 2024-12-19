@@ -1,7 +1,18 @@
+using IPM.WebApi.ApiEndPoints;
+using IPM.WebApi.ServicesRegister;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+/* ------------------------------
+ * Service register
+ */
+builder.Services.AddAuthService();
+
+
+
 
 var app = builder.Build();
 
@@ -21,7 +32,11 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    name: "fallbackToSpa",
+    pattern: "{*url}",
+    defaults: new { controller = "Home", action = "Index"}
+);
+
+app.AddEndPointsApi();
 
 app.Run();

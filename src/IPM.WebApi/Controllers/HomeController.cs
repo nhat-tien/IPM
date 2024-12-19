@@ -1,8 +1,8 @@
-using System.Diagnostics;
+// using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using IPM.Infrastructure.Models;
+// using IPM.Infrastructure.Models;
 
-namespace IPM.Infrastructure.Controllers;
+namespace IPM.WebApi.Controllers;
 
 public class HomeController : Controller
 {
@@ -18,14 +18,14 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+    // public IActionResult Privacy()
+    // {
+    //     return View();
+    // }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
+    // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    // public IActionResult Error()
+    // {
+    //     return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    // }
 }
