@@ -1,11 +1,15 @@
+using IPM.Infrastructure;
 using IPM.WebApi.ApiEndPoints;
 using IPM.WebApi.ServicesRegister;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContextPool<AppDBContext>(opt => 
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("BloggingContext")));
 
 /* ------------------------------
  * Service register
