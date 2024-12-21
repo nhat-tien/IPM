@@ -1,8 +1,8 @@
-namespace IPM.Infrastructure.Entities;
+namespace IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 
 public class AttachedFile
 {
-    public int AttacedFileId { get; set; }
+    public int AttachedFileId { get; set; }
     public int ProjectId { get; set; }
 
     //Đề cương dự án

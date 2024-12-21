@@ -10,6 +10,10 @@
 ## Index
 -  [Architecture](/docs/architecture.md)
 
+```bash
+$ dotnet ef migrations add InitialCreate --project ../IPM.Infrastructure
+```
+
 
 
 

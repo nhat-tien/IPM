@@ -1,10 +1,13 @@
-namespace IPM.Infrastructure;
+namespace IPM.Infrastructure.EntityFrameworkDataAccess;
 
 using Microsoft.EntityFrameworkCore;
-using IPM.Infrastructure.Entities;
+using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 
-public class AppDBContext: DbContext
+public class AppDBContext: DbContext, IAppDBContext
 {
+    public AppDBContext(DbContextOptions<AppDBContext> options): base(options)
+    {
+    }
     public DbSet<User> Users {get; set;}
     public DbSet<AffiliatedUnit> AffiliatedUnits {get;set;}
     public DbSet<AidType> AidTypes {get;set;}
@@ -20,5 +23,4 @@ public class AppDBContext: DbContext
     public DbSet<ReportedProject> ReportedProjects {get;set;}
     public DbSet<Role> Roles {get;set;}
     public DbSet<Sponsor> Sponsors {get;set;}
-
 }

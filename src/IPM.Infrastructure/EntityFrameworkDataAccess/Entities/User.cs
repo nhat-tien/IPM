@@ -1,4 +1,4 @@
-namespace IPM.Infrastructure.Entities;
+namespace IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 
 //TODO: add more: Avatar
 public class User

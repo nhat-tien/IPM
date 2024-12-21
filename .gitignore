@@ -482,7 +482,6 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
-src/IPM.WebApi/wwwroot/client-app/*
 src/IPM.WebApi/appsettings.json
 src/IPM.WebApi/appsettings.Development.json
 
