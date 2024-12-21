@@ -1,2 +1,0 @@
-namespace IPM.Infrastructure.Entities;
-

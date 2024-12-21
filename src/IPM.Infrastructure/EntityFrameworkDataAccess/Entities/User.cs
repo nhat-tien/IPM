@@ -1,6 +1,6 @@
 namespace IPM.Infrastructure.Entities;
 
-//TODO: add more: Role, Avatar
+//TODO: add more: Avatar
 public class User
 {
     public int UserId { get; set; }
@@ -8,6 +8,7 @@ public class User
     public string? LastName { get; set; }
     public int PositionId { get; set; }
     public int AffilatedUnitId { get; set;}
+    public int RoleId { get; set; }
     public string? PhoneNumber { get; set;}
     public string? Address { get; set; }
     public string? Email { get; set; }
