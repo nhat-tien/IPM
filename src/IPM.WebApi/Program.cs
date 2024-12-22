@@ -9,14 +9,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
 builder.Services.AddPersistence(builder.Configuration);
 
-
 /* ------------------------------
  * Service register
  */
 builder.Services.AddAuthService();
-
-
-
 
 var app = builder.Build();
 
@@ -26,13 +22,14 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "IPM.WebApi v1");
-        c.RoutePrefix = string.Empty;
-    });
 }
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "IPM.WebApi v1");
+    c.RoutePrefix = string.Empty;
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -44,7 +41,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "fallbackToSpa",
     pattern: "{*url}",
-    defaults: new { controller = "Home", action = "Index"}
+    defaults: new { controller = "Home", action = "Index" }
 );
 
 app.AddEndPointsApi();
