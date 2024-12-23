@@ -1,7 +1,7 @@
 # International Project Management System
 
-> [!WARNING] WIP
-> Project still not working properly
+> [!WARNING]
+> WIP: Project still not working properly
 
 ## Features
 
