@@ -1,11 +1,14 @@
 using System.Reflection;
 using IPM.Infrastructure;
+using IPM.Infrastructure.EntityFrameworkDataAccess;
+using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 using IPM.WebApi.ApiEndPoints;
-using IPM.WebApi.ServicesRegister;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -13,12 +16,16 @@ builder.Services.AddSwaggerGen(c =>
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
 });
-builder.Services.AddPersistence(builder.Configuration);
 
 /* ------------------------------
  * Service register
  */
-builder.Services.AddAuthService();
+builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
+builder.Services.AddIdentityApiEndpoints<User>()
+    .AddEntityFrameworkStores<AppDBContext>();
+
 
 var app = builder.Build();
 
@@ -43,18 +50,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-// app.UseStaticFiles();
-
+app.UseStaticFiles();
+app.MapIdentityApi<User>();
 app.UseRouting();
-
 app.UseAuthorization();
-
 app.MapControllerRoute(
     name: "fallbackToSpa",
     pattern: "{*url}",
     defaults: new { controller = "Home", action = "Index" }
 );
-
 app.AddEndPointsApi();
 app.Run();

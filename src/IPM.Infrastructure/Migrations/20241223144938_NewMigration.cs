@@ -7,13 +7,17 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IPM.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigrate : Migration
+    public partial class NewMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "identity");
+
             migrationBuilder.CreateTable(
                 name: "AffiliatedUnits",
+                schema: "identity",
                 columns: table => new
                 {
                     AffiliatedUnitId = table.Column<int>(type: "integer", nullable: false)
@@ -28,6 +32,7 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AidTypes",
+                schema: "identity",
                 columns: table => new
                 {
                     AidTypeId = table.Column<int>(type: "integer", nullable: false)
@@ -42,6 +47,7 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ApprovingAgencies",
+                schema: "identity",
                 columns: table => new
                 {
                     ApprovingAgencyId = table.Column<int>(type: "integer", nullable: false)
@@ -56,6 +62,7 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AttachedFiles",
+                schema: "identity",
                 columns: table => new
                 {
                     AttachedFileId = table.Column<int>(type: "integer", nullable: false)
@@ -76,6 +83,7 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Catalogues",
+                schema: "identity",
                 columns: table => new
                 {
                     CatalogueId = table.Column<int>(type: "integer", nullable: false)
@@ -90,6 +98,7 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Counterparties",
+                schema: "identity",
                 columns: table => new
                 {
                     CounterpartyId = table.Column<int>(type: "integer", nullable: false)
@@ -104,6 +113,7 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CurrencyUnits",
+                schema: "identity",
                 columns: table => new
                 {
                     CurrencyUnitId = table.Column<int>(type: "integer", nullable: false)
@@ -118,6 +128,7 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Participations",
+                schema: "identity",
                 columns: table => new
                 {
                     ParticipationId = table.Column<int>(type: "integer", nullable: false)
@@ -135,6 +146,7 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Positions",
+                schema: "identity",
                 columns: table => new
                 {
                     PositionId = table.Column<int>(type: "integer", nullable: false)
@@ -149,6 +161,7 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Projects",
+                schema: "identity",
                 columns: table => new
                 {
                     ProjectId = table.Column<int>(type: "integer", nullable: false)
@@ -171,6 +184,7 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ProjectUpdateLogs",
+                schema: "identity",
                 columns: table => new
                 {
                     ProjectUpdateLogId = table.Column<int>(type: "integer", nullable: false)
@@ -186,6 +200,7 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ReportedProjects",
+                schema: "identity",
                 columns: table => new
                 {
                     ReportedProjectId = table.Column<int>(type: "integer", nullable: false)
@@ -198,20 +213,22 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Roles",
+                schema: "identity",
                 columns: table => new
                 {
-                    RoleId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RoleName = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.RoleId);
+                    table.PrimaryKey("PK_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Sponsors",
+                schema: "identity",
                 columns: table => new
                 {
                     SponsorId = table.Column<int>(type: "integer", nullable: false)
@@ -226,79 +243,287 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Users",
+                schema: "identity",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
                     FirstName = table.Column<string>(type: "text", nullable: true),
                     LastName = table.Column<string>(type: "text", nullable: true),
                     PositionId = table.Column<int>(type: "integer", nullable: false),
                     AffilatedUnitId = table.Column<int>(type: "integer", nullable: false),
-                    RoleId = table.Column<int>(type: "integer", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
                     Address = table.Column<string>(type: "text", nullable: true),
-                    Email = table.Column<string>(type: "text", nullable: true),
                     Password = table.Column<string>(type: "text", nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     VerifiedCodeEmail = table.Column<int>(type: "integer", nullable: false),
                     VerifiedStatus = table.Column<int>(type: "integer", nullable: false),
-                    VerificationValidTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    VerificationValidTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "RoleClaims",
+                schema: "identity",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RoleId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RoleClaims_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalSchema: "identity",
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserClaims",
+                schema: "identity",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserClaims_Users_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "identity",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserLogins",
+                schema: "identity",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_UserLogins_Users_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "identity",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRoles",
+                schema: "identity",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    RoleId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalSchema: "identity",
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Users_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "identity",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserTokens",
+                schema: "identity",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_UserTokens_Users_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "identity",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoleClaims_RoleId",
+                schema: "identity",
+                table: "RoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                schema: "identity",
+                table: "Roles",
+                column: "NormalizedName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserClaims_UserId",
+                schema: "identity",
+                table: "UserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserLogins_UserId",
+                schema: "identity",
+                table: "UserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRoles_RoleId",
+                schema: "identity",
+                table: "UserRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                schema: "identity",
+                table: "Users",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                schema: "identity",
+                table: "Users",
+                column: "NormalizedUserName",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AffiliatedUnits");
+                name: "AffiliatedUnits",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "AidTypes");
+                name: "AidTypes",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "ApprovingAgencies");
+                name: "ApprovingAgencies",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "AttachedFiles");
+                name: "AttachedFiles",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Catalogues");
+                name: "Catalogues",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Counterparties");
+                name: "Counterparties",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "CurrencyUnits");
+                name: "CurrencyUnits",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Participations");
+                name: "Participations",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Positions");
+                name: "Positions",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "Projects",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "ProjectUpdateLogs");
+                name: "ProjectUpdateLogs",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "ReportedProjects");
+                name: "ReportedProjects",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "RoleClaims",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Sponsors");
+                name: "Sponsors",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "UserClaims",
+                schema: "identity");
+
+            migrationBuilder.DropTable(
+                name: "UserLogins",
+                schema: "identity");
+
+            migrationBuilder.DropTable(
+                name: "UserRoles",
+                schema: "identity");
+
+            migrationBuilder.DropTable(
+                name: "UserTokens",
+                schema: "identity");
+
+            migrationBuilder.DropTable(
+                name: "Roles",
+                schema: "identity");
+
+            migrationBuilder.DropTable(
+                name: "Users",
+                schema: "identity");
         }
     }
 }

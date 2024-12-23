@@ -10,6 +10,7 @@ print_help() {
     echo "  migrate:new <name>    Make new migration"
     echo "  migrate:remove        Remove migration"
     echo "  db:update             Update database"
+    echo "  db:drop               Drop database"
     echo "  be:run                Run"
     echo "  be:dev                Run and hot reload"
 }
@@ -34,6 +35,10 @@ main() {
         "db:update")
             echo "dotnet ef database update --project src/IPM.Infrastructure --startup-project src/IPM.WebApi"
             dotnet ef database update --project src/IPM.Infrastructure --startup-project src/IPM.WebApi
+            ;;
+        "db:drop")
+            echo "dotnet ef database drop --project src/IPM.Infrastructure --startup-project src/IPM.WebApi"
+            dotnet ef database drop --project src/IPM.Infrastructure --startup-project src/IPM.WebApi
             ;;
         "migrate:remove")
             echo "dotnet ef migrations remove --project src/IPM.Infrastructure --startup-project src/IPM.WebApi"

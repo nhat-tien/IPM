@@ -18,6 +18,5 @@ public interface IAppDBContext
     DbSet<Project> Projects {get;set;}
     DbSet<ProjectUpdateLog> ProjectUpdateLogs {get;set;}
     DbSet<ReportedProject> ReportedProjects {get;set;}
-    DbSet<Role> Roles {get;set;}
     DbSet<Sponsor> Sponsors {get;set;}
 }

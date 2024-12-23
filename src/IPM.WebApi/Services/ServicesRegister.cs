@@ -1,4 +1,4 @@
-namespace IPM.WebApi.ServicesRegister;
+namespace IPM.WebApi.Services;
 
 public static class ServiceRegister
 {
