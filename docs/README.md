@@ -6,9 +6,8 @@
 ### Technology
 - ASP.NET core
 - Svelte
-### 
 
-## Index
+## Table of contents
 - [Architecture](/docs/architecture.md)
 
 

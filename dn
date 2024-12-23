@@ -1,0 +1,66 @@
+#!/bin/bash
+
+print_help() {
+    echo "  dn [COMMAND]"
+    echo ""
+    echo "  COMMAND: "
+    echo "  fe:dev                Run FE dev"
+    echo "  fe:build              Build FE"
+    echo "  fe:install            Install FE dependencies"
+    echo "  migrate:new <name>    Make new migration"
+    echo "  migrate:remove        Remove migration"
+    echo "  db:update             Update database"
+    echo "  be:run                Run"
+    echo "  be:dev                Run and hot reload"
+}
+
+main() {
+    case "$1" in
+        -h|--help)
+            print_help
+            ;;
+        "fe:install")
+            echo "npm --prefix ./src/IPM.ClientApp install"
+            npm --prefix ./src/IPM.ClientApp install
+            ;;
+        "fe:dev")
+            echo "npm --prefix ./src/IPM.ClientApp run dev"
+            npm --prefix ./src/IPM.ClientApp run dev
+            ;;
+        "fe:build")
+            echo "npm --prefix ./src/IPM.ClientApp run build"
+            npm --prefix ./src/IPM.ClientApp run build
+            ;;
+        "db:update")
+            echo "dotnet ef database update --project src/IPM.Infrastructure --startup-project src/IPM.WebApi"
+            dotnet ef database update --project src/IPM.Infrastructure --startup-project src/IPM.WebApi
+            ;;
+        "migrate:remove")
+            echo "dotnet ef migrations remove --project src/IPM.Infrastructure --startup-project src/IPM.WebApi"
+            dotnet ef migrations remove --project src/IPM.Infrastructure --startup-project src/IPM.WebApi
+            ;;
+        "migrate:new")
+            shift
+            migration_name="NewMigration"
+            if [[ $# != 0 ]]; then
+                migration_name="$1"
+            fi
+            echo "dotnet ef migrations add $migration_name --project src/IPM.Infrastructure --startup-project src/IPM.WebApi"
+            dotnet ef migrations add "$migration_name" --project src/IPM.Infrastructure --startup-project src/IPM.WebApi
+            ;;
+        "be:run")
+            echo "dotnet run --project src/IPM.WebApi"
+            dotnet run --project src/IPM.WebApi
+            ;;
+        "be:dev")
+            echo "dotnet watch --project src/IPM.WebApi"
+            dotnet watch --project src/IPM.WebApi
+            ;;
+        *)
+            echo "Command not found"
+            print_help
+            ;;
+    esac
+}
+
+main "$@"

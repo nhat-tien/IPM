@@ -1,3 +1,4 @@
+using System.Reflection;
 using IPM.Infrastructure;
 using IPM.WebApi.ApiEndPoints;
 using IPM.WebApi.ServicesRegister;
@@ -6,7 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+});
 builder.Services.AddPersistence(builder.Configuration);
 
 /* ------------------------------
@@ -24,15 +30,21 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseSwagger();
-app.UseSwaggerUI(c =>
+if (app.Environment.IsDevelopment())
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "IPM.WebApi v1");
-    c.RoutePrefix = string.Empty;
-});
+    app.UseSwagger(c =>
+    {
+        c.SerializeAsV2 = true;
+    });
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "IPM.WebApi v1");
+    });
+}
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+
+// app.UseStaticFiles();
 
 app.UseRouting();
 
@@ -45,5 +57,4 @@ app.MapControllerRoute(
 );
 
 app.AddEndPointsApi();
-
 app.Run();

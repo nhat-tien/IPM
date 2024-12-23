@@ -1,3 +1,4 @@
+
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 
 //TODO: add more: Avatar
