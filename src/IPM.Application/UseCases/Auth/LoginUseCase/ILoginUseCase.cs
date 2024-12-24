@@ -1,8 +1,6 @@
-namespace IPM.Application.UseCases.Auth.LoginUseCase
+namespace IPM.Application.UseCases.Auth.LoginUseCase;
+
+public interface ILoginUseCase
 {
-  public interface ILoginUseCase
-  {
-      LoginResponse Execute(LoginRequest req);
-  }
+    SignInResponse Execute(SignInRequest req);
 }
- 

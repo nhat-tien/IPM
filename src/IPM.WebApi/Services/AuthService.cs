@@ -17,17 +17,12 @@ public class AuthService : IAuthService
         _signInManager = signInManager;
     }
 
-    public async Task Register(RegisterRequest req)
+    public void Login(SignInRequest req)
     {
-        var userCheck = await _userManager.FindByEmailAsync(req.Email);
-        if(userCheck != null)
-        {
-
-        };
-
-        var user 
+        throw new NotImplementedException();
     }
-    public void Login(LoginRequest req)
+
+    public Task Register(RegisterRequest req)
     {
         throw new NotImplementedException();
     }

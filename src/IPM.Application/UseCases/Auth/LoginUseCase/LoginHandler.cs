@@ -1,13 +1,20 @@
+using IPM.Application.IServices;
 
 namespace IPM.Application.UseCases.Auth.LoginUseCase;
 
 public class LoginHandler: ILoginUseCase
 {    
-    public LoginHandler()
-    {}
+    private IAuthService authService;
 
-    public LoginResponse Execute(LoginRequest req)
+    public LoginHandler(IAuthService authService)
     {
-        return new LoginResponse();
+        this.authService = authService;
+    }
+
+
+    public SignInResponse Execute(SignInRequest req)
+    {
+        // authService.Login(req);
+        return new SignInResponse();
     }
 }

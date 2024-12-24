@@ -20,12 +20,16 @@
 ### Development 
 ```bash
 # Build front-end
-dn fe:build
-# Run watch back-end 
-dn be:dev
+./dn fe:build
+# Run back-end 
+./dn be:run
 ```
 
 ### Production 
 
 ## More
 [Documents](/docs/README.md)
+
+## Feature Wishlist
+- [ ] Implement JWT
+- [ ] Implement Google OAuth
