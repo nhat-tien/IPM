@@ -1,10 +1,9 @@
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
 
 using System.Threading.Tasks;
-using IPM.Application.IRepositories;
 using IPM.Domain;
 
-public class UserRepository : IUserRepository
+public class UserRepository 
 {
     private AppDBContext _ctx;
 

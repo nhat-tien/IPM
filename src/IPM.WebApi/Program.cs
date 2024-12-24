@@ -1,9 +1,7 @@
 using System.Reflection;
 using IPM.Infrastructure;
-using IPM.Infrastructure.EntityFrameworkDataAccess;
-using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
-using IPM.WebApi.ApiEndPoints;
-using Microsoft.AspNetCore.Identity;
+using IPM.WebApi.ApiEndPoints.V1;
+using IPM.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,18 +15,17 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(xmlPath);
 });
 
-/* ------------------------------
- * Service register
+/* -----------------------------------
+ * Developer-defined Services
+ *
  */
-builder.Services.AddPersistence(builder.Configuration);
-builder.Services.AddAuthorization();
-builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
-builder.Services.AddIdentityApiEndpoints<User>()
-    .AddEntityFrameworkStores<AppDBContext>();
-
+builder.Services.AddPersistenceService(builder.Configuration);
+builder.Services.AddAuthServices();
+builder.Services.AddUseCaseServices();
+//
+// -----------------------------------
 
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -51,7 +48,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.MapIdentityApi<User>();
+// app.MapIdentityApi<User>();
 app.UseRouting();
 app.UseAuthorization();
 app.MapControllerRoute(
@@ -59,5 +56,5 @@ app.MapControllerRoute(
     pattern: "{*url}",
     defaults: new { controller = "Home", action = "Index" }
 );
-app.AddEndPointsApi();
+app.MapEndPointsApi();
 app.Run();

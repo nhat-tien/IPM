@@ -26,14 +26,34 @@ public class User
     public int VerifiedStatus { get; set; }
     public DateTime VerificationValidTime {get; set;}
 
+    public User(int userId, string firstName, string lastName, int positionId, int affilatedUnitId, int roleId, string phoneNumber, string? address, string? email, string? password, int status, DateTime createdAt, DateTime updatedAt, int verifiedCodeEmail, int verifiedStatus, DateTime verificationValidTime)
+    {
+        UserId = userId;
+        FirstName = firstName;
+        LastName = lastName;
+        PositionId = positionId;
+        AffilatedUnitId = affilatedUnitId;
+        RoleId = roleId;
+        PhoneNumber = phoneNumber;
+        Address = address;
+        Email = email;
+        Password = password;
+        Status = status;
+        CreatedAt = createdAt;
+        UpdatedAt = updatedAt;
+        VerifiedCodeEmail = verifiedCodeEmail;
+        VerifiedStatus = verifiedStatus;
+        VerificationValidTime = verificationValidTime;
+    }
+
     public static User LoadFromDetail(
             int id,
-            string firstName
+            string? firstName
             )
     {
         User user = new User();
         user.UserId = id;
-        user.FirstName = firstName;
+        user.FirstName = firstName ?? "";
         return user;
     }
 }

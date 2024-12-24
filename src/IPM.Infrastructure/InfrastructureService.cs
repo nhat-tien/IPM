@@ -7,7 +7,7 @@ namespace IPM.Infrastructure;
 
 public static class InfrastructureService
 {
-    public static IServiceCollection AddPersistence(
+    public static IServiceCollection AddPersistenceService(
         this IServiceCollection services,
         IConfiguration configuration
     )
