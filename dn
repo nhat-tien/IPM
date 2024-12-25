@@ -62,7 +62,7 @@ main() {
             dotnet watch --project src/IPM.WebApi
             ;;
         *)
-            echo "Command not found"
+            echo "Command not found: $1"
             print_help
             ;;
     esac

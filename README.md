@@ -30,6 +30,9 @@
 ## More
 [Documents](/docs/README.md)
 
+## Will fix
+- [ ] Prevent users sign up with role
+
 ## Feature Wishlist
 - [ ] Implement JWT
 - [ ] Implement Google OAuth

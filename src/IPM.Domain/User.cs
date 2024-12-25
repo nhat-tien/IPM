@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace IPM.Domain;
 
 public class User

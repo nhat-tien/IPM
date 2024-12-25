@@ -11,9 +11,11 @@ public class RegisterHandler : IRegisterUseCase
         this.authService = authService;
     }
 
-    public RegisterResponse Execute(RegisterRequest req)
+    public async Task<RegisterResponse> Execute(RegisterRequest req)
     {
-        // this.authService.Register(req);
-        return new RegisterResponse();
+        var result =  await this.authService.Register(req);
+        return new RegisterResponse(result.IsSuccess, result.Errors);
     }
 }
+
+public record RegisterResponse(bool IsSuccess, Dictionary<string, string[]>? Errors);

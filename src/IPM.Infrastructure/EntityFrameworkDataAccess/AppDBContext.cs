@@ -1,6 +1,7 @@
 namespace IPM.Infrastructure.EntityFrameworkDataAccess;
 
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
+using IPM.Infrastructure.EntityFrameworkDataAccess.Seeds;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +20,7 @@ public class AppDBContext : IdentityDbContext<User>, IAppDBContext
     public DbSet<Participation> Participations { get; set; } = null!;
     public DbSet<Position> Positions { get; set; } = null!;
     public DbSet<Project> Projects { get; set; } = null!;
-    public DbSet<ProjectUpdateLog> ProjectUpdateLogs { get; set;}  = null!;
+    public DbSet<ProjectUpdateLog> ProjectUpdateLogs { get; set; } = null!;
     public DbSet<ReportedProject> ReportedProjects { get; set; } = null!;
     public DbSet<Sponsor> Sponsors { get; set; } = null!;
 
@@ -36,5 +37,6 @@ public class AppDBContext : IdentityDbContext<User>, IAppDBContext
             }
         }
         builder.HasDefaultSchema("identity");
+        builder.Seed();
     }
 }

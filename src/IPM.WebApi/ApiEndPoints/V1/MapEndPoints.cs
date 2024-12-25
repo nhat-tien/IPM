@@ -8,5 +8,6 @@ public static class MapEndPoints
 
       AuthEndPoint.Map(endpoints);
       ProjectEndPoint.Map(endpoints);
+      RoleEndPoints.Map(endpoints);
   }
 }

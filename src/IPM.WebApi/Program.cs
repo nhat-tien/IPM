@@ -1,7 +1,7 @@
 using System.Reflection;
 using IPM.Infrastructure;
 using IPM.WebApi.ApiEndPoints.V1;
-using IPM.WebApi.Services;
+using IPM.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +22,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddPersistenceService(builder.Configuration);
 builder.Services.AddAuthServices();
 builder.Services.AddUseCaseServices();
+builder.Services.AddValidatorServices();
 //
 // -----------------------------------
 
