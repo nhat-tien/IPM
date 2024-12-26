@@ -31,6 +31,9 @@ public static class ServiceRegister
                 o.RequireHttpsMetadata = false;
                 o.TokenValidationParameters = new TokenValidationParameters
                 {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(configuration["Jwt:Secret"]!)
                     ),
@@ -38,6 +41,19 @@ public static class ServiceRegister
                     ValidAudience = configuration["Jwt:Audience"],
                     ClockSkew = TimeSpan.Zero,
                 };
+                o.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = ctx => 
+                    {
+                       ctx.Request.Cookies.TryGetValue("AccessToken", out var accessToken);
+                       if(!string.IsNullOrEmpty(accessToken))
+                       {
+                           ctx.Token = accessToken;
+                       }
+                       return Task.CompletedTask;
+                    }
+                };
+
             });
         services.AddAuthorization();
         //.AddBearerToken(IdentityConstants.BearerScheme);

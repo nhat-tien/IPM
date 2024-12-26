@@ -4,17 +4,18 @@ using IPM.Application.UseCases.Auth.LoginUseCase;
 using IPM.Application.UseCases.Auth.RegisterUseCase;
 using IPM.WebApi.Filters;
 
-public static class AuthEndPoint
+public class AuthEndPoint
 {
     public static void Map(RouteGroupBuilder endpoints)
     {
         endpoints.MapPost(
             "/login",
-            async (SignInRequest req, ILoginUseCase handler) =>
+            async (SignInRequest req,HttpContext httpContext, ILoginUseCase handler) =>
             {
                 var res = await handler.Handle(req);
                 if (res.IsSuccess)
                 {
+                    SetTokenInsideCookie(res.AccessToken!, httpContext);
                     return Results.Ok(res);
                 }
                 else
@@ -40,5 +41,15 @@ public static class AuthEndPoint
                 }
             )
             .WithRequestValidation<RegisterRequest>();
+    }
+
+    public static void SetTokenInsideCookie(string accessToken, HttpContext context)
+    {
+        context.Response.Cookies.Append("AccessToken", accessToken, new CookieOptions {
+                HttpOnly = true,
+                IsEssential = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict
+        });
     }
 }
