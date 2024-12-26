@@ -1,12 +1,13 @@
 using IPM.Application.UseCases.Auth.LoginUseCase;
 using IPM.Application.UseCases.Auth.RegisterUseCase;
+using IPM.Application.UseCases.Auth.RefreshTokenUseCase;
 
 namespace IPM.Application.IServices;
 
 public interface IAuthService
 {
-    void Login(SignInRequest req);
-    Task<AuthResultDto> Register(RegisterRequest req);
+    Task<SignInResponse> Login(SignInRequest req);
+    Task<RegisterResponse> Register(RegisterRequest req);
+    Task<RefreshTokenResponse> RefreshToken(RefreshTokenRequest req);
 }
 
-public record AuthResultDto(bool IsSuccess, Dictionary<string, string[]>? Errors);

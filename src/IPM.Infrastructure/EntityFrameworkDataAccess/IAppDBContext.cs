@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 public interface IAppDBContext
 {
-    DbSet<User> Users {get; set;}
+    // DbSet<User> Users {get; set;}
     DbSet<AffiliatedUnit> AffiliatedUnits {get;set;}
     DbSet<AidType> AidTypes {get;set;}
     DbSet<ApprovingAgency> ApprovingAgencies {get;set;}
@@ -19,4 +19,7 @@ public interface IAppDBContext
     DbSet<ProjectUpdateLog> ProjectUpdateLogs {get;set;}
     DbSet<ReportedProject> ReportedProjects {get;set;}
     DbSet<Sponsor> Sponsors {get;set;}
+    DbSet<RefreshToken> RefreshTokens {get; set;}
+
+    Task<int> SaveChangesAsync(System.Threading.CancellationToken cancellationToken = default);
 }

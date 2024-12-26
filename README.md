@@ -34,5 +34,5 @@
 - [ ] Prevent users sign up with role
 
 ## Feature Wishlist
-- [ ] Implement JWT
+- [x] Implement JWT
 - [ ] Implement Google OAuth
