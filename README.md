@@ -14,15 +14,15 @@
 > [!NOTE]
 > ```bash
 > # make file dn executable
-> chmod +x dn
+> chmod +x ipm
 > ```
 
 ### Development 
 ```bash
 # Build front-end
-./dn fe:build
+./ipm fe:build
 # Run back-end 
-./dn be:run
+./ipm be:run
 ```
 
 ### Production 
