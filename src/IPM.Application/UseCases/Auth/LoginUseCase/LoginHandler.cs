@@ -22,13 +22,15 @@ public class SignInResponse {
     public bool IsSuccess {get; private set;}
     public string? Message {get; private set;}
     public string? AccessToken {get; private set;}
+    public string? RefreshToken {get; private set;}
 
-    public static SignInResponse Ok(string message, string accessToken)
+    public static SignInResponse Ok(string message, string accessToken, string refreshToken)
     {
         return new SignInResponse() {
             IsSuccess = true,
             Message = message,
-            AccessToken = accessToken
+            AccessToken = accessToken,
+            RefreshToken = refreshToken
         };
     }
 
@@ -37,7 +39,8 @@ public class SignInResponse {
         return new SignInResponse() {
             IsSuccess = false,
             Message = errors,
-            AccessToken = null
+            AccessToken = null,
+            RefreshToken = null 
         };
     }
 };

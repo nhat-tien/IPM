@@ -3,6 +3,7 @@ using System.Text;
 using FluentValidation;
 using IPM.Application.IServices;
 using IPM.Application.UseCases.Auth.LoginUseCase;
+using IPM.Application.UseCases.Auth.RefreshTokenUseCase;
 using IPM.Application.UseCases.Auth.RegisterUseCase;
 using IPM.Application.UseCases.Role;
 using IPM.Infrastructure.EntityFrameworkDataAccess;
@@ -118,6 +119,7 @@ public static class ServiceRegister
     {
         services.AddScoped<ILoginUseCase, LoginHandler>();
         services.AddScoped<IRegisterUseCase, RegisterHandler>();
+        services.AddScoped<IRefreshTokenUseCase, RefreshTokenHandler>();
         services.AddScoped<IGetAllRoleUseCase, GetAllRoleUseCase>();
         return services;
     }

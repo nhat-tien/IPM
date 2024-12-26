@@ -1,15 +1,19 @@
 using IPM.Application.IServices;
 using IPM.Application.UseCases.Auth.LoginUseCase;
+using IPM.Application.UseCases.Auth.RefreshTokenUseCase;
 using IPM.Application.UseCases.Auth.RegisterUseCase;
+using IPM.Infrastructure.EntityFrameworkDataAccess;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace IPM.WebApi.Services;
 
 public class AuthService(
     UserManager<User> userManager,
     JwtService jwtService,
-    RoleManager<IdentityRole> roleManager
+    RoleManager<IdentityRole> roleManager,
+    IAppDBContext context
 ) : IAuthService
 {
     public async Task<SignInResponse> Login(SignInRequest req) 
@@ -26,8 +30,36 @@ public class AuthService(
         }
         string token = jwtService.Create(user);
 
-        return SignInResponse.Ok("Success", token);
+        var refreshToken = new RefreshToken 
+        {
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+            Token = jwtService.GenerateRefreshToken(),
+            ExpiresOnUtc = DateTime.UtcNow.AddDays(1),
+        };
+        context.RefreshTokens.Add(refreshToken);
+        await context.SaveChangesAsync();
 
+        return SignInResponse.Ok("Success", token, refreshToken.Token);
+
+    }
+
+    public async Task<RefreshTokenResponse> RefreshToken(RefreshTokenRequest req)
+    {
+        RefreshToken? refreshToken = await context.RefreshTokens
+            .Include(r => r.User)
+            .FirstOrDefaultAsync(r => r.Token == req.RefreshToken);
+
+        if(refreshToken is null || refreshToken.ExpiresOnUtc < DateTime.UtcNow)
+        {
+            return RefreshTokenResponse.Error("The refresh token is expired");
+        }
+        string accessToken = jwtService.Create(refreshToken.User!);
+        refreshToken.Token = jwtService.GenerateRefreshToken();
+
+        await context.SaveChangesAsync();
+
+        return RefreshTokenResponse.Ok("Refresh success", accessToken, refreshToken.Token);
     }
 
     public async Task<RegisterResponse> Register(RegisterRequest req)

@@ -19,4 +19,7 @@ public interface IAppDBContext
     DbSet<ProjectUpdateLog> ProjectUpdateLogs {get;set;}
     DbSet<ReportedProject> ReportedProjects {get;set;}
     DbSet<Sponsor> Sponsors {get;set;}
+    DbSet<RefreshToken> RefreshTokens {get; set;}
+
+    Task<int> SaveChangesAsync(System.Threading.CancellationToken cancellationToken = default);
 }
