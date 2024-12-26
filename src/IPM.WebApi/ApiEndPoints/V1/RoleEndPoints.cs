@@ -7,7 +7,8 @@ namespace IPM.WebApi.ApiEndPoints.V1;
   {
     var endpoints = route.MapGroup("/role");
 
-    endpoints.MapGet("/", (IGetAllRoleUseCase handler) => handler.Execute());
+    endpoints.MapGet("/", (IGetAllRoleUseCase handler) => handler.Execute())
+        .RequireAuthorization();
   }
 
   }

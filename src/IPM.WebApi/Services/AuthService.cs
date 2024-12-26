@@ -6,27 +6,34 @@ using Microsoft.AspNetCore.Identity;
 
 namespace IPM.WebApi.Services;
 
-public class AuthService : IAuthService
+public class AuthService(
+    UserManager<User> userManager,
+    JwtService jwtService,
+    RoleManager<IdentityRole> roleManager
+) : IAuthService
 {
-    private readonly UserManager<User> userManager;
-    private readonly SignInManager<User> signInManager;
-    private readonly RoleManager<IdentityRole> roleManager;
+    public async Task<SignInResponse> Login(SignInRequest req) 
+    { 
+        User? user = await userManager.FindByNameAsync(req.Email);
+        if(user is null)
+        {
+            return SignInResponse.Error("User was not found");
+        }
+        bool verify = await userManager.CheckPasswordAsync(user, req.Password);
+        if(!verify)
+        {
+            return SignInResponse.Error("Password incorrect");
+        }
+        string token = jwtService.Create(user);
 
-    public AuthService(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
-    {
-        this.userManager = userManager;
-        this.signInManager = signInManager;
-        this.roleManager = roleManager;
+        return SignInResponse.Ok("Success", token);
+
     }
 
-    public void Login(SignInRequest req)
+    public async Task<RegisterResponse> Register(RegisterRequest req)
     {
-        throw new NotImplementedException();
-    }
-
-    public async Task<AuthResultDto> Register(RegisterRequest req)
-    {
-        var user = new User() {
+        var user = new User()
+        {
             UserName = req.Email,
             AffilatedUnitId = req.AffiliatedUnitId,
             PositionId = req.PositionId,
@@ -37,43 +44,43 @@ public class AuthService : IAuthService
         var result = await userManager.CreateAsync(user, req.Password);
         var role = await roleManager.FindByIdAsync(req.RoleId);
 
-        if(role != null && role.Name != null)
+        if (role != null && role.Name != null)
         {
-            await userManager.AddToRoleAsync(user,role.Name);
-        };
-        if(result.Succeeded)
+            await userManager.AddToRoleAsync(user, role.Name);
+        }
+        ;
+        if (result.Succeeded)
         {
-            return new AuthResultDto(true, null);
-        } 
-        else 
+            return RegisterResponse.Ok("Dang ki thanh cong");
+        }
+        else
         {
-            return new AuthResultDto(false,GetRegisterErrors(result));
+            return RegisterResponse.Error(GetRegisterErrors(result));
         }
     }
 
     private Dictionary<string, string[]> GetRegisterErrors(IdentityResult result)
+    {
+        var errorDictionary = new Dictionary<string, string[]>(1);
+
+        foreach (var error in result.Errors)
         {
-            var errorDictionary = new Dictionary<string, string[]>(1);
+            string[] newDescriptions;
 
-            foreach (var error in result.Errors)
+            if (errorDictionary.TryGetValue(error.Code, out var descriptions))
             {
-                string[] newDescriptions;
-
-                if (errorDictionary.TryGetValue(error.Code, out var descriptions))
-                {
-                    newDescriptions = new string[descriptions.Length + 1];
-                    Array.Copy(descriptions, newDescriptions, descriptions.Length);
-                    newDescriptions[descriptions.Length] = error.Description;
-                }
-                else
-                {
-                    newDescriptions = [error.Description];
-                }
-
-                errorDictionary[error.Code] = newDescriptions;
+                newDescriptions = new string[descriptions.Length + 1];
+                Array.Copy(descriptions, newDescriptions, descriptions.Length);
+                newDescriptions[descriptions.Length] = error.Description;
+            }
+            else
+            {
+                newDescriptions = [error.Description];
             }
 
-            return errorDictionary;
+            errorDictionary[error.Code] = newDescriptions;
         }
+
+        return errorDictionary;
+    }
 }
- 

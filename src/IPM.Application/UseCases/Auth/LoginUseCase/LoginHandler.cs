@@ -1,4 +1,5 @@
 using IPM.Application.IServices;
+using FluentValidation;
 
 namespace IPM.Application.UseCases.Auth.LoginUseCase;
 
@@ -11,10 +12,46 @@ public class LoginHandler: ILoginUseCase
         this.authService = authService;
     }
 
-
-    public SignInResponse Execute(SignInRequest req)
+    public async Task<SignInResponse> Handle(SignInRequest req)
     {
-        // authService.Login(req);
-        return new SignInResponse();
+        return await this.authService.Login(req);
+    }
+}
+
+public class SignInResponse {
+    public bool IsSuccess {get; private set;}
+    public string? Message {get; private set;}
+    public string? AccessToken {get; private set;}
+
+    public static SignInResponse Ok(string message, string accessToken)
+    {
+        return new SignInResponse() {
+            IsSuccess = true,
+            Message = message,
+            AccessToken = accessToken
+        };
+    }
+
+    public static SignInResponse Error(string errors)
+    {
+        return new SignInResponse() {
+            IsSuccess = false,
+            Message = errors,
+            AccessToken = null
+        };
+    }
+};
+
+  public record SignInRequest (
+      string Email,
+      string Password
+  );
+
+public class SignInRequestValidator : AbstractValidator<SignInRequest>
+{
+    public SignInRequestValidator()
+    {
+        RuleFor(req => req.Email).NotEmpty().EmailAddress();
+        RuleFor(req => req.Password).NotEmpty();
     }
 }

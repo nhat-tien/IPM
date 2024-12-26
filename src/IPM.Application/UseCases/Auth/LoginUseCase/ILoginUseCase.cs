@@ -2,5 +2,5 @@ namespace IPM.Application.UseCases.Auth.LoginUseCase;
 
 public interface ILoginUseCase
 {
-    SignInResponse Execute(SignInRequest req);
+    Task<SignInResponse> Handle(SignInRequest req);
 }

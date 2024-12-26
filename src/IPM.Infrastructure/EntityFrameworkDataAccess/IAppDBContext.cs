@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 public interface IAppDBContext
 {
-    DbSet<User> Users {get; set;}
+    // DbSet<User> Users {get; set;}
     DbSet<AffiliatedUnit> AffiliatedUnits {get;set;}
     DbSet<AidType> AidTypes {get;set;}
     DbSet<ApprovingAgency> ApprovingAgencies {get;set;}
