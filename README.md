@@ -13,7 +13,7 @@
 
 > [!TIP]
 > ```bash
-> # make file dn executable
+> # make file ipm executable
 > chmod +x ipm
 > # run with flag --help to see available commands
 > ./ipm --help
