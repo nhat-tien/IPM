@@ -21,6 +21,7 @@ public static class InfrastructureService
         services.AddScoped<IAppDBContext>(provider => provider.GetRequiredService<AppDBContext>());
 
         services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
         return services;
     }
 }

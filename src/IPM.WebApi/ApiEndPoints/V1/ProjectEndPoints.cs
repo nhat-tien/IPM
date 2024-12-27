@@ -1,6 +1,6 @@
 namespace IPM.WebApi.ApiEndPoints.V1;
 
-public static class ProjectEndPoint
+public static class ProjectEndPoints
 {
   public static void Map(RouteGroupBuilder route) 
   {

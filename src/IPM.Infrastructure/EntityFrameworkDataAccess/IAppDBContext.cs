@@ -20,6 +20,8 @@ public interface IAppDBContext
     DbSet<ReportedProject> ReportedProjects {get;set;}
     DbSet<Sponsor> Sponsors {get;set;}
     DbSet<RefreshToken> RefreshTokens {get; set;}
+    DbSet<File> Files {get; set;}
+    DbSet<FileType> FileTypes {get; set;}
 
     Task<int> SaveChangesAsync(System.Threading.CancellationToken cancellationToken = default);
 }

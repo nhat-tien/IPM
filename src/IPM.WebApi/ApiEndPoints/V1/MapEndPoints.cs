@@ -6,8 +6,8 @@ public static class MapEndPoints
   {
       var endpoints = app.MapGroup("/api/v1");
 
-      AuthEndPoint.Map(endpoints);
-      ProjectEndPoint.Map(endpoints);
+      AuthEndPoints.Map(endpoints);
+      ProjectEndPoints.Map(endpoints);
       RoleEndPoints.Map(endpoints);
   }
 }

@@ -1,0 +1,33 @@
+version: "1"
+
+volumes:
+  db_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+services:
+  db:
+    restart: always
+    image: postgres
+    environment:
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
+      - POSTGRES_DB=
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  pgadmin4:
+    restart: always
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=
+      - PGADMIN_DEFAULT_PASSWORD=
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/pgadmin
+    depends_on:
+      - "db"

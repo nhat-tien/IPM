@@ -286,6 +286,30 @@ namespace IPM.Infrastructure.Migrations
                     b.ToTable("ProjectUpdateLogs", "identity");
                 });
 
+            modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ExpiresOnUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens", "identity");
+                });
+
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.ReportedProject", b =>
                 {
                     b.Property<int>("ReportedProjectId")
@@ -565,6 +589,17 @@ namespace IPM.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens", "identity");
+                });
+
+            modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.RefreshToken", b =>
+                {
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

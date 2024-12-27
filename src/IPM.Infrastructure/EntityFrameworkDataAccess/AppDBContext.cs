@@ -24,6 +24,8 @@ public class AppDBContext : IdentityDbContext<User>, IAppDBContext
     public DbSet<ReportedProject> ReportedProjects { get; set; } = null!;
     public DbSet<Sponsor> Sponsors { get; set; } = null!;
     public DbSet<RefreshToken> RefreshTokens {get; set;} = null!;
+    public DbSet<File> Files {get; set;} = null!;
+    public DbSet<FileType> FileTypes {get; set;} = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

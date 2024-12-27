@@ -1,18 +1,19 @@
 #!/bin/bash
 
 print_help() {
-    echo "  ipm [COMMAND]"
+    echo -e "  \e[3mA small script to make dev life better\e[0m"
+    echo "  USAGE: ipm [COMMAND]"
     echo ""
-    echo "  COMMAND: "
-    echo "  fe:dev                Run FE dev"
-    echo "  fe:build              Build FE"
-    echo "  fe:install            Install FE dependencies"
-    echo "  migrate:new <name>    Make new migration"
-    echo "  migrate:remove        Remove migration"
-    echo "  db:update             Update database"
-    echo "  db:drop               Drop database"
-    echo "  be:run                Run"
-    echo "  be:dev                Run and hot reload"
+    echo "  COMMAND:  fe:dev          Run FE dev"
+    echo "            fe:build        Build FE"
+    echo "            fe:install      Install FE dependencies"
+    echo "            be:run          Run"
+    echo "            be:dev          Run and hot reload"
+    echo "            mg:new <name>   Make new migration"
+    echo "            mg:remove       Remove migration"
+    echo "            db:update       Update database"
+    echo "            db:drop         Drop database"
+    echo "            dk:run          Docker run (not available now)"
 }
 
 main() {
@@ -44,11 +45,11 @@ main() {
             echo "dotnet ef database drop --project src/IPM.Infrastructure --startup-project src/IPM.WebApi"
             dotnet ef database drop --project src/IPM.Infrastructure --startup-project src/IPM.WebApi
             ;;
-        "migrate:remove")
+        "mg:remove")
             echo "dotnet ef migrations remove --project src/IPM.Infrastructure --startup-project src/IPM.WebApi"
             dotnet ef migrations remove --project src/IPM.Infrastructure --startup-project src/IPM.WebApi
             ;;
-        "migrate:new")
+        "mg:new")
             shift
             migration_name="NewMigration"
             if [[ $# != 0 ]]; then

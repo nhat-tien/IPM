@@ -11,10 +11,26 @@
 - .NET Core SDK 8.0
 - Entity Framework Core Tools (dotnet tool install --global dotnet-ef) 
 
-> [!NOTE]
+> [!TIP]
 > ```bash
 > # make file dn executable
 > chmod +x ipm
+> # run with flag --help to see available commands
+> ./ipm --help
+> ```
+> ```txt
+>  A small script to make dev life better
+>  USAGE: ipm [COMMAND]
+>
+>  COMMAND:  fe:dev          Run FE dev
+>            fe:build        Build FE
+>            fe:install      Install FE dependencies
+>            be:run          Run
+>            be:dev          Run and hot reload
+>            mg:new <name>   Make new migration
+>            mg:remove       Remove migration
+>            db:update       Update database
+>            db:drop         Drop database
 > ```
 
 ### Development 
