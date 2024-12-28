@@ -9,6 +9,7 @@
 ### Prerequisite
 - PostgreSQL
 - .NET Core SDK 8.0
+- NodeJS (v20 or later)
 - Entity Framework Core Tools (dotnet tool install --global dotnet-ef) 
 
 > [!TIP]
@@ -35,9 +36,8 @@
 
 ### Development 
 ```bash
-# Build front-end
-./ipm fe:build
-# Run back-end 
+./ipm fe:install && \
+./ipm fe:build && \
 ./ipm be:run
 ```
 

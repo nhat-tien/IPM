@@ -5,7 +5,7 @@
 
 ### Technology
 - ASP.NET core
-- Svelte
+- SvelteKit
 
 ## Table of contents
 - [Architecture](/docs/architecture.md)
