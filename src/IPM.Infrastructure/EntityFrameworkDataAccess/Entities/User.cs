@@ -19,4 +19,45 @@ public class User: IdentityUser
 
     public int VerifiedStatus { get; set; }
     public DateTime VerificationValidTime {get; set;}
+
+    public Domain.User MapTo() 
+    {
+        return new Domain.User() 
+        {
+            UserId = Id,
+            UserName = UserName,
+            FirstName = FirstName,
+            LastName = LastName,
+            PositionId = PositionId,
+            AffilatedUnitId = AffilatedUnitId,
+            Email = Email,
+            Address = Address,
+            Status = Status,
+            CreatedAt = CreatedAt,
+            UpdatedAt = UpdatedAt,
+            VerifiedCodeEmail = VerifiedCodeEmail,
+            VerifiedStatus = VerifiedStatus,
+            VerificationValidTime = VerificationValidTime
+        };
+    }
+
+    public static User MapFrom(Domain.User user)
+    {
+        return new User() {
+            Id = user.UserId ?? "",
+            UserName = user.UserName,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            PositionId = user.PositionId,
+            AffilatedUnitId = user.AffilatedUnitId,
+            Email = user.Email,
+            Address = user.Address,
+            Status = user.Status,
+            CreatedAt = user.CreatedAt,
+            UpdatedAt = user.UpdatedAt,
+            VerifiedCodeEmail = user.VerifiedCodeEmail,
+            VerifiedStatus = user.VerifiedStatus,
+            VerificationValidTime = user.VerificationValidTime
+        };
+    }
 }

@@ -42,19 +42,19 @@ public static class ServiceRegister
                     ValidAudience = configuration["Jwt:Audience"],
                     ClockSkew = TimeSpan.Zero,
                 };
-                o.Events = new JwtBearerEvents
-                {
-                    OnMessageReceived = ctx => 
-                    {
-                       ctx.Request.Cookies.TryGetValue("AccessToken", out var accessToken);
-                       if(!string.IsNullOrEmpty(accessToken))
-                       {
-                           ctx.Token = accessToken;
-                       }
-                       return Task.CompletedTask;
-                    }
-                };
-
+                // o.Events = new JwtBearerEvents
+                // {
+                //     OnMessageReceived = ctx => 
+                //     {
+                //        ctx.Request.Cookies.TryGetValue("AccessToken", out var accessToken);
+                //        if(!string.IsNullOrEmpty(accessToken))
+                //        {
+                //            ctx.Token = accessToken;
+                //        }
+                //        return Task.CompletedTask;
+                //     }
+                // };
+                //
             });
         services.AddAuthorization();
         //.AddBearerToken(IdentityConstants.BearerScheme);
@@ -71,8 +71,7 @@ public static class ServiceRegister
         // {
         //     options.BearerTokenExpiration = TimeSpan.FromDays(1);
         // });
-        services.AddScoped<IAuthService, AuthService>();
-        services.AddScoped<JwtService>();
+        services.AddScoped<IAuthService, JwtService>();
         return services;
     }
 

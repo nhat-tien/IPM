@@ -39,6 +39,7 @@ public class AppDBContext : IdentityDbContext<User>, IAppDBContext
                 entityType.SetTableName(tableName.Substring(6));
             }
         }
+        builder.ApplyConfiguration(new RefreshTokenConfiguration());
         builder.HasDefaultSchema("identity");
         builder.Seed();
     }

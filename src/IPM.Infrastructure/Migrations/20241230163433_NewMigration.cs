@@ -129,6 +129,39 @@ namespace IPM.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Files",
+                schema: "identity",
+                columns: table => new
+                {
+                    FileId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProjectId = table.Column<int>(type: "integer", nullable: false),
+                    FileName = table.Column<string>(type: "text", nullable: true),
+                    FileTypeId = table.Column<int>(type: "integer", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Files", x => x.FileId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FileTypes",
+                schema: "identity",
+                columns: table => new
+                {
+                    FileTypeId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    FileTypeName = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FileTypes", x => x.FileTypeId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Participations",
                 schema: "identity",
                 columns: table => new
@@ -309,7 +342,7 @@ namespace IPM.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Token = table.Column<string>(type: "text", nullable: false),
+                    Token = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     UserId = table.Column<string>(type: "text", nullable: false),
                     ExpiresOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -431,6 +464,13 @@ namespace IPM.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_Token",
+                schema: "identity",
+                table: "RefreshTokens",
+                column: "Token",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_UserId",
                 schema: "identity",
                 table: "RefreshTokens",
@@ -510,6 +550,14 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "CurrencyUnits",
+                schema: "identity");
+
+            migrationBuilder.DropTable(
+                name: "Files",
+                schema: "identity");
+
+            migrationBuilder.DropTable(
+                name: "FileTypes",
                 schema: "identity");
 
             migrationBuilder.DropTable(

@@ -1,20 +1,37 @@
-using IPM.Application.IServices;
 using FluentValidation;
+using IPM.Application.IRepositories;
 
 namespace IPM.Application.UseCases.Auth.RegisterUseCase;
 
-public class RegisterHandler : IRegisterUseCase
+public class RegisterHandler(IUserRepository userRepo, IRoleRepository roleRepo): IRegisterUseCase
 {
-    private IAuthService authService;
-
-    public RegisterHandler(IAuthService authService)
-    {
-        this.authService = authService;
-    }
-
     public async Task<RegisterResponse> Handle(RegisterRequest req)
     {
-        return await this.authService.Register(req);
+        var user = new Domain.User()
+        {
+            UserName = req.Email,
+            AffilatedUnitId = req.AffiliatedUnitId,
+            PositionId = req.PositionId,
+            LastName = req.LastName,
+            FirstName = req.FirstName,
+            Email = req.Email,
+        };
+        var result = await userRepo.Create(user, req.Password);
+        var role = await roleRepo.FindById(req.RoleId);
+
+        if (role != null && role.RoleName != null)
+        {
+            await userRepo.AddToRole(user, role.RoleName);
+        }
+        ;
+        if (result.IsSucceeded)
+        {
+            return RegisterResponse.Ok("Dang ki thanh cong");
+        }
+        else
+        {
+            return RegisterResponse.Error(result.Errors);
+        }
     }
 }
 
@@ -32,7 +49,7 @@ public class RegisterResponse {
         };
     }
 
-    public static RegisterResponse Error(Dictionary<string, string[]> errors)
+    public static RegisterResponse Error(Dictionary<string, string[]>? errors)
     {
         return new RegisterResponse() {
             IsSuccess = false,
@@ -41,10 +58,6 @@ public class RegisterResponse {
         };
     }
 };
-
-public record JwtToken(
-        string AccessToken
-);
 
 public record RegisterRequest(
     string Email,

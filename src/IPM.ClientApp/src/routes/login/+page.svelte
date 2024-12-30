@@ -11,6 +11,7 @@
       <input id="email" type="text"/>
       <label for="password">Password</label>
       <input id="password" type="password"/>
+      <a href="/">Quên mật khẩu</a>
       <input type="submit" />
     </form>
   </section>
@@ -31,5 +32,7 @@ main {
 }
 .form-area {
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 </style>
