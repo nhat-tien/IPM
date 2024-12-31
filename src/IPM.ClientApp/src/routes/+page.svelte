@@ -1,6 +1,6 @@
 <script lang="ts">
-import UserInfoStore from "@states/userInfo.svelte";
-const info = new UserInfoStore();
+import userInfoStore from "@stores/userInfo.svelte";
+const { userName, role }= userInfoStore();
 let count = $state(0);
 
 </script>
@@ -9,16 +9,10 @@ let count = $state(0);
 <button onclick={() => count++}>{count}</button>
 <a href="/about">About</a>
 <div>
-  { info.getUserName() }
+  { userName }
 </div>
 <div>
-  { info.getUserName() }
+  { role }
 </div>
 <style lang="scss">
-
-button {
-  font-size: 20px;
-  border: 1px solid #000; 
-  padding: 1em 2em;
-}
 </style>

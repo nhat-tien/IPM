@@ -9,7 +9,7 @@ const config = {
 
   kit: {
     alias: {
-      "@states": "./src/states",
+      "@stores": "./src/stores",
       "@components": "./src/components",
       "@services": "./src/services",
     },

@@ -1,22 +1,18 @@
 <script lang="ts">
+  import type { Snippet } from "svelte";
+
+  const { children }: { children: Snippet } = $props();
 </script>
+
 <main>
   <section class="img-container">
-    <img alt="illustration" src="/images/business-businessman-giving-a-lecture-ted-talk.svg"/>
+    <div class="inner-rec"></div>
   </section>
   <section class="form-area">
-    <h2>Welcome</h2>
-    <form>
-      <label for="email">Email</label>
-      <input id="email" type="text"/>
-      <label for="password">Password</label>
-      <input id="password" type="password"/>
-      <a href="/">Quên mật khẩu</a>
-      <input type="submit" />
-    </form>
+    {@render children()}
   </section>
 </main>
-<style lang="scss" scoped>
+<style lang="scss">
 main {
   height: 100%;
   width: 100%;
@@ -29,10 +25,19 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0.5rem;
+  .inner-rec {
+    background-color: $secondary-clr;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+  }
 }
 .form-area {
   flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 </style>
