@@ -18,7 +18,6 @@ public class RegisterHandler(IUserRepository userRepo, IRoleRepository roleRepo)
         };
         var result = await userRepo.Create(user, req.Password);
         var role = await roleRepo.FindById(req.RoleId);
-
         if (role != null && role.RoleName != null)
         {
             await userRepo.AddToRole(user, role.RoleName);

@@ -8,7 +8,10 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
 {
     public async Task<bool> CheckPassword(Domain.User domainUser, string password)
     {
-        User user = User.MapFrom(domainUser);
+        User? user = await userManager.FindByIdAsync(domainUser.UserId ?? "");
+        if(user is null) {
+            return false;
+        }
         return await userManager.CheckPasswordAsync(user, password);
     }
 
@@ -34,7 +37,10 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
 
     public async Task<IList<string>> GetRoles(Domain.User domainUser)
     {
-        User user = User.MapFrom(domainUser);
+        User? user = await userManager.FindByIdAsync(domainUser.UserId ?? "");
+        if(user is null) {
+            return [];
+        }
         return await userManager.GetRolesAsync(user);
     }
 
@@ -52,9 +58,13 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
         }
     }
 
-    public async Task AddToRole(Domain.User user, string roleName) 
+    public async Task AddToRole(Domain.User domainUser, string roleName) 
     {
-        await userManager.AddToRoleAsync(User.MapFrom(user), roleName);
+        User? user = await userManager.FindByNameAsync(domainUser.UserName ?? "");
+        if(user is not null) {
+            Console.WriteLine("Hello");
+            await userManager.AddToRoleAsync(user, roleName);
+        }
     }
 
     private Dictionary<string, string[]> GetCreateErrors(IdentityResult result)

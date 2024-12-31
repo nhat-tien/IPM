@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using FluentValidation;
 using IPM.Application.IRepositories;
 using IPM.Application.IServices;
@@ -20,6 +19,10 @@ public class LoginHandler(
             return SignInResponse.Error("User was not found");
         }
         var roles = await userRepo.GetRoles(user);
+        if(roles.Count < 1) 
+        {
+            return SignInResponse.Error("User have no role");
+        }
 
         bool verify = await userRepo.CheckPassword(user, req.Password);
         if (!verify)
@@ -49,7 +52,6 @@ public class SignInResponse
 
     public string? AccessToken { get; private set; }
 
-    [JsonIgnore]
     public string? RefreshToken { get; private set; }
 
     public static SignInResponse Ok(string message, string accessToken, string refreshToken)
