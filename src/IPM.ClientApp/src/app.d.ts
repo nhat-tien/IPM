@@ -8,6 +8,9 @@ declare global {
 		// interface PageState {}
 		// interface Platform {}
 	}
+  type EventSelectElements = Event & {
+  currentTarget: EventTarget & HTMLSelectElement;
+ };
 }
 
 export {};

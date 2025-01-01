@@ -42,10 +42,16 @@
     margin-top: 0.2em;
     .toggle {
       position: absolute;
-      right: 0.75em;
-      bottom: calc(100%/2 - 10px);
-      width: 20px;
-      height: 20px;
+      right: 0.2em;
+      bottom: calc(100%/2 - 14px);
+      width: 28px;
+      height: 28px;
+      padding: 5px;
+      border-radius: 3px;
+      transition: all .1s ease-in-out;
+      &:hover {
+        background-color: $gray-clr;
+      }
       svg {
         stroke: #000;
       }

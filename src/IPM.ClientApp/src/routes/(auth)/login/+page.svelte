@@ -1,10 +1,10 @@
 <script lang="ts">
-  import PrimaryButton from "@components/Form/PrimaryButton.svelte";
-  import PasswordTextField from "@components/Form/TextField/PasswordTextField.svelte";
-  import PrimaryTextField from "@components/Form/TextField/PrimaryTextField.svelte";
+  import PrimaryButton from "@components/Button/PrimaryButton.svelte";
+  import PasswordTextField from "@components/TextField/PasswordTextField.svelte";
+  import PrimaryTextField from "@components/TextField/PrimaryTextField.svelte";
 </script>
 
-<h1>Welcome back</h1>
+<h1>Welcome Back</h1>
 <form>
   <div class="text-field">
     <PrimaryTextField
@@ -45,5 +45,9 @@
     position: absolute;
     bottom: 2em;
     font-size: 0.9rem;
+    a {
+      font-family: "Inter Bold";
+      color: $text-second-clr;
+    }
   }
 </style>

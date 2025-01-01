@@ -1,11 +1,25 @@
+<script>
+  import Select from "@components/Select/Select.svelte";
+  import PrimaryTextField from "@components/TextField/PrimaryTextField.svelte";
+
+  let chucVu = [
+    { value: "nam", name: "Chao" },
+    { value: "cdj", name: "Chao gi do" },
+    { value: "nm", name: "Chao cdks" },
+  ];
+  let selectedValue = $state("");
+</script>
+
 <h2>Đăng kí</h2>
+<h3>{selectedValue}</h3>
 <form>
-  <label for="email">Email</label>
-  <input id="email" type="text" />
-  <label for="password">Password</label>
-  <input id="password" type="password" />
-  <a href="/">Quên mật khẩu</a>
-  <input type="submit" />
+  <PrimaryTextField
+    id="email"
+    label="Email"
+    type="email"
+    placeHolder="Nhập email"
+  />
+  <Select bind:value={selectedValue} items={chucVu} />
 </form>
 <p>Đã có tài khoản <a href="/login">Đăng nhập</a></p>
 
@@ -14,5 +28,11 @@
     width: 70%;
     display: flex;
     flex-direction: column;
+  }
+  p {
+    a {
+      font-family: "Inter Bold";
+      color: $text-second-clr;
+    }
   }
 </style>
