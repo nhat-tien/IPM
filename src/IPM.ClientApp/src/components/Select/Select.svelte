@@ -4,17 +4,24 @@
     name: string;
   };
   type SelectProps = {
+    label?: string,
     value: string,
-    items: SelectOption[];
+    items: SelectOption[],
+    id: string,
+    placeHolder: string,
   };
-  let { value = $bindable(""), items }: SelectProps = $props();
+  let { value = $bindable(""), items, label, id, placeHolder}: SelectProps = $props();
 
   function onChange(target: EventSelectElements) {
     value = target.currentTarget.value;
   }
 </script>
 
-<select onchange={onChange}>
+{#if label != null}
+  <label for={id}>{label}</label>
+{/if}
+<select {id} onchange={onChange}> 
+   <option value="" disabled selected hidden>{placeHolder}</option>
   {#each items as item}
     <option value={item.value}>{item.name}</option>
   {/each}
@@ -25,5 +32,6 @@
     border: 0.5px solid $gray-clr;
     padding: 0.4em 0.5em;
     border-radius: 5px;
+    margin-top: 0.2em;
   }
 </style>

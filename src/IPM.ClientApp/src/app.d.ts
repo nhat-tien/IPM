@@ -11,6 +11,9 @@ declare global {
   type EventSelectElements = Event & {
   currentTarget: EventTarget & HTMLSelectElement;
  };
+  type EventSubmitElements = SubmitEvent & {
+    currentTarget: EventTarget & HTMLFormElement;
+  }
 }
 
 export {};

@@ -20,7 +20,7 @@ namespace IPM.Application.UseCases.Auth.RefreshTokenUseCase;
         string accessToken = authService.CreateAccessToken(refreshToken.User, roles[0]);
         string newRefreshToken = authService.GenerateRefreshToken();
         await refreshTokenRepo.Update(refreshToken.Token, newRefreshToken);
-        return RefreshTokenResponse.Ok("Refresh success", accessToken, refreshToken.Token);
+        return RefreshTokenResponse.Ok("Refresh success", accessToken, newRefreshToken);
     }
   }
 

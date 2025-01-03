@@ -9,9 +9,9 @@ const config = {
 
   kit: {
     alias: {
-      "@stores": "./src/stores",
+      "@stores": "./src/lib/stores",
       "@components": "./src/components",
-      "@services": "./src/services",
+      "@services": "./src/lib/services",
     },
     // adapter-auto only supports some environments, see https://svelte.dev/docs/kit/adapter-auto for a list.
     // If your environment is not supported, or you settled on a specific environment, switch out the adapter.

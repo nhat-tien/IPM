@@ -1,25 +1,45 @@
 <script lang="ts">
-  import PrimaryButton from "@components/Button/PrimaryButton.svelte";
+  import login, { testrefresh } from "$lib/useCases/AuthUseCases/loginUseCase";
+  import LoadingButton from "@components/Button/LoadingButton.svelte";
   import PasswordTextField from "@components/TextField/PasswordTextField.svelte";
   import PrimaryTextField from "@components/TextField/PrimaryTextField.svelte";
+
+  let isLoading = $state(false);
+
+  async function onSubmit(e: EventSubmitElements) {
+    e.preventDefault();
+    isLoading = true;
+    const formData = new FormData(e.target as HTMLFormElement);
+    const result = await login({
+      email: formData.get("email") as string,
+      password: formData.get("password") as string
+    });
+    if(result.isSuccess) {
+      isLoading = false;
+      console.log(result);
+    }
+  }
+
+  async function testapi() {
+    await testrefresh();
+  }
 </script>
 
 <h1>Welcome Back</h1>
-<form>
-  <div class="text-field">
-    <PrimaryTextField
-      id="email"
-      placeHolder="anh@gmail.com"
-      label="Email"
-      type="email"
-    />
-  </div>
-  <div class="text-field">
-    <PasswordTextField id="password" placeHolder="••••••••" label="Password" />
-  </div>
+<form onsubmit={onSubmit}>
+  <PrimaryTextField
+    id="email"
+    placeHolder="anh@gmail.com"
+    label="Email"
+    type="email"
+    name="email"
+    --margin-bottom="1.5em"
+  />
+  <PasswordTextField id="password" label="Password" name="password" />
   <a class="forgot-password" href="/">Quên mật khẩu</a>
-  <PrimaryButton>Đăng nhập</PrimaryButton>
+  <LoadingButton {isLoading} type="submit">Đăng nhập</LoadingButton>
 </form>
+  <LoadingButton {isLoading} onclick={testapi} >Test</LoadingButton>
 <p class="register">Chưa có tài khoản? <a href="/register">Đăng kí</a></p>
 
 <style lang="scss">
@@ -31,14 +51,12 @@
     width: 70%;
     display: flex;
     flex-direction: column;
-    .text-field:first-of-type {
-      margin-bottom: 1.5em;
-    }
     .forgot-password {
-      text-align: right;
+      width: max-content;
       margin-top: 0.5em;
       margin-bottom: 1.5em;
       font-size: 0.9rem;
+      align-self: flex-end;
     }
   }
   .register {
