@@ -19,7 +19,7 @@
 {/if}
 <div class="input-container">
   <input required type={isHidden ? "password" : "text"} {name} {id} placeholder={placeHolder} />
-  <button onclick={() => (isHidden = !isHidden)} class="toggle">
+  <button type="button" onclick={() => (isHidden = !isHidden)} class="toggle">
     {#if isHidden}
       <svg
         xmlns="http://www.w3.org/2000/svg"

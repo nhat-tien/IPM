@@ -1,14 +1,14 @@
-type UserInfo = {
+export type UserInfo = {
   userName: string,
   role: string
+} | null
+
+let userInfo: UserInfo = $state(null);
+
+export function setUserInfo(newUserInfo: UserInfo) {
+  userInfo = newUserInfo;
 }
-export default function userInfoStore(): UserInfo {
 
-  let userName: string = $state("");
-  let role: string = $state("");
-
-  return {
-    userName,
-    role
-  }
+export function getUserInfo(): UserInfo {
+  return userInfo
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import login, { testrefresh } from "$lib/useCases/AuthUseCases/loginUseCase";
+  import login from "$lib/useCases/AuthUseCases/loginUseCase";
   import LoadingButton from "@components/Button/LoadingButton.svelte";
   import PasswordTextField from "@components/TextField/PasswordTextField.svelte";
   import PrimaryTextField from "@components/TextField/PrimaryTextField.svelte";
@@ -19,10 +19,6 @@
       console.log(result);
     }
   }
-
-  async function testapi() {
-    await testrefresh();
-  }
 </script>
 
 <h1>Welcome Back</h1>
@@ -39,7 +35,6 @@
   <a class="forgot-password" href="/">Quên mật khẩu</a>
   <LoadingButton {isLoading} type="submit">Đăng nhập</LoadingButton>
 </form>
-  <LoadingButton {isLoading} onclick={testapi} >Test</LoadingButton>
 <p class="register">Chưa có tài khoản? <a href="/register">Đăng kí</a></p>
 
 <style lang="scss">

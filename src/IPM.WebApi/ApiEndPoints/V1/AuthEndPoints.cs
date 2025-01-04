@@ -46,7 +46,7 @@ public class AuthEndPoints
             .WithRequestValidation<RegisterRequest>();
 
         endpoints.MapPost(
-            "/refresh-token",
+            "/refresh",
             async (HttpContext httpContext, IRefreshTokenUseCase handler) =>
             {
                 httpContext.Request.Cookies.TryGetValue("RefreshToken", out var refreshToken);
@@ -80,7 +80,7 @@ public class AuthEndPoints
                 IsEssential = true,
                 Secure = true,
                 Domain = "localhost",
-                Path = "/api/v1/auth/refresh-token",
+                Path = "/api/v1/auth/refresh",
                 SameSite = SameSiteMode.Strict,
             }
         );

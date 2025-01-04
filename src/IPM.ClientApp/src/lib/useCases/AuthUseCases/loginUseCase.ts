@@ -1,4 +1,7 @@
 import { authEndPoint } from "@services/httpService";
+import { saveAccessToken } from "@services/jwtService";
+import { decodeUserInfoFromJWT } from "@services/userInfoService";
+import { setUserInfo } from "@stores/userInfo.svelte";
 import { z, ZodError } from "zod";
 
 const LoginScheme = z.object({
@@ -23,6 +26,8 @@ export default async function login(formData: LoginParam): Promise<LoginResult> 
       },
       credentials: "include",
     }).json();
+    // setUserInfo(decodeUserInfoFromJWT(response.accessToken));
+    // saveAccessToken(response.accessToken);
     return {
       isSuccess: true,
       error: null,
@@ -33,17 +38,5 @@ export default async function login(formData: LoginParam): Promise<LoginResult> 
       isSuccess: false,
       error: e,
     }
-  }
-}
-
-export async function testrefresh() {
-  try {
-    const res = await authEndPoint.post("refresh-token", {
-      json: {},
-      credentials: "include"
-    }).json();
-    console.log(res);
-  } catch(e) {
-    console.log(e)
   }
 }

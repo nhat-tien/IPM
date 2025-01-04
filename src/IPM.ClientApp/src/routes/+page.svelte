@@ -1,6 +1,4 @@
 <script lang="ts">
-import userInfoStore from "@stores/userInfo.svelte";
-const { userName, role }= userInfoStore();
 let count = $state(0);
 
 </script>
@@ -9,10 +7,8 @@ let count = $state(0);
 <button onclick={() => count++}>{count}</button>
 <a href="/about">About</a>
 <div>
-  { userName }
 </div>
 <div>
-  { role }
 </div>
 <style lang="scss">
 </style>

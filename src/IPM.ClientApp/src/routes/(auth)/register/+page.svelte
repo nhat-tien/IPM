@@ -35,6 +35,7 @@
     placeHolder="Chọn chức vụ"
   />
   <PrimaryTextField
+    name="email"
     id="email"
     label="Email"
     type="email"
@@ -43,6 +44,7 @@
   <div class="name-input">
       <PrimaryTextField
         id="lastName"
+        name="lastName"
         label="Họ lót"
         type="text"
         placeHolder="VD: Nguyễn Văn"
@@ -50,6 +52,7 @@
       />
       <PrimaryTextField
         id="firstName"
+        name="firstName"
         label="Tên"
         type="text"
         placeHolder="VD: An"
@@ -57,8 +60,18 @@
       />
   </div>
 
-  <PasswordTextField id="password" label="Mật khẩu" placeHolder=""/>
-  <PasswordTextField id="retypePassword" label="Nhập lại mật khẩu" placeHolder="" />
+  <PasswordTextField
+    id="password"
+    name="password"
+    label="Mật khẩu"
+    placeHolder=""
+  />
+  <PasswordTextField
+    id="retypePassword"
+    name="retypePassword"
+    label="Nhập lại mật khẩu"
+    placeHolder=""
+  />
   <PrimaryButton --margin-top="1em">Đăng kí</PrimaryButton>
 </form>
 <p>Đã có tài khoản <a href="/login">Đăng nhập</a></p>
