@@ -5,7 +5,7 @@ namespace IPM.Infrastructure.EntityFrameworkDataAccess.Seeds;
 
 public static class ModelBuilderExtensions
 {
-    public static void Seed(this ModelBuilder modelBuilder)
+    public static void RoleSeed(this ModelBuilder modelBuilder)
     {
         modelBuilder
             .Entity<IdentityRole>()

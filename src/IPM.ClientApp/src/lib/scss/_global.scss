@@ -17,6 +17,7 @@ body {
   height: 100%;
   font-family: "Inter", Arial, Helvetica, sans-serif;
   background-color: $primary-clr;
+  display: flex;
 }
 
 select, button, input[type="submit"], input[type="reset"], input{

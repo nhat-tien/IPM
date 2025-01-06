@@ -1,6 +1,8 @@
 export type UserInfo = {
-  userName: string,
-  role: string
+  email: string;
+  firstName: string; 
+  lastName: string; 
+  role: string;
 } | null
 
 let userInfo: UserInfo = $state(null);
@@ -10,5 +12,5 @@ export function setUserInfo(newUserInfo: UserInfo) {
 }
 
 export function getUserInfo(): UserInfo {
-  return userInfo
+  return userInfo;
 }

@@ -18,8 +18,8 @@ public static class InfrastructureService
             options.UseNpgsql(configuration.GetConnectionString("WebApiDB"))
         );
 
-        services.AddScoped<IAppDBContext>(provider => provider.GetRequiredService<AppDBContext>());
-
+        // services.AddScoped<IAppDBContext>(provider => provider.GetRequiredService<AppDBContext>());
+        services.AddSingleton<AppDBContext>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();

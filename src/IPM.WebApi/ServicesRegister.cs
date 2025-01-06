@@ -56,7 +56,11 @@ public static class ServiceRegister
                 // };
                 //
             });
-        services.AddAuthorization();
+        services.AddAuthorizationBuilder()
+            .AddPolicy("admin", policy => policy.RequireRole("Admin"))
+            .AddPolicy("manager", policy => policy.RequireRole("Manager"))
+            .AddPolicy("user", policy => policy.RequireRole("User"));
+
         //.AddBearerToken(IdentityConstants.BearerScheme);
         services.Configure<IdentityOptions>(options =>
         {

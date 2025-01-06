@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
 
-public class RefreshTokenRepository(IAppDBContext context) : IRefreshTokenRepository
+public class RefreshTokenRepository(AppDBContext context) : IRefreshTokenRepository
 {
     public async Task Add(Domain.RefreshToken refreshToken)
     {
