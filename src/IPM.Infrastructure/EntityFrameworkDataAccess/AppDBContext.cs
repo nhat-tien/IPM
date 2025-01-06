@@ -5,7 +5,7 @@ using IPM.Infrastructure.EntityFrameworkDataAccess.Seeds;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-public class AppDBContext : IdentityDbContext<User>, IAppDBContext
+public class AppDBContext : IdentityDbContext<User> 
 {
     public AppDBContext(DbContextOptions<AppDBContext> options)
         : base(options) { }
@@ -13,7 +13,6 @@ public class AppDBContext : IdentityDbContext<User>, IAppDBContext
     public DbSet<AffiliatedUnit> AffiliatedUnits { get; set; } = null!;
     public DbSet<AidType> AidTypes { get; set; } = null!;
     public DbSet<ApprovingAgency> ApprovingAgencies { get; set; } = null!;
-    public DbSet<AttachedFile> AttachedFiles { get; set; } = null!;
     public DbSet<Catalogue> Catalogues { get; set; } = null!;
     public DbSet<Counterparty> Counterparties { get; set; } = null!;
     public DbSet<CurrencyUnit> CurrencyUnits { get; set; } = null!;

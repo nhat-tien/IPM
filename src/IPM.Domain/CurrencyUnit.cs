@@ -1,8 +1,9 @@
-namespace IPM.Domain
-{
+namespace IPM.Domain;
+
   public class CurrencyUnit
   {
-
+    public int CurrencyUnitId { get; set; }
+    public string? CurrencyUnitName { get; set; }
+    public DateTime CreatedAt { get; set; }
   }
-}
  

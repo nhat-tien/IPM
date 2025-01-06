@@ -14,4 +14,6 @@ public class Project
     public string? ProjectNameVietnamese { get; set; }
     public string? ProjectPurpose { get; set; }
     public string? Content { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 }
