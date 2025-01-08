@@ -17,6 +17,7 @@ div {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: calc(var(--radius, 20px) - 10px);
 }
 </style>
 

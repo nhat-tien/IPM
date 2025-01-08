@@ -10,8 +10,8 @@ public class RegisterHandler(IUserRepository userRepo, IRoleRepository roleRepo)
         var user = new Domain.User()
         {
             UserName = req.Email,
-            AffilatedUnitId = req.AffiliatedUnitId,
-            PositionId = req.PositionId,
+            // AffilatedUnitId = req.AffiliatedUnitId,
+            // PositionId = req.PositionId,
             LastName = req.LastName,
             FirstName = req.FirstName,
             Email = req.Email,
@@ -63,9 +63,9 @@ public record RegisterRequest(
     string FirstName,
     string LastName,
     string Password,
-    string RoleId,
-    int AffiliatedUnitId,
-    int PositionId
+    string RoleId
+    // int AffiliatedUnitId,
+    // int PositionId
 );
 
 public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
@@ -77,7 +77,7 @@ public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
         RuleFor(req => req.LastName).NotEmpty();
         RuleFor(req => req.Password).NotEmpty().Length(6,20);
         RuleFor(req => req.RoleId).NotEmpty();
-        RuleFor(req => req.AffiliatedUnitId).NotEmpty();
-        RuleFor(req => req.PositionId).NotEmpty();
+        // RuleFor(req => req.AffiliatedUnitId).NotEmpty();
+        // RuleFor(req => req.PositionId).NotEmpty();
     }
 }

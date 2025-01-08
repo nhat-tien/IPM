@@ -1,2 +1,7 @@
 <h1>Dashboard</h1>
-<p>cnskcnds</p>
+
+<style lang="scss">
+h1 {
+  font-family: "Inter Bold";
+}
+</style>

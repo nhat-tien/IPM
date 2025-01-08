@@ -8,12 +8,12 @@ public class RoleRepository(RoleManager<IdentityRole> roleManager) : IRoleReposi
 {
     public async Task<List<IPM.Domain.Role>> GetAll()
     {
-        var roles = await roleManager.Roles.ToListAsync();
-        var roleDomain = new List<IPM.Domain.Role>();
-        foreach (var role in roles)
+        List<IdentityRole> roles = await roleManager.Roles.ToListAsync();
+        List<Domain.Role> roleDomain = roles.ConvertAll<Domain.Role>(role => new Domain.Role()
         {
-            roleDomain.Add(new Domain.Role(role.Id, role.Name ?? ""));
-        }
+            RoleId = role.Id,
+            RoleName = role.Name ?? "",
+        });
         return roleDomain;
     }
 

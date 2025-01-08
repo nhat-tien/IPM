@@ -1,28 +1,48 @@
 <script lang="ts">
-    import ClosedEyeIcon from "@components/Icons/ClosedEyeIcon.svelte";
-    import EyeIcon from "@components/Icons/EyeIcon.svelte";
+  import ClosedEyeIcon from "@components/Icons/ClosedEyeIcon.svelte";
+  import EyeIcon from "@components/Icons/EyeIcon.svelte";
 
   type PasswordTextFieldProps = {
     label?: string;
     id: string;
     placeHolder?: string;
     name: string;
+    required?: boolean;
+    onfocus?: () => void;
   };
   const {
     id,
     label,
     placeHolder = "••••••••",
-    name
+    name,
+    required,
+    onfocus,
   }: PasswordTextFieldProps = $props();
   let isHidden = $state(true);
 </script>
 
 {#if label != null}
-  <label for={id}>{label}</label>
+  <label for={id}
+    >{label}
+    {#if required}
+      <sup>*</sup>
+    {/if}
+  </label>
 {/if}
 <div class="input-container">
-  <input required type={isHidden ? "password" : "text"} {name} {id} placeholder={placeHolder} />
-  <button type="button" onclick={() => (isHidden = !isHidden)} class="toggle">
+  <input
+    {required}
+    type={isHidden ? "password" : "text"}
+    {name}
+    {id}
+    placeholder={placeHolder}
+  />
+  <button
+    type="button"
+    onclick={() => (isHidden = !isHidden)}
+    class="toggle"
+    {onfocus}
+  >
     {#if isHidden}
       <ClosedEyeIcon />
     {:else}
@@ -57,5 +77,8 @@
         background-color: $gray-clr;
       }
     }
+  }
+  sup {
+    color: $red-clr;
   }
 </style>

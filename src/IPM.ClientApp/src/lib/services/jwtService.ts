@@ -6,3 +6,7 @@ export function saveAccessToken(token: string) {
 export function getAccessToken(): string | null {
   return localStorage.getItem("access-token");
 }
+
+export function removeAccessToken() {
+  localStorage.removeItem("access-token");
+}

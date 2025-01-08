@@ -1,38 +1,58 @@
-<script>
-  import PrimaryButton from "@components/Button/PrimaryButton.svelte";
+<script lang="ts">
+  import { goto } from "$app/navigation";
+  import register from "$lib/useCases/AuthUseCases/registerUseCase";
+  import LoadingButton from "@components/Button/LoadingButton.svelte";
   import Select from "@components/Select/Select.svelte";
   import PasswordTextField from "@components/TextField/PasswordTextField.svelte";
   import PrimaryTextField from "@components/TextField/PrimaryTextField.svelte";
+  import toast from "svelte-5-french-toast";
+  import { ZodError } from "zod";
 
-  let chucVu = [
-    { value: "nam", name: "Chao" },
-    { value: "cdj", name: "Chao gi do" },
-    { value: "nm", name: "Chao cdks" },
+  let roles = [
+    { value: "1", name: "Admin" },
+    { value: "2", name: "Manager" },
+    { value: "3", name: "User" },
   ];
-  let donVi = [
-    { value: "nam", name: "Chao" },
-    { value: "cdj", name: "Chao gi do" },
-    { value: "nm", name: "Chao cdks" },
-  ];
-  let selectedValue = $state("");
-  let selectedDonVi = $state("");
+
+  let isLoading = $state(false);
+  let error: string | null = $state(null);
+
+  async function onSubmit(e: EventSubmitElements) {
+    e.preventDefault();
+    isLoading = true;
+    const formData = new FormData(e.target as HTMLFormElement);
+    const result = await register({
+      email: formData.get("email") as string,
+      lastName: formData.get("lastName") as string,
+      firstName: formData.get("firstName") as string,
+      password: formData.get("password") as string,
+      confirmPassword: formData.get("confirmPassword") as string,
+      roleId: formData.get("role") as "1" | "2" | "3",
+    });
+    isLoading = false;
+    if (result.isSuccess) {
+      toast.success("Đăng kí thành công");
+      goto("/login");
+    } else {
+        console.log(result.error);
+        let zodError = result.error as ZodError;
+        error = zodError.issues[0].message;
+    }
+  }
+
+  function clearError() {
+    error = null;
+  }
 </script>
 
 <h2>Đăng kí</h2>
-<form>
+<form onsubmit={onSubmit}>
   <Select
-    id="donVi"
-    bind:value={selectedDonVi}
-    items={donVi}
-    label="Đơn vị"
-    placeHolder="Chọn đơn vị"
-  />
-  <Select
-    id="chucVu"
-    bind:value={selectedValue}
-    items={chucVu}
-    label="Chức vụ"
-    placeHolder="Chọn chức vụ"
+    id="role"
+    items={roles}
+    label="Vai trò"
+    placeHolder="Chọn vai trò"
+    name="role"
   />
   <PrimaryTextField
     name="email"
@@ -40,24 +60,27 @@
     label="Email"
     type="email"
     placeHolder=""
+    onfocus={clearError}
   />
   <div class="name-input">
-      <PrimaryTextField
-        id="lastName"
-        name="lastName"
-        label="Họ lót"
-        type="text"
-        placeHolder="VD: Nguyễn Văn"
-        --width="60%"
-      />
-      <PrimaryTextField
-        id="firstName"
-        name="firstName"
-        label="Tên"
-        type="text"
-        placeHolder="VD: An"
+    <PrimaryTextField
+      id="lastName"
+      name="lastName"
+      label="Họ lót"
+      type="text"
+      placeHolder="VD: Nguyễn Văn"
+      --width="60%"
+    onfocus={clearError}
+    />
+    <PrimaryTextField
+      id="firstName"
+      name="firstName"
+      label="Tên"
+      type="text"
+      placeHolder="VD: An"
       --width="40%"
-      />
+    onfocus={clearError}
+    />
   </div>
 
   <PasswordTextField
@@ -65,14 +88,21 @@
     name="password"
     label="Mật khẩu"
     placeHolder=""
+    onfocus={clearError}
   />
   <PasswordTextField
     id="retypePassword"
-    name="retypePassword"
+    name="confirmPassword"
     label="Nhập lại mật khẩu"
     placeHolder=""
+    onfocus={clearError}
   />
-  <PrimaryButton --margin-top="1em">Đăng kí</PrimaryButton>
+  <div class="error">
+    {#if error != null}
+      {error}
+    {/if}
+  </div>
+  <LoadingButton --margin-top="1em" {isLoading}>Đăng kí</LoadingButton>
 </form>
 <p>Đã có tài khoản <a href="/login">Đăng nhập</a></p>
 
@@ -95,5 +125,11 @@
   .name-input {
     display: flex;
     flex-direction: row;
+    gap: 2px;
+  }
+  .error {
+    height: 1.2rem;
+    font-size: 0.9rem;
+    color: $red-clr;
   }
 </style>

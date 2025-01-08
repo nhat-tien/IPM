@@ -4,7 +4,7 @@ import type { LayoutLoad } from "./$types";
 
 export const load: LayoutLoad = async () => {
   const accessToken = getAccessToken();
-  if(accessToken == null) {
-    goto("/login");
+  if(accessToken != null) {
+    goto("/dashboard");
   }
 }

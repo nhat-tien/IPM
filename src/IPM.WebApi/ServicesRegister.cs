@@ -57,15 +57,16 @@ public static class ServiceRegister
                 //
             });
         services.AddAuthorizationBuilder()
-            .AddPolicy("admin", policy => policy.RequireRole("Admin"))
-            .AddPolicy("manager", policy => policy.RequireRole("Manager"))
-            .AddPolicy("user", policy => policy.RequireRole("User"));
+            .AddPolicy("admin_permission", policy => policy.RequireRole("Admin"))
+            .AddPolicy("manager_permission", policy => policy.RequireRole("Admin","Manager"))
+            .AddPolicy("user_permission", policy => policy.RequireRole("Admin","Manager","User"));
 
         //.AddBearerToken(IdentityConstants.BearerScheme);
         services.Configure<IdentityOptions>(options =>
         {
             options.Password.RequireUppercase = false;
             options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireLowercase = false;
         });
         services
             .AddIdentityApiEndpoints<User>()
@@ -110,11 +111,12 @@ public static class ServiceRegister
                 },
             };
             c.AddSecurityRequirement(securityRequirement);
-
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             c.IncludeXmlComments(xmlPath);
+            // c.ExampleFilters();
         });
+        // services.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());
         return services;
     }
 

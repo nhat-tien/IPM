@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IPM.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20241230163433_NewMigration")]
+    [Migration("20250106141000_NewMigration")]
     partial class NewMigration
     {
         /// <inheritdoc />
@@ -20,7 +20,6 @@ namespace IPM.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("identity")
                 .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -40,9 +39,12 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("AffiliatedUnitId");
 
-                    b.ToTable("AffiliatedUnits", "identity");
+                    b.ToTable("AffiliatedUnits");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.AidType", b =>
@@ -59,9 +61,12 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("AidTypeId");
 
-                    b.ToTable("AidTypes", "identity");
+                    b.ToTable("AidTypes");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.ApprovingAgency", b =>
@@ -78,46 +83,12 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("ApprovingAgencyId");
 
-                    b.ToTable("ApprovingAgencies", "identity");
-                });
-
-            modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.AttachedFile", b =>
-                {
-                    b.Property<int>("AttachedFileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AttachedFileId"));
-
-                    b.Property<string>("HopDongThoaThuanMOAFile")
-                        .HasColumnType("text");
-
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ProposalFile")
-                        .HasColumnType("text");
-
-                    b.Property<string>("QuyetDinhChoPhepThucHienFile")
-                        .HasColumnType("text");
-
-                    b.Property<string>("QuyetDinhGiaoKinhPhiFile")
-                        .HasColumnType("text");
-
-                    b.Property<string>("QuyetDinhThanhLapBanQuanLiFile")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ThuChapNhanThucHienFile")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ToTrinhXinPhepThucHienFile")
-                        .HasColumnType("text");
-
-                    b.HasKey("AttachedFileId");
-
-                    b.ToTable("AttachedFiles", "identity");
+                    b.ToTable("ApprovingAgencies");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Catalogue", b =>
@@ -134,9 +105,12 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("CatalogueId");
 
-                    b.ToTable("Catalogues", "identity");
+                    b.ToTable("Catalogues");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Counterparty", b =>
@@ -153,9 +127,12 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("CounterpartyId");
 
-                    b.ToTable("Counterparties", "identity");
+                    b.ToTable("Counterparties");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.CurrencyUnit", b =>
@@ -172,9 +149,12 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<string>("CurrencyUnitName")
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("CurrencyUnitId");
 
-                    b.ToTable("CurrencyUnits", "identity");
+                    b.ToTable("CurrencyUnits");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.File", b =>
@@ -185,6 +165,9 @@ namespace IPM.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FileId"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("FileName")
                         .HasColumnType("text");
 
@@ -194,12 +177,15 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<int>("ProjectId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Url")
                         .HasColumnType("text");
 
                     b.HasKey("FileId");
 
-                    b.ToTable("Files", "identity");
+                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.FileType", b =>
@@ -221,7 +207,7 @@ namespace IPM.Infrastructure.Migrations
 
                     b.HasKey("FileTypeId");
 
-                    b.ToTable("FileTypes", "identity");
+                    b.ToTable("FileTypes");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Participation", b =>
@@ -231,6 +217,9 @@ namespace IPM.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ParticipationId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("JoinDate")
                         .HasColumnType("timestamp with time zone");
@@ -244,12 +233,15 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("ParticipationId");
 
-                    b.ToTable("Participations", "identity");
+                    b.ToTable("Participations");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Position", b =>
@@ -266,9 +258,12 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<string>("PositionName")
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("PositionId");
 
-                    b.ToTable("Positions", "identity");
+                    b.ToTable("Positions");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Project", b =>
@@ -297,6 +292,9 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<int>("Counterparty")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("ProjectNameEnglish")
                         .HasColumnType("text");
 
@@ -309,9 +307,12 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<int>("SponsorId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("ProjectId");
 
-                    b.ToTable("Projects", "identity");
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.ProjectUpdateLog", b =>
@@ -333,7 +334,7 @@ namespace IPM.Infrastructure.Migrations
 
                     b.HasKey("ProjectUpdateLogId");
 
-                    b.ToTable("ProjectUpdateLogs", "identity");
+                    b.ToTable("ProjectUpdateLogs");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.RefreshToken", b =>
@@ -361,7 +362,7 @@ namespace IPM.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens", "identity");
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.ReportedProject", b =>
@@ -372,9 +373,15 @@ namespace IPM.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ReportedProjectId"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("ReportedProjectId");
 
-                    b.ToTable("ReportedProjects", "identity");
+                    b.ToTable("ReportedProjects");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Sponsor", b =>
@@ -393,7 +400,7 @@ namespace IPM.Infrastructure.Migrations
 
                     b.HasKey("SponsorId");
 
-                    b.ToTable("Sponsors", "identity");
+                    b.ToTable("Sponsors");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.User", b =>
@@ -490,7 +497,7 @@ namespace IPM.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("Users", "identity");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -516,7 +523,7 @@ namespace IPM.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("Roles", "identity");
+                    b.ToTable("Roles", (string)null);
 
                     b.HasData(
                         new
@@ -561,7 +568,7 @@ namespace IPM.Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaims", "identity");
+                    b.ToTable("RoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -586,7 +593,7 @@ namespace IPM.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaims", "identity");
+                    b.ToTable("UserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -608,7 +615,7 @@ namespace IPM.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogins", "identity");
+                    b.ToTable("UserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -623,7 +630,7 @@ namespace IPM.Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles", "identity");
+                    b.ToTable("UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -642,7 +649,7 @@ namespace IPM.Infrastructure.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("UserTokens", "identity");
+                    b.ToTable("UserTokens", (string)null);
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.RefreshToken", b =>

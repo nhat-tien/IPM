@@ -4,16 +4,30 @@
     id: string;
     type: string;
     placeHolder: string;
+    required?: boolean;
     name: string;
+    onfocus?: () => void
   };
-  const { type, id, label, placeHolder, name }: TextFieldProps = $props();
+  const {
+    type,
+    id,
+    label,
+    placeHolder,
+    name,
+    required,
+    onfocus,
+  }: TextFieldProps = $props();
 </script>
 
 <div class="text-field">
 {#if label != null}
-  <label for={id}>{label}</label>
+  <label for={id}>{label}
+      {#if required}
+        <sup>*</sup>
+  {/if}
+  </label>
 {/if}
-<input {type} {id} placeholder={placeHolder} {name}/>
+<input {required} {type} {id} placeholder={placeHolder} {name} onfocus={onfocus}/>
 </div>
 
 <style lang="scss">
@@ -31,5 +45,8 @@
   }
   input:focus {
     border: 1px solid $secondary-clr;
+  }
+  sup {
+    color: $red-clr;
   }
 </style>

@@ -1,5 +1,6 @@
-namespace IPM.Domain
-{
+namespace IPM.Domain;
+
+
   public class RefreshToken
   {
     public Guid Id { get; set; }
@@ -8,5 +9,4 @@ namespace IPM.Domain
     public DateTime ExpiresOnUtc { get; set; }
     public User? User { get; set; }
   }
-}
  

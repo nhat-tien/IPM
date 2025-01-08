@@ -1,5 +1,6 @@
 namespace IPM.WebApi.ApiEndPoints.V1;
 
+using Microsoft.AspNetCore.Http.HttpResults;
 using IPM.Application.UseCases.Auth.LoginUseCase;
 using IPM.Application.UseCases.Auth.RefreshTokenUseCase;
 using IPM.Application.UseCases.Auth.RegisterUseCase;
@@ -13,33 +14,33 @@ public class AuthEndPoints
 
         endpoints.MapPost(
             "/login",
-            async (SignInRequest req, HttpContext httpContext, ILoginUseCase handler) =>
+            async Task<Results<Ok<SignInResponse>,UnauthorizedHttpResult>> (SignInRequest req, HttpContext httpContext, ILoginUseCase handler) =>
             {
-                var res = await handler.Handle(req);
+                SignInResponse res = await handler.Handle(req);
                 if (res.IsSuccess)
                 {
                     SetTokenInsideCookie(res.RefreshToken!, httpContext);
-                    return Results.Ok(res);
+                    return TypedResults.Ok(res);
                 }
                 else
                 {
-                    return Results.BadRequest(res);
+                    return TypedResults.Unauthorized();
                 }
             }
         );
         endpoints
             .MapPost(
                 "/register",
-                async (RegisterRequest req, IRegisterUseCase handler) =>
+                async Task<Results<Ok<RegisterResponse>, BadRequest<RegisterResponse>>> (RegisterRequest req, IRegisterUseCase handler)  =>
                 {
                     var res = await handler.Handle(req);
                     if (res.IsSuccess)
                     {
-                        return Results.Ok(res);
+                        return TypedResults.Ok(res);
                     }
                     else
                     {
-                        return Results.BadRequest(res);
+                        return TypedResults.BadRequest(res);
                     }
                 }
             )
@@ -47,22 +48,22 @@ public class AuthEndPoints
 
         endpoints.MapPost(
             "/refresh",
-            async (HttpContext httpContext, IRefreshTokenUseCase handler) =>
+            async Task<Results<Ok<RefreshTokenResponse>, BadRequest<RefreshTokenResponse>, BadRequest>> (HttpContext httpContext, IRefreshTokenUseCase handler) =>
             {
                 httpContext.Request.Cookies.TryGetValue("RefreshToken", out var refreshToken);
                 if (refreshToken is null)
                 {
-                    return Results.BadRequest();
+                    return TypedResults.BadRequest();
                 }
                 var res = await handler.Handle(new RefreshTokenRequest(refreshToken));
                 if (res.IsSuccess)
                 {
                     SetTokenInsideCookie(res.RefreshToken!, httpContext);
-                    return Results.Ok(res);
+                    return TypedResults.Ok(res);
                 }
                 else
                 {
-                    return Results.BadRequest(res);
+                    return TypedResults.BadRequest(res);
                 }
             }
         );

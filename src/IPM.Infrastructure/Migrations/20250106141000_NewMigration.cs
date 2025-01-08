@@ -14,18 +14,15 @@ namespace IPM.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(
-                name: "identity");
-
             migrationBuilder.CreateTable(
                 name: "AffiliatedUnits",
-                schema: "identity",
                 columns: table => new
                 {
                     AffiliatedUnitId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     AffiliatedUnitName = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -34,13 +31,13 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AidTypes",
-                schema: "identity",
                 columns: table => new
                 {
                     AidTypeId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     AidTypeName = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,13 +46,13 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ApprovingAgencies",
-                schema: "identity",
                 columns: table => new
                 {
                     ApprovingAgencyId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ApprovingAgencyName = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,35 +60,14 @@ namespace IPM.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AttachedFiles",
-                schema: "identity",
-                columns: table => new
-                {
-                    AttachedFileId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ProjectId = table.Column<int>(type: "integer", nullable: false),
-                    ProposalFile = table.Column<string>(type: "text", nullable: true),
-                    ThuChapNhanThucHienFile = table.Column<string>(type: "text", nullable: true),
-                    ToTrinhXinPhepThucHienFile = table.Column<string>(type: "text", nullable: true),
-                    QuyetDinhGiaoKinhPhiFile = table.Column<string>(type: "text", nullable: true),
-                    QuyetDinhThanhLapBanQuanLiFile = table.Column<string>(type: "text", nullable: true),
-                    QuyetDinhChoPhepThucHienFile = table.Column<string>(type: "text", nullable: true),
-                    HopDongThoaThuanMOAFile = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AttachedFiles", x => x.AttachedFileId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Catalogues",
-                schema: "identity",
                 columns: table => new
                 {
                     CatalogueId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CatalogueName = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,13 +76,13 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Counterparties",
-                schema: "identity",
                 columns: table => new
                 {
                     CounterpartyId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CounterpartyName = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -115,13 +91,13 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CurrencyUnits",
-                schema: "identity",
                 columns: table => new
                 {
                     CurrencyUnitId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CurrencyUnitName = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -130,7 +106,6 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Files",
-                schema: "identity",
                 columns: table => new
                 {
                     FileId = table.Column<int>(type: "integer", nullable: false)
@@ -138,7 +113,9 @@ namespace IPM.Infrastructure.Migrations
                     ProjectId = table.Column<int>(type: "integer", nullable: false),
                     FileName = table.Column<string>(type: "text", nullable: true),
                     FileTypeId = table.Column<int>(type: "integer", nullable: false),
-                    Url = table.Column<string>(type: "text", nullable: true)
+                    Url = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -147,7 +124,6 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "FileTypes",
-                schema: "identity",
                 columns: table => new
                 {
                     FileTypeId = table.Column<int>(type: "integer", nullable: false)
@@ -163,7 +139,6 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Participations",
-                schema: "identity",
                 columns: table => new
                 {
                     ParticipationId = table.Column<int>(type: "integer", nullable: false)
@@ -172,7 +147,9 @@ namespace IPM.Infrastructure.Migrations
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     JoinDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: true),
-                    Note = table.Column<string>(type: "text", nullable: true)
+                    Note = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -181,13 +158,13 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Positions",
-                schema: "identity",
                 columns: table => new
                 {
                     PositionId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     PositionName = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -196,7 +173,6 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Projects",
-                schema: "identity",
                 columns: table => new
                 {
                     ProjectId = table.Column<int>(type: "integer", nullable: false)
@@ -210,7 +186,9 @@ namespace IPM.Infrastructure.Migrations
                     ProjectNameEnglish = table.Column<string>(type: "text", nullable: true),
                     ProjectNameVietnamese = table.Column<string>(type: "text", nullable: true),
                     ProjectPurpose = table.Column<string>(type: "text", nullable: true),
-                    Content = table.Column<string>(type: "text", nullable: true)
+                    Content = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -219,7 +197,6 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ProjectUpdateLogs",
-                schema: "identity",
                 columns: table => new
                 {
                     ProjectUpdateLogId = table.Column<int>(type: "integer", nullable: false)
@@ -235,11 +212,12 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ReportedProjects",
-                schema: "identity",
                 columns: table => new
                 {
                     ReportedProjectId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -248,7 +226,6 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Roles",
-                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -263,7 +240,6 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Sponsors",
-                schema: "identity",
                 columns: table => new
                 {
                     SponsorId = table.Column<int>(type: "integer", nullable: false)
@@ -278,7 +254,6 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Users",
-                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -315,7 +290,6 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "RoleClaims",
-                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -330,7 +304,6 @@ namespace IPM.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_RoleClaims_Roles_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "identity",
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -338,7 +311,6 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "RefreshTokens",
-                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -352,7 +324,6 @@ namespace IPM.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_RefreshTokens_Users_UserId",
                         column: x => x.UserId,
-                        principalSchema: "identity",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -360,7 +331,6 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "UserClaims",
-                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -375,7 +345,6 @@ namespace IPM.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_UserClaims_Users_UserId",
                         column: x => x.UserId,
-                        principalSchema: "identity",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -383,7 +352,6 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "UserLogins",
-                schema: "identity",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(type: "text", nullable: false),
@@ -397,7 +365,6 @@ namespace IPM.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_UserLogins_Users_UserId",
                         column: x => x.UserId,
-                        principalSchema: "identity",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -405,7 +372,6 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "UserRoles",
-                schema: "identity",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "text", nullable: false),
@@ -417,14 +383,12 @@ namespace IPM.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_UserRoles_Roles_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "identity",
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserRoles_Users_UserId",
                         column: x => x.UserId,
-                        principalSchema: "identity",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -432,7 +396,6 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "UserTokens",
-                schema: "identity",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "text", nullable: false),
@@ -446,14 +409,12 @@ namespace IPM.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_UserTokens_Users_UserId",
                         column: x => x.UserId,
-                        principalSchema: "identity",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                schema: "identity",
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
@@ -465,57 +426,48 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_Token",
-                schema: "identity",
                 table: "RefreshTokens",
                 column: "Token",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_UserId",
-                schema: "identity",
                 table: "RefreshTokens",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
-                schema: "identity",
                 table: "RoleClaims",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
-                schema: "identity",
                 table: "Roles",
                 column: "NormalizedName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserClaims_UserId",
-                schema: "identity",
                 table: "UserClaims",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserLogins_UserId",
-                schema: "identity",
                 table: "UserLogins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleId",
-                schema: "identity",
                 table: "UserRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                schema: "identity",
                 table: "Users",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                schema: "identity",
                 table: "Users",
                 column: "NormalizedUserName",
                 unique: true);
@@ -525,96 +477,70 @@ namespace IPM.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AffiliatedUnits",
-                schema: "identity");
+                name: "AffiliatedUnits");
 
             migrationBuilder.DropTable(
-                name: "AidTypes",
-                schema: "identity");
+                name: "AidTypes");
 
             migrationBuilder.DropTable(
-                name: "ApprovingAgencies",
-                schema: "identity");
+                name: "ApprovingAgencies");
 
             migrationBuilder.DropTable(
-                name: "AttachedFiles",
-                schema: "identity");
+                name: "Catalogues");
 
             migrationBuilder.DropTable(
-                name: "Catalogues",
-                schema: "identity");
+                name: "Counterparties");
 
             migrationBuilder.DropTable(
-                name: "Counterparties",
-                schema: "identity");
+                name: "CurrencyUnits");
 
             migrationBuilder.DropTable(
-                name: "CurrencyUnits",
-                schema: "identity");
+                name: "Files");
 
             migrationBuilder.DropTable(
-                name: "Files",
-                schema: "identity");
+                name: "FileTypes");
 
             migrationBuilder.DropTable(
-                name: "FileTypes",
-                schema: "identity");
+                name: "Participations");
 
             migrationBuilder.DropTable(
-                name: "Participations",
-                schema: "identity");
+                name: "Positions");
 
             migrationBuilder.DropTable(
-                name: "Positions",
-                schema: "identity");
+                name: "Projects");
 
             migrationBuilder.DropTable(
-                name: "Projects",
-                schema: "identity");
+                name: "ProjectUpdateLogs");
 
             migrationBuilder.DropTable(
-                name: "ProjectUpdateLogs",
-                schema: "identity");
+                name: "RefreshTokens");
 
             migrationBuilder.DropTable(
-                name: "RefreshTokens",
-                schema: "identity");
+                name: "ReportedProjects");
 
             migrationBuilder.DropTable(
-                name: "ReportedProjects",
-                schema: "identity");
+                name: "RoleClaims");
 
             migrationBuilder.DropTable(
-                name: "RoleClaims",
-                schema: "identity");
+                name: "Sponsors");
 
             migrationBuilder.DropTable(
-                name: "Sponsors",
-                schema: "identity");
+                name: "UserClaims");
 
             migrationBuilder.DropTable(
-                name: "UserClaims",
-                schema: "identity");
+                name: "UserLogins");
 
             migrationBuilder.DropTable(
-                name: "UserLogins",
-                schema: "identity");
+                name: "UserRoles");
 
             migrationBuilder.DropTable(
-                name: "UserRoles",
-                schema: "identity");
+                name: "UserTokens");
 
             migrationBuilder.DropTable(
-                name: "UserTokens",
-                schema: "identity");
+                name: "Roles");
 
             migrationBuilder.DropTable(
-                name: "Roles",
-                schema: "identity");
-
-            migrationBuilder.DropTable(
-                name: "Users",
-                schema: "identity");
+                name: "Users");
         }
     }
 }

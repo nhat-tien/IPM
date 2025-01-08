@@ -1,5 +1,6 @@
 namespace IPM.Domain;
 
+//Vietnamese: Đối tác 
 public class Counterparty
 {
     public int CounterpartyId { get; set; }

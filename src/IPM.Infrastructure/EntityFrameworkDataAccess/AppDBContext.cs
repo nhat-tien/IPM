@@ -39,7 +39,7 @@ public class AppDBContext : IdentityDbContext<User>
             }
         }
         builder.ApplyConfiguration(new RefreshTokenConfiguration());
-        builder.HasDefaultSchema("identity");
+        // builder.HasDefaultSchema();
         builder.RoleSeed();
     }
 }

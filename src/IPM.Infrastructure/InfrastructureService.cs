@@ -19,7 +19,7 @@ public static class InfrastructureService
         );
 
         // services.AddScoped<IAppDBContext>(provider => provider.GetRequiredService<AppDBContext>());
-        services.AddSingleton<AppDBContext>();
+        // services.AddSingleton<AppDBContext>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();

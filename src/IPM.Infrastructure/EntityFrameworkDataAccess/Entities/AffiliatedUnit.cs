@@ -6,5 +6,26 @@ public class AffiliatedUnit
     public string? AffiliatedUnitName { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-}
 
+    public Domain.AffiliatedUnit MapTo()
+    {
+        return new Domain.AffiliatedUnit()
+        {
+            AffiliatedUnitId = this.AffiliatedUnitId,
+            AffiliatedUnitName = this.AffiliatedUnitName,
+            CreatedAt = this.CreatedAt,
+            UpdatedAt = this.UpdatedAt,
+        };
+    }
+
+    public static AffiliatedUnit MapFrom(Domain.AffiliatedUnit model)
+    {
+        return new AffiliatedUnit()
+        {
+            AffiliatedUnitId = model.AffiliatedUnitId,
+            AffiliatedUnitName = model.AffiliatedUnitName,
+            CreatedAt = model.CreatedAt,
+            UpdatedAt = model.UpdatedAt,
+        };
+    }
+}

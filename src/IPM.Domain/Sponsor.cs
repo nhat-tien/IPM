@@ -1,8 +1,7 @@
-namespace IPM.Domain
-{
+namespace IPM.Domain;
+
   public class Sponsor
   {
 
   }
-}
  

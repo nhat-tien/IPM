@@ -4,13 +4,14 @@
     name: string;
   };
   type SelectProps = {
+    name: string,
     label?: string,
-    value: string,
+    value?: string,
     items: SelectOption[],
     id: string,
     placeHolder: string,
   };
-  let { value = $bindable(""), items, label, id, placeHolder}: SelectProps = $props();
+  let { value = $bindable(""), items, label, id, placeHolder, name}: SelectProps = $props();
 
   function onChange(target: EventSelectElements) {
     value = target.currentTarget.value;
@@ -20,7 +21,7 @@
 {#if label != null}
   <label for={id}>{label}</label>
 {/if}
-<select {id} onchange={onChange}> 
+<select {name} {id} onchange={onChange}> 
    <option value="" disabled selected hidden>{placeHolder}</option>
   {#each items as item}
     <option value={item.value}>{item.name}</option>

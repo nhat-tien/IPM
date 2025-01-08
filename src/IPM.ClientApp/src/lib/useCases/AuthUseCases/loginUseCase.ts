@@ -2,6 +2,8 @@ import { authEndPoint } from "@services/httpService";
 import { saveAccessToken } from "@services/jwtService";
 import { decodeUserInfoFromJWT } from "@services/userInfoService";
 import { setUserInfo } from "@stores/userInfo.svelte";
+import type { HttpError } from "@sveltejs/kit";
+import { HTTPError } from "ky";
 import { z, ZodError } from "zod";
 
 const LoginScheme = z.object({
@@ -12,8 +14,7 @@ const LoginScheme = z.object({
 type LoginParam = z.infer<typeof LoginScheme>;
 type LoginResult = {
   isSuccess: boolean,
-  error: ZodError | null
-  accessToken?: string | null
+  error: ZodError | string | null
 };
 
 export default async function login(formData: LoginParam): Promise<LoginResult> {
@@ -31,9 +32,16 @@ export default async function login(formData: LoginParam): Promise<LoginResult> 
     return {
       isSuccess: true,
       error: null,
-      accessToken: response.accessToken
     }
-  } catch (e: ZodError | any) {
+  } catch (e: ZodError | HttpError | any) {
+    if(e instanceof HTTPError) {
+      if(e.response.status == 401) {
+        return {
+          isSuccess: false,
+          error: "Unauthorized",
+        }
+      }
+    }
     return {
       isSuccess: false,
       error: e,

@@ -1,7 +1,8 @@
 namespace IPM.Domain;
 
-  public class Project
-  {
+//Vietnamese: Dự án 
+public class Project
+{
     public int ProjectId { get; set; }
     public int AffilatedUnitId { get; set; }
     public int CatalogueId { get; set; }
@@ -13,5 +14,4 @@ namespace IPM.Domain;
     public string? ProjectNameVietnamese { get; set; }
     public string? ProjectPurpose { get; set; }
     public string? Content { get; set; }
-  }
- 
+}
