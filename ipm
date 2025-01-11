@@ -31,10 +31,10 @@ main() {
             ;;
         "fe:build")
             echo "npm --prefix ./src/IPM.ClientApp run build"
-            npm --prefix ./src/IPM.ClientApp run build && \
             echo "rm  -rf ./src/IPM.WebApi/Views/Home/Index.cshtml"
-            rm  -rf ./src/IPM.WebApi/Views/Home/Index.cshtml && \
             echo "mv ./src/IPM.WebApi/wwwroot/Index.cshtml ./src/IPM.WebApi/Views/Home/"
+            npm --prefix ./src/IPM.ClientApp run build && \
+            rm  -rf ./src/IPM.WebApi/Views/Home/Index.cshtml && \
             mv ./src/IPM.WebApi/wwwroot/Index.cshtml ./src/IPM.WebApi/Views/Home/
             ;;
         "db:update")

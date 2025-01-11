@@ -27,7 +27,8 @@ public class AuthEndPoints
                     return TypedResults.Unauthorized();
                 }
             }
-        );
+        ).WithRequestValidation<SignInRequest>();
+
         endpoints
             .MapPost(
                 "/register",

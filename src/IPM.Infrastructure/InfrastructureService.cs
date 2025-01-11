@@ -23,6 +23,10 @@ public static class InfrastructureService
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<IApprovingAgencyRepository, ApprovingAgencyRepository>();
+        services.AddScoped<IAffiliatedUnitRepository, AffiliatedUnitRepository>();
+        services.AddScoped<IAidTypeRepository, AidTypeRepository>();
+        services.AddScoped<ICurrencyUnitRepository, CurrencyUnitRepository>();
         return services;
     }
 }

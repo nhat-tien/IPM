@@ -4,7 +4,9 @@
   import FloatMenu from "@components/FloatMenu/FloatMenu.svelte";
   import FloatMenuItem from "@components/FloatMenu/FloatMenuItem.svelte";
   import FloatMenuWrapper from "@components/FloatMenu/FloatMenuWrapper.svelte";
+  import BellIcon from "@components/Icons/BellIcon.svelte";
   import BookIcon from "@components/Icons/BookIcon.svelte";
+  import HomeIcon from "@components/Icons/HomeIcon.svelte";
   import SideMenuGroup from "@components/SideMenu/SideMenuGroup.svelte";
   import SideMenuItem from "@components/SideMenu/SideMenuItem.svelte";
   import { getUserInfo } from "@stores/userInfo.svelte";
@@ -39,9 +41,9 @@
 </header>
 <main>
   <section class="side-menu">
-    <SideMenuItem href="/">
+    <SideMenuItem href="/dashboard">
       {#snippet icon()}
-        <BookIcon />
+        <HomeIcon />
       {/snippet}
       {#snippet content()}
         DashBoard
@@ -58,19 +60,19 @@
       </SideMenuItem>
       <SideMenuItem href="/">
         {#snippet icon()}
-          <BookIcon />
+          <BellIcon />
         {/snippet}
         {#snippet content()}
           Gi do
         {/snippet}
       </SideMenuItem>
     </SideMenuGroup>
-    <SideMenuItem href="/">
+    <SideMenuItem href="/dashboard/users">
       {#snippet icon()}
         <BookIcon />
       {/snippet}
       {#snippet content()}
-        DashBoard
+        User
       {/snippet}
     </SideMenuItem>
   </section>
@@ -93,7 +95,7 @@
   }
 
   main {
-    margin: 5rem 0 0 0;
+    margin: 4rem 0 0 0;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -107,6 +109,8 @@
   }
   .main-center {
     flex: 1;
+    padding: 1em;
+    overflow-y: auto;
   }
   .logo {
     display: flex;

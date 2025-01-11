@@ -9,7 +9,8 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
     public async Task<bool> CheckPassword(Domain.User domainUser, string password)
     {
         User? user = await userManager.FindByIdAsync(domainUser.UserId ?? "");
-        if(user is null) {
+        if (user is null)
+        {
             return false;
         }
         return await userManager.CheckPasswordAsync(user, password);
@@ -18,11 +19,11 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
     public async Task<Domain.User?> FindByName(string name)
     {
         User? user = await userManager.FindByNameAsync(name);
-        if( user is null) 
+        if (user is null)
         {
             return null;
         }
-            return user.MapTo();
+        return user.MapTo();
     }
 
     public async Task<Domain.User?> GetById(string id)
@@ -31,14 +32,15 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
         if (user is null)
         {
             return null;
-        } 
+        }
         return user.MapTo();
     }
 
     public async Task<IList<string>> GetRoles(Domain.User domainUser)
     {
         User? user = await userManager.FindByIdAsync(domainUser.UserId ?? "");
-        if(user is null) {
+        if (user is null)
+        {
             return [];
         }
         return await userManager.GetRolesAsync(user);
@@ -58,11 +60,11 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
         }
     }
 
-    public async Task AddToRole(Domain.User domainUser, string roleName) 
+    public async Task AddToRole(Domain.User domainUser, string roleName)
     {
         User? user = await userManager.FindByNameAsync(domainUser.UserName ?? "");
-        if(user is not null) {
-            Console.WriteLine("Hello");
+        if (user is not null)
+        {
             await userManager.AddToRoleAsync(user, roleName);
         }
     }
@@ -91,5 +93,4 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
 
         return errorDictionary;
     }
-
 }

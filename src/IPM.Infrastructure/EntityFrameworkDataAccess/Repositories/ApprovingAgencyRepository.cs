@@ -1,31 +1,49 @@
 using IPM.Application.IRepositories;
+using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
 
-public class ApprovingAgencyRepository : IApprovingAgencyRepository
+public class ApprovingAgencyRepository(AppDBContext context): IApprovingAgencyRepository
 {
-    public Task<int> Create(Domain.ApprovingAgency model)
+    public async Task Create(Domain.ApprovingAgency model)
     {
-        throw new NotImplementedException();
+        var entity = ApprovingAgency.MapFrom(model);
+        entity.CreatedAt = DateTime.Now;
+        await context.ApprovingAgencies.AddAsync(entity);
+        await context.SaveChangesAsync();
     }
 
-    public Task<int> Delete(Domain.ApprovingAgency model)
+    public async Task Delete(int id)
     {
-        throw new NotImplementedException();
+        await context.ApprovingAgencies.Where(e => e.ApprovingAgencyId == id).ExecuteDeleteAsync();
     }
 
-    public Task<Domain.ApprovingAgency?> FindById(int id)
+    public async Task<Domain.ApprovingAgency?> FindById(int id)
     {
-        throw new NotImplementedException();
+        ApprovingAgency? entity = await context.ApprovingAgencies.FindAsync(id);
+        if(entity is null) 
+        {
+            return null;
+        }
+        return entity.MapTo();
     }
 
-    public Task<List<Domain.ApprovingAgency>> GetAll()
+    public async Task<IEnumerable<Domain.ApprovingAgency>> GetAll()
     {
-        throw new NotImplementedException();
+        List<ApprovingAgency> entity = await context.ApprovingAgencies.ToListAsync();
+        IEnumerable<Domain.ApprovingAgency> listOfDomain = entity.Select(entity => entity.MapTo());
+        return listOfDomain;
     }
 
-    public Task<int> Update(Domain.ApprovingAgency model)
+    public async Task Update(int id, Domain.ApprovingAgency model)
     {
-        throw new NotImplementedException();
+        await context.ApprovingAgencies
+            .Where(e => e.ApprovingAgencyId == id)
+            .ExecuteUpdateAsync(setter => 
+                setter
+                .SetProperty(e => e.ApprovingAgencyName, model.ApprovingAgencyName)
+                .SetProperty(e => e.UpdatedAt, DateTime.Now)
+            );
     }
 }

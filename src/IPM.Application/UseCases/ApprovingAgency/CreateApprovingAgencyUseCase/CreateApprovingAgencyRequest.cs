@@ -1,0 +1,3 @@
+namespace IPM.Application.UseCases.ApprovingAgency.CreateApprovingAgencyUseCase;
+
+public record CreateApprovingAgencyRequest(string ApprovingAgencyName);

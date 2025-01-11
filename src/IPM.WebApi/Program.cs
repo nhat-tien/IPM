@@ -1,21 +1,25 @@
 using IPM.Infrastructure;
 using IPM.WebApi.ApiEndPoints.V1;
-using IPM.WebApi;
+using IPM.WebApi.ServiceRegisters;
 
-var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy  =>
-                      {
-                          policy.WithOrigins("http://localhost:5173", "http://localhost:5286")
-                                .AllowCredentials()
-                                .AllowAnyHeader()
-                                .AllowAnyMethod();
-                      });
+    options.AddPolicy(
+        name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:5173", "http://localhost:5286")
+                .AllowCredentials()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        }
+    );
 });
+
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllersWithViews();
@@ -29,10 +33,12 @@ builder.Services.AddAuthServices(builder.Configuration);
 builder.Services.AddUseCaseServices();
 builder.Services.AddSwaggerGenWithAuth();
 builder.Services.AddValidatorServices();
+
 //
 // -----------------------------------
 
 var app = builder.Build();
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -53,6 +59,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 // app.MapIdentityApi<User>();
 app.UseRouting();
 app.UseAuthentication();

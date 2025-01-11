@@ -18,6 +18,8 @@ body {
   font-family: "Inter", Arial, Helvetica, sans-serif;
   background-color: $primary-clr;
   display: flex;
+  justify-content: center;
+  overflow: hidden;
 }
 
 select, button, input[type="submit"], input[type="reset"], input{

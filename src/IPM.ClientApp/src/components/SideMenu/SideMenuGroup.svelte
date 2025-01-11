@@ -1,5 +1,5 @@
 <script lang="ts">
-  import ChevronDown from "@components/Icons/ChevronDown.svelte";
+  import ChevronDownIcon from "@components/Icons/ChevronDownIcon.svelte";
     import type { Snippet } from "svelte";
   type SideMenuGroupProps = {
     title: string;
@@ -12,7 +12,7 @@
 <button class={["side-menu-group-title", open ? "open" : ""]} onclick={() => open = !open}>
   {title}
   <div class="icon">
-    <ChevronDown />
+    <ChevronDownIcon />
   </div>
 </button>
 <div class={["side-menu-group",  open ? "open" : ""]}>

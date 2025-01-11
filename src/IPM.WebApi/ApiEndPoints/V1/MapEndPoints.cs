@@ -9,5 +9,7 @@ public static class MapEndPoints
       AuthEndPoints.Map(endpoints);
       ProjectEndPoints.Map(endpoints);
       RoleEndPoints.Map(endpoints);
+      ApprovingAgencyEndPoints.Map(endpoints);
+      AffiliatedUnitEndPoints.Map(endpoints);
   }
 }

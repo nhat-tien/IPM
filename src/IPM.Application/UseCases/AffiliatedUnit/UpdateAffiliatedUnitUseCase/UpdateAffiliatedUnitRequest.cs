@@ -1,0 +1,3 @@
+namespace IPM.Application.UseCases.AffiliatedUnit.UpdateAffiliatedUnitUseCase;
+
+public record UpdateAffiliatedUnitRequest(string AffiliatedUnitName);
