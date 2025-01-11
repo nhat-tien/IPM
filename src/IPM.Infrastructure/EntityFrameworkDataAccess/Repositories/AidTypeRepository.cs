@@ -9,7 +9,7 @@ public class AidTypeRepository(AppDBContext context): IAidTypeRepository
     public async Task Create(Domain.AidType model)
     {
         var entity = AidType.MapFrom(model);
-        entity.CreatedAt = DateTime.Now;
+        entity.CreatedAt = DateTime.UtcNow;
         await context.AidTypes.AddAsync(entity);
         await context.SaveChangesAsync();
     }
@@ -43,7 +43,7 @@ public class AidTypeRepository(AppDBContext context): IAidTypeRepository
             .ExecuteUpdateAsync(setter => 
                 setter
                 .SetProperty(e => e.AidTypeName, model.AidTypeName)
-                .SetProperty(e => e.UpdatedAt, DateTime.Now)
+                .SetProperty(e => e.UpdatedAt, DateTime.UtcNow)
             );
     }
 

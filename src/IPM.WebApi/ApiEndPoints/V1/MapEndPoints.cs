@@ -11,5 +11,6 @@ public static class MapEndPoints
       RoleEndPoints.Map(endpoints);
       ApprovingAgencyEndPoints.Map(endpoints);
       AffiliatedUnitEndPoints.Map(endpoints);
+      CurrencyUnitEndPoints.Map(endpoints);
   }
 }

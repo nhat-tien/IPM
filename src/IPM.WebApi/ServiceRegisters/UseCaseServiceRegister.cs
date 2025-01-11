@@ -9,6 +9,10 @@ using IPM.Application.UseCases.AffiliatedUnit.CreateAffiliatedUnitUseCase;
 using IPM.Application.UseCases.AffiliatedUnit.DeleteAffiliatedUnitUseCase;
 using IPM.Application.UseCases.AffiliatedUnit.GetAllAffiliatedUnitUseCase;
 using IPM.Application.UseCases.AffiliatedUnit.UpdateAffiliatedUnitUseCase;
+using IPM.Application.UseCases.CurrencyUnit.CreateCurrencyUnitUseCase;
+using IPM.Application.UseCases.CurrencyUnit.DeleteCurrencyUnitUseCase;
+using IPM.Application.UseCases.CurrencyUnit.GetAllCurrencyUnitUseCase;
+using IPM.Application.UseCases.CurrencyUnit.UpdateCurrencyUnitUseCase;
 using IPM.Application.UseCases.Role;
 
 namespace IPM.WebApi.ServiceRegisters;
@@ -31,6 +35,11 @@ public static class UseCaseServiceRegister
         services.AddScoped<IDeleteAffiliatedUnitUseCase, DeleteAffiliatedUnitHandler>();
         services.AddScoped<IGetAllAffiliatedUnitUseCase, GetAllAffiliatedUnitHandler>();
         services.AddScoped<IUpdateAffiliatedUnitUseCase, UpdateAffiliatedUnitHandler>();
+
+        services.AddScoped<ICreateCurrencyUnitUseCase, CreateCurrencyUnitHandler>();
+        services.AddScoped<IGetAllCurrencyUnitUseCase, GetAllCurrencyUnitHandler>();
+        services.AddScoped<IUpdateCurrencyUnitUseCase, UpdateCurrencyUnitHandler>();
+        services.AddScoped<IDeleteCurrencyUnitUseCase, DeleteCurrencyUnitHandler>();
         return services;
     }
 

@@ -9,7 +9,7 @@ public class CurrencyUnitRepository(AppDBContext context): ICurrencyUnitReposito
     public async Task Create(Domain.CurrencyUnit model)
     {
         var entity = CurrencyUnit.MapFrom(model);
-        entity.CreatedAt = DateTime.Now;
+        entity.CreatedAt = DateTime.UtcNow;
         await context.CurrencyUnits.AddAsync(entity);
         await context.SaveChangesAsync();
     }
@@ -43,7 +43,7 @@ public class CurrencyUnitRepository(AppDBContext context): ICurrencyUnitReposito
             .ExecuteUpdateAsync(setter => 
                 setter
                 .SetProperty(e => e.CurrencyUnitName, model.CurrencyUnitName)
-                .SetProperty(e => e.UpdatedAt, DateTime.Now)
+                .SetProperty(e => e.UpdatedAt, DateTime.UtcNow)
             );
     }
 }

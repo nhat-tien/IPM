@@ -9,7 +9,7 @@ public class AffiliatedUnitEndPoints
 {
     public static void Map(RouteGroupBuilder route)
     {
-        var endpoints = route.MapGroup("/approvingAgency");
+        var endpoints = route.MapGroup("/affiliatedUnit");
 
         endpoints.MapGet("/", async (IGetAllAffiliatedUnitUseCase handler) => await handler.Handle());
 

@@ -9,7 +9,7 @@ public class AffiliatedUnitRepository(AppDBContext context): IAffiliatedUnitRepo
     public async Task Create(Domain.AffiliatedUnit model)
     {
         var entity = AffiliatedUnit.MapFrom(model);
-        entity.CreatedAt = DateTime.Now;
+        entity.CreatedAt = DateTime.UtcNow;
         await context.AffiliatedUnits.AddAsync(entity);
         await context.SaveChangesAsync();
     }
@@ -43,7 +43,7 @@ public class AffiliatedUnitRepository(AppDBContext context): IAffiliatedUnitRepo
             .ExecuteUpdateAsync(setter => 
                 setter
                 .SetProperty(e => e.AffiliatedUnitName, model.AffiliatedUnitName)
-                .SetProperty(e => e.UpdatedAt, DateTime.Now)
+                .SetProperty(e => e.UpdatedAt, DateTime.UtcNow)
             );
     }
 }

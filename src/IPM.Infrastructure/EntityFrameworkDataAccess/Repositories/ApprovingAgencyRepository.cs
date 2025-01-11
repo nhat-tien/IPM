@@ -9,7 +9,8 @@ public class ApprovingAgencyRepository(AppDBContext context): IApprovingAgencyRe
     public async Task Create(Domain.ApprovingAgency model)
     {
         var entity = ApprovingAgency.MapFrom(model);
-        entity.CreatedAt = DateTime.Now;
+        entity.CreatedAt = DateTime.UtcNow;
+        entity.UpdatedAt = DateTime.UtcNow;
         await context.ApprovingAgencies.AddAsync(entity);
         await context.SaveChangesAsync();
     }
@@ -43,7 +44,7 @@ public class ApprovingAgencyRepository(AppDBContext context): IApprovingAgencyRe
             .ExecuteUpdateAsync(setter => 
                 setter
                 .SetProperty(e => e.ApprovingAgencyName, model.ApprovingAgencyName)
-                .SetProperty(e => e.UpdatedAt, DateTime.Now)
+                .SetProperty(e => e.UpdatedAt, DateTime.UtcNow)
             );
     }
 }
