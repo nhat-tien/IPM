@@ -12,5 +12,6 @@ public static class MapEndPoints
       ApprovingAgencyEndPoints.Map(endpoints);
       AffiliatedUnitEndPoints.Map(endpoints);
       CurrencyUnitEndPoints.Map(endpoints);
+      AidTypeEndPoints.Map(endpoints);
   }
 }

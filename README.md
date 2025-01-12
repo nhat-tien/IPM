@@ -12,7 +12,8 @@
 - NodeJS (v20 or later)
 - Entity Framework Core Tools (dotnet tool install --global dotnet-ef) 
 
-> [!TIP]
+### Development 
+> [!tip]
 > ```bash
 > # make file ipm executable
 > chmod +x ipm
@@ -20,28 +21,37 @@
 > ./ipm --help
 > ```
 > ```txt
->  A small script to make dev life better
->  USAGE: ipm [COMMAND]
+>  a small script to make dev life better
+>  usage: ipm [command]
 >
->  COMMAND:  fe:dev          Run FE dev
->            fe:build        Build FE
->            fe:install      Install FE dependencies
->            be:run          Run
->            be:dev          Run and hot reload
->            mg:new <name>   Make new migration
->            mg:remove       Remove migration
->            db:update       Update database
->            db:drop         Drop database
+>  command:  fe:dev          run fe dev
+>            fe:build        build fe
+>            fe:install      install fe dependencies
+>            be:run          run
+>            be:dev          run and hot reload
+>            mg:new <name>   make new migration
+>            mg:remove       remove migration
+>            db:update       update database
+>            db:drop         drop database
 > ```
 
-### Development 
+1. Clone this repo 
 ```bash
-./ipm fe:install && \
-./ipm fe:build && \
+git clone https://github.com/nhat-tien/IPM.git
+```
+2. Setup database connection
+- Start your PostgreSQL database
+- Copy `appsettings.Example.json` to `appsettings.Development.json`
+- Fill out the database connection info
+
+3. Run development 
+```bash
 ./ipm be:run
 ```
 
 ### Production 
+> [!NOTE]  
+> Work in progress
 
 ## More
 [Documents](/docs/README.md)

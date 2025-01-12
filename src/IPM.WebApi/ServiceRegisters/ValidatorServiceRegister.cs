@@ -12,10 +12,14 @@ using IPM.Application.UseCases.AffiliatedUnit.UpdateAffiliatedUnitUseCase;
 using IPM.Application.UseCases.CurrencyUnit.CreateCurrencyUnitUseCase;
 using IPM.Application.UseCases.CurrencyUnit.UpdateCurrencyUnitUseCase;
 
+using IPM.Application.UseCases.AidType.CreateAidTypeUseCase;
+using IPM.Application.UseCases.AidType.UpdateAidTypeUseCase;
+
 using IPM.WebApi.Validators.Auth;
 using IPM.WebApi.Validators.ApprovingAgency;
 using IPM.WebApi.Validators.AffiliatedUnit;
 using IPM.WebApi.Validators.CurrencyUnit;
+using IPM.WebApi.Validators.AidType;
 
 namespace IPM.WebApi.ServiceRegisters;
 
@@ -47,6 +51,13 @@ public static class ValidatorServiceRegister
          */
         services.AddScoped<IValidator<CreateCurrencyUnitRequest>, CurrencyUnitCreateValidator>();
         services.AddScoped<IValidator<UpdateCurrencyUnitRequest>, CurrencyUnitUpdateValidator>();
+
+        /*
+         * ======= Aid Type =======
+         */
+        services.AddScoped<IValidator<CreateAidTypeRequest>, AidTypeCreateValidator>();
+        services.AddScoped<IValidator<UpdateAidTypeRequest>, AidTypeUpdateValidator>();
+
         return services;
     }
 
