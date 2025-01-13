@@ -1,6 +1,7 @@
 using IPM.Application.IRepositories;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
 
@@ -93,4 +94,11 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
 
         return errorDictionary;
     }
+
+    public async Task<IEnumerable<Domain.User>> GetAll()
+    {
+        List<User> entity = await userManager.Users.ToListAsync();
+        IEnumerable<Domain.User> listOfDomain = entity.Select(entity => entity.MapTo());
+        return listOfDomain;
+    } 
 }

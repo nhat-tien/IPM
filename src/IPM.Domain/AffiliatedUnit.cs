@@ -1,7 +1,7 @@
 namespace IPM.Domain;
 
 
-//Vietnamese: Đơn vị liên kết
+//Vietnamese: Đơn vị trực thuộc
 public class AffiliatedUnit
 {
     public int AffiliatedUnitId { get; set; }

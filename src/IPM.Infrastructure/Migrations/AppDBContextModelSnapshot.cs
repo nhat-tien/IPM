@@ -271,26 +271,41 @@ namespace IPM.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProjectId"));
 
-                    b.Property<int>("AffilatedUnitId")
+                    b.Property<int?>("AffilatedUnitId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("AidType")
+                    b.Property<int?>("AidTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ApprovingAgency")
+                    b.Property<int?>("ApprovingAgencyId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("CatalogueId")
+                    b.Property<int?>("CatalogueId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Content")
                         .HasColumnType("text");
 
-                    b.Property<int>("Counterparty")
+                    b.Property<int?>("CounterpartyId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("CurrencyUnitId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("EndedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FundedEquipment")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PercentageOfProgress")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProjectBudget")
+                        .HasColumnType("text");
 
                     b.Property<string>("ProjectNameEnglish")
                         .HasColumnType("text");
@@ -298,16 +313,36 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<string>("ProjectNameVietnamese")
                         .HasColumnType("text");
 
+                    b.Property<string>("ProjectProgress")
+                        .HasColumnType("text");
+
                     b.Property<string>("ProjectPurpose")
                         .HasColumnType("text");
 
-                    b.Property<int>("SponsorId")
+                    b.Property<int?>("SponsorId")
                         .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("ProjectId");
+
+                    b.HasIndex("AffilatedUnitId");
+
+                    b.HasIndex("AidTypeId");
+
+                    b.HasIndex("ApprovingAgencyId");
+
+                    b.HasIndex("CatalogueId");
+
+                    b.HasIndex("CounterpartyId");
+
+                    b.HasIndex("CurrencyUnitId");
+
+                    b.HasIndex("SponsorId");
 
                     b.ToTable("Projects");
                 });
@@ -395,6 +430,9 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<string>("SponsorName")
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("SponsorId");
 
                     b.ToTable("Sponsors");
@@ -411,7 +449,7 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("text");
 
-                    b.Property<int>("AffilatedUnitId")
+                    b.Property<int?>("AffilatedUnitId")
                         .HasColumnType("integer");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -457,7 +495,7 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("PositionId")
+                    b.Property<int?>("PositionId")
                         .HasColumnType("integer");
 
                     b.Property<string>("SecurityStamp")
@@ -493,6 +531,8 @@ namespace IPM.Infrastructure.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("PositionId");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -649,6 +689,51 @@ namespace IPM.Infrastructure.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Project", b =>
+                {
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.AffiliatedUnit", "AffilatedUnit")
+                        .WithMany()
+                        .HasForeignKey("AffilatedUnitId");
+
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.AidType", "AidType")
+                        .WithMany()
+                        .HasForeignKey("AidTypeId");
+
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.ApprovingAgency", "ApprovingAgency")
+                        .WithMany()
+                        .HasForeignKey("ApprovingAgencyId");
+
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Catalogue", "Catalogue")
+                        .WithMany()
+                        .HasForeignKey("CatalogueId");
+
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Counterparty", "Counterparty")
+                        .WithMany()
+                        .HasForeignKey("CounterpartyId");
+
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.CurrencyUnit", "CurrencyUnit")
+                        .WithMany()
+                        .HasForeignKey("CurrencyUnitId");
+
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Sponsor", "Sponsor")
+                        .WithMany()
+                        .HasForeignKey("SponsorId");
+
+                    b.Navigation("AffilatedUnit");
+
+                    b.Navigation("AidType");
+
+                    b.Navigation("ApprovingAgency");
+
+                    b.Navigation("Catalogue");
+
+                    b.Navigation("Counterparty");
+
+                    b.Navigation("CurrencyUnit");
+
+                    b.Navigation("Sponsor");
+                });
+
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.RefreshToken", b =>
                 {
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.User", "User")
@@ -658,6 +743,15 @@ namespace IPM.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.User", b =>
+                {
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Position", "Position")
+                        .WithMany()
+                        .HasForeignKey("PositionId");
+
+                    b.Navigation("Position");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

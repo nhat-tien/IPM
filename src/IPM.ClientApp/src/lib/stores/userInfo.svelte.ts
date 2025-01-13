@@ -23,3 +23,7 @@ export function getUserInfo(): UserInfo {
   }
   return userInfo;
 }
+
+export function deleteUserInfo() {
+  userInfo = null
+}

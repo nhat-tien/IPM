@@ -21,7 +21,10 @@ using IPM.Application.UseCases.AidType.CreateAidTypeUseCase;
 using IPM.Application.UseCases.AidType.DeleteAidTypeUseCase;
 using IPM.Application.UseCases.AidType.GetAllAidTypeUseCase;
 using IPM.Application.UseCases.AidType.UpdateAidTypeUseCase;
+
 using IPM.Application.UseCases.Role;
+
+using IPM.Application.UseCases.User.GetAllUserUseCase;
 
 namespace IPM.WebApi.ServiceRegisters;
 
@@ -53,6 +56,8 @@ public static class UseCaseServiceRegister
         services.AddScoped<IDeleteAidTypeUseCase, DeleteAidTypeHandler>();
         services.AddScoped<IUpdateAidTypeUseCase, UpdateAidTypeHandler>();
         services.AddScoped<IGetAllAidTypeUseCase, GetAllAidTypeHandler>();
+
+        services.AddScoped<IGetAllUserUseCase, GetAllUserHandler>();
         return services;
     }
 

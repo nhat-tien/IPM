@@ -36,12 +36,12 @@
     {name}
     {id}
     placeholder={placeHolder}
+    {onfocus}
   />
   <button
     type="button"
     onclick={() => (isHidden = !isHidden)}
     class="toggle"
-    {onfocus}
   >
     {#if isHidden}
       <ClosedEyeIcon />

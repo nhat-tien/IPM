@@ -1,7 +1,7 @@
 namespace IPM.Infrastructure.EntityFrameworkDataAccess;
 
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
-using IPM.Infrastructure.EntityFrameworkDataAccess.Seeds;
+using IPM.Infrastructure.EntityFrameworkDataAccess.Config;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,7 +39,7 @@ public class AppDBContext : IdentityDbContext<User>
             }
         }
         builder.ApplyConfiguration(new RefreshTokenConfiguration());
+        builder.ApplyConfiguration(new IdentityRoleConfiguration());
         // builder.HasDefaultSchema();
-        builder.RoleSeed();
     }
 }

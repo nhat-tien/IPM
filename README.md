@@ -35,16 +35,16 @@
 >            db:drop         drop database
 > ```
 
-1. Clone this repo 
+#### 1. Clone this repo 
 ```bash
 git clone https://github.com/nhat-tien/IPM.git
 ```
-2. Setup database connection
+#### 2. Setup database connection
 - Start your PostgreSQL database
 - Copy `appsettings.Example.json` to `appsettings.Development.json`
 - Fill out the database connection info
 
-3. Run development 
+#### 3. Run development 
 ```bash
 ./ipm be:run
 ```

@@ -172,30 +172,6 @@ namespace IPM.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Projects",
-                columns: table => new
-                {
-                    ProjectId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    AffilatedUnitId = table.Column<int>(type: "integer", nullable: false),
-                    CatalogueId = table.Column<int>(type: "integer", nullable: false),
-                    SponsorId = table.Column<int>(type: "integer", nullable: false),
-                    AidType = table.Column<int>(type: "integer", nullable: false),
-                    ApprovingAgency = table.Column<int>(type: "integer", nullable: false),
-                    Counterparty = table.Column<int>(type: "integer", nullable: false),
-                    ProjectNameEnglish = table.Column<string>(type: "text", nullable: true),
-                    ProjectNameVietnamese = table.Column<string>(type: "text", nullable: true),
-                    ProjectPurpose = table.Column<string>(type: "text", nullable: true),
-                    Content = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Projects", x => x.ProjectId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProjectUpdateLogs",
                 columns: table => new
                 {
@@ -245,7 +221,8 @@ namespace IPM.Infrastructure.Migrations
                     SponsorId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SponsorName = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -259,8 +236,8 @@ namespace IPM.Infrastructure.Migrations
                     Id = table.Column<string>(type: "text", nullable: false),
                     FirstName = table.Column<string>(type: "text", nullable: true),
                     LastName = table.Column<string>(type: "text", nullable: true),
-                    PositionId = table.Column<int>(type: "integer", nullable: false),
-                    AffilatedUnitId = table.Column<int>(type: "integer", nullable: false),
+                    PositionId = table.Column<int>(type: "integer", nullable: true),
+                    AffilatedUnitId = table.Column<int>(type: "integer", nullable: true),
                     Address = table.Column<string>(type: "text", nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -286,6 +263,11 @@ namespace IPM.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Positions_PositionId",
+                        column: x => x.PositionId,
+                        principalTable: "Positions",
+                        principalColumn: "PositionId");
                 });
 
             migrationBuilder.CreateTable(
@@ -307,6 +289,72 @@ namespace IPM.Infrastructure.Migrations
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Projects",
+                columns: table => new
+                {
+                    ProjectId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProjectNameEnglish = table.Column<string>(type: "text", nullable: true),
+                    ProjectNameVietnamese = table.Column<string>(type: "text", nullable: true),
+                    ProjectPurpose = table.Column<string>(type: "text", nullable: true),
+                    Content = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    FundedEquipment = table.Column<string>(type: "text", nullable: true),
+                    ProjectBudget = table.Column<string>(type: "text", nullable: true),
+                    StartedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EndedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ProjectProgress = table.Column<string>(type: "text", nullable: true),
+                    PercentageOfProgress = table.Column<string>(type: "text", nullable: true),
+                    AffilatedUnitId = table.Column<int>(type: "integer", nullable: true),
+                    CatalogueId = table.Column<int>(type: "integer", nullable: true),
+                    SponsorId = table.Column<int>(type: "integer", nullable: true),
+                    AidTypeId = table.Column<int>(type: "integer", nullable: true),
+                    ApprovingAgencyId = table.Column<int>(type: "integer", nullable: true),
+                    CounterpartyId = table.Column<int>(type: "integer", nullable: true),
+                    CurrencyUnitId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Projects", x => x.ProjectId);
+                    table.ForeignKey(
+                        name: "FK_Projects_AffiliatedUnits_AffilatedUnitId",
+                        column: x => x.AffilatedUnitId,
+                        principalTable: "AffiliatedUnits",
+                        principalColumn: "AffiliatedUnitId");
+                    table.ForeignKey(
+                        name: "FK_Projects_AidTypes_AidTypeId",
+                        column: x => x.AidTypeId,
+                        principalTable: "AidTypes",
+                        principalColumn: "AidTypeId");
+                    table.ForeignKey(
+                        name: "FK_Projects_ApprovingAgencies_ApprovingAgencyId",
+                        column: x => x.ApprovingAgencyId,
+                        principalTable: "ApprovingAgencies",
+                        principalColumn: "ApprovingAgencyId");
+                    table.ForeignKey(
+                        name: "FK_Projects_Catalogues_CatalogueId",
+                        column: x => x.CatalogueId,
+                        principalTable: "Catalogues",
+                        principalColumn: "CatalogueId");
+                    table.ForeignKey(
+                        name: "FK_Projects_Counterparties_CounterpartyId",
+                        column: x => x.CounterpartyId,
+                        principalTable: "Counterparties",
+                        principalColumn: "CounterpartyId");
+                    table.ForeignKey(
+                        name: "FK_Projects_CurrencyUnits_CurrencyUnitId",
+                        column: x => x.CurrencyUnitId,
+                        principalTable: "CurrencyUnits",
+                        principalColumn: "CurrencyUnitId");
+                    table.ForeignKey(
+                        name: "FK_Projects_Sponsors_SponsorId",
+                        column: x => x.SponsorId,
+                        principalTable: "Sponsors",
+                        principalColumn: "SponsorId");
                 });
 
             migrationBuilder.CreateTable(
@@ -425,6 +473,41 @@ namespace IPM.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Projects_AffilatedUnitId",
+                table: "Projects",
+                column: "AffilatedUnitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_AidTypeId",
+                table: "Projects",
+                column: "AidTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_ApprovingAgencyId",
+                table: "Projects",
+                column: "ApprovingAgencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_CatalogueId",
+                table: "Projects",
+                column: "CatalogueId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_CounterpartyId",
+                table: "Projects",
+                column: "CounterpartyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_CurrencyUnitId",
+                table: "Projects",
+                column: "CurrencyUnitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_SponsorId",
+                table: "Projects",
+                column: "SponsorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_Token",
                 table: "RefreshTokens",
                 column: "Token",
@@ -467,6 +550,11 @@ namespace IPM.Infrastructure.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_PositionId",
+                table: "Users",
+                column: "PositionId");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "Users",
                 column: "NormalizedUserName",
@@ -476,6 +564,42 @@ namespace IPM.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Files");
+
+            migrationBuilder.DropTable(
+                name: "FileTypes");
+
+            migrationBuilder.DropTable(
+                name: "Participations");
+
+            migrationBuilder.DropTable(
+                name: "Projects");
+
+            migrationBuilder.DropTable(
+                name: "ProjectUpdateLogs");
+
+            migrationBuilder.DropTable(
+                name: "RefreshTokens");
+
+            migrationBuilder.DropTable(
+                name: "ReportedProjects");
+
+            migrationBuilder.DropTable(
+                name: "RoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "UserClaims");
+
+            migrationBuilder.DropTable(
+                name: "UserLogins");
+
+            migrationBuilder.DropTable(
+                name: "UserRoles");
+
+            migrationBuilder.DropTable(
+                name: "UserTokens");
+
             migrationBuilder.DropTable(
                 name: "AffiliatedUnits");
 
@@ -495,52 +619,16 @@ namespace IPM.Infrastructure.Migrations
                 name: "CurrencyUnits");
 
             migrationBuilder.DropTable(
-                name: "Files");
-
-            migrationBuilder.DropTable(
-                name: "FileTypes");
-
-            migrationBuilder.DropTable(
-                name: "Participations");
-
-            migrationBuilder.DropTable(
-                name: "Positions");
-
-            migrationBuilder.DropTable(
-                name: "Projects");
-
-            migrationBuilder.DropTable(
-                name: "ProjectUpdateLogs");
-
-            migrationBuilder.DropTable(
-                name: "RefreshTokens");
-
-            migrationBuilder.DropTable(
-                name: "ReportedProjects");
-
-            migrationBuilder.DropTable(
-                name: "RoleClaims");
-
-            migrationBuilder.DropTable(
                 name: "Sponsors");
-
-            migrationBuilder.DropTable(
-                name: "UserClaims");
-
-            migrationBuilder.DropTable(
-                name: "UserLogins");
-
-            migrationBuilder.DropTable(
-                name: "UserRoles");
-
-            migrationBuilder.DropTable(
-                name: "UserTokens");
 
             migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Positions");
         }
     }
 }

@@ -13,5 +13,6 @@ public static class MapEndPoints
       AffiliatedUnitEndPoints.Map(endpoints);
       CurrencyUnitEndPoints.Map(endpoints);
       AidTypeEndPoints.Map(endpoints);
+      UserEndPoints.Map(endpoints);
   }
 }

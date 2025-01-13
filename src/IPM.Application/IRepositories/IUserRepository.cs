@@ -10,6 +10,7 @@ public interface IUserRepository
     Task<IList<string>> GetRoles(User user);
     Task<CreateResult> Create(User domainUser, string password);
     Task AddToRole(User user, string roleName);
+    Task<IEnumerable<User>> GetAll();
 }
 
 public class CreateResult {
