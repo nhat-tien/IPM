@@ -9,6 +9,8 @@
   import HomeIcon from "@components/Icons/HomeIcon.svelte";
   import SideMenuGroup from "@components/SideMenu/SideMenuGroup.svelte";
   import SideMenuItem from "@components/SideMenu/SideMenuItem.svelte";
+
+
   import { getUserInfo } from "@stores/userInfo.svelte";
   import type { Snippet } from "svelte";
   const { children }: { children: Snippet } = $props();
@@ -67,6 +69,14 @@
         {/snippet}
       </SideMenuItem>
     </SideMenuGroup>
+    <SideMenuItem href="/dashboard/affiliatedUnit">
+      {#snippet icon()}
+        <BookIcon />
+      {/snippet}
+      {#snippet content()}
+        Đơn vị trực thuộc
+      {/snippet}
+    </SideMenuItem>
     <SideMenuItem href="/dashboard/users">
       {#snippet icon()}
         <BookIcon />

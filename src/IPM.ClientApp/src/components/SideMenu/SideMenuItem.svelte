@@ -32,9 +32,7 @@
 }
 .icon {
   width: 1.7em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include center-icon;
 }
 .side-menu-item.selected {
   background-color: hsl(0, 0%, 92%);

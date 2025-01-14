@@ -9,7 +9,7 @@
     onclick?: (e: MouseEvent) => void;
   };
 
-  const { children, isLoading, onclick = (_e) => {}, type }: LoadingButtonProps = $props();
+  const { children, isLoading, onclick = (_e) => {}, type = "submit"}: LoadingButtonProps = $props();
 </script>
 
 <button {onclick} disabled={isLoading} {type}>

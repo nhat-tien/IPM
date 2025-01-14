@@ -5,7 +5,7 @@
   import PasswordTextField from "@components/TextField/PasswordTextField.svelte";
   import PrimaryTextField from "@components/TextField/PrimaryTextField.svelte";
   import toast from "svelte-5-french-toast";
-    import { ZodError } from "zod";
+  import { ZodError } from "zod";
 
   let isLoading = $state(false);
   let error: string | null = $state(null);
@@ -19,11 +19,11 @@
       password: formData.get("password") as string,
     });
     isLoading = false;
-    if(result.isSuccess) {
+    if (result.isSuccess) {
       toast.success("Đăng nhập thành công");
       goto("/dashboard");
     } else {
-      if(result.error === "Unauthorized") {
+      if (result.error === "Unauthorized") {
         error = "Email hoặc mật khẩu không chính xác";
       } else {
         let zodError = result.error as ZodError;
@@ -95,6 +95,6 @@
   .error {
     height: 1.4rem;
     font-size: 1rem;
-    color: $red-clr; 
+    color: $red-clr;
   }
 </style>

@@ -29,6 +29,7 @@
       </tbody>
     </table>
   </div>
+  <div class="row-container"></div>
 </div>
 
 <style lang="scss">
@@ -41,10 +42,10 @@
   }
   .row-container {
     padding: 1em 1em 1em 1.5em;
-    border-bottom: 1px solid $gray-clr;
   }
   .table-wrapper {
     overflow-x: auto;
+    border-top: 1px solid $gray-clr;
   }
   table {
     border-spacing: 0;

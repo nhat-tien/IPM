@@ -32,9 +32,7 @@ const { listOfTitle }: BreadcrumbProps = $props();
 }
 .icon {
   width: 1em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   stroke: $text-light-clr;
+  @include center-icon;
 }
 </style>

@@ -1,0 +1,16 @@
+@use "variables" as *;
+
+@mixin hover-button-icon($border-radius: 5px, $background-color: $gray-clr){
+  border-radius: $border-radius;
+  background-color: inherit;
+  transition: background-color .15s ease-in-out;
+  &:hover {
+    background-color: $background-color;
+  }
+}
+
+@mixin center-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

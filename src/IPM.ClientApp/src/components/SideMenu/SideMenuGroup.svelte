@@ -48,9 +48,7 @@
   }
   .icon {
     width: 1.5em;
-    display: flex;
-    flex-direction: center;
-    align-items: center;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.4s ease-in-out;
+    @include center-icon;
   }
 </style>

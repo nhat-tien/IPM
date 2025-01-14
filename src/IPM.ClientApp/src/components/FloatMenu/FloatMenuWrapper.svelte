@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
-    import { fade, fly } from "svelte/transition";
+  import { fly } from "svelte/transition";
 
   type FloatMenuWrapperProps = {
     centerChild: Snippet;
@@ -12,11 +12,11 @@
   let container: HTMLDivElement | null = $state(null);
 
   function onWindowClick(e: WindowMouseEvent) {
-    if(!container) {
+    if (!container) {
       return;
     }
-    if(container.contains(e.target as Node) == false) {
-      isShow = false
+    if (container.contains(e.target as Node) == false) {
+      isShow = false;
     }
   }
   function show() {
@@ -33,22 +33,22 @@
     {@render centerChild()}
   </button>
   {#if isShow}
-  <div transition:fly={{ x: 0, y: -10, duration: 100}} class="float-menu">
-    {@render menuContainer()}
-  </div>
-{/if}
+    <div transition:fly={{ x: 0, y: -10, duration: 100 }} class="float-menu">
+      {@render menuContainer()}
+    </div>
+  {/if}
 </div>
 
 <style lang="scss">
-.float-menu-wrapper {
-  position: relative;
-}
-.float-menu {
-  position: absolute;
-  top: 140%;
-  right: 0;
-}
-.center-child {
-  cursor: pointer;
-}
+  .float-menu-wrapper {
+    position: relative;
+  }
+  .float-menu {
+    position: absolute;
+    top: 140%;
+    right: 0;
+  }
+  .center-child {
+    cursor: pointer;
+  }
 </style>
