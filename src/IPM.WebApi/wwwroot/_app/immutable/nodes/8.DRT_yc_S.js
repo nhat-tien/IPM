@@ -1,0 +1,1 @@
+import"../chunks/disclose-version.Bg9kRutz.js";import"../chunks/legacy.CtaTdtmd.js";import{a as t,t as r}from"../chunks/template.CAbfWL_E.js";var p=r('<h1 class="svelte-13krvo6">Dashboard</h1>');function n(a){var o=p();t(a,o)}export{n as component};

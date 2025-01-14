@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import login from "$lib/useCases/AuthUseCases/loginUseCase";
+  import login from "$lib/useCases/authUseCases/loginUseCase";
   import LoadingButton from "@components/Button/LoadingButton.svelte";
   import PasswordTextField from "@components/TextField/PasswordTextField.svelte";
   import PrimaryTextField from "@components/TextField/PrimaryTextField.svelte";

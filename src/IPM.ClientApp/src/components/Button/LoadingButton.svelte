@@ -27,15 +27,15 @@
     color: $primary-clr;
     padding: 0.6em;
     border-radius: 6px;
-    opacity: 0.9;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 2em;
+    opacity: 1;
   }
   button:hover {
-    opacity: 1;
+    opacity: 0.8;
   }
   button:disabled {
     opacity: 0.8;

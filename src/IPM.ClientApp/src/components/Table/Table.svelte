@@ -69,7 +69,11 @@
     max-width: 1000px;
   }
 
-  tbody tr:not(:last-child) td {
+  /* tbody tr:not(:last-child) td { */
+  /*   border-bottom: 1px solid $gray-clr; */
+  /* } */
+
+  tbody tr td {
     border-bottom: 1px solid $gray-clr;
   }
 </style>

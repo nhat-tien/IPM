@@ -1,13 +1,4 @@
 <script lang="ts">
-  type TextFieldProps = {
-    label?: string;
-    id: string;
-    type: string;
-    placeHolder: string;
-    required?: boolean;
-    name: string;
-    onfocus?: () => void
-  };
   const {
     type,
     id,
@@ -16,7 +7,19 @@
     name,
     required,
     onfocus,
-  }: TextFieldProps = $props();
+    error,
+    errorId = ""
+  }:{
+    label?: string;
+    id: string;
+    type: string;
+    placeHolder: string;
+    required?: boolean;
+    name: string;
+    onfocus?: () => void;
+    error?: any[];
+    errorId?: string;
+  } = $props();
 </script>
 
 <div class="text-field">
@@ -28,6 +31,9 @@
   </label>
 {/if}
 <input {required} {type} {id} placeholder={placeHolder} {name} onfocus={onfocus}/>
+{#if error != null}
+    <div class="error">{error?.filter((e) => e.path[0] === errorId)[0]?.message}</div>
+{/if}
 </div>
 
 <style lang="scss">
@@ -47,6 +53,11 @@
     border: 1px solid $secondary-clr;
   }
   sup {
+    color: $red-clr;
+  }
+  .error {
+    /* height: 1.2rem; */
+    font-size: 0.9rem;
     color: $red-clr;
   }
 </style>

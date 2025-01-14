@@ -1,1 +1,0 @@
-import{a as t,t as r}from"../chunks/disclose-version.Bh5S6th3.js";import"../chunks/legacy.DRPhcihK.js";var e=r('<h1 class="svelte-13krvo6">Dashboard</h1>');function m(a){var o=e();t(a,o)}export{m as component};

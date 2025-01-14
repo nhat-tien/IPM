@@ -8,11 +8,6 @@
 
 <div class="modal-backdrop">
   <div class="modal">
-    <div class="header">
-      <button class="close-btn" onclick={() => closeModal()}>
-        <CloseIcon />
-      </button>
-    </div>
     <div class="content">
       {@render children()}
     </div>
@@ -38,21 +33,8 @@
   border-radius: 10px;
 }
 
-.header {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-.close-btn {
-  width: 30px;
-  margin: 0.2em;
-  @include center-icon;
-  @include hover-button-icon;
-}
 .content {
-  padding: 0 1rem 1rem 1rem;
+  padding: 1rem 1rem 1rem 1rem;
 }
 
 </style>

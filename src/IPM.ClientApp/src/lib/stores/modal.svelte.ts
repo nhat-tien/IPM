@@ -1,16 +1,33 @@
 import type { Snippet } from "svelte";
 
-let modal: Snippet | null = $state(null);
+export enum ModalType {
+  CloseModal,
+  Normal
+}
 
-export function openModal(newContent: Snippet) {
-  modal = newContent;
+let modal: {
+  modalContent: Snippet | null;
+  modalType: ModalType;
+} = $state({
+  modalContent: null,
+  modalType: ModalType.Normal
+});
+
+export function openModal(newContent: Snippet, type?: ModalType) {
+  modal.modalContent = newContent;
+  modal.modalType = type ?? ModalType.Normal;
 }
 
 export function getModal() {
-  return modal;
+  return modal.modalContent;
 }
 
 export function closeModal() {
-  modal = null;
+  modal.modalContent = null;
+  modal.modalType = ModalType.Normal
+}
+
+export function getModalType() {
+  return modal.modalType;
 }
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import logout from "$lib/useCases/AuthUseCases/logoutUseCase";
+  import logout from "$lib/useCases/authUseCases/logoutUseCase";
   import CircleAvatar from "@components/Avatar/CircleAvatar.svelte";
   import FloatMenu from "@components/FloatMenu/FloatMenu.svelte";
   import FloatMenuItem from "@components/FloatMenu/FloatMenuItem.svelte";

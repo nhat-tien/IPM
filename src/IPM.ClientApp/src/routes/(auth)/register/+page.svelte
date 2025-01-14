@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import register from "$lib/useCases/AuthUseCases/registerUseCase";
+  import register from "$lib/useCases/authUseCases/registerUseCase";
   import LoadingButton from "@components/Button/LoadingButton.svelte";
   import Select from "@components/Select/Select.svelte";
   import PasswordTextField from "@components/TextField/PasswordTextField.svelte";
@@ -34,8 +34,8 @@
       toast.success("Đăng kí thành công");
       goto("/login");
     } else {
-        console.log(result.error);
         let zodError = result.error as ZodError;
+      console.log(zodError.issues);
         error = zodError.issues[0].message;
     }
   }
