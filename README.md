@@ -20,20 +20,6 @@
 > # run with flag --help to see available commands
 > ./ipm --help
 > ```
-> ```txt
->  a small script to make dev life better
->  usage: ipm [command]
->
->  command:  fe:dev          run fe dev
->            fe:build        build fe
->            fe:install      install fe dependencies
->            be:run          run
->            be:dev          run and hot reload
->            mg:new <name>   make new migration
->            mg:remove       remove migration
->            db:update       update database
->            db:drop         drop database
-> ```
 
 #### 1. Clone this repo 
 ```bash
