@@ -35,7 +35,7 @@ public class LoginHandler(
             Id = Guid.NewGuid(),
             UserId = user.UserId!,
             Token = authService.GenerateRefreshToken(),
-            ExpiresOnUtc = DateTime.UtcNow.AddDays(1),
+            ExpiresOnUtc = DateTime.UtcNow.AddMinutes(5),
         };
         await refreshTokenRepo.Add(refreshToken);
 

@@ -10,6 +10,6 @@ public class RoleEndPoints
 
         endpoints
             .MapGet("/", (IGetAllRoleUseCase handler) => handler.Execute())
-            .RequireAuthorization("admin_permission");
+            .RequireAuthorization("AdminPermission");
     }
 }

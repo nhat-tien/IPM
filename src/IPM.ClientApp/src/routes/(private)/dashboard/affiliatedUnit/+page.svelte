@@ -15,6 +15,8 @@
 
   let { data }: { data: PageData } = $props();
   import transformAffliatedUnitToTable from "@useCases/affiliatedUnitUseCase/transformAffliatedUnitToTable";
+    import TableRow from "@components/Table/TableRow.svelte";
+    import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
 
   let headers = ["Mã đơn vị trực thuộc", "Tên đơn vị trực thuộc"];
   let error: ZodIssue[] = $state([]);
@@ -35,6 +37,7 @@
   }
 </script>
 
+<TitleWebPage title="Đơn vị trực thuộc" />
 <BasicCenterLayout
   header={"Đơn vị trực thuộc"}
   breadcrumb={["Đơn vị trực thuộc", "Danh sách"]}
@@ -42,11 +45,15 @@
   <PrimaryButton onclick={() => openModal(modal)} variant="orange"
     >Thêm</PrimaryButton
   >
-  {#await data.affiliatedUnit}
-    <div>Loading</div>
-  {:then affiliatedUnit}
-    <Table {headers} content={transformAffliatedUnitToTable(affiliatedUnit)} />
-  {/await}
+  <Table {headers}>
+    {#await data.affiliatedUnit}
+      <div>Loading</div>
+      {:then affiliatedUnits}
+      {#each transformAffliatedUnitToTable(affiliatedUnits) as affiliatedUnit}
+        <TableRow row={affiliatedUnit} />
+      {/each}
+    {/await}
+  </Table>
 </BasicCenterLayout>
 
 {#snippet modal()}

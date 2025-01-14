@@ -2,10 +2,12 @@
   import { goto } from "$app/navigation";
   import login from "$lib/useCases/authUseCases/loginUseCase";
   import LoadingButton from "@components/Button/LoadingButton.svelte";
+  import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
   import PasswordTextField from "@components/TextField/PasswordTextField.svelte";
   import PrimaryTextField from "@components/TextField/PrimaryTextField.svelte";
   import toast from "svelte-5-french-toast";
   import { ZodError } from "zod";
+  import type { EventSubmitElements } from "../../../shared.types";
 
   let isLoading = $state(false);
   let error: string | null = $state(null);
@@ -37,6 +39,7 @@
   }
 </script>
 
+<TitleWebPage title="Đăng nhập" />
 <h1>Welcome Back</h1>
 <form onsubmit={onSubmit}>
   <PrimaryTextField

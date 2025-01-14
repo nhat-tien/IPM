@@ -1,10 +1,6 @@
-import { getAccessToken } from "@services/jwtService";
-import { goto } from "$app/navigation";
 import type { LayoutLoad } from "./$types";
+import { routeGuardByAuth } from "@services/guardService";
 
 export const load: LayoutLoad = async () => {
-  const accessToken = getAccessToken();
-  if(accessToken == null) {
-    goto("/login");
-  }
+  routeGuardByAuth();
 }

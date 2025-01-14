@@ -13,11 +13,14 @@ public class AffiliatedUnitEndPoints
     {
         var endpoints = route.MapGroup("/affiliatedUnit");
 
-        endpoints.MapGet("/", async (IGetAllAffiliatedUnitUseCase handler) => await handler.Handle());
+        endpoints.MapGet("/", async (IGetAllAffiliatedUnitUseCase handler) => await handler.Handle())
+        .RequireAuthorization("UserPermission");
 
         endpoints.MapPost("/", async (CreateAffiliatedUnitRequest req, ICreateAffiliatedUnitUseCase handler) => {
                 await handler.Handle(req);
-        }).WithRequestValidation<CreateAffiliatedUnitRequest>();
+        })
+        .WithRequestValidation<CreateAffiliatedUnitRequest>()
+        .RequireAuthorization("UserPermission");
 
         endpoints.MapDelete("/{id}", async (int id, IDeleteAffiliatedUnitUseCase handler) => {
                 await handler.Handle(id);

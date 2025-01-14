@@ -1,10 +1,12 @@
 <script lang="ts">
+    import type { Snippet } from "svelte";
+
   type TableProps = {
     headers: string[];
-    content: any[][];
+    children: Snippet;
   };
 
-  const { headers, content }: TableProps = $props();
+  const { headers, children }: TableProps = $props();
 </script>
 
 <div class="table-container">
@@ -19,13 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        {#each content as row}
-          <tr>
-            {#each row as cell}
-              <td>{cell}</td>
-            {/each}
-          </tr>
-        {/each}
+        {@render children()}
       </tbody>
     </table>
   </div>
@@ -62,18 +58,5 @@
     max-width: 1000px;
     text-align: left;
     padding: 0.7em 1em;
-  }
-  tbody td {
-    padding: 1em;
-    width: max-content;
-    max-width: 1000px;
-  }
-
-  /* tbody tr:not(:last-child) td { */
-  /*   border-bottom: 1px solid $gray-clr; */
-  /* } */
-
-  tbody tr td {
-    border-bottom: 1px solid $gray-clr;
   }
 </style>

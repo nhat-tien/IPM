@@ -50,9 +50,9 @@ public static class AuthServiceRegister
                 //
             });
         services.AddAuthorizationBuilder()
-            .AddPolicy("admin_permission", policy => policy.RequireRole("Admin"))
-            .AddPolicy("manager_permission", policy => policy.RequireRole("Admin","Manager"))
-            .AddPolicy("user_permission", policy => policy.RequireRole("Admin","Manager","User"));
+            .AddPolicy("AdminPermission", policy => policy.RequireRole("Admin"))
+            .AddPolicy("ManagerPermission", policy => policy.RequireRole("Admin","Manager"))
+            .AddPolicy("UserPermission", policy => policy.RequireRole("Admin","Manager","User"));
 
         //.AddBearerToken(IdentityConstants.BearerScheme);
         services.Configure<IdentityOptions>(options =>

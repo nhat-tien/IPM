@@ -7,11 +7,10 @@ type RefreshTokenResult = {
 
 export default async function refreshToken(): Promise<RefreshTokenResult> {
   try {
-    const response: any = await authEndPoint.post("/refresh", {
+    const response: any = await authEndPoint.post("refresh", {
       json: {},
       credentials: "include",
     }).json();
-
     return {
       isSuccess: true,
       accessToken: response.accessToken

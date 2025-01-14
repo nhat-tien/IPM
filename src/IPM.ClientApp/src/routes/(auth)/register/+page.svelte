@@ -2,11 +2,13 @@
   import { goto } from "$app/navigation";
   import register from "$lib/useCases/authUseCases/registerUseCase";
   import LoadingButton from "@components/Button/LoadingButton.svelte";
+  import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
   import Select from "@components/Select/Select.svelte";
   import PasswordTextField from "@components/TextField/PasswordTextField.svelte";
   import PrimaryTextField from "@components/TextField/PrimaryTextField.svelte";
   import toast from "svelte-5-french-toast";
   import { ZodError } from "zod";
+  import type { EventSubmitElements } from "../../../shared.types";
 
   let roles = [
     { value: "1", name: "Admin" },
@@ -34,9 +36,9 @@
       toast.success("Đăng kí thành công");
       goto("/login");
     } else {
-        let zodError = result.error as ZodError;
+      let zodError = result.error as ZodError;
       console.log(zodError.issues);
-        error = zodError.issues[0].message;
+      error = zodError.issues[0].message;
     }
   }
 
@@ -45,6 +47,7 @@
   }
 </script>
 
+<TitleWebPage title="Đăng kí" />
 <h2>Đăng kí</h2>
 <form onsubmit={onSubmit}>
   <Select
@@ -70,7 +73,7 @@
       type="text"
       placeHolder="VD: Nguyễn Văn"
       --width="60%"
-    onfocus={clearError}
+      onfocus={clearError}
     />
     <PrimaryTextField
       id="firstName"
@@ -79,7 +82,7 @@
       type="text"
       placeHolder="VD: An"
       --width="40%"
-    onfocus={clearError}
+      onfocus={clearError}
     />
   </div>
 
