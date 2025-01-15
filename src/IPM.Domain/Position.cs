@@ -1,5 +1,6 @@
 namespace IPM.Domain;
 
+//Vietnamese: Chức vụ
 public class Position
 {
     public int PositionId { get; set; }

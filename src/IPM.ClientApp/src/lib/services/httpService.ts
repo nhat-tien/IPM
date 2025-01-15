@@ -3,7 +3,7 @@ import { getAccessToken, saveAccessToken } from "./jwtService";
 import refreshToken from "@useCases/authUseCases/refreshTokenUseCase";
 import logout from "@useCases/authUseCases/logoutUseCase";
 
-export const api = ky.create({
+const api = ky.create({
   prefixUrl: 'http://localhost:5286/api/v1',
 });
 
@@ -15,6 +15,7 @@ const apiWithBearerToken = api.extend({
   hooks: {
     beforeRequest: [
       request => {
+        request.headers.set('Accept', 'application/json');
         request.headers.set('Authorization', 'Bearer ' + getAccessToken());
       }
     ],
@@ -37,6 +38,22 @@ export const authEndPoint = api.extend((option) => ({
   prefixUrl: `${option.prefixUrl}/auth`,
 }));
 
-export const affiliatedEndPoint = apiWithBearerToken.extend((option) => ({ prefixUrl: `${option.prefixUrl}/affiliatedUnit` }));
+export const affiliatedUnitEndPoint = apiWithBearerToken.extend((option) => ({
+  prefixUrl: `${option.prefixUrl}/affiliatedUnit`,
+}));
+
+export const aidTypeEndPoint = apiWithBearerToken.extend((option) => ({
+  prefixUrl: `${option.prefixUrl}/aidType`,
+}));
+
+export const approvingAgencyEndPoint = apiWithBearerToken.extend((option) => ({
+  prefixUrl: `${option.prefixUrl}/approvingAgency`,
+}));
+
+export const currencyUnitEndPoint = apiWithBearerToken.extend((option) => ({
+  prefixUrl: `${option.prefixUrl}/currencyUnit`,
+}));
+
+
 
 

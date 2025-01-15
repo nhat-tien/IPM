@@ -1,0 +1,76 @@
+<script lang="ts">
+  import BookIcon from "@components/Icons/BookIcon.svelte";
+  import HomeIcon from "@components/Icons/HomeIcon.svelte";
+  import SideMenuGroup from "@components/SideMenu/SideMenuGroup.svelte";
+  import SideMenuItem from "@components/SideMenu/SideMenuItem.svelte";
+</script>
+
+<section class="side-menu">
+  <SideMenuItem href="/dashboard">
+    {#snippet icon()}
+      <HomeIcon />
+    {/snippet}
+    {#snippet content()}
+      Trang chủ
+    {/snippet}
+  </SideMenuItem>
+  <SideMenuItem href="/dashboard/my-project">
+    {#snippet icon()}
+      <BookIcon />
+    {/snippet}
+    {#snippet content()}
+      Dự án của tôi
+    {/snippet}
+  </SideMenuItem>
+  <SideMenuGroup title="Quản lí của Admin">
+    <SideMenuItem href="/dashboard/affiliatedUnit">
+      {#snippet icon()}
+        <BookIcon />
+      {/snippet}
+      {#snippet content()}
+        Đơn vị trực thuộc
+      {/snippet}
+    </SideMenuItem>
+    <SideMenuItem href="/dashboard/approvingAgency">
+      {#snippet icon()}
+        <BookIcon />
+      {/snippet}
+      {#snippet content()}
+        Cơ quan phê duyệt
+      {/snippet}
+    </SideMenuItem>
+    <SideMenuItem href="/dashboard/aidType">
+      {#snippet icon()}
+        <BookIcon />
+      {/snippet}
+      {#snippet content()}
+        Loại viện trợ
+      {/snippet}
+    </SideMenuItem>
+    <SideMenuItem href="/dashboard/currencyUnit">
+      {#snippet icon()}
+        <BookIcon />
+      {/snippet}
+      {#snippet content()}
+        Đơn vị tiền tệ 
+      {/snippet}
+    </SideMenuItem>
+    <SideMenuItem href="/dashboard/project">
+      {#snippet icon()}
+        <BookIcon />
+      {/snippet}
+      {#snippet content()}
+        Tất cả dự án
+      {/snippet}
+    </SideMenuItem>
+  </SideMenuGroup>
+</section>
+
+<style lang="scss">
+  .side-menu {
+    width: 25%;
+    padding: 2em 1.5em 2em 1em;
+    display: flex;
+    flex-direction: column;
+  }
+</style>

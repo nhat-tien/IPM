@@ -56,6 +56,7 @@
     id="password"
     label="Password"
     name="password"
+    placeHolder="Password"
     onfocus={clearError}
     required
   />

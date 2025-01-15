@@ -1,10 +1,12 @@
-import type { AffiliatedUnit } from "./type";
+import transformToTable from "@useCases/common/transformToTable";
+import type { AffiliatedUnit } from "../useCases.types";
 
 
 export default function transformAffliatedUnitToTable(affiliatedUnits: AffiliatedUnit[]): string[][] {
-  let table = [];
-  for(let affiliatedUnit of affiliatedUnits) {
-    table.push([affiliatedUnit.affiliatedUnitId + "", affiliatedUnit.affiliatedUnitName]);
-  }
-  return table;
+
+  return transformToTable<AffiliatedUnit>(affiliatedUnits, (affiliatedUnit) =>
+    [
+      affiliatedUnit.affiliatedUnitId + "",
+      affiliatedUnit.affiliatedUnitName,
+    ]);
 }

@@ -48,7 +48,7 @@
   .close-btn {
     width: 30px;
     margin: 0.2em;
-    @include center-icon;
+    @include center;
     @include hover-button-icon;
   }
   .content {

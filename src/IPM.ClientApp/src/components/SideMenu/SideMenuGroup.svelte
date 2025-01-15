@@ -49,6 +49,6 @@
   .icon {
     width: 1.5em;
     transition: transform 0.4s ease-in-out;
-    @include center-icon;
+    @include center;
   }
 </style>

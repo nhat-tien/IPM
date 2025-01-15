@@ -1,0 +1,1 @@
+import"../chunks/disclose-version.Bg9kRutz.js";import"../chunks/legacy.CtaTdtmd.js";import{a as t,t as a}from"../chunks/template.DrFoD_Dm.js";var p=a("<h1>404</h1>");function i(o){var r=p();t(o,r)}export{i as component};

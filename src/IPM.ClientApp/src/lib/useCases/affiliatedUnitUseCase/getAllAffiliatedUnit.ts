@@ -1,14 +1,7 @@
-import { affiliatedEndPoint } from "@services/httpService";
-import type { AffiliatedUnit } from "./type";
+import { affiliatedUnitEndPoint } from "@services/httpService";
+import type { AffiliatedUnit } from "../useCases.types";
+import getAll from "@useCases/common/getAll";
 
-export default async function getAllAffilatedUnit(): Promise<AffiliatedUnit[]> {
-  try {
-    let data: AffiliatedUnit[] = await affiliatedEndPoint.get("", {
-      credentials: "include"
-    }).json();
-    return data;
-  } catch(e: any) {
-    console.error(e);
-    return [];
-  }
+export default async function getAllAffilatedUnit() {
+  return await getAll<AffiliatedUnit>(affiliatedUnitEndPoint);
 }

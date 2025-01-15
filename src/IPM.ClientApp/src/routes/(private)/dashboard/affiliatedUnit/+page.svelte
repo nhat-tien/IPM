@@ -2,33 +2,36 @@
   import Table from "@components/Table/Table.svelte";
   import BasicCenterLayout from "@components/Layout/BasicCenterLayout.svelte";
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
-  import { closeModal, openModal } from "@stores/modal.svelte";
   import PrimaryTextField from "@components/TextField/PrimaryTextField.svelte";
-  import FormRowButton from "@components/Form/FormRowButton.svelte";
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
+  import TableRow from "@components/Table/TableRow.svelte";
+  import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
+  import { closeModal, openModal } from "@stores/modal.svelte";
   import createAffiliatedUnit from "@useCases/affiliatedUnitUseCase/createAffiliatedUnit";
   import toast from "svelte-5-french-toast";
+  import transformAffliatedUnitToTable from "@useCases/affiliatedUnitUseCase/transformAffliatedUnitToTable";
 
   import { ZodError, type ZodIssue } from "zod";
   import type { PageData } from "./$types";
   import type { EventSubmitElements } from "../../../../shared.types";
+  import { invalidate } from "$app/navigation";
+  import RowToRight from "@components/Row/RowToRight.svelte";
+    import RowToLeft from "@components/Row/RowToLeft.svelte";
 
   let { data }: { data: PageData } = $props();
-  import transformAffliatedUnitToTable from "@useCases/affiliatedUnitUseCase/transformAffliatedUnitToTable";
-    import TableRow from "@components/Table/TableRow.svelte";
-    import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
 
   let headers = ["Mã đơn vị trực thuộc", "Tên đơn vị trực thuộc"];
   let error: ZodIssue[] = $state([]);
 
   async function onSubmitAffiliatedUnit(e: EventSubmitElements) {
     e.preventDefault();
+
     const formData = new FormData(e.target as HTMLFormElement);
-    const result = await createAffiliatedUnit({
-      affiliatedUnitName: formData.get("affiliatedUnitName") as string,
-    });
+    const result = await createAffiliatedUnit(formData);
+
     if (result.isSuccess) {
       toast.success("Thêm đơn vị thành công");
+      invalidate("affiliatedUnit:getAll");
     } else {
       if (result.error instanceof ZodError) {
         error = result.error.issues;
@@ -42,13 +45,17 @@
   header={"Đơn vị trực thuộc"}
   breadcrumb={["Đơn vị trực thuộc", "Danh sách"]}
 >
-  <PrimaryButton onclick={() => openModal(modal)} variant="orange"
-    >Thêm</PrimaryButton
-  >
+  <RowToRight>
+    <PrimaryButton
+      onclick={() => openModal(modal)}
+      variant="orange"
+      --margin-bottom="0.5em">Thêm</PrimaryButton
+    >
+  </RowToRight>
   <Table {headers}>
     {#await data.affiliatedUnit}
       <div>Loading</div>
-      {:then affiliatedUnits}
+    {:then affiliatedUnits}
       {#each transformAffliatedUnitToTable(affiliatedUnits) as affiliatedUnit}
         <TableRow row={affiliatedUnit} />
       {/each}
@@ -72,10 +79,10 @@
         {error}
         errorId="affiliatedUnitName"
       ></PrimaryTextField>
-      <FormRowButton>
+      <RowToLeft>
         <PrimaryButton variant="orange" type="submit">Thêm</PrimaryButton>
         <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
-      </FormRowButton>
+      </RowToLeft>
     </form>
   </div>
 {/snippet}

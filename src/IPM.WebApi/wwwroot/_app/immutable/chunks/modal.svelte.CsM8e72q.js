@@ -1,0 +1,1 @@
+import{p as l}from"./props.CkQrhzFR.js";var n=(o=>(o[o.CloseModal=0]="CloseModal",o[o.Normal=1]="Normal",o))(n||{});let a=l({modalContent:null,modalType:1});function m(o,t){a.modalContent=o,a.modalType=1}function r(){return a.modalContent}function d(){a.modalContent=null,a.modalType=1}function s(){return a.modalType}export{n as M,s as a,d as c,r as g,m as o};

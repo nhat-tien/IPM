@@ -18,6 +18,6 @@
   h1 {
     font-family: "Inter Bold";
     font-size: 2rem;
-    margin: 0.5em auto 1em auto;
+    margin: 0.5em auto 0.2em auto;
   }
 </style>

@@ -32,7 +32,7 @@
 }
 .icon {
   width: 1.7em;
-  @include center-icon;
+  @include center;
 }
 .side-menu-item.selected {
   background-color: hsl(0, 0%, 92%);

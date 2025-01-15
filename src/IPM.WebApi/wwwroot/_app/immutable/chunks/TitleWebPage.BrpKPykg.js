@@ -1,0 +1,1 @@
+import"./disclose-version.Bg9kRutz.js";import{t as e,$ as o}from"./runtime.CGf5uJ7Y.js";import{h as a}from"./svelte-head.CrdQ54Aw.js";function f(r,t){a(i=>{e(()=>o.title=`${t.title??""} - IPM`)})}export{f as T};
