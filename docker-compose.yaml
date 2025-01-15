@@ -1,5 +1,3 @@
-version: "1"
-
 volumes:
   db_data:
     driver: local
@@ -31,3 +29,20 @@ services:
       - pgadmin_data:/pgadmin
     depends_on:
       - "db"
+
+  minio:
+    restart: always
+    image: minio/minio
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    environment:
+      #user at least 3 character
+      - MINIO_ROOT_USER=
+      #password at least 8 character
+      - MINIO_ROOT_PASSWORD=
+    command: ["server","--console-address", ":9001", "/data" ]
+
