@@ -484,4 +484,6 @@ $RECYCLE.BIN/
 *.swp
 src/IPM.WebApi/appsettings.json
 src/IPM.WebApi/appsettings.Development.json
+src/IPM.WebApi/Views/Home/Index.cshtml
+src/IPM.WebApi/wwwroot/*
 

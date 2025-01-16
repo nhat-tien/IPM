@@ -1,1 +1,0 @@
-import{n as e,Y as f,h as i,y as d,P as p}from"./runtime.CGf5uJ7Y.js";function _(r,a){i&&d(p(r)),e(()=>{var t=a();for(var s in t){var o=t[s];o?r.style.setProperty(s,o):r.style.removeProperty(s)}}),f(()=>{r.remove()})}export{_ as c};
