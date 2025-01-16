@@ -36,10 +36,10 @@ public class CurrencyUnitRepository(AppDBContext context): ICurrencyUnitReposito
         return listOfDomain;
     }
 
-    public async Task Update(int id, Domain.CurrencyUnit model)
+    public async Task Update(Domain.CurrencyUnit model)
     {
         await context.CurrencyUnits
-            .Where(e => e.CurrencyUnitId == id)
+            .Where(e => e.CurrencyUnitId == model.CurrencyUnitId)
             .ExecuteUpdateAsync(setter => 
                 setter
                 .SetProperty(e => e.CurrencyUnitName, model.CurrencyUnitName)

@@ -36,10 +36,10 @@ public class AffiliatedUnitRepository(AppDBContext context): IAffiliatedUnitRepo
         return listOfDomain;
     }
 
-    public async Task Update(int id, Domain.AffiliatedUnit model)
+    public async Task Update(Domain.AffiliatedUnit model)
     {
         await context.AffiliatedUnits
-            .Where(e => e.AffiliatedUnitId == id)
+            .Where(e => e.AffiliatedUnitId == model.AffiliatedUnitId)
             .ExecuteUpdateAsync(setter => 
                 setter
                 .SetProperty(e => e.AffiliatedUnitName, model.AffiliatedUnitName)

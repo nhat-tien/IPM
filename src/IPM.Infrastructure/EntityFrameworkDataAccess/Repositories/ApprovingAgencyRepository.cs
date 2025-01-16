@@ -37,10 +37,10 @@ public class ApprovingAgencyRepository(AppDBContext context): IApprovingAgencyRe
         return listOfDomain;
     }
 
-    public async Task Update(int id, Domain.ApprovingAgency model)
+    public async Task Update(Domain.ApprovingAgency model)
     {
         await context.ApprovingAgencies
-            .Where(e => e.ApprovingAgencyId == id)
+            .Where(e => e.ApprovingAgencyId == model.ApprovingAgencyId)
             .ExecuteUpdateAsync(setter => 
                 setter
                 .SetProperty(e => e.ApprovingAgencyName, model.ApprovingAgencyName)

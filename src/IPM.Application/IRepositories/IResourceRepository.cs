@@ -6,5 +6,5 @@ public interface IResourceRepository<T> where T: class
     Task<T?> FindById(int id);
     Task Create(T model);
     Task Delete(int id);
-    Task Update(int id, T model);
+    Task Update(T model);
 }

@@ -6,4 +6,26 @@ public class Position
     public string? PositionName { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+
+    public Domain.Position MapTo()
+    {
+        return new Domain.Position()
+        {
+            PositionId = this.PositionId,
+            PositionName = this.PositionName,
+            CreatedAt = this.CreatedAt,
+            UpdatedAt = this.UpdatedAt,
+        };
+    }
+
+    public static Position MapFrom(Domain.Position model)
+    {
+        return new Position()
+        {
+            PositionId = model.PositionId,
+            PositionName = model.PositionName,
+            CreatedAt = model.CreatedAt,
+            UpdatedAt = model.UpdatedAt,
+        };
+    }
 }

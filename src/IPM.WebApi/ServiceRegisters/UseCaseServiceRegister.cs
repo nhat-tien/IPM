@@ -22,6 +22,27 @@ using IPM.Application.UseCases.AidType.DeleteAidTypeUseCase;
 using IPM.Application.UseCases.AidType.GetAllAidTypeUseCase;
 using IPM.Application.UseCases.AidType.UpdateAidTypeUseCase;
 
+using IPM.Application.UseCases.Catalogue.CreateCatalogueUseCase;
+using IPM.Application.UseCases.Catalogue.DeleteCatalogueUseCase;
+using IPM.Application.UseCases.Catalogue.GetAllCatalogueUseCase;
+using IPM.Application.UseCases.Catalogue.UpdateCatalogueUseCase;
+
+using IPM.Application.UseCases.Counterparty.CreateCounterpartyUseCase;
+using IPM.Application.UseCases.Counterparty.DeleteCounterpartyUseCase;
+using IPM.Application.UseCases.Counterparty.GetAllCounterpartyUseCase;
+using IPM.Application.UseCases.Counterparty.UpdateCounterpartyUseCase;
+
+using IPM.Application.UseCases.Position.CreatePositionUseCase;
+using IPM.Application.UseCases.Position.DeletePositionUseCase;
+using IPM.Application.UseCases.Position.GetAllPositionUseCase;
+using IPM.Application.UseCases.Position.UpdatePositionUseCase;
+
+using IPM.Application.UseCases.Sponsor.CreateSponsorUseCase;
+using IPM.Application.UseCases.Sponsor.DeleteSponsorUseCase;
+using IPM.Application.UseCases.Sponsor.GetAllSponsorUseCase;
+using IPM.Application.UseCases.Sponsor.UpdateSponsorUseCase;
+
+
 using IPM.Application.UseCases.Role;
 
 using IPM.Application.UseCases.User.GetAllUserUseCase;
@@ -56,6 +77,26 @@ public static class UseCaseServiceRegister
         services.AddScoped<IDeleteAidTypeUseCase, DeleteAidTypeHandler>();
         services.AddScoped<IUpdateAidTypeUseCase, UpdateAidTypeHandler>();
         services.AddScoped<IGetAllAidTypeUseCase, GetAllAidTypeHandler>();
+
+        services.AddScoped<ICreateCatalogueUseCase, CreateCatalogueHandler>();
+        services.AddScoped<IGetAllCatalogueUseCase, GetAllCatalogueHandler>();
+        services.AddScoped<IDeleteCatalogueUseCase, DeleteCatalogueHandler>();
+        services.AddScoped<IUpdateCatalogueUseCase, UpdateCatalogueHandler>();
+
+        services.AddScoped<ICreateCounterpartyUseCase, CreateCounterpartyHandler>();
+        services.AddScoped<IGetAllCounterpartyUseCase, GetAllCounterpartyHandler>();
+        services.AddScoped<IDeleteCounterpartyUseCase, DeleteCounterpartyHandler>();
+        services.AddScoped<IUpdateCounterpartyUseCase, UpdateCounterpartyHandler>();
+
+        services.AddScoped<ICreatePositionUseCase, CreatePositionHandler>();
+        services.AddScoped<IGetAllPositionUseCase, GetAllPositionHandler>();
+        services.AddScoped<IDeletePositionUseCase, DeletePositionHandler>();
+        services.AddScoped<IUpdatePositionUseCase, UpdatePositionHandler>();
+
+        services.AddScoped<ICreateSponsorUseCase, CreateSponsorHandler>();
+        services.AddScoped<IGetAllSponsorUseCase, GetAllSponsorHandler>();
+        services.AddScoped<IDeleteSponsorUseCase, DeleteSponsorHandler>();
+        services.AddScoped<IUpdateSponsorUseCase, UpdateSponsorHandler>();
 
         services.AddScoped<IGetAllUserUseCase, GetAllUserHandler>();
         return services;

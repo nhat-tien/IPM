@@ -36,10 +36,10 @@ public class AidTypeRepository(AppDBContext context): IAidTypeRepository
         return listOfDomain;
     }
 
-    public async Task Update(int id, Domain.AidType model)
+    public async Task Update(Domain.AidType model)
     {
         await context.AidTypes
-            .Where(e => e.AidTypeId == id)
+            .Where(e => e.AidTypeId == model.AidTypeId)
             .ExecuteUpdateAsync(setter => 
                 setter
                 .SetProperty(e => e.AidTypeName, model.AidTypeName)
