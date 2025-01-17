@@ -13,16 +13,24 @@ public class AidTypeEndPoints
     {
         var endpoints = route.MapGroup("/aidType");
 
-        endpoints.MapGet("/", async (IGetAllAidTypeUseCase handler) => await handler.Handle());
+        endpoints.MapGet("/", async (IGetAllAidTypeUseCase handler) => await handler.Handle())
+        .RequireAuthorization("UserPermission");
 
         endpoints.MapPost("/", async (CreateAidTypeRequest req, ICreateAidTypeUseCase handler) => {
                 await handler.Handle(req);
-        });
+        })
+        .WithRequestValidation<CreateAidTypeRequest>()
+        .RequireAuthorization("UserPermission");
+
         endpoints.MapDelete("/{id}", async (int id, IDeleteAidTypeUseCase handler) => {
                 await handler.Handle(id);
-        });
+        })
+        .RequireAuthorization("UserPermission");
+
         endpoints.MapPatch("/{id}", async (int id, UpdateAidTypeRequest req, IUpdateAidTypeUseCase handler) => {
                 await handler.Handle(id, req);
-        });
+        })
+        .WithRequestValidation<UpdateAidTypeRequest>()
+        .RequireAuthorization("UserPermission");
     }
 }

@@ -24,9 +24,12 @@ public class AffiliatedUnitEndPoints
 
         endpoints.MapDelete("/{id}", async (int id, IDeleteAffiliatedUnitUseCase handler) => {
                 await handler.Handle(id);
-        });
+        })
+        .RequireAuthorization("UserPermission");
+
         endpoints.MapPatch("/{id}", async (int id, UpdateAffiliatedUnitRequest req, IUpdateAffiliatedUnitUseCase handler) => {
                 await handler.Handle(id, req);
-        }).WithRequestValidation<UpdateAffiliatedUnitRequest>();
+        }).WithRequestValidation<UpdateAffiliatedUnitRequest>()
+        .RequireAuthorization("UserPermission");
     }
 }

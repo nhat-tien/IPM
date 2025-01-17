@@ -23,9 +23,12 @@ public class SponsorEndPoints
 
         endpoints.MapDelete("/{id}", async (int id, IDeleteSponsorUseCase handler) => {
                 await handler.Handle(id);
-        });
+        })
+        .RequireAuthorization("UserPermission");
+
         endpoints.MapPatch("/{id}", async (int id, UpdateSponsorRequest req, IUpdateSponsorUseCase handler) => {
                 await handler.Handle(id, req);
-        }).WithRequestValidation<UpdateSponsorRequest>();
+        }).WithRequestValidation<UpdateSponsorRequest>()
+        .RequireAuthorization("UserPermission");
     }
 }

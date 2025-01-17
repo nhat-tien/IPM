@@ -23,9 +23,12 @@ public class CounterpartyEndPoints
 
         endpoints.MapDelete("/{id}", async (int id, IDeleteCounterpartyUseCase handler) => {
                 await handler.Handle(id);
-        });
+        })
+        .RequireAuthorization("UserPermission");
+
         endpoints.MapPatch("/{id}", async (int id, UpdateCounterpartyRequest req, IUpdateCounterpartyUseCase handler) => {
                 await handler.Handle(id, req);
-        }).WithRequestValidation<UpdateCounterpartyRequest>();
+        }).WithRequestValidation<UpdateCounterpartyRequest>()
+        .RequireAuthorization("UserPermission");
     }
 }

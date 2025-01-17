@@ -12,18 +12,23 @@ public class ApprovingAgencyEndPoints
     {
         var endpoints = route.MapGroup("/approvingAgency");
 
-        endpoints.MapGet("/", async (IGetAllApprovingAgencyUseCase handler) => await handler.Handle());
+        endpoints.MapGet("/", async (IGetAllApprovingAgencyUseCase handler) => await handler.Handle())
+        .RequireAuthorization("UserPermission");
 
         endpoints.MapPost("/", async (CreateApprovingAgencyRequest req, ICreateApprovingAgencyUseCase handler) => {
                 await handler.Handle(req);
-        }).WithRequestValidation<CreateApprovingAgencyRequest>();
+        }).WithRequestValidation<CreateApprovingAgencyRequest>()
+        .RequireAuthorization("UserPermission");
 
         endpoints.MapDelete("/{id}", async (int id, IDeleteApprovingAgencyUseCase handler) => {
                 await handler.Handle(id);
-        });
+        })
+        .RequireAuthorization("UserPermission");
+
         endpoints.MapPatch("/{id}", async (int id, UpdateApprovingAgencyRequest req, IUpdateApprovingAgencyUseCase handler) => {
                 await handler.Handle(id, req);
 
-        }).WithRequestValidation<UpdateApprovingAgencyRequest>();
+        }).WithRequestValidation<UpdateApprovingAgencyRequest>()
+        .RequireAuthorization("UserPermission");
     }
 }

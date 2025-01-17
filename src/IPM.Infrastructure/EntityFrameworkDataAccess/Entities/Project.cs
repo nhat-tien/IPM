@@ -37,4 +37,7 @@ public class Project
 
     public int? CurrencyUnitId { get; set; }
     public CurrencyUnit? CurrencyUnit { get; set; }
+
+    public string? OwnerId {get; set;}
+    public User? Owner {get; set;}
 }

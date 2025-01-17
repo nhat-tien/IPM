@@ -23,9 +23,12 @@ public class CatalogueEndPoints
 
         endpoints.MapDelete("/{id}", async (int id, IDeleteCatalogueUseCase handler) => {
                 await handler.Handle(id);
-        });
+        })
+        .RequireAuthorization("UserPermission");
+
         endpoints.MapPatch("/{id}", async (int id, UpdateCatalogueRequest req, IUpdateCatalogueUseCase handler) => {
                 await handler.Handle(id, req);
-        }).WithRequestValidation<UpdateCatalogueRequest>();
+        }).WithRequestValidation<UpdateCatalogueRequest>()
+        .RequireAuthorization("UserPermission");
     }
 }

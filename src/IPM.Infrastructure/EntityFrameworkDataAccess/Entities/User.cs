@@ -17,7 +17,9 @@ public class User : IdentityUser
     public int VerifiedCodeEmail { get; set; }
     public int VerifiedStatus { get; set; }
     public DateTime VerificationValidTime { get; set; }
+
     public Position? Position {get; set; } 
+    public AffiliatedUnit? AffilatedUnit { get; set; }
 
     public Domain.User MapTo()
     {

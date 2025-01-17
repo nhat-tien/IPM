@@ -23,9 +23,13 @@ public class PositionEndPoints
 
         endpoints.MapDelete("/{id}", async (int id, IDeletePositionUseCase handler) => {
                 await handler.Handle(id);
-        });
+        })
+        .RequireAuthorization("UserPermission");
+
         endpoints.MapPatch("/{id}", async (int id, UpdatePositionRequest req, IUpdatePositionUseCase handler) => {
                 await handler.Handle(id, req);
-        }).WithRequestValidation<UpdatePositionRequest>();
+        }).WithRequestValidation<UpdatePositionRequest>()
+        .RequireAuthorization("UserPermission");
+
     }
 }
