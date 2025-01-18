@@ -11,7 +11,7 @@ public class AffiliatedUnitEndPoints
 {
     public static void Map(RouteGroupBuilder route)
     {
-        var endpoints = route.MapGroup("/affiliatedUnit");
+        var endpoints = route.MapGroup("/affiliatedUnits");
 
         endpoints.MapGet("/", async (IGetAllAffiliatedUnitUseCase handler) => await handler.Handle())
         .RequireAuthorization("UserPermission");

@@ -30,7 +30,12 @@ git clone https://github.com/nhat-tien/IPM.git
 - Copy `appsettings.Example.json` to `appsettings.Development.json`
 - Fill out the database connection info
 
-#### 3. Run development 
+#### 3. Run migration 
+```bash
+./ipm db:update
+```
+
+#### 4. Run development 
 ```bash
 ./ipm be:run
 ```

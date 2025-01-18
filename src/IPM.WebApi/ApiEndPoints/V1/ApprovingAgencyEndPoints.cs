@@ -10,7 +10,7 @@ public class ApprovingAgencyEndPoints
 {
     public static void Map(RouteGroupBuilder route)
     {
-        var endpoints = route.MapGroup("/approvingAgency");
+        var endpoints = route.MapGroup("/approvingAgencies");
 
         endpoints.MapGet("/", async (IGetAllApprovingAgencyUseCase handler) => await handler.Handle())
         .RequireAuthorization("UserPermission");

@@ -28,4 +28,8 @@ function deleteUserInfo() {
   userInfo = null
 }
 
-export { setUserInfo, getUserInfo, deleteUserInfo, type UserInfo}
+function getFullName(): string {
+  return userInfo?.lastName + " " + userInfo?.firstName;
+}
+
+export { setUserInfo, getUserInfo, deleteUserInfo, getFullName, type UserInfo}

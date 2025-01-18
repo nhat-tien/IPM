@@ -6,7 +6,7 @@ public class RoleEndPoints
 {
     public static void Map(RouteGroupBuilder route)
     {
-        var endpoints = route.MapGroup("/role");
+        var endpoints = route.MapGroup("/roles");
 
         endpoints
             .MapGet("/", (IGetAllRoleUseCase handler) => handler.Execute())

@@ -13,7 +13,7 @@ public class AppDBContext : IdentityDbContext<User>
     public DbSet<AffiliatedUnit> AffiliatedUnits { get; set; } = null!;
     public DbSet<AidType> AidTypes { get; set; } = null!;
     public DbSet<ApprovingAgency> ApprovingAgencies { get; set; } = null!;
-    public DbSet<Catalogue> Catalogues { get; set; } = null!;
+    public DbSet<Category> Categories { get; set; } = null!;
     public DbSet<Counterparty> Counterparties { get; set; } = null!;
     public DbSet<CurrencyUnit> CurrencyUnits { get; set; } = null!;
     public DbSet<Participation> Participations { get; set; } = null!;

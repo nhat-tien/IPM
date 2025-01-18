@@ -88,15 +88,15 @@ namespace IPM.Infrastructure.Migrations
                     b.ToTable("ApprovingAgencies");
                 });
 
-            modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Catalogue", b =>
+            modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Category", b =>
                 {
-                    b.Property<int>("CatalogueId")
+                    b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CatalogueId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CategoryId"));
 
-                    b.Property<string>("CatalogueName")
+                    b.Property<string>("CategoryName")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
@@ -105,9 +105,9 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("CatalogueId");
+                    b.HasKey("CategoryId");
 
-                    b.ToTable("Catalogues");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Counterparty", b =>
@@ -280,7 +280,7 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<int?>("ApprovingAgencyId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("CatalogueId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Content")
@@ -295,10 +295,13 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<int?>("CurrencyUnitId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("EndedDate")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("FundedEquipment")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OwnerId")
                         .HasColumnType("text");
 
                     b.Property<string>("PercentageOfProgress")
@@ -322,7 +325,7 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<int?>("SponsorId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("StartedDate")
+                    b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -336,11 +339,13 @@ namespace IPM.Infrastructure.Migrations
 
                     b.HasIndex("ApprovingAgencyId");
 
-                    b.HasIndex("CatalogueId");
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("CounterpartyId");
 
                     b.HasIndex("CurrencyUnitId");
+
+                    b.HasIndex("OwnerId");
 
                     b.HasIndex("SponsorId");
 
@@ -525,6 +530,8 @@ namespace IPM.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AffilatedUnitId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -703,9 +710,9 @@ namespace IPM.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("ApprovingAgencyId");
 
-                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Catalogue", "Catalogue")
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CatalogueId");
+                        .HasForeignKey("CategoryId");
 
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Counterparty", "Counterparty")
                         .WithMany()
@@ -714,6 +721,10 @@ namespace IPM.Infrastructure.Migrations
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.CurrencyUnit", "CurrencyUnit")
                         .WithMany()
                         .HasForeignKey("CurrencyUnitId");
+
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.User", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId");
 
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Sponsor", "Sponsor")
                         .WithMany()
@@ -725,11 +736,13 @@ namespace IPM.Infrastructure.Migrations
 
                     b.Navigation("ApprovingAgency");
 
-                    b.Navigation("Catalogue");
+                    b.Navigation("Category");
 
                     b.Navigation("Counterparty");
 
                     b.Navigation("CurrencyUnit");
+
+                    b.Navigation("Owner");
 
                     b.Navigation("Sponsor");
                 });
@@ -747,9 +760,15 @@ namespace IPM.Infrastructure.Migrations
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.User", b =>
                 {
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.AffiliatedUnit", "AffilatedUnit")
+                        .WithMany()
+                        .HasForeignKey("AffilatedUnitId");
+
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Position", "Position")
                         .WithMany()
                         .HasForeignKey("PositionId");
+
+                    b.Navigation("AffilatedUnit");
 
                     b.Navigation("Position");
                 });

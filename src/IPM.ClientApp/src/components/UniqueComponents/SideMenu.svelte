@@ -23,6 +23,14 @@
     {/snippet}
   </SideMenuItem>
   <SideMenuGroup title="Quản lí của Admin">
+    <SideMenuItem href="/dashboard/project">
+      {#snippet icon()}
+        <BookIcon />
+      {/snippet}
+      {#snippet content()}
+        Tất cả dự án
+      {/snippet}
+    </SideMenuItem>
     <SideMenuItem href="/dashboard/affiliatedUnit">
       {#snippet icon()}
         <BookIcon />
@@ -53,14 +61,6 @@
       {/snippet}
       {#snippet content()}
         Đơn vị tiền tệ 
-      {/snippet}
-    </SideMenuItem>
-    <SideMenuItem href="/dashboard/project">
-      {#snippet icon()}
-        <BookIcon />
-      {/snippet}
-      {#snippet content()}
-        Tất cả dự án
       {/snippet}
     </SideMenuItem>
   </SideMenuGroup>

@@ -22,10 +22,10 @@ using IPM.Application.UseCases.AidType.DeleteAidTypeUseCase;
 using IPM.Application.UseCases.AidType.GetAllAidTypeUseCase;
 using IPM.Application.UseCases.AidType.UpdateAidTypeUseCase;
 
-using IPM.Application.UseCases.Catalogue.CreateCatalogueUseCase;
-using IPM.Application.UseCases.Catalogue.DeleteCatalogueUseCase;
-using IPM.Application.UseCases.Catalogue.GetAllCatalogueUseCase;
-using IPM.Application.UseCases.Catalogue.UpdateCatalogueUseCase;
+using IPM.Application.UseCases.Category.CreateCategoryUseCase;
+using IPM.Application.UseCases.Category.DeleteCategoryUseCase;
+using IPM.Application.UseCases.Category.GetAllCategoryUseCase;
+using IPM.Application.UseCases.Category.UpdateCategoryUseCase;
 
 using IPM.Application.UseCases.Counterparty.CreateCounterpartyUseCase;
 using IPM.Application.UseCases.Counterparty.DeleteCounterpartyUseCase;
@@ -46,6 +46,7 @@ using IPM.Application.UseCases.Sponsor.UpdateSponsorUseCase;
 using IPM.Application.UseCases.Role;
 
 using IPM.Application.UseCases.User.GetAllUserUseCase;
+using IPM.Application.UseCases.User.GetCurrentUserUseCase;
 
 namespace IPM.WebApi.ServiceRegisters;
 
@@ -78,10 +79,10 @@ public static class UseCaseServiceRegister
         services.AddScoped<IUpdateAidTypeUseCase, UpdateAidTypeHandler>();
         services.AddScoped<IGetAllAidTypeUseCase, GetAllAidTypeHandler>();
 
-        services.AddScoped<ICreateCatalogueUseCase, CreateCatalogueHandler>();
-        services.AddScoped<IGetAllCatalogueUseCase, GetAllCatalogueHandler>();
-        services.AddScoped<IDeleteCatalogueUseCase, DeleteCatalogueHandler>();
-        services.AddScoped<IUpdateCatalogueUseCase, UpdateCatalogueHandler>();
+        services.AddScoped<ICreateCategoryUseCase, CreateCategoryHandler>();
+        services.AddScoped<IGetAllCategoryUseCase, GetAllCategoryHandler>();
+        services.AddScoped<IDeleteCategoryUseCase, DeleteCategoryHandler>();
+        services.AddScoped<IUpdateCategoryUseCase, UpdateCategoryHandler>();
 
         services.AddScoped<ICreateCounterpartyUseCase, CreateCounterpartyHandler>();
         services.AddScoped<IGetAllCounterpartyUseCase, GetAllCounterpartyHandler>();
@@ -99,6 +100,7 @@ public static class UseCaseServiceRegister
         services.AddScoped<IUpdateSponsorUseCase, UpdateSponsorHandler>();
 
         services.AddScoped<IGetAllUserUseCase, GetAllUserHandler>();
+        services.AddScoped<IGetCurrentUserUseCase, GetCurrentUserHandler>();
         return services;
     }
 

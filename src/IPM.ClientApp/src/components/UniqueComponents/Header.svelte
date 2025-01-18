@@ -5,9 +5,15 @@
   import FloatMenuWrapper from "@components/FloatMenu/FloatMenuWrapper.svelte";
   import logout from "$lib/useCases/authUseCases/logoutUseCase";
   import { getUserInfo } from "@stores/userInfo.svelte";
+  import IconButton from "@components/Button/IconButton.svelte";
+  import LogoutIcon from "@components/Icons/LogoutIcon.svelte";
+  import SecondaryButton from "@components/Button/SecondaryButton.svelte";
+  import Row from "@components/Row/Row.svelte";
+  import UserIcon from "@components/Icons/UserIcon.svelte";
 
   let info = getUserInfo();
 </script>
+
 <header>
   <div class="logo">IPM Demo</div>
   <div class="right-pane">
@@ -20,11 +26,23 @@
         {/snippet}
         {#snippet menuContainer()}
           <FloatMenu>
-            <FloatMenuItem>Hello</FloatMenuItem>
-            <FloatMenuItem>Hello</FloatMenuItem>
-            <FloatMenuItem>Hello</FloatMenuItem>
             <FloatMenuItem>
-              <button onclick={logout}>Đăng xuất</button>
+              <a href="/dashboard/profile">
+                <Row --margin-top="0" --margin-bottom="0">
+                  <div class="icon">
+                    <UserIcon />
+                  </div>
+                  <div>Profile</div>
+                </Row>
+              </a>
+            </FloatMenuItem>
+            <FloatMenuItem>
+              <IconButton onclick={logout}>
+                {#snippet icon()}
+                  <LogoutIcon --stroke="hsl(30, 0%, 50%)" />
+                {/snippet}
+                Đăng xuất
+              </IconButton>
             </FloatMenuItem>
           </FloatMenu>
         {/snippet}
@@ -52,5 +70,9 @@
     align-items: center;
     justify-content: center;
     font-family: "Inter Bold";
+  }
+  .icon {
+    width: 1.2em;
+    @include center;
   }
 </style>

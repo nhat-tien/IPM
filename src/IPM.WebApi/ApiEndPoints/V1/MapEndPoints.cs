@@ -14,7 +14,7 @@ public static class MapEndPoints
       CurrencyUnitEndPoints.Map(endpoints);
       AidTypeEndPoints.Map(endpoints);
       UserEndPoints.Map(endpoints);
-      CatalogueEndPoints.Map(endpoints);
+      CategoryEndPoints.Map(endpoints);
       CounterpartyEndPoints.Map(endpoints);
       PositionEndPoints.Map(endpoints);
       SponsorEndPoints.Map(endpoints);

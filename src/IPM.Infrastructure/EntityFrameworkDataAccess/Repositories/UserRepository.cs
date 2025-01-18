@@ -100,5 +100,6 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
         List<User> entity = await userManager.Users.ToListAsync();
         IEnumerable<Domain.User> listOfDomain = entity.Select(entity => entity.MapTo());
         return listOfDomain;
-    } 
+    }
+
 }

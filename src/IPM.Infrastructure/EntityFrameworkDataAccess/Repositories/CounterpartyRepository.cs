@@ -17,7 +17,7 @@ public class CounterpartyRepository(AppDBContext context) : ICounterpartyReposit
 
     public async Task Delete(int id)
     {
-        await context.Catalogues.Where(e => e.CatalogueId == id).ExecuteDeleteAsync();
+        await context.Counterparties.Where(e => e.CounterpartyId == id).ExecuteDeleteAsync();
     }
 
     public async Task<Domain.Counterparty?> FindById(int id)

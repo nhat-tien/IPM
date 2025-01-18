@@ -12,16 +12,16 @@ public class Project
     public DateTime UpdatedAt { get; set; }
     public string? FundedEquipment { get; set; }
     public string? ProjectBudget { get; set; }
-    public DateTime StartedDate { get; set; }
-    public DateTime EndedDate { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
     public string? ProjectProgress { get; set; }
-    public string? PercentageOfProgress{ get; set; }
+    public string? PercentageOfProgress { get; set; }
 
     public int? AffilatedUnitId { get; set; }
     public AffiliatedUnit? AffilatedUnit { get; set; }
 
-    public int? CatalogueId { get; set; }
-    public Catalogue? Catalogue { get; set; }
+    public int? CategoryId { get; set; }
+    public Category? Category { get; set; }
 
     public int? SponsorId { get; set; }
     public Sponsor? Sponsor { get; set; }
@@ -38,6 +38,60 @@ public class Project
     public int? CurrencyUnitId { get; set; }
     public CurrencyUnit? CurrencyUnit { get; set; }
 
-    public string? OwnerId {get; set;}
-    public User? Owner {get; set;}
+    public string? OwnerId { get; set; }
+    public User? Owner { get; set; }
+
+    public Domain.Project MapTo()
+    {
+        return new Domain.Project()
+        {
+            ProjectNameEnglish = this.ProjectNameEnglish,
+            ProjectNameVietnamese = this.ProjectNameVietnamese,
+            ProjectPurpose = this.ProjectPurpose,
+            ProjectBudget = this.ProjectBudget,
+            Content = this.Content,
+            FundedEquipment = this.FundedEquipment,
+            StartDate = this.StartDate,
+            EndDate = this.EndDate,
+            ProjectProgress = this.ProjectProgress,
+            PercentageOfProgress = this.PercentageOfProgress,
+            AffilatedUnitId = this.AffilatedUnitId,
+            CategoryId = this.CategoryId,
+            SponsorId = this.SponsorId,
+            AidTypeId = this.AidTypeId,
+            ApprovingAgencyId = this.ApprovingAgencyId,
+            CounterpartyId = this.CounterpartyId,
+            CurrencyUnitId = this.CurrencyUnitId,
+            OwnerId = this.OwnerId,
+            CreatedAt = this.CreatedAt,
+            UpdatedAt = this.UpdatedAt,
+        };
+    }
+
+    public static Project MapFrom(Domain.Project model)
+    {
+        return new Project()
+        {
+            ProjectNameEnglish = model.ProjectNameEnglish,
+            ProjectNameVietnamese = model.ProjectNameVietnamese,
+            ProjectPurpose = model.ProjectPurpose,
+            ProjectBudget = model.ProjectBudget,
+            Content = model.Content,
+            FundedEquipment = model.FundedEquipment,
+            StartDate = model.StartDate,
+            EndDate = model.EndDate,
+            ProjectProgress = model.ProjectProgress,
+            PercentageOfProgress = model.PercentageOfProgress,
+            AffilatedUnitId = model.AffilatedUnitId,
+            CategoryId = model.CategoryId,
+            SponsorId = model.SponsorId,
+            AidTypeId = model.AidTypeId,
+            ApprovingAgencyId = model.ApprovingAgencyId,
+            CounterpartyId = model.CounterpartyId,
+            CurrencyUnitId = model.CurrencyUnitId,
+            OwnerId = model.OwnerId,
+            CreatedAt = model.CreatedAt,
+            UpdatedAt = model.UpdatedAt,
+        };
+    }
 }

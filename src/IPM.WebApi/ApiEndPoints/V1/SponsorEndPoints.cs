@@ -10,7 +10,7 @@ public class SponsorEndPoints
 {
     public static void Map(RouteGroupBuilder route)
     {
-        var endpoints = route.MapGroup("/catalogue");
+        var endpoints = route.MapGroup("/sponsors");
 
         endpoints.MapGet("/", async (IGetAllSponsorUseCase handler) => await handler.Handle())
         .RequireAuthorization("UserPermission");

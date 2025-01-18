@@ -1,6 +1,9 @@
 namespace IPM.WebApi.ApiEndPoints.V1;
 
 using Microsoft.AspNetCore.Http.HttpResults;
+using System.Security.Claims;
+using IPM.Application.UseCases.User.GetCurrentUserUseCase;
+using Microsoft.IdentityModel.JsonWebTokens;
 using IPM.Application.UseCases.Auth.LoginUseCase;
 using IPM.Application.UseCases.Auth.RefreshTokenUseCase;
 using IPM.Application.UseCases.Auth.RegisterUseCase;
@@ -14,7 +17,7 @@ public class AuthEndPoints
 
         endpoints.MapPost(
             "/login",
-            async Task<Results<Ok<SignInResponse>,UnauthorizedHttpResult>> (SignInRequest req, HttpContext httpContext, ILoginUseCase handler) =>
+            async Task<Results<Ok<SignInResponse>, UnauthorizedHttpResult>> (SignInRequest req, HttpContext httpContext, ILoginUseCase handler) =>
             {
                 SignInResponse res = await handler.Handle(req);
                 if (res.IsSuccess)
@@ -32,7 +35,7 @@ public class AuthEndPoints
         endpoints
             .MapPost(
                 "/register",
-                async Task<Results<Ok<RegisterResponse>, BadRequest<RegisterResponse>>> (RegisterRequest req, IRegisterUseCase handler)  =>
+                async Task<Results<Ok<RegisterResponse>, BadRequest<RegisterResponse>>> (RegisterRequest req, IRegisterUseCase handler) =>
                 {
                     var res = await handler.Handle(req);
                     if (res.IsSuccess)
@@ -68,6 +71,20 @@ public class AuthEndPoints
                 }
             }
         );
+
+        endpoints.MapGet("/profile", async (HttpContext context, IGetCurrentUserUseCase handler) =>
+        {
+            if (context.User is ClaimsPrincipal principal)
+            {
+                string? userId = principal.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+
+                if (userId is null) return Results.BadRequest();
+
+                Domain.User? user = await handler.Handle(userId);
+                return TypedResults.Ok(user);
+            }
+            return Results.BadRequest();
+        }).RequireAuthorization("UserPermission");
     }
 
     public static void SetTokenInsideCookie(string refreshToken, HttpContext context)

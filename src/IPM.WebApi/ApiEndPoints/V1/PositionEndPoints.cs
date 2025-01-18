@@ -10,7 +10,7 @@ public class PositionEndPoints
 {
     public static void Map(RouteGroupBuilder route)
     {
-        var endpoints = route.MapGroup("/position");
+        var endpoints = route.MapGroup("/positions");
 
         endpoints.MapGet("/", async (IGetAllPositionUseCase handler) => await handler.Handle())
         .RequireAuthorization("UserPermission");

@@ -34,7 +34,7 @@ public static class InfrastructureService
         services.AddScoped<IAffiliatedUnitRepository, AffiliatedUnitRepository>();
         services.AddScoped<IAidTypeRepository, AidTypeRepository>();
         services.AddScoped<ICurrencyUnitRepository, CurrencyUnitRepository>();
-        services.AddScoped<ICatalogueRepository, CatalogueRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICounterpartyRepository, CounterpartyRepository>();
         services.AddScoped<IPositionRepository, PositionRepository>();
         services.AddScoped<ISponsorRepository, SponsorRepository>();

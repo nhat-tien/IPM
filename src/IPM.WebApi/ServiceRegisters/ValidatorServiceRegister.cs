@@ -15,8 +15,8 @@ using IPM.Application.UseCases.CurrencyUnit.UpdateCurrencyUnitUseCase;
 using IPM.Application.UseCases.AidType.CreateAidTypeUseCase;
 using IPM.Application.UseCases.AidType.UpdateAidTypeUseCase;
 
-using IPM.Application.UseCases.Catalogue.CreateCatalogueUseCase;
-using IPM.Application.UseCases.Catalogue.UpdateCatalogueUseCase;
+using IPM.Application.UseCases.Category.CreateCategoryUseCase;
+using IPM.Application.UseCases.Category.UpdateCategoryUseCase;
 
 using IPM.Application.UseCases.Counterparty.CreateCounterpartyUseCase;
 using IPM.Application.UseCases.Counterparty.UpdateCounterpartyUseCase;
@@ -32,7 +32,7 @@ using IPM.WebApi.Validators.ApprovingAgency;
 using IPM.WebApi.Validators.AffiliatedUnit;
 using IPM.WebApi.Validators.CurrencyUnit;
 using IPM.WebApi.Validators.AidType;
-using IPM.WebApi.Validators.Catalogue;
+using IPM.WebApi.Validators.Category;
 using IPM.WebApi.Validators.Counterparty;
 using IPM.WebApi.Validators.Position;
 using IPM.WebApi.Validators.Sponsor;
@@ -74,8 +74,8 @@ public static class ValidatorServiceRegister
         services.AddScoped<IValidator<CreateAidTypeRequest>, AidTypeCreateValidator>();
         services.AddScoped<IValidator<UpdateAidTypeRequest>, AidTypeUpdateValidator>();
 
-        services.AddScoped<IValidator<CreateCatalogueRequest>, CatalogueCreateValidator>();
-        services.AddScoped<IValidator<UpdateCatalogueRequest>, CatalogueUpdateValidator>();
+        services.AddScoped<IValidator<CreateCategoryRequest>, CategoryCreateValidator>();
+        services.AddScoped<IValidator<UpdateCategoryRequest>, CategoryUpdateValidator>();
 
         services.AddScoped<IValidator<CreateCounterpartyRequest>, CounterpartyCreateValidator>();
         services.AddScoped<IValidator<UpdateCounterpartyRequest>, CounterpartyUpdateValidator>();

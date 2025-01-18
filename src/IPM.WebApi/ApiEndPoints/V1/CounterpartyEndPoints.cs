@@ -10,7 +10,7 @@ public class CounterpartyEndPoints
 {
     public static void Map(RouteGroupBuilder route)
     {
-        var endpoints = route.MapGroup("/counterparty");
+        var endpoints = route.MapGroup("/counterparties");
 
         endpoints.MapGet("/", async (IGetAllCounterpartyUseCase handler) => await handler.Handle())
         .RequireAuthorization("UserPermission");

@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type { Snippet } from "svelte";
+  import type { Snippet } from "svelte";
 
-const { children }: { children: Snippet } = $props();
+  const { children }: { children: Snippet } = $props();
 </script>
 
 <div>
@@ -9,14 +9,14 @@ const { children }: { children: Snippet } = $props();
 </div>
 
 <style lang="scss">
-div {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: var(--gap, 0.5em);
-  margin-top: var(--margin-top, 0.5em);
-  margin-bottom: var(--margin-bottom, 0.5em);
-}
+  div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--gap, 0.5em);
+    margin-top: var(--margin-top, 0.5em);
+    margin-bottom: var(--margin-bottom, 0.5em);
+  }
 </style>

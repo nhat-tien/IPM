@@ -11,7 +11,7 @@ public class AidTypeEndPoints
 {
     public static void Map(RouteGroupBuilder route)
     {
-        var endpoints = route.MapGroup("/aidType");
+        var endpoints = route.MapGroup("/aidTypes");
 
         endpoints.MapGet("/", async (IGetAllAidTypeUseCase handler) => await handler.Handle())
         .RequireAuthorization("UserPermission");

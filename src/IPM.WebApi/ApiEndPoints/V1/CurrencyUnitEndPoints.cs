@@ -10,7 +10,7 @@ public class CurrencyUnitEndPoints
 {
     public static void Map(RouteGroupBuilder route)
     {
-        var endpoints = route.MapGroup("/currencyUnit");
+        var endpoints = route.MapGroup("/currencyUnits");
 
         endpoints.MapGet("/", async (IGetAllCurrencyUnitUseCase handler) => await handler.Handle())
         .RequireAuthorization("UserPermission");

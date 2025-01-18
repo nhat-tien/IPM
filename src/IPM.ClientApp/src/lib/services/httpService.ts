@@ -39,20 +39,37 @@ export const authEndPoint = api.extend((option) => ({
 }));
 
 export const affiliatedUnitEndPoint = apiWithBearerToken.extend((option) => ({
-  prefixUrl: `${option.prefixUrl}/affiliatedUnit`,
+  prefixUrl: `${option.prefixUrl}/affiliatedUnits`,
 }));
 
 export const aidTypeEndPoint = apiWithBearerToken.extend((option) => ({
-  prefixUrl: `${option.prefixUrl}/aidType`,
+  prefixUrl: `${option.prefixUrl}/aidTypee`,
 }));
 
 export const approvingAgencyEndPoint = apiWithBearerToken.extend((option) => ({
-  prefixUrl: `${option.prefixUrl}/approvingAgency`,
+  prefixUrl: `${option.prefixUrl}/approvingAgencies`,
 }));
 
 export const currencyUnitEndPoint = apiWithBearerToken.extend((option) => ({
-  prefixUrl: `${option.prefixUrl}/currencyUnit`,
+  prefixUrl: `${option.prefixUrl}/currencyUnits`,
 }));
+
+export const categoryEndPoint = apiWithBearerToken.extend((option) => ({
+  prefixUrl: `${option.prefixUrl}/categories`,
+}));
+
+export const counterpartyEndPoint = apiWithBearerToken.extend((option) => ({
+  prefixUrl: `${option.prefixUrl}/counterparties`,
+}));
+
+export const positionEndPoint = apiWithBearerToken.extend((option) => ({
+  prefixUrl: `${option.prefixUrl}/positions`,
+}));
+
+export const sponsorEndPoint = apiWithBearerToken.extend((option) => ({
+  prefixUrl: `${option.prefixUrl}/sponsors`,
+}));
+
 
 
 
