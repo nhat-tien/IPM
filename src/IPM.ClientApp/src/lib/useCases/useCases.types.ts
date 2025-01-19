@@ -36,3 +36,33 @@ export type CurrencyUnit = {
   createdAt: string,
   updatedAt: string,
 }
+
+export type Category  = {
+    categoryId: number,
+    categoryName: string,
+    createdAt: string,
+    updatedAt: string,
+}
+
+export type Counterparty = {
+    counterpartyId: number,
+    counterpartyName: string,
+    createdAt: string,
+    updatedAt: string,
+}
+
+export type Position = {
+    positionId: number,
+    positionName: string,
+    createdAt: string,
+    updatedAt: string,
+}
+
+export type Sponsor = {
+    sponsorId: number,
+    sponsorName: string,
+    createdAt: string,
+    updatedAt: string,
+}
+
+

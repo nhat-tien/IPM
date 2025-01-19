@@ -14,6 +14,6 @@
 
 <style lang="scss">
   svg {
-    stroke: var(--stroke, #000);
+    stroke: var(--stroke, $icon-clr);
   }
 </style>

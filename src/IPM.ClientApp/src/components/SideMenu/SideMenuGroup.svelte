@@ -44,7 +44,7 @@
     transition: max-height 0.3s ease-in-out;
 }
   .side-menu-group.open {
-    max-height: 500px;
+    max-height: 3000px;
   }
   .icon {
     width: 1.5em;

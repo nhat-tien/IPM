@@ -8,14 +8,14 @@
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
   import { closeModal, openModal } from "@stores/modal.svelte";
   import toast from "svelte-5-french-toast";
-  import transformAidTypeToTable from "@useCases/aidTypeUseCase/transformAidTypeToTable";
-  import createAidType from "@useCases/aidTypeUseCase/createAidType";
   import { ZodError, type ZodIssue } from "zod";
   import type { PageData } from "./$types";
   import type { EventSubmitElements } from "../../../../shared.types";
   import RowToRight from "@components/Row/RowToRight.svelte";
   import { invalidate } from "$app/navigation";
-    import RowToLeft from "@components/Row/RowToLeft.svelte";
+  import RowToLeft from "@components/Row/RowToLeft.svelte";
+  import transformSponsorToTable from "@useCases/sponsorUseCase/transformSponsorToTable";
+  import createSponsor from "@useCases/sponsorUseCase/createSponsor";
 
   let { data }: { data: PageData } = $props();
 
@@ -34,11 +34,11 @@
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const result = await createAidType(formData);
+    const result = await createSponsor(formData);
 
     if (result.isSuccess) {
       toast.success("Thêm thành công");
-      invalidate("aidType:getAll");
+      invalidate("sponsor:getAll");
     } else {
       if (result.error instanceof ZodError) {
         error = result.error.issues;
@@ -60,11 +60,11 @@
     >
   </RowToRight>
   <Table {headers}>
-    {#await data.aidType}
+    {#await data.sponsor}
       <div>Loading</div>
-    {:then aidTypes}
-      {#each transformAidTypeToTable(aidTypes) as aidType}
-        <TableRow row={aidType} />
+    {:then sponsors}
+      {#each transformSponsorToTable(sponsors) as sponsor}
+        <TableRow row={sponsor} />
       {/each}
     {/await}
   </Table>
@@ -75,15 +75,15 @@
     <h4>Thêm {modelName.toLowerCase()}</h4>
     <form onsubmit={onSubmit}>
       <PrimaryTextField
-        id="aidTypeName"
-        name="aidTypeName"
+        id="sponsorName"
+        name="sponsorName"
         type="text"
         placeHolder=""
         label={`Tên ${modelName.toLowerCase()}`}
         --margin-top="1em"
         --margin-bottom="1em"
         {error}
-        errorId="aidTypeName"
+        errorId="sponsorName"
         onfocus={resetError}
       ></PrimaryTextField>
       <RowToLeft>

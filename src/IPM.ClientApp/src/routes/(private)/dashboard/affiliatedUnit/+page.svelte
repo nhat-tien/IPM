@@ -16,7 +16,7 @@
   import type { EventSubmitElements } from "../../../../shared.types";
   import { invalidate } from "$app/navigation";
   import RowToRight from "@components/Row/RowToRight.svelte";
-    import RowToLeft from "@components/Row/RowToLeft.svelte";
+  import RowToLeft from "@components/Row/RowToLeft.svelte";
 
   let { data }: { data: PageData } = $props();
 
