@@ -27,8 +27,8 @@ git clone https://github.com/nhat-tien/IPM.git
 ```
 #### 2. Setup database connection
 - Start your PostgreSQL database
-- Copy `appsettings.Example.json` to `appsettings.Development.json`
-- Fill out the database connection info
+- Copy `src/IPM.WebApi/appsettings.Example.json` to `src/IPM.WebApi/appsettings.Development.json`
+- Fill out the database connection infomation
 
 #### 3. Run migration 
 ```bash
