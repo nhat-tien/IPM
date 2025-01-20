@@ -2,15 +2,16 @@
     import type { Snippet } from "svelte";
 
   type TableProps = {
+      hasAction?: boolean,
     headers: string[];
     children: Snippet;
   };
 
-  const { headers, children }: TableProps = $props();
+  const { headers, children, hasAction }: TableProps = $props();
 </script>
 
 <div class="table-container">
-  <div class="row-container">Search</div>
+  <div class="row-container"></div>
   <div class="table-wrapper">
     <table>
       <thead>
@@ -18,6 +19,9 @@
           {#each headers as header}
             <th>{header}</th>
           {/each}
+          {#if hasAction}
+            <th class="th-action"></th>
+          {/if}
         </tr>
       </thead>
       <tbody>
@@ -58,5 +62,9 @@
     max-width: 1000px;
     text-align: left;
     padding: 0.7em 1em;
+  }
+  .th-action {
+    width: fit-content;
+    max-width: fit-content;
   }
 </style>

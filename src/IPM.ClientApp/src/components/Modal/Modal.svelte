@@ -1,7 +1,5 @@
 <script lang="ts">
-    import CloseIcon from "@components/Icons/CloseIcon.svelte";
   import type { Snippet } from "svelte";
-    import { closeModal } from "@stores/modal.svelte";
 
   const { children }: { children: Snippet } = $props();
 </script>

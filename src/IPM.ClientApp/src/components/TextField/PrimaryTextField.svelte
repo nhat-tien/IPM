@@ -8,7 +8,8 @@
     required,
     onfocus,
     error,
-    errorId = ""
+    errorId = "",
+    value
   }:{
     label?: string;
     id: string;
@@ -19,6 +20,7 @@
     onfocus?: () => void;
     error?: any[];
     errorId?: string;
+    value?: string;
   } = $props();
 </script>
 
@@ -30,7 +32,7 @@
   {/if}
   </label>
 {/if}
-<input {required} {type} {id} placeholder={placeHolder} {name} onfocus={onfocus}/>
+<input {required} {type} {id} placeholder={placeHolder} {name} {value} onfocus={onfocus}/>
 {#if error != null}
     <div class="error">{error?.filter((e) => e.path[0] === errorId)[0]?.message}</div>
 {/if}

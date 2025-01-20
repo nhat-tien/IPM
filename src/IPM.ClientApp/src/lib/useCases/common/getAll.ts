@@ -8,7 +8,6 @@ export  default async function getAll<T>(endpont: KyInstance): Promise<T[]> {
     }).json();
     return data;
   } catch(e: any) {
-    console.error(e);
     return [];
   }
 }

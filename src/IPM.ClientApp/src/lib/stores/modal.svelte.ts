@@ -10,7 +10,8 @@ let modal: {
   modalType: ModalType;
 } = $state({
   modalContent: null,
-  modalType: ModalType.Normal
+  modalType: ModalType.Normal,
+  data: 0 
 });
 
 export function openModal(newContent: Snippet, type?: ModalType) {
