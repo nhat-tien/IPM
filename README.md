@@ -21,21 +21,32 @@
 > ./ipm --help
 > ```
 
-#### 1. Clone this repo 
+**1. Clone this repo**
 ```bash
 git clone https://github.com/nhat-tien/IPM.git
 ```
-#### 2. Setup database connection
+
+**2. Setup database connection**
+*2.1. Manual*
 - Start your PostgreSQL database
+
+*2.2. Or Docker Compose*
+- Open `docker-compose.yml` and fill out the needed information.
+- Then run docker compose
+```bash
+docker compose up -d
+```
+
+*2.3. Set up .Env in application*
 - Copy `src/IPM.WebApi/appsettings.Example.json` to `src/IPM.WebApi/appsettings.Development.json`
 - Fill out the database connection infomation
 
-#### 3. Run migration 
+**3. Run migration**
 ```bash
 ./ipm db:update
 ```
 
-#### 4. Run development 
+**4. Run development**
 ```bash
 ./ipm be:run
 ```
