@@ -13,14 +13,14 @@
   import toast from "svelte-5-french-toast";
   import transformAffliatedUnitToTable from "@useCases/affiliatedUnitUseCase/transformAffliatedUnitToTable";
   import { invalidate } from "$app/navigation";
+  import deleteAffiliatedUnit from "@useCases/affiliatedUnitUseCase/deleteAffiliatedUnit";
+  import updateAffiliatedUnit from "@useCases/affiliatedUnitUseCase/updateAffiliatedUnit";
+  import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
 
   import { ZodError, type ZodIssue } from "zod";
   import type { PageData } from "./$types";
   import type { EventSubmitElements } from "../../../../shared.types";
   import type { AffiliatedUnit } from "@useCases/useCases.types";
-  import deleteAffiliatedUnit from "@useCases/affiliatedUnitUseCase/deleteAffiliatedUnit";
-  import updateAffiliatedUnit from "@useCases/affiliatedUnitUseCase/updateAffiliatedUnit";
-    import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
 
   type AffiliatedUnitUpdateDto = Omit<
     AffiliatedUnit,
@@ -32,7 +32,14 @@
   let error: ZodIssue[] = $state([]);
   let selectedModel: AffiliatedUnitUpdateDto | null = $state(null);
 
-  export async function onCreateAffiliatedUnit(e: EventSubmitElements) {
+  function selectModel(model: any[]) {
+    selectedModel = {
+      affiliatedUnitId: model[0],
+      affiliatedUnitName: model[1],
+    };
+  }
+
+  async function onCreate(e: EventSubmitElements) {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
@@ -47,15 +54,13 @@
       }
     }
   }
+
   function openUpdateModal(model: any[]) {
-    selectedModel = {
-      affiliatedUnitId: model[0],
-      affiliatedUnitName: model[1],
-    };
+    selectModel(model);
     openModal(updateModal);
   }
 
-  export async function onUpdateAffiliatedUnit(e: EventSubmitElements) {
+  async function onUpdate(e: EventSubmitElements) {
     e.preventDefault();
 
     if (selectedModel == null) return;
@@ -76,9 +81,25 @@
     }
   }
 
-  function openConfirmDelete() {
+  async function onDelete() {
+    if (selectedModel == null) return;
+
+    const result = await deleteAffiliatedUnit(selectedModel.affiliatedUnitId);
+
+    if (result.isSuccess) {
+      toast.success("Xóa đơn vị thành công");
+      invalidate("affiliatedUnit:getAll");
+      closeModal();
+    } else {
+      if (result.error instanceof ZodError) {
+        error = result.error.issues;
+      }
+    }
+  }
+
+  function openConfirmDelete(model: any[]) {
+    selectModel(model);
     openModal(confirmDelete);
-    //deleteAffiliatedUnit(id);
   }
 </script>
 
@@ -101,7 +122,7 @@
       {#each transformAffliatedUnitToTable(affiliatedUnits) as affiliatedUnit}
         <TableRow
           row={affiliatedUnit}
-          onDelete={() => openConfirmDelete()}
+          onDelete={() => openConfirmDelete(affiliatedUnit)}
           onEdit={() => openUpdateModal(affiliatedUnit)}
         />
       {/each}
@@ -112,7 +133,7 @@
 {#snippet createModal()}
   <div class="modal">
     <h4>Thêm đơn vị trực thuộc</h4>
-    <form onsubmit={onCreateAffiliatedUnit}>
+    <form onsubmit={onCreate}>
       <PrimaryTextField
         id="affiliatedUnitName"
         name="affiliatedUnitName"
@@ -136,7 +157,7 @@
 {#snippet updateModal()}
   <div class="modal">
     <h4>Chỉnh sửa đơn vị trực thuộc</h4>
-    <form onsubmit={onUpdateAffiliatedUnit}>
+    <form onsubmit={onUpdate}>
       <PrimaryTextField
         id="affiliatedUnitName"
         name="affiliatedUnitName"
@@ -159,13 +180,12 @@
 {/snippet}
 
 {#snippet confirmDelete()}
-  <MessageBoxConfirm 
+  <MessageBoxConfirm
     title="Bạn có chắc muốn xóa?"
-    onYes={() => {}}
+    onYes={() => onDelete()}
     onNo={() => closeModal()}
   />
 {/snippet}
-
 
 <style lang="scss">
   form {

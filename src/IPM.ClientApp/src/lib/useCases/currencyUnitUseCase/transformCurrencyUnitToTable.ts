@@ -2,11 +2,11 @@ import transformToTable from "@useCases/common/transformToTable";
 import type {  CurrencyUnit } from "@useCases/useCases.types";
 
 
-export default function transformCurrencyUnitToTable(currencyUnit: CurrencyUnit[]): string[][] {
+export default function transformCurrencyUnitToTable(currencyUnit: CurrencyUnit[]): any[][] {
 
   return transformToTable<CurrencyUnit>(currencyUnit, (model) =>
     [
-      model.currencyUnitId + "",
+      model.currencyUnitId,
       model.currencyUnitName
     ]);
 }

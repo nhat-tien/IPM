@@ -15,8 +15,13 @@
   import type { EventSubmitElements } from "../../../../shared.types";
   import RowToRight from "@components/Row/RowToRight.svelte";
   import { invalidate } from "$app/navigation";
-    import RowToLeft from "@components/Row/RowToLeft.svelte";
+  import RowToLeft from "@components/Row/RowToLeft.svelte";
+  import type { AidType } from "@useCases/useCases.types";
+  import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
+  import deleteAidType from "@useCases/aidTypeUseCase/deleteAidType";
+  import updateAidType from "@useCases/aidTypeUseCase/updateAidType";
 
+  type AidTypeUpdateDto = Omit<AidType, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
 
   let modelName = "Loại viện trợ";
@@ -25,12 +30,47 @@
     `Tên ${modelName.toLowerCase()}`,
   ];
   let error: ZodIssue[] = $state([]);
+  let selectedModel: AidTypeUpdateDto | null = $state(null);
 
   function resetError() {
     error = [];
   }
 
-  async function onSubmit(e: EventSubmitElements) {
+  function selectModel(model: any[]) {
+    selectedModel = {
+      aidTypeId: model[0],
+      aidTypeName: model[1],
+    };
+  }
+
+  function openUpdateModal(model: any[]) {
+    selectModel(model);
+    openModal(updateModal);
+  }
+
+  function openConfirmDelete(model: any[]) {
+    selectModel(model);
+    openModal(confirmDelete);
+  }
+
+  async function onUpdate(e: EventSubmitElements) {
+    e.preventDefault();
+
+    if (selectedModel == null) return;
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    const result = await updateAidType(formData, selectedModel?.aidTypeId);
+
+    if (result.isSuccess) {
+      toast.success("Cập nhật đơn vị thành công");
+      invalidate("affiliatedUnit:getAll");
+    } else {
+      if (result.error instanceof ZodError) {
+        error = result.error.issues;
+      }
+    }
+  }
+  async function onCreate(e: EventSubmitElements) {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
@@ -45,6 +85,22 @@
       }
     }
   }
+
+  async function onDelete() {
+    if (selectedModel == null) return;
+
+    const result = await deleteAidType(selectedModel.aidTypeId);
+
+    if (result.isSuccess) {
+      toast.success("Xóa thành công");
+      invalidate("aidType:getAll");
+      closeModal();
+    } else {
+      if (result.error instanceof ZodError) {
+        error = result.error.issues;
+      }
+    }
+  }
 </script>
 
 <TitleWebPage title={modelName} />
@@ -52,8 +108,7 @@
   <RowToRight>
     <PrimaryButton
       onclick={() => {
-        resetError();
-        openModal(modal);
+        openModal(createModal);
       }}
       variant="orange"
       --margin-bottom="0.5em">Thêm</PrimaryButton
@@ -64,16 +119,20 @@
       <div>Loading</div>
     {:then aidTypes}
       {#each transformAidTypeToTable(aidTypes) as aidType}
-        <TableRow row={aidType} />
+        <TableRow
+          row={aidType}
+          onDelete={() => openConfirmDelete(aidType)}
+          onEdit={() => openUpdateModal(aidType)}
+        />
       {/each}
     {/await}
   </Table>
 </BasicCenterLayout>
 
-{#snippet modal()}
+{#snippet createModal()}
   <div class="modal">
     <h4>Thêm {modelName.toLowerCase()}</h4>
-    <form onsubmit={onSubmit}>
+    <form onsubmit={onCreate}>
       <PrimaryTextField
         id="aidTypeName"
         name="aidTypeName"
@@ -92,6 +151,40 @@
       </RowToLeft>
     </form>
   </div>
+{/snippet}
+
+{#snippet updateModal()}
+  <div class="modal">
+    <h4>Chỉnh sửa {modelName.toLowerCase()}</h4>
+    <form onsubmit={onUpdate}>
+      <PrimaryTextField
+        id="aidTypeName"
+        name="aidTypeName"
+        type="text"
+        placeHolder=""
+        label={`Tên ${modelName.toLowerCase()}`}
+        --margin-top="1em"
+        --margin-bottom="1em"
+        required
+        {error}
+        errorId="aidTypeName"
+        value={selectedModel?.aidTypeName}
+        onfocus={resetError}
+      ></PrimaryTextField>
+      <RowToLeft>
+        <PrimaryButton variant="orange" type="submit">Lưu</PrimaryButton>
+        <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
+      </RowToLeft>
+    </form>
+  </div>
+{/snippet}
+
+{#snippet confirmDelete()}
+  <MessageBoxConfirm
+    title="Bạn có chắc muốn xóa?"
+    onYes={() => onDelete()}
+    onNo={() => closeModal()}
+  />
 {/snippet}
 
 <style lang="scss">

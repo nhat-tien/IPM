@@ -16,7 +16,9 @@
   import RowToLeft from "@components/Row/RowToLeft.svelte";
   import transformCounterpartyToTable from "@useCases/counterpartyUseCase/transformCounterpartyToTable";
   import createCounterparty from "@useCases/counterpartyUseCase/createCounterparty";
+  import type { Counterparty } from "@useCases/useCases.types";
 
+  type CounterpartyUpdateDto = Omit<Counterparty, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
 
   let modelName = "Đối tác";
@@ -25,10 +27,19 @@
     `Tên ${modelName.toLowerCase()}`,
   ];
   let error: ZodIssue[] = $state([]);
+  let selectedModel: CounterpartyUpdateDto | null = $state(null);
 
   function resetError() {
     error = [];
   }
+
+  function selectModel(model: any[]) {
+    selectedModel = {
+      counterpartyId: model[0],
+      counterpartyName: model[1],
+    };
+  }
+
 
   async function onSubmit(e: EventSubmitElements) {
     e.preventDefault();
@@ -100,5 +111,3 @@
     flex-direction: column;
   }
 </style>
-
-
