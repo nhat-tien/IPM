@@ -27,6 +27,7 @@ git clone https://github.com/nhat-tien/IPM.git
 ```
 
 **2. Setup database connection**
+
 *2.1. Manual*
 - Start your PostgreSQL database
 
