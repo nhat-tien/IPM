@@ -16,8 +16,14 @@
   import RowToLeft from "@components/Row/RowToLeft.svelte";
   import transformSponsorToTable from "@useCases/sponsorUseCase/transformSponsorToTable";
   import createSponsor from "@useCases/sponsorUseCase/createSponsor";
+    import type { Sponsor } from "@useCases/useCases.types";
+    import updateSponsor from "@useCases/sponsorUseCase/updateSponsor";
+    import deleteSponsor from "@useCases/sponsorUseCase/deleteSponsor";
+    import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
 
+  type SponsorUpdateDto = Omit<Sponsor, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
+  let selectedModel: SponsorUpdateDto | null = $state(null);
 
   let modelName = "Nhà tài trợ";
   let headers = [
@@ -28,9 +34,28 @@
 
   function resetError() {
     error = [];
+  } 
+
+  function selectModel(model: any[]) {
+    selectedModel = {
+      sponsorId: model[0],
+      sponsorName: model[1],
+    };
   }
 
-  async function onSubmit(e: EventSubmitElements) {
+  function openUpdateModal(model: any[]) {
+    selectModel(model);
+    openModal(updateModal);
+  }
+
+  function openConfirmDelete(model: any[]) {
+    selectModel(model);
+    openModal(confirmDelete);
+  }
+
+
+
+  async function onCreate(e: EventSubmitElements) {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
@@ -45,6 +70,40 @@
       }
     }
   }
+
+  async function onUpdate(e: EventSubmitElements) {
+    e.preventDefault();
+
+    if (selectedModel == null) return;
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    const result = await updateSponsor(formData, selectedModel?.sponsorId);
+
+    if (result.isSuccess) {
+      toast.success("Cập nhật thành công");
+      invalidate("sponsor:getAll");
+    } else {
+      if (result.error instanceof ZodError) {
+        error = result.error.issues;
+      }
+    }
+  }
+
+  async function onDelete() {
+    if (selectedModel == null) return;
+
+    const result = await deleteSponsor(selectedModel.sponsorId);
+
+    if (result.isSuccess) {
+      toast.success("Xóa thành công");
+      invalidate("sponsor:getAll");
+      closeModal();
+    } else {
+      if (result.error instanceof ZodError) {
+        error = result.error.issues;
+      }
+    }
+  }
 </script>
 
 <TitleWebPage title={modelName} />
@@ -53,27 +112,31 @@
     <PrimaryButton
       onclick={() => {
         resetError();
-        openModal(modal);
+        openModal(createModal);
       }}
       variant="orange"
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
   </RowToRight>
-  <Table {headers}>
+  <Table hasAction {headers}>
     {#await data.sponsor}
       <div>Loading</div>
     {:then sponsors}
       {#each transformSponsorToTable(sponsors) as sponsor}
-        <TableRow row={sponsor} />
+        <TableRow
+          row={sponsor}
+          onDelete={() => openConfirmDelete(sponsor)}
+          onEdit={() => openUpdateModal(sponsor)}
+        />
       {/each}
     {/await}
   </Table>
 </BasicCenterLayout>
 
-{#snippet modal()}
+{#snippet createModal()}
   <div class="modal">
     <h4>Thêm {modelName.toLowerCase()}</h4>
-    <form onsubmit={onSubmit}>
+    <form onsubmit={onCreate}>
       <PrimaryTextField
         id="sponsorName"
         name="sponsorName"
@@ -92,6 +155,40 @@
       </RowToLeft>
     </form>
   </div>
+{/snippet}
+
+{#snippet updateModal()}
+  <div class="modal">
+    <h4>Chỉnh sửa {modelName.toLowerCase()}</h4>
+    <form onsubmit={onUpdate}>
+      <PrimaryTextField
+        id="sponsorName"
+        name="sponsorName"
+        type="text"
+        placeHolder=""
+        label={`Tên ${modelName.toLowerCase()}`}
+        --margin-top="1em"
+        --margin-bottom="1em"
+        required
+        value={selectedModel?.sponsorName}
+        {error}
+        errorId="sponsorName"
+        onfocus={resetError}
+      ></PrimaryTextField>
+      <RowToLeft>
+        <PrimaryButton variant="orange" type="submit">Lưu</PrimaryButton>
+        <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
+      </RowToLeft>
+    </form>
+  </div>
+{/snippet}
+
+{#snippet confirmDelete()}
+  <MessageBoxConfirm
+    title="Bạn có chắc muốn xóa?"
+    onYes={() => onDelete()}
+    onNo={() => closeModal()}
+  />
 {/snippet}
 
 <style lang="scss">

@@ -1,4 +1,4 @@
-import { categoryEndPoint } from "@services/httpService";
+import { counterpartyEndPoint } from "@services/httpService";
 import create from "@useCases/common/create";
 import type { UseCaseResult } from "@useCases/useCases.types";
 import { z } from "zod";
@@ -19,7 +19,7 @@ export default async function createCounterparty(formData: FormData): Promise<Us
 
   return await create<CreateCounterpartyRequest>({
     scheme: CreateCounterpartyScheme,
-    endpoint: categoryEndPoint,
+    endpoint: counterpartyEndPoint,
     formData: data,
   })
 }

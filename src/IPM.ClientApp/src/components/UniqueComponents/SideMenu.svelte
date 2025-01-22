@@ -15,7 +15,7 @@
         Trang chủ
       {/snippet}
     </SideMenuItem>
-    <SideMenuItem href="/dashboard/my-project">
+    <SideMenuItem href="/dashboard/project">
       {#snippet icon()}
         <BookIcon />
       {/snippet}
@@ -24,7 +24,7 @@
       {/snippet}
     </SideMenuItem>
     <SideMenuGroup title="Quản lí của Admin">
-      <SideMenuItem href="/dashboard/project">
+      <SideMenuItem href="/dashboard/all-project">
         {#snippet icon()}
           <BookIcon />
         {/snippet}

@@ -43,7 +43,7 @@ export const affiliatedUnitEndPoint = apiWithBearerToken.extend((option) => ({
 }));
 
 export const aidTypeEndPoint = apiWithBearerToken.extend((option) => ({
-  prefixUrl: `${option.prefixUrl}/aidTypee`,
+  prefixUrl: `${option.prefixUrl}/aidTypes`,
 }));
 
 export const approvingAgencyEndPoint = apiWithBearerToken.extend((option) => ({

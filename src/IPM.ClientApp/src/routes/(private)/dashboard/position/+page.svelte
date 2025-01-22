@@ -16,8 +16,14 @@
   import RowToLeft from "@components/Row/RowToLeft.svelte";
   import transformPositionToTable from "@useCases/positionUseCase/transformPositionToTable";
   import createPosition from "@useCases/positionUseCase/createPosition";
+  import type { Position } from "@useCases/useCases.types";
+  import updatePosition from "@useCases/positionUseCase/updatePosition";
+  import deletePosition from "@useCases/positionUseCase/deletePosition";
+  import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
 
+  type PositionUpdateDto = Omit<Position, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
+  let selectedModel: PositionUpdateDto | null = $state(null);
 
   let modelName = "Chức vụ";
   let headers = [
@@ -30,7 +36,24 @@
     error = [];
   }
 
-  async function onSubmit(e: EventSubmitElements) {
+  function selectModel(model: any[]) {
+    selectedModel = {
+      positionId: model[0],
+      positionName: model[1],
+    };
+  }
+
+  function openUpdateModal(model: any[]) {
+    selectModel(model);
+    openModal(updateModal);
+  }
+
+  function openConfirmDelete(model: any[]) {
+    selectModel(model);
+    openModal(confirmDelete);
+  }
+
+  async function onCreate(e: EventSubmitElements) {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
@@ -45,6 +68,40 @@
       }
     }
   }
+
+  async function onUpdate(e: EventSubmitElements) {
+    e.preventDefault();
+
+    if (selectedModel == null) return;
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    const result = await updatePosition(formData, selectedModel?.positionId);
+
+    if (result.isSuccess) {
+      toast.success("Cập nhật thành công");
+      invalidate("position:getAll");
+    } else {
+      if (result.error instanceof ZodError) {
+        error = result.error.issues;
+      }
+    }
+  }
+
+  async function onDelete() {
+    if (selectedModel == null) return;
+
+    const result = await deletePosition(selectedModel.positionId);
+
+    if (result.isSuccess) {
+      toast.success("Xóa thành công");
+      invalidate("position:getAll");
+      closeModal();
+    } else {
+      if (result.error instanceof ZodError) {
+        error = result.error.issues;
+      }
+    }
+  }
 </script>
 
 <TitleWebPage title={modelName} />
@@ -53,27 +110,31 @@
     <PrimaryButton
       onclick={() => {
         resetError();
-        openModal(modal);
+        openModal(createModal);
       }}
       variant="orange"
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
   </RowToRight>
-  <Table {headers}>
+  <Table hasAction {headers}>
     {#await data.position}
       <div>Loading</div>
     {:then positions}
       {#each transformPositionToTable(positions) as position}
-        <TableRow row={position} />
+        <TableRow
+          row={position}
+          onDelete={() => openConfirmDelete(position)}
+          onEdit={() => openUpdateModal(position)}
+        />
       {/each}
     {/await}
   </Table>
 </BasicCenterLayout>
 
-{#snippet modal()}
+{#snippet createModal()}
   <div class="modal">
     <h4>Thêm {modelName.toLowerCase()}</h4>
-    <form onsubmit={onSubmit}>
+    <form onsubmit={onCreate}>
       <PrimaryTextField
         id="positionName"
         name="positionName"
@@ -92,6 +153,40 @@
       </RowToLeft>
     </form>
   </div>
+{/snippet}
+
+{#snippet updateModal()}
+  <div class="modal">
+    <h4>Chỉnh sửa {modelName.toLowerCase()}</h4>
+    <form onsubmit={onUpdate}>
+      <PrimaryTextField
+        id="positionName"
+        name="positionName"
+        type="text"
+        placeHolder=""
+        label={`Tên ${modelName.toLowerCase()}`}
+        --margin-top="1em"
+        --margin-bottom="1em"
+        required
+        value={selectedModel?.positionName}
+        {error}
+        errorId="positionName"
+        onfocus={resetError}
+      ></PrimaryTextField>
+      <RowToLeft>
+        <PrimaryButton variant="orange" type="submit">Lưu</PrimaryButton>
+        <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
+      </RowToLeft>
+    </form>
+  </div>
+{/snippet}
+
+{#snippet confirmDelete()}
+  <MessageBoxConfirm
+    title="Bạn có chắc muốn xóa?"
+    onYes={() => onDelete()}
+    onNo={() => closeModal()}
+  />
 {/snippet}
 
 <style lang="scss">

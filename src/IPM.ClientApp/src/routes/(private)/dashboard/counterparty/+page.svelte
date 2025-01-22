@@ -17,6 +17,9 @@
   import transformCounterpartyToTable from "@useCases/counterpartyUseCase/transformCounterpartyToTable";
   import createCounterparty from "@useCases/counterpartyUseCase/createCounterparty";
   import type { Counterparty } from "@useCases/useCases.types";
+  import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
+  import updateCounterparty from "@useCases/counterpartyUseCase/updateCounterparty";
+  import deleteCounterparty from "@useCases/counterpartyUseCase/deleteCounterparty";
 
   type CounterpartyUpdateDto = Omit<Counterparty, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -40,8 +43,17 @@
     };
   }
 
+  function openUpdateModal(model: any[]) {
+    selectModel(model);
+    openModal(updateModal);
+  }
 
-  async function onSubmit(e: EventSubmitElements) {
+  function openConfirmDelete(model: any[]) {
+    selectModel(model);
+    openModal(confirmDelete);
+  }
+
+  async function onCreate(e: EventSubmitElements) {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
@@ -56,6 +68,43 @@
       }
     }
   }
+
+  async function onUpdate(e: EventSubmitElements) {
+    e.preventDefault();
+
+    if (selectedModel == null) return;
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    const result = await updateCounterparty(
+      formData,
+      selectedModel?.counterpartyId,
+    );
+
+    if (result.isSuccess) {
+      toast.success("Cập nhật thành công");
+      invalidate("counterparty:getAll");
+    } else {
+      if (result.error instanceof ZodError) {
+        error = result.error.issues;
+      }
+    }
+  }
+
+  async function onDelete() {
+    if (selectedModel == null) return;
+
+    const result = await deleteCounterparty(selectedModel.counterpartyId);
+
+    if (result.isSuccess) {
+      toast.success("Xóa thành công");
+      invalidate("counterparty:getAll");
+      closeModal();
+    } else {
+      if (result.error instanceof ZodError) {
+        error = result.error.issues;
+      }
+    }
+  }
 </script>
 
 <TitleWebPage title={modelName} />
@@ -64,27 +113,31 @@
     <PrimaryButton
       onclick={() => {
         resetError();
-        openModal(modal);
+        openModal(createModal);
       }}
       variant="orange"
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
   </RowToRight>
-  <Table {headers}>
+  <Table hasAction {headers}>
     {#await data.counterparty}
       <div>Loading</div>
     {:then counterpartys}
       {#each transformCounterpartyToTable(counterpartys) as counterparty}
-        <TableRow row={counterparty} />
+        <TableRow
+          row={counterparty}
+          onDelete={() => openConfirmDelete(counterparty)}
+          onEdit={() => openUpdateModal(counterparty)}
+        />
       {/each}
     {/await}
   </Table>
 </BasicCenterLayout>
 
-{#snippet modal()}
+{#snippet createModal()}
   <div class="modal">
     <h4>Thêm {modelName.toLowerCase()}</h4>
-    <form onsubmit={onSubmit}>
+    <form onsubmit={onCreate}>
       <PrimaryTextField
         id="counterpartyName"
         name="counterpartyName"
@@ -103,6 +156,39 @@
       </RowToLeft>
     </form>
   </div>
+{/snippet}
+{#snippet updateModal()}
+  <div class="modal">
+    <h4>Chỉnh sửa {modelName.toLowerCase()}</h4>
+    <form onsubmit={onUpdate}>
+      <PrimaryTextField
+        id="counterpartyName"
+        name="counterpartyName"
+        type="text"
+        placeHolder=""
+        label={`Tên ${modelName.toLowerCase()}`}
+        --margin-top="1em"
+        --margin-bottom="1em"
+        required
+        value={selectedModel?.counterpartyName}
+        {error}
+        errorId="counterpartyName"
+        onfocus={resetError}
+      ></PrimaryTextField>
+      <RowToLeft>
+        <PrimaryButton variant="orange" type="submit">Lưu</PrimaryButton>
+        <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
+      </RowToLeft>
+    </form>
+  </div>
+{/snippet}
+
+{#snippet confirmDelete()}
+  <MessageBoxConfirm
+    title="Bạn có chắc muốn xóa?"
+    onYes={() => onDelete()}
+    onNo={() => closeModal()}
+  />
 {/snippet}
 
 <style lang="scss">

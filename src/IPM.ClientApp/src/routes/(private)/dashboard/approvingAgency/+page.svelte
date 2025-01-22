@@ -121,7 +121,7 @@
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
   </RowToRight>
-  <Table {headers}>
+  <Table {headers} hasAction>
     {#await data.approvingAgency}
       <div>Loading</div>
     {:then listData}

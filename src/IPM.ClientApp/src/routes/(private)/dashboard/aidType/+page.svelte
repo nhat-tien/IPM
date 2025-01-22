@@ -62,8 +62,8 @@
     const result = await updateAidType(formData, selectedModel?.aidTypeId);
 
     if (result.isSuccess) {
-      toast.success("Cập nhật đơn vị thành công");
-      invalidate("affiliatedUnit:getAll");
+      toast.success("Cập nhật thành công");
+      invalidate("aidType:getAll");
     } else {
       if (result.error instanceof ZodError) {
         error = result.error.issues;
@@ -114,7 +114,7 @@
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
   </RowToRight>
-  <Table {headers}>
+  <Table hasAction {headers}>
     {#await data.aidType}
       <div>Loading</div>
     {:then aidTypes}

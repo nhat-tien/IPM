@@ -117,7 +117,7 @@
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
   </RowToRight>
-  <Table {headers}>
+  <Table hasAction {headers}>
     {#await data.category}
       <div>Loading</div>
     {:then categorys}
