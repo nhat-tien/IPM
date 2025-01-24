@@ -10,6 +10,7 @@ public class AffiliatedUnitRepository(AppDBContext context): IAffiliatedUnitRepo
     {
         var entity = AffiliatedUnit.MapFrom(model);
         entity.CreatedAt = DateTime.UtcNow;
+        entity.UpdatedAt = DateTime.UtcNow;
         await context.AffiliatedUnits.AddAsync(entity);
         await context.SaveChangesAsync();
     }

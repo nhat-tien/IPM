@@ -10,6 +10,7 @@ public class CurrencyUnitRepository(AppDBContext context): ICurrencyUnitReposito
     {
         var entity = CurrencyUnit.MapFrom(model);
         entity.CreatedAt = DateTime.UtcNow;
+        entity.UpdatedAt = DateTime.UtcNow;
         await context.CurrencyUnits.AddAsync(entity);
         await context.SaveChangesAsync();
     }

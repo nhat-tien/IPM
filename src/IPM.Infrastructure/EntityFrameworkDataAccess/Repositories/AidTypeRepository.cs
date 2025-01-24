@@ -10,6 +10,7 @@ public class AidTypeRepository(AppDBContext context): IAidTypeRepository
     {
         var entity = AidType.MapFrom(model);
         entity.CreatedAt = DateTime.UtcNow;
+        entity.UpdatedAt = DateTime.UtcNow;
         await context.AidTypes.AddAsync(entity);
         await context.SaveChangesAsync();
     }
