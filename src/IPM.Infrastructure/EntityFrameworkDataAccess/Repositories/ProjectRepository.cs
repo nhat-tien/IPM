@@ -1,3 +1,4 @@
+using System.Reflection;
 using IPM.Application.IRepositories;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -40,5 +41,18 @@ public class ProjectRepository(AppDBContext context): IProjectRepository
     public async Task Update(Domain.Project model)
     {
         Project? entity = await context.Projects.FirstOrDefaultAsync(e => e.ProjectId == model.ProjectId);
+        if(entity is null) return;
+        context.Projects.Attach(entity);
+
+        Type typeOfModel = model.GetType();
+        PropertyInfo[] properties = typeOfModel.GetProperties();
+        foreach(PropertyInfo property in properties) 
+        {
+            if(property.GetValue(model) is not null) 
+            {
+                context.Entry(entity).Property(property.Name).CurrentValue = property.GetValue(model); 
+            }
+        }
+        await context.SaveChangesAsync();
     }
 }

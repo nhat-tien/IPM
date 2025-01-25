@@ -20,4 +20,29 @@ public class CreateProjectRequest
     public int? CounterpartyId { get; set; }
     public int? CurrencyUnitId { get; set; }
     public string? OwnerId { get; set; }
+
+    public Domain.Project MapTo()
+    {
+        return new Domain.Project()
+        {
+            ProjectNameEnglish = this.ProjectNameEnglish,
+            ProjectNameVietnamese = this.ProjectNameVietnamese,
+            ProjectPurpose = this.ProjectPurpose,
+            ProjectBudget = this.ProjectBudget,
+            Content = this.Content,
+            FundedEquipment = this.FundedEquipment,
+            StartDate = this.StartDate,
+            EndDate = this.EndDate,
+            ProjectProgress = this.ProjectProgress,
+            PercentageOfProgress = this.PercentageOfProgress,
+            AffilatedUnitId = this.AffilatedUnitId,
+            CategoryId = this.CategoryId,
+            SponsorId = this.SponsorId,
+            AidTypeId = this.AidTypeId,
+            ApprovingAgencyId = this.ApprovingAgencyId,
+            CounterpartyId = this.CounterpartyId,
+            CurrencyUnitId = this.CurrencyUnitId,
+            OwnerId = this.OwnerId,
+        };
+    }
 }

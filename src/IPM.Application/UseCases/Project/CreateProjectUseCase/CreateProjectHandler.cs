@@ -1,9 +1,11 @@
+using IPM.Application.IRepositories;
+
 namespace IPM.Application.UseCases.Project.CreateProjectUseCase;
 
-public class CreateProjectHandler : ICreateProjectUseCase
+public class CreateProjectHandler(IProjectRepository repo): ICreateProjectUseCase
 {
-    public Task Handle(CreateProjectRequest req)
+    public async Task Handle(CreateProjectRequest req)
     {
-        throw new NotImplementedException();
+        await repo.Create(req.MapTo());
     }
 }
