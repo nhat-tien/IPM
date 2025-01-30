@@ -6,6 +6,6 @@ public class GetAllPositionHandler(IPositionRepository repo): IGetAllPositionUse
 {
     public async Task<IEnumerable<Domain.Position>> Handle()
     {
-        return await repo.GetAll();
+        return await repo.GetAllAsync();
     }
 }

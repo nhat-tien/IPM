@@ -12,6 +12,6 @@ public class UpdateAffiliatedUnitHandler(IAffiliatedUnitRepository repo)
             AffiliatedUnitId = id,
             AffiliatedUnitName = req.AffiliatedUnitName,
         };
-        await repo.Update(model);
+        await repo.UpdateAsync(model);
     }
 }

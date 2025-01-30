@@ -6,6 +6,6 @@ public class GetAllApprovingAgencyHandler(IApprovingAgencyRepository repo): IGet
 {
     public async Task<IEnumerable<Domain.ApprovingAgency>> Handle()
     {
-        return await repo.GetAll();
+        return await repo.GetAllAsync();
     }
 }

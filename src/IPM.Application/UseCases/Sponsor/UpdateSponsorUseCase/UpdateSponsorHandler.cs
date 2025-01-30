@@ -12,6 +12,6 @@ public class UpdateSponsorHandler(ISponsorRepository repo) : IUpdateSponsorUseCa
             SponsorId = id,
             SponsorName = req.SponsorName
         };
-        await repo.Update(entity);
+        await repo.UpdateAsync(entity);
     }
 }

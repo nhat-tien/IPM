@@ -9,6 +9,6 @@ public class CreatePositionHandler(IPositionRepository repo) : ICreatePositionUs
         Domain.Position entity = new Domain.Position() {
             PositionName = req.PositionName
         };
-        await repo.Create(entity);
+        await repo.AddAsync(entity);
     }
 }

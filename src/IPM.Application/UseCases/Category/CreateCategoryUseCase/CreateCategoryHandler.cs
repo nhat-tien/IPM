@@ -9,6 +9,6 @@ public class CreateCategoryHandler(ICategoryRepository repo): ICreateCategoryUse
         Domain.Category entity = new Domain.Category() {
             CategoryName = req.CategoryName
         };
-        await repo.Create(entity);
+        await repo.AddAsync(entity);
     }
 }

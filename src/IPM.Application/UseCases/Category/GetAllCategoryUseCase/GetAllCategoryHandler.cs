@@ -6,6 +6,6 @@ public class GetAllCategoryHandler(ICategoryRepository repo) : IGetAllCategoryUs
 {
     public async Task<IEnumerable<Domain.Category>> Handle()
     {
-        return await repo.GetAll();
+        return await repo.GetAllAsync();
     }
 }

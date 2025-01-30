@@ -10,6 +10,6 @@ public class UpdateApprovingAgencyHandler(IApprovingAgencyRepository repo): IUpd
             ApprovingAgencyId = id,
             ApprovingAgencyName = req.ApprovingAgencyName
         };
-        await repo.Update(model);
+        await repo.UpdateAsync(model);
     }
 }

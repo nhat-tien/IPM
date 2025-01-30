@@ -1,50 +1,34 @@
 using IPM.Application.IRepositories;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
-using Microsoft.EntityFrameworkCore;
+using IPM.Infrastructure.EntityFrameworkDataAccess.Repositories.Common;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
 
-public class AffiliatedUnitRepository(AppDBContext context): IAffiliatedUnitRepository
+public class AffiliatedUnitRepository
+: GenericRepository<Domain.AffiliatedUnit, AffiliatedUnit>, IAffiliatedUnitRepository
 {
-    public async Task Create(Domain.AffiliatedUnit model)
+    public AffiliatedUnitRepository(AppDBContext ctx) : base(ctx)
     {
-        var entity = AffiliatedUnit.MapFrom(model);
-        entity.CreatedAt = DateTime.UtcNow;
-        entity.UpdatedAt = DateTime.UtcNow;
-        await context.AffiliatedUnits.AddAsync(entity);
-        await context.SaveChangesAsync();
+    }
+     
+    public override IQueryable<AffiliatedUnit> WhereId(int id)
+    {
+        return context.AffiliatedUnits.Where(e => e.AffiliatedUnitId == id);
     }
 
-    public async Task Delete(int id)
+    public override int GetDomainId(Domain.AffiliatedUnit domain)
     {
-        await context.AffiliatedUnits.Where(e => e.AffiliatedUnitId == id).ExecuteDeleteAsync();
+        return domain.AffiliatedUnitId;
     }
 
-    public async Task<Domain.AffiliatedUnit?> FindById(int id)
+    public override AffiliatedUnit MapFromDomain(Domain.AffiliatedUnit domain)
     {
-        AffiliatedUnit? entity = await context.AffiliatedUnits.FindAsync(id);
-        if(entity is null) 
-        {
-            return null;
-        }
+        return AffiliatedUnit.MapFrom(domain);
+    }
+
+    public override Domain.AffiliatedUnit MapToDomain(AffiliatedUnit entity)
+    {
         return entity.MapTo();
     }
 
-    public async Task<IEnumerable<Domain.AffiliatedUnit>> GetAll()
-    {
-        List<AffiliatedUnit> entity = await context.AffiliatedUnits.ToListAsync();
-        IEnumerable<Domain.AffiliatedUnit> listOfDomain = entity.Select(entity => entity.MapTo());
-        return listOfDomain;
-    }
-
-    public async Task Update(Domain.AffiliatedUnit model)
-    {
-        await context.AffiliatedUnits
-            .Where(e => e.AffiliatedUnitId == model.AffiliatedUnitId)
-            .ExecuteUpdateAsync(setter => 
-                setter
-                .SetProperty(e => e.AffiliatedUnitName, model.AffiliatedUnitName)
-                .SetProperty(e => e.UpdatedAt, DateTime.UtcNow)
-            );
-    }
 }

@@ -9,6 +9,6 @@ public class CreateAidTypeHandler(IAidTypeRepository repo): ICreateAidTypeUseCas
         Domain.AidType model = new Domain.AidType() {
             AidTypeName = req.AidTypeName
         };
-        await repo.Create(model);
+        await repo.AddAsync(model);
     }
 }

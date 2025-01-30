@@ -9,6 +9,6 @@ public class CreateSponsorHandler(ISponsorRepository repo): ICreateSponsorUseCas
         Domain.Sponsor entity = new Domain.Sponsor() {
             SponsorName = req.SponsorName
         };
-        await repo.Create(entity);
+        await repo.AddAsync(entity);
     }
 }

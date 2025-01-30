@@ -1,50 +1,32 @@
 using IPM.Application.IRepositories;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
-using Microsoft.EntityFrameworkCore;
+using IPM.Infrastructure.EntityFrameworkDataAccess.Repositories.Common;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
 
-public class PositionRepository(AppDBContext context) : IPositionRepository
+public class PositionRepository : GenericRepository<Domain.Position, Position>, IPositionRepository
 {
-    public async Task Create(Domain.Position model)
+    public PositionRepository(AppDBContext ctx) : base(ctx)
     {
-        var entity = Position.MapFrom(model);
-        entity.CreatedAt = DateTime.UtcNow;
-        entity.UpdatedAt = DateTime.UtcNow;
-        await context.Positions.AddAsync(entity);
-        await context.SaveChangesAsync();
     }
 
-    public async Task Delete(int id)
+    public override int GetDomainId(Domain.Position domain)
     {
-        await context.Positions.Where(e => e.PositionId == id).ExecuteDeleteAsync();
+        return domain.PositionId;
     }
 
-    public async Task<Domain.Position?> FindById(int id)
+    public override IQueryable<Position> WhereId(int id)
     {
-        Position? entity = await context.Positions.FindAsync(id);
-        if(entity is null) 
-        {
-            return null;
-        }
+        return context.Positions.Where(e => e.PositionId == id);
+    }
+
+    public override Position MapFromDomain(Domain.Position domain)
+    {
+        return Position.MapFrom(domain);
+    }
+
+    public override Domain.Position MapToDomain(Position entity)
+    {
         return entity.MapTo();
-    }
-
-    public async Task<IEnumerable<Domain.Position>> GetAll()
-    {
-        List<Position> entity = await context.Positions.ToListAsync();
-        IEnumerable<Domain.Position> listOfDomain = entity.Select(entity => entity.MapTo());
-        return listOfDomain;
-    }
-
-    public async Task Update(Domain.Position model)
-    {
-        await context.Positions
-            .Where(e => e.PositionId == model.PositionId)
-            .ExecuteUpdateAsync(setter => 
-                setter
-                .SetProperty(e => e.PositionName, model.PositionName)
-                .SetProperty(e => e.UpdatedAt, DateTime.UtcNow)
-            );
     }
 }

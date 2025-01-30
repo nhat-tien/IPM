@@ -6,6 +6,6 @@ public class GetAllCurrencyUnitHandler(ICurrencyUnitRepository repo) : IGetAllCu
 {
     public async Task<IEnumerable<Domain.CurrencyUnit>> Handle()
     {
-        return await repo.GetAll();
+        return await repo.GetAllAsync();
     }
 }

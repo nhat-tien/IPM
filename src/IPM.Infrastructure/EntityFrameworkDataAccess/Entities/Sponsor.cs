@@ -1,11 +1,9 @@
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 
-public class Sponsor
+public class Sponsor: BaseEntity
 {
     public int SponsorId { get; set; }
     public string? SponsorName { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
 
     public Domain.Sponsor MapTo()
     {

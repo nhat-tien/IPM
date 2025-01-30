@@ -5,6 +5,6 @@ public class DeleteCurrencyUnitHandler(ICurrencyUnitRepository repo): IDeleteCur
 {
     public async Task Handle(int id)
     {
-        await repo.Delete(id);
+        await repo.DeleteByIdAsync(id);
     }
 }

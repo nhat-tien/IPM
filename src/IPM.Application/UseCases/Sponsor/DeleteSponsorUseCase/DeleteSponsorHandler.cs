@@ -6,6 +6,6 @@ public class DeleteSponsorHandler(ISponsorRepository repo): IDeleteSponsorUseCas
 {
     public async Task Handle(int id)
     {
-        await repo.Delete(id);
+        await repo.DeleteByIdAsync(id);
     }
 }

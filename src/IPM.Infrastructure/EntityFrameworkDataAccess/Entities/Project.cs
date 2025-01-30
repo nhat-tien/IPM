@@ -1,6 +1,6 @@
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 
-public class Project
+public class Project: BaseEntity
 {
     public int ProjectId { get; set; }
 
@@ -8,8 +8,6 @@ public class Project
     public string? ProjectNameVietnamese { get; set; }
     public string? ProjectPurpose { get; set; }
     public string? Content { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
     public string? FundedEquipment { get; set; }
     public string? ProjectBudget { get; set; }
     public DateTime StartDate { get; set; }

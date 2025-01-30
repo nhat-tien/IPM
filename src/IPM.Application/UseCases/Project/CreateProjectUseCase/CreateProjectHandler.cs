@@ -6,6 +6,6 @@ public class CreateProjectHandler(IProjectRepository repo): ICreateProjectUseCas
 {
     public async Task Handle(CreateProjectRequest req)
     {
-        await repo.Create(req.MapTo());
+        await repo.AddAsync(req.MapTo());
     }
 }

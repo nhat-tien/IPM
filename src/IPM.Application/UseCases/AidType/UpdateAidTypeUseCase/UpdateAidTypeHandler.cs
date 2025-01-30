@@ -11,6 +11,6 @@ public class UpdateAidTypeHandler(IAidTypeRepository repo) : IUpdateAidTypeUseCa
             AidTypeId = id,
             AidTypeName = req.AidTypeName
         };
-        await repo.Update(model);
+        await repo.UpdateAsync(model);
     }
 }

@@ -10,6 +10,6 @@ public class UpdateCounterpartyHandler(ICounterpartyRepository repo) : IUpdateCo
             CounterpartyId = id,
             CounterpartyName = req.CounterpartyName,
         };
-        await repo.Update(entity);
+        await repo.UpdateAsync(entity);
     }
 }

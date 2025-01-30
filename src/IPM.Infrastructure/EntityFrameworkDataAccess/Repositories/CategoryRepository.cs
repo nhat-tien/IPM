@@ -1,50 +1,32 @@
 using IPM.Application.IRepositories;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
-using Microsoft.EntityFrameworkCore;
+using IPM.Infrastructure.EntityFrameworkDataAccess.Repositories.Common;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
 
-public class CategoryRepository(AppDBContext context): ICategoryRepository
+public class CategoryRepository : GenericRepository<Domain.Category, Category>, ICategoryRepository
 {
-    public async Task Create(Domain.Category model)
+    public CategoryRepository(AppDBContext ctx) : base(ctx)
     {
-        var entity = Category.MapFrom(model);
-        entity.CreatedAt = DateTime.UtcNow;
-        entity.UpdatedAt = DateTime.UtcNow;
-        await context.Categories.AddAsync(entity);
-        await context.SaveChangesAsync();
     }
 
-    public async Task Delete(int id)
+    public override int GetDomainId(Domain.Category domain)
     {
-        await context.Categories.Where(e => e.CategoryId == id).ExecuteDeleteAsync();
+        return domain.CategoryId;
     }
 
-    public async Task<Domain.Category?> FindById(int id)
+    public override IQueryable<Category> WhereId(int id)
     {
-        Category? entity = await context.Categories.FindAsync(id);
-        if(entity is null) 
-        {
-            return null;
-        }
+        return context.Categories.Where(e => e.CategoryId == id);
+    }
+
+    public override Category MapFromDomain(Domain.Category domain)
+    {
+        return Category.MapFrom(domain);
+    }
+
+    public override Domain.Category MapToDomain(Category entity)
+    {
         return entity.MapTo();
-    }
-
-    public async Task<IEnumerable<Domain.Category>> GetAll()
-    {
-        List<Category> entity = await context.Categories.ToListAsync();
-        IEnumerable<Domain.Category> listOfDomain = entity.Select(entity => entity.MapTo());
-        return listOfDomain;
-    }
-
-    public async Task Update(Domain.Category model)
-    {
-        await context.Categories
-            .Where(e => e.CategoryId == model.CategoryId)
-            .ExecuteUpdateAsync(setter => 
-                setter
-                .SetProperty(e => e.CategoryName, model.CategoryName)
-                .SetProperty(e => e.UpdatedAt, DateTime.UtcNow)
-            );
     }
 }

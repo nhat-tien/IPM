@@ -6,6 +6,6 @@ public class GetAllAffiliatedUnitHandler(IAffiliatedUnitRepository repo): IGetAl
 {
     public async Task<IEnumerable<Domain.AffiliatedUnit>> Handle()
     {
-        return await repo.GetAll();
+        return await repo.GetAllAsync();
     }
 }

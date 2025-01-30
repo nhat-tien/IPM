@@ -6,6 +6,6 @@ public class DeleteCounterpartyHandler(ICounterpartyRepository repo): IDeleteCou
 {
     public async Task Handle(int id)
     {
-        await repo.Delete(id);
+        await repo.DeleteByIdAsync(id);
     }
 }

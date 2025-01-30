@@ -10,6 +10,6 @@ public class CreateApprovingAgencyHandler(IApprovingAgencyRepository repo): ICre
         var domainEntity = new Domain.ApprovingAgency() {
            ApprovingAgencyName = req.ApprovingAgencyName
         };
-        await repo.Create(domainEntity);
+        await repo.AddAsync(domainEntity);
     }
 }

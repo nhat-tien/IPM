@@ -8,6 +8,6 @@ public class CreateCurrencyUnitHandler(ICurrencyUnitRepository repo): ICreateCur
         Domain.CurrencyUnit model = new Domain.CurrencyUnit() {
             CurrencyUnitName = req.CurrencyUnitName
         };
-        await repo.Create(model);
+        await repo.AddAsync(model);
     }
 }

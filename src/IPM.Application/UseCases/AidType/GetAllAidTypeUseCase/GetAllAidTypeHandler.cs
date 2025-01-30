@@ -6,6 +6,6 @@ public class GetAllAidTypeHandler(IAidTypeRepository repo): IGetAllAidTypeUseCas
 {
     public async Task<IEnumerable<Domain.AidType>> Handle()
     {
-        return await repo.GetAll();
+        return await repo.GetAllAsync();
     }
 }

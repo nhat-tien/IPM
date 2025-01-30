@@ -5,7 +5,7 @@ public class GetAllSponsorHandler(ISponsorRepository repo): IGetAllSponsorUseCas
 {
     public async Task<IEnumerable<Domain.Sponsor>> Handle()
     {
-        return await repo.GetAll();
+        return await repo.GetAllAsync();
     }
 
 }

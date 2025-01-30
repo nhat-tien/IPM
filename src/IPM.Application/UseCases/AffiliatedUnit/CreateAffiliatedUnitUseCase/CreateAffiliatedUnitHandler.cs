@@ -9,6 +9,6 @@ public class CreateAffiliatedUnitHandler(IAffiliatedUnitRepository repo) : ICrea
         Domain.AffiliatedUnit model = new Domain.AffiliatedUnit() {
             AffiliatedUnitName = req.AffiliatedUnitName,
         };
-        await repo.Create(model);
+        await repo.AddAsync(model);
     }
 }

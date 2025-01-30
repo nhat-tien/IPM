@@ -6,6 +6,6 @@ public class DeleteAffiliatedUnitHandler(IAffiliatedUnitRepository repo): IDelet
 {
     public async Task Handle(int id)
     {
-        await repo.Delete(id);
+        await repo.DeleteByIdAsync(id);
     }
 }

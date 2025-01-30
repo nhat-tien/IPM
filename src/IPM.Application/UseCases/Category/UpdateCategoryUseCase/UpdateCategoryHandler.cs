@@ -10,6 +10,6 @@ public class UpdateCategoryHandler(ICategoryRepository repo) : IUpdateCategoryUs
             CategoryId = id,
             CategoryName = req.CategoryName
         };
-        await repo.Update(entity);
+        await repo.UpdateAsync(entity);
     }
 }

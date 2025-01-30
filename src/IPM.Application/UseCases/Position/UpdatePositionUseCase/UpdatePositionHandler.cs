@@ -11,6 +11,6 @@ public class UpdatePositionHandler(IPositionRepository repo) : IUpdatePositionUs
             PositionId = id,
             PositionName = req.PositionName
         };
-        await repo.Update(entity);
+        await repo.UpdateAsync(entity);
     }
 }

@@ -1,58 +1,32 @@
-using System.Reflection;
 using IPM.Application.IRepositories;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
-using Microsoft.EntityFrameworkCore;
+using IPM.Infrastructure.EntityFrameworkDataAccess.Repositories.Common;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
 
-public class ProjectRepository(AppDBContext context): IProjectRepository
+public class ProjectRepository : GenericRepository<Domain.Project, Project>, IProjectRepository
 {
-    public async Task Create(Domain.Project model)
+    public ProjectRepository(AppDBContext ctx) : base(ctx)
     {
-        var entity = Project.MapFrom(model);
-        entity.CreatedAt = DateTime.UtcNow;
-        entity.UpdatedAt = DateTime.UtcNow;
-        await context.Projects.AddAsync(entity);
-        await context.SaveChangesAsync();
     }
 
-    public async Task Delete(int id)
+    public override int GetDomainId(Domain.Project domain)
     {
-        await context.Projects.Where(e => e.ProjectId == id).ExecuteDeleteAsync();
+        return domain.ProjectId;
     }
 
-    public async Task<Domain.Project?> FindById(int id)
+    public override IQueryable<Project> WhereId(int id)
     {
-        Project? entity = await context.Projects.FindAsync(id);
-        if(entity is null) 
-        {
-            return null;
-        }
+        return context.Projects.Where(e => e.ProjectId == id);
+    }
+
+    public override Project MapFromDomain(Domain.Project domain)
+    {
+        return Project.MapFrom(domain);
+    }
+
+    public override Domain.Project MapToDomain(Project entity)
+    {
         return entity.MapTo();
-    }
-
-    public async Task<IEnumerable<Domain.Project>> GetAll()
-    {
-        List<Project> entity = await context.Projects.ToListAsync();
-        IEnumerable<Domain.Project> listOfDomain = entity.Select(entity => entity.MapTo());
-        return listOfDomain;
-    }
-
-    public async Task Update(Domain.Project model)
-    {
-        Project? entity = await context.Projects.FirstOrDefaultAsync(e => e.ProjectId == model.ProjectId);
-        if(entity is null) return;
-        context.Projects.Attach(entity);
-
-        Type typeOfModel = model.GetType();
-        PropertyInfo[] properties = typeOfModel.GetProperties();
-        foreach(PropertyInfo property in properties) 
-        {
-            if(property.GetValue(model) is not null) 
-            {
-                context.Entry(entity).Property(property.Name).CurrentValue = property.GetValue(model); 
-            }
-        }
-        await context.SaveChangesAsync();
     }
 }

@@ -1,51 +1,32 @@
 using IPM.Application.IRepositories;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
-using Microsoft.EntityFrameworkCore;
+using IPM.Infrastructure.EntityFrameworkDataAccess.Repositories.Common;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
 
-public class AidTypeRepository(AppDBContext context): IAidTypeRepository
+public class AidTypeRepository : GenericRepository<Domain.AidType, AidType>, IAidTypeRepository
 {
-    public async Task Create(Domain.AidType model)
+    public AidTypeRepository(AppDBContext ctx) : base(ctx)
     {
-        var entity = AidType.MapFrom(model);
-        entity.CreatedAt = DateTime.UtcNow;
-        entity.UpdatedAt = DateTime.UtcNow;
-        await context.AidTypes.AddAsync(entity);
-        await context.SaveChangesAsync();
     }
 
-    public async Task Delete(int id)
+    public override int GetDomainId(Domain.AidType domain)
     {
-        await context.AidTypes.Where(e => e.AidTypeId == id).ExecuteDeleteAsync();
+        return domain.AidTypeId;
     }
 
-    public async Task<Domain.AidType?> FindById(int id)
+    public override IQueryable<AidType> WhereId(int id)
     {
-        AidType? entity = await context.AidTypes.FindAsync(id);
-        if(entity is null) 
-        {
-            return null;
-        }
+        return context.AidTypes.Where(e => e.AidTypeId == id);
+    }
+
+    public override AidType MapFromDomain(Domain.AidType domain)
+    {
+        return AidType.MapFrom(domain);
+    }
+
+    public override Domain.AidType MapToDomain(AidType entity)
+    {
         return entity.MapTo();
     }
-
-    public async Task<IEnumerable<Domain.AidType>> GetAll()
-    {
-        List<AidType> entity = await context.AidTypes.ToListAsync();
-        IEnumerable<Domain.AidType> listOfDomain = entity.Select(entity => entity.MapTo());
-        return listOfDomain;
-    }
-
-    public async Task Update(Domain.AidType model)
-    {
-        await context.AidTypes
-            .Where(e => e.AidTypeId == model.AidTypeId)
-            .ExecuteUpdateAsync(setter => 
-                setter
-                .SetProperty(e => e.AidTypeName, model.AidTypeName)
-                .SetProperty(e => e.UpdatedAt, DateTime.UtcNow)
-            );
-    }
-
 }

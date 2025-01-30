@@ -2,9 +2,9 @@ namespace IPM.Application.IRepositories;
 
 public interface IResourceRepository<T> where T: class
 {
-    Task<IEnumerable<T>> GetAll();
-    Task<T?> FindById(int id);
-    Task Create(T model);
-    Task Delete(int id);
-    Task Update(T model);
+    Task<IEnumerable<T>> GetAllAsync();
+    Task<T?> FindByIdAsync(int id);
+    Task AddAsync(T model);
+    Task DeleteByIdAsync(int id);
+    Task UpdateAsync(T model);
 }

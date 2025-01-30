@@ -1,50 +1,33 @@
 using IPM.Application.IRepositories;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
-using Microsoft.EntityFrameworkCore;
+using IPM.Infrastructure.EntityFrameworkDataAccess.Repositories.Common;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
 
-public class CounterpartyRepository(AppDBContext context) : ICounterpartyRepository
+public class CounterpartyRepository
+    : GenericRepository<Domain.Counterparty, Counterparty>,
+        ICounterpartyRepository
 {
-    public async Task Create(Domain.Counterparty model)
+    public CounterpartyRepository(AppDBContext ctx)
+        : base(ctx) { }
+
+    public override int GetDomainId(Domain.Counterparty domain)
     {
-        var entity = Counterparty.MapFrom(model);
-        entity.CreatedAt = DateTime.UtcNow;
-        entity.UpdatedAt = DateTime.UtcNow;
-        await context.Counterparties.AddAsync(entity);
-        await context.SaveChangesAsync();
+        return domain.CounterpartyId;
     }
 
-    public async Task Delete(int id)
+    public override IQueryable<Counterparty> WhereId(int id)
     {
-        await context.Counterparties.Where(e => e.CounterpartyId == id).ExecuteDeleteAsync();
+        return context.Counterparties.Where(e => e.CounterpartyId == id);
     }
 
-    public async Task<Domain.Counterparty?> FindById(int id)
+    public override Counterparty MapFromDomain(Domain.Counterparty domain)
     {
-        Counterparty? entity = await context.Counterparties.FindAsync(id);
-        if(entity is null) 
-        {
-            return null;
-        }
+        return Counterparty.MapFrom(domain);
+    }
+
+    public override Domain.Counterparty MapToDomain(Counterparty entity)
+    {
         return entity.MapTo();
-    }
-
-    public async Task<IEnumerable<Domain.Counterparty>> GetAll()
-    {
-        List<Counterparty> entity = await context.Counterparties.ToListAsync();
-        IEnumerable<Domain.Counterparty> listOfDomain = entity.Select(entity => entity.MapTo());
-        return listOfDomain;
-    }
-
-    public async Task Update(Domain.Counterparty model)
-    {
-        await context.Counterparties
-            .Where(e => e.CounterpartyId == model.CounterpartyId)
-            .ExecuteUpdateAsync(setter => 
-                setter
-                .SetProperty(e => e.CounterpartyName, model.CounterpartyName)
-                .SetProperty(e => e.UpdatedAt, DateTime.UtcNow)
-            );
     }
 }

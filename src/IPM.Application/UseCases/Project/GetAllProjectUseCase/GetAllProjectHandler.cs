@@ -7,6 +7,6 @@ public class GetAllProjectHandler(IProjectRepository repo): IGetAllProjectUseCas
 {
     public async Task<IEnumerable<Domain.Project>> Handle()
     {
-        return await repo.GetAll();
+        return await repo.GetAllAsync();
     }
 }

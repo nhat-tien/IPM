@@ -6,6 +6,6 @@ public class DeletePositionHandler(IPositionRepository repo): IDeletePositionUse
 {
     public async Task Handle(int id)
     {
-        await repo.Delete(id);
+        await repo.DeleteByIdAsync(id);
     }
 }

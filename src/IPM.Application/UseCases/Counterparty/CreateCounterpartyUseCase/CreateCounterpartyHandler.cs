@@ -9,6 +9,6 @@ public class CreateCounterpartyHandler(ICounterpartyRepository repo): ICreateCou
         Domain.Counterparty entity = new Domain.Counterparty() {
             CounterpartyName = req.CounterpartyName
         };
-        await repo.Create(entity);
+        await repo.AddAsync(entity);
     }
 }

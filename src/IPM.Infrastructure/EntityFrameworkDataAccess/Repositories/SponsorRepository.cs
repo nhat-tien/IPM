@@ -1,50 +1,32 @@
 using IPM.Application.IRepositories;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
-using Microsoft.EntityFrameworkCore;
+using IPM.Infrastructure.EntityFrameworkDataAccess.Repositories.Common;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
 
-public class SponsorRepository(AppDBContext context) : ISponsorRepository
+public class SponsorRepository : GenericRepository<Domain.Sponsor, Sponsor>, ISponsorRepository
 {
-    public async Task Create(Domain.Sponsor model)
+    public SponsorRepository(AppDBContext ctx) : base(ctx)
     {
-        var entity = Sponsor.MapFrom(model);
-        entity.CreatedAt = DateTime.UtcNow;
-        entity.UpdatedAt = DateTime.UtcNow;
-        await context.Sponsors.AddAsync(entity);
-        await context.SaveChangesAsync();
     }
 
-    public async Task Delete(int id)
+    public override int GetDomainId(Domain.Sponsor domain)
     {
-        await context.Sponsors.Where(e => e.SponsorId == id).ExecuteDeleteAsync();
+        return domain.SponsorId;
     }
 
-    public async Task<Domain.Sponsor?> FindById(int id)
+    public override IQueryable<Sponsor> WhereId(int id)
     {
-        Sponsor? entity = await context.Sponsors.FindAsync(id);
-        if(entity is null) 
-        {
-            return null;
-        }
+        return context.Sponsors.Where(e => e.SponsorId == id);
+    }
+
+    public override Sponsor MapFromDomain(Domain.Sponsor domain)
+    {
+        return Sponsor.MapFrom(domain);
+    }
+
+    public override Domain.Sponsor MapToDomain(Sponsor entity)
+    {
         return entity.MapTo();
-    }
-
-    public async Task<IEnumerable<Domain.Sponsor>> GetAll()
-    {
-        List<Sponsor> entity = await context.Sponsors.ToListAsync();
-        IEnumerable<Domain.Sponsor> listOfDomain = entity.Select(entity => entity.MapTo());
-        return listOfDomain;
-    }
-
-    public async Task Update(Domain.Sponsor model)
-    {
-        await context.Sponsors
-            .Where(e => e.SponsorId == model.SponsorId)
-            .ExecuteUpdateAsync(setter => 
-                setter
-                .SetProperty(e => e.SponsorName, model.SponsorName)
-                .SetProperty(e => e.UpdatedAt, DateTime.UtcNow)
-            );
     }
 }

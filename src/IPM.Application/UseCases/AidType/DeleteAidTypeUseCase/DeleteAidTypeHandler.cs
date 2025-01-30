@@ -6,6 +6,6 @@ public class DeleteAidTypeHandler(IAidTypeRepository repo) : IDeleteAidTypeUseCa
 {
     public async Task Handle(int id)
     {
-        await repo.Delete(id);
+        await repo.DeleteByIdAsync(id);
     }
 }

@@ -1,50 +1,32 @@
 using IPM.Application.IRepositories;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
-using Microsoft.EntityFrameworkCore;
+using IPM.Infrastructure.EntityFrameworkDataAccess.Repositories.Common;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
 
-public class CurrencyUnitRepository(AppDBContext context): ICurrencyUnitRepository
+public class CurrencyUnitRepository : GenericRepository<Domain.CurrencyUnit, CurrencyUnit>, ICurrencyUnitRepository
 {
-    public async Task Create(Domain.CurrencyUnit model)
+    public CurrencyUnitRepository(AppDBContext ctx) : base(ctx)
     {
-        var entity = CurrencyUnit.MapFrom(model);
-        entity.CreatedAt = DateTime.UtcNow;
-        entity.UpdatedAt = DateTime.UtcNow;
-        await context.CurrencyUnits.AddAsync(entity);
-        await context.SaveChangesAsync();
     }
 
-    public async Task Delete(int id)
+    public override int GetDomainId(Domain.CurrencyUnit domain)
     {
-        await context.CurrencyUnits.Where(e => e.CurrencyUnitId == id).ExecuteDeleteAsync();
+        return domain.CurrencyUnitId;
     }
 
-    public async Task<Domain.CurrencyUnit?> FindById(int id)
+    public override IQueryable<CurrencyUnit> WhereId(int id)
     {
-        CurrencyUnit? entity = await context.CurrencyUnits.FindAsync(id);
-        if(entity is null) 
-        {
-            return null;
-        }
+        return context.CurrencyUnits.Where(e => e.CurrencyUnitId == id);
+    }
+
+    public override CurrencyUnit MapFromDomain(Domain.CurrencyUnit domain)
+    {
+        return CurrencyUnit.MapFrom(domain);
+    }
+
+    public override Domain.CurrencyUnit MapToDomain(CurrencyUnit entity)
+    {
         return entity.MapTo();
-    }
-
-    public async Task<IEnumerable<Domain.CurrencyUnit>> GetAll()
-    {
-        List<CurrencyUnit> entity = await context.CurrencyUnits.ToListAsync();
-        IEnumerable<Domain.CurrencyUnit> listOfDomain = entity.Select(entity => entity.MapTo());
-        return listOfDomain;
-    }
-
-    public async Task Update(Domain.CurrencyUnit model)
-    {
-        await context.CurrencyUnits
-            .Where(e => e.CurrencyUnitId == model.CurrencyUnitId)
-            .ExecuteUpdateAsync(setter => 
-                setter
-                .SetProperty(e => e.CurrencyUnitName, model.CurrencyUnitName)
-                .SetProperty(e => e.UpdatedAt, DateTime.UtcNow)
-            );
     }
 }

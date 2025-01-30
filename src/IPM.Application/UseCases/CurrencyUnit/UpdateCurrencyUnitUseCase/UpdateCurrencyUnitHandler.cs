@@ -10,6 +10,6 @@ public class UpdateCurrencyUnitHandler(ICurrencyUnitRepository repo): IUpdateCur
             CurrencyUnitId = id,
             CurrencyUnitName = req.CurrencyUnitName
         };
-        await repo.Update(model);
+        await repo.UpdateAsync(model);
     }
 }

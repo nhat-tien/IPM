@@ -6,6 +6,6 @@ public class GetAllCounterpartyHandler(ICounterpartyRepository repo): IGetAllCou
 {
     public async Task<IEnumerable<Domain.Counterparty>> Handle()
     {
-        return await repo.GetAll();
+        return await repo.GetAllAsync();
     }
 }

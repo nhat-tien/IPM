@@ -1,11 +1,9 @@
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 
-public class AffiliatedUnit
+public class AffiliatedUnit: BaseEntity
 {
     public int AffiliatedUnitId { get; set; }
     public string? AffiliatedUnitName { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
 
     public Domain.AffiliatedUnit MapTo()
     {

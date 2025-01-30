@@ -38,7 +38,7 @@ public static class InfrastructureService
         services.AddScoped<ICounterpartyRepository, CounterpartyRepository>();
         services.AddScoped<IPositionRepository, PositionRepository>();
         services.AddScoped<ISponsorRepository, SponsorRepository>();
-
+        services.AddScoped<IProjectRepository, ProjectRepository>();
         return services;
     }
 }

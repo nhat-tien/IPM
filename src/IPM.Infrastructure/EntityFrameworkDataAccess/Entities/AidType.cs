@@ -1,12 +1,10 @@
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 
-public class AidType
+public class AidType: BaseEntity
 {
     public int AidTypeId { get; set; }
     public string? AidTypeName { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-
+    
     public Domain.AidType MapTo()
     {
         return new Domain.AidType()
