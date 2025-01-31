@@ -27,6 +27,7 @@
   }
 </script>
 
+<div class="select-container">
 {#if label != null}
   <label for={id}>{label}</label>
 {/if}
@@ -36,12 +37,21 @@
     <option value={item.value}>{item.name}</option>
   {/each}
 </select>
+</div>
 
 <style lang="scss">
   select {
     border: 0.5px solid $gray-clr;
     padding: 0.4em 0.5em;
     border-radius: 5px;
+    width: var(--width, 100%);
     margin-top: 0.2em;
+  }
+  .select-container {
+    margin-top: var(--margin-top);
+    margin-bottom: var(--margin-bottom);
+    label {
+      display: block;
+    }
   }
 </style>

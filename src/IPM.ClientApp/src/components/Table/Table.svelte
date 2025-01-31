@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { Snippet } from "svelte";
+  import type { Snippet } from "svelte";
 
   type TableProps = {
-      hasAction?: boolean,
+    hasAction?: boolean;
     headers: string[];
     children: Snippet;
   };

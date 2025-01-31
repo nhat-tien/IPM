@@ -8,29 +8,29 @@
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
   import { closeModal, openModal } from "@stores/modal.svelte";
   import toast from "svelte-5-french-toast";
+  import transformAidTypeToTable from "@useCases/aidTypeUseCase/transformAidTypeToTable";
+  import createAidType from "@useCases/aidTypeUseCase/createAidType";
   import { ZodError, type ZodIssue } from "zod";
   import type { PageData } from "./$types";
-  import type { EventSubmitElements } from "../../../../shared.types";
+  import type { EventSubmitElements } from "@/shared.types";
   import RowToRight from "@components/Row/RowToRight.svelte";
   import { invalidate } from "$app/navigation";
   import RowToLeft from "@components/Row/RowToLeft.svelte";
-  import transformPositionToTable from "@useCases/positionUseCase/transformPositionToTable";
-  import createPosition from "@useCases/positionUseCase/createPosition";
-  import type { Position } from "@useCases/useCases.types";
-  import updatePosition from "@useCases/positionUseCase/updatePosition";
-  import deletePosition from "@useCases/positionUseCase/deletePosition";
+  import type { AidType } from "@useCases/useCases.types";
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
+  import deleteAidType from "@useCases/aidTypeUseCase/deleteAidType";
+  import updateAidType from "@useCases/aidTypeUseCase/updateAidType";
 
-  type PositionUpdateDto = Omit<Position, "createdAt" | "updatedAt">;
+  type AidTypeUpdateDto = Omit<AidType, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
-  let selectedModel: PositionUpdateDto | null = $state(null);
 
-  let modelName = "Chức vụ";
+  let modelName = "Loại viện trợ";
   let headers = [
     `Mã ${modelName.toLowerCase()}`,
     `Tên ${modelName.toLowerCase()}`,
   ];
   let error: ZodIssue[] = $state([]);
+  let selectedModel: AidTypeUpdateDto | null = $state(null);
 
   function resetError() {
     error = [];
@@ -38,8 +38,8 @@
 
   function selectModel(model: any[]) {
     selectedModel = {
-      positionId: model[0],
-      positionName: model[1],
+      aidTypeId: model[0],
+      aidTypeName: model[1],
     };
   }
 
@@ -53,33 +53,32 @@
     openModal(confirmDelete);
   }
 
-  async function onCreate(e: EventSubmitElements) {
-    e.preventDefault();
-
-    const formData = new FormData(e.target as HTMLFormElement);
-    const result = await createPosition(formData);
-
-    if (result.isSuccess) {
-      toast.success("Thêm thành công");
-      invalidate("position:getAll");
-    } else {
-      if (result.error instanceof ZodError) {
-        error = result.error.issues;
-      }
-    }
-  }
-
   async function onUpdate(e: EventSubmitElements) {
     e.preventDefault();
 
     if (selectedModel == null) return;
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const result = await updatePosition(formData, selectedModel?.positionId);
+    const result = await updateAidType(formData, selectedModel?.aidTypeId);
 
     if (result.isSuccess) {
       toast.success("Cập nhật thành công");
-      invalidate("position:getAll");
+      invalidate("aidType:getAll");
+    } else {
+      if (result.error instanceof ZodError) {
+        error = result.error.issues;
+      }
+    }
+  }
+  async function onCreate(e: EventSubmitElements) {
+    e.preventDefault();
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    const result = await createAidType(formData);
+
+    if (result.isSuccess) {
+      toast.success("Thêm thành công");
+      invalidate("aidType:getAll");
     } else {
       if (result.error instanceof ZodError) {
         error = result.error.issues;
@@ -90,11 +89,11 @@
   async function onDelete() {
     if (selectedModel == null) return;
 
-    const result = await deletePosition(selectedModel.positionId);
+    const result = await deleteAidType(selectedModel.aidTypeId);
 
     if (result.isSuccess) {
       toast.success("Xóa thành công");
-      invalidate("position:getAll");
+      invalidate("aidType:getAll");
       closeModal();
     } else {
       if (result.error instanceof ZodError) {
@@ -109,7 +108,6 @@
   <RowToRight>
     <PrimaryButton
       onclick={() => {
-        resetError();
         openModal(createModal);
       }}
       variant="orange"
@@ -117,14 +115,14 @@
     >
   </RowToRight>
   <Table hasAction {headers}>
-    {#await data.position}
+    {#await data.aidType}
       <div>Loading</div>
-    {:then positions}
-      {#each transformPositionToTable(positions) as position}
+    {:then aidTypes}
+      {#each transformAidTypeToTable(aidTypes) as aidType}
         <TableRow
-          row={position}
-          onDelete={() => openConfirmDelete(position)}
-          onEdit={() => openUpdateModal(position)}
+          row={aidType}
+          onDelete={() => openConfirmDelete(aidType)}
+          onEdit={() => openUpdateModal(aidType)}
         />
       {/each}
     {/await}
@@ -136,15 +134,15 @@
     <h4>Thêm {modelName.toLowerCase()}</h4>
     <form onsubmit={onCreate}>
       <PrimaryTextField
-        id="positionName"
-        name="positionName"
+        id="aidTypeName"
+        name="aidTypeName"
         type="text"
         placeHolder=""
         label={`Tên ${modelName.toLowerCase()}`}
         --margin-top="1em"
         --margin-bottom="1em"
         {error}
-        errorId="positionName"
+        errorId="aidTypeName"
         onfocus={resetError}
       ></PrimaryTextField>
       <RowToLeft>
@@ -160,17 +158,17 @@
     <h4>Chỉnh sửa {modelName.toLowerCase()}</h4>
     <form onsubmit={onUpdate}>
       <PrimaryTextField
-        id="positionName"
-        name="positionName"
+        id="aidTypeName"
+        name="aidTypeName"
         type="text"
         placeHolder=""
         label={`Tên ${modelName.toLowerCase()}`}
         --margin-top="1em"
         --margin-bottom="1em"
         required
-        value={selectedModel?.positionName}
         {error}
-        errorId="positionName"
+        errorId="aidTypeName"
+        value={selectedModel?.aidTypeName}
         onfocus={resetError}
       ></PrimaryTextField>
       <RowToLeft>

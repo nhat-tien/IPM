@@ -70,6 +70,10 @@ export const sponsorEndPoint = apiWithBearerToken.extend((option) => ({
   prefixUrl: `${option.prefixUrl}/sponsors`,
 }));
 
+export const projectEndPoint = apiWithBearerToken.extend((option) => ({
+  prefixUrl: `${option.prefixUrl}/projects`,
+}));
+
 
 
 

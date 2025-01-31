@@ -6,51 +6,58 @@
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import TableRow from "@components/Table/TableRow.svelte";
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
+  import RowToRight from "@components/Row/RowToRight.svelte";
+  import RowToLeft from "@components/Row/RowToLeft.svelte";
   import { closeModal, openModal } from "@stores/modal.svelte";
+  import createAffiliatedUnit from "@useCases/affiliatedUnitUseCase/createAffiliatedUnit";
   import toast from "svelte-5-french-toast";
-  import transformAidTypeToTable from "@useCases/aidTypeUseCase/transformAidTypeToTable";
-  import createAidType from "@useCases/aidTypeUseCase/createAidType";
+  import transformAffliatedUnitToTable from "@useCases/affiliatedUnitUseCase/transformAffliatedUnitToTable";
+  import { invalidate } from "$app/navigation";
+  import deleteAffiliatedUnit from "@useCases/affiliatedUnitUseCase/deleteAffiliatedUnit";
+  import updateAffiliatedUnit from "@useCases/affiliatedUnitUseCase/updateAffiliatedUnit";
+  import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
+
   import { ZodError, type ZodIssue } from "zod";
   import type { PageData } from "./$types";
-  import type { EventSubmitElements } from "../../../../shared.types";
-  import RowToRight from "@components/Row/RowToRight.svelte";
-  import { invalidate } from "$app/navigation";
-  import RowToLeft from "@components/Row/RowToLeft.svelte";
-  import type { AidType } from "@useCases/useCases.types";
-  import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
-  import deleteAidType from "@useCases/aidTypeUseCase/deleteAidType";
-  import updateAidType from "@useCases/aidTypeUseCase/updateAidType";
+  import type { EventSubmitElements } from "@/shared.types";
+  import type { AffiliatedUnit } from "@useCases/useCases.types";
 
-  type AidTypeUpdateDto = Omit<AidType, "createdAt" | "updatedAt">;
+  type AffiliatedUnitUpdateDto = Omit<
+    AffiliatedUnit,
+    "createdAt" | "updatedAt"
+  >;
+  let headers = ["Mã đơn vị trực thuộc", "Tên đơn vị trực thuộc"];
+
   let { data }: { data: PageData } = $props();
-
-  let modelName = "Loại viện trợ";
-  let headers = [
-    `Mã ${modelName.toLowerCase()}`,
-    `Tên ${modelName.toLowerCase()}`,
-  ];
   let error: ZodIssue[] = $state([]);
-  let selectedModel: AidTypeUpdateDto | null = $state(null);
-
-  function resetError() {
-    error = [];
-  }
+  let selectedModel: AffiliatedUnitUpdateDto | null = $state(null);
 
   function selectModel(model: any[]) {
     selectedModel = {
-      aidTypeId: model[0],
-      aidTypeName: model[1],
+      affiliatedUnitId: model[0],
+      affiliatedUnitName: model[1],
     };
+  }
+
+  async function onCreate(e: EventSubmitElements) {
+    e.preventDefault();
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    const result = await createAffiliatedUnit(formData);
+
+    if (result.isSuccess) {
+      toast.success("Thêm đơn vị thành công");
+      invalidate("affiliatedUnit:getAll");
+    } else {
+      if (result.error instanceof ZodError) {
+        error = result.error.issues;
+      }
+    }
   }
 
   function openUpdateModal(model: any[]) {
     selectModel(model);
     openModal(updateModal);
-  }
-
-  function openConfirmDelete(model: any[]) {
-    selectModel(model);
-    openModal(confirmDelete);
   }
 
   async function onUpdate(e: EventSubmitElements) {
@@ -59,26 +66,14 @@
     if (selectedModel == null) return;
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const result = await updateAidType(formData, selectedModel?.aidTypeId);
+    const result = await updateAffiliatedUnit(
+      formData,
+      selectedModel?.affiliatedUnitId,
+    );
 
     if (result.isSuccess) {
-      toast.success("Cập nhật thành công");
-      invalidate("aidType:getAll");
-    } else {
-      if (result.error instanceof ZodError) {
-        error = result.error.issues;
-      }
-    }
-  }
-  async function onCreate(e: EventSubmitElements) {
-    e.preventDefault();
-
-    const formData = new FormData(e.target as HTMLFormElement);
-    const result = await createAidType(formData);
-
-    if (result.isSuccess) {
-      toast.success("Thêm thành công");
-      invalidate("aidType:getAll");
+      toast.success("Cập nhật đơn vị thành công");
+      invalidate("affiliatedUnit:getAll");
     } else {
       if (result.error instanceof ZodError) {
         error = result.error.issues;
@@ -89,11 +84,11 @@
   async function onDelete() {
     if (selectedModel == null) return;
 
-    const result = await deleteAidType(selectedModel.aidTypeId);
+    const result = await deleteAffiliatedUnit(selectedModel.affiliatedUnitId);
 
     if (result.isSuccess) {
-      toast.success("Xóa thành công");
-      invalidate("aidType:getAll");
+      toast.success("Xóa đơn vị thành công");
+      invalidate("affiliatedUnit:getAll");
       closeModal();
     } else {
       if (result.error instanceof ZodError) {
@@ -101,28 +96,34 @@
       }
     }
   }
+
+  function openConfirmDelete(model: any[]) {
+    selectModel(model);
+    openModal(confirmDelete);
+  }
 </script>
 
-<TitleWebPage title={modelName} />
-<BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
+<TitleWebPage title="Đơn vị trực thuộc" />
+<BasicCenterLayout
+  header={"Đơn vị trực thuộc"}
+  breadcrumb={["Đơn vị trực thuộc", "Danh sách"]}
+>
   <RowToRight>
     <PrimaryButton
-      onclick={() => {
-        openModal(createModal);
-      }}
+      onclick={() => openModal(createModal)}
       variant="orange"
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
   </RowToRight>
-  <Table hasAction {headers}>
-    {#await data.aidType}
+  <Table {headers} hasAction>
+    {#await data.affiliatedUnit}
       <div>Loading</div>
-    {:then aidTypes}
-      {#each transformAidTypeToTable(aidTypes) as aidType}
+    {:then affiliatedUnits}
+      {#each transformAffliatedUnitToTable(affiliatedUnits) as affiliatedUnit}
         <TableRow
-          row={aidType}
-          onDelete={() => openConfirmDelete(aidType)}
-          onEdit={() => openUpdateModal(aidType)}
+          row={affiliatedUnit}
+          onDelete={() => openConfirmDelete(affiliatedUnit)}
+          onEdit={() => openUpdateModal(affiliatedUnit)}
         />
       {/each}
     {/await}
@@ -131,19 +132,19 @@
 
 {#snippet createModal()}
   <div class="modal">
-    <h4>Thêm {modelName.toLowerCase()}</h4>
+    <h4>Thêm đơn vị trực thuộc</h4>
     <form onsubmit={onCreate}>
       <PrimaryTextField
-        id="aidTypeName"
-        name="aidTypeName"
+        id="affiliatedUnitName"
+        name="affiliatedUnitName"
         type="text"
         placeHolder=""
-        label={`Tên ${modelName.toLowerCase()}`}
+        label="Tên đơn vị trực thuộc"
+        required
         --margin-top="1em"
         --margin-bottom="1em"
         {error}
-        errorId="aidTypeName"
-        onfocus={resetError}
+        errorId="affiliatedUnitName"
       ></PrimaryTextField>
       <RowToLeft>
         <PrimaryButton variant="orange" type="submit">Thêm</PrimaryButton>
@@ -155,21 +156,20 @@
 
 {#snippet updateModal()}
   <div class="modal">
-    <h4>Chỉnh sửa {modelName.toLowerCase()}</h4>
+    <h4>Chỉnh sửa đơn vị trực thuộc</h4>
     <form onsubmit={onUpdate}>
       <PrimaryTextField
-        id="aidTypeName"
-        name="aidTypeName"
+        id="affiliatedUnitName"
+        name="affiliatedUnitName"
         type="text"
         placeHolder=""
-        label={`Tên ${modelName.toLowerCase()}`}
+        label="Tên đơn vị trực thuộc"
+        required
         --margin-top="1em"
         --margin-bottom="1em"
-        required
         {error}
-        errorId="aidTypeName"
-        value={selectedModel?.aidTypeName}
-        onfocus={resetError}
+        errorId="affiliatedUnitName"
+        value={selectedModel?.affiliatedUnitName}
       ></PrimaryTextField>
       <RowToLeft>
         <PrimaryButton variant="orange" type="submit">Lưu</PrimaryButton>

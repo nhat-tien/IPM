@@ -18,7 +18,6 @@
     </Row>
   </div>
   <div class="right-pane">
-    <small>Phòng quan hệ doanh nghiệp</small>
     <p>Quản Lí Dự Án Quốc Tế</p>
   </div>
 </Grid2Column>
@@ -26,7 +25,7 @@
 <style lang="scss">
 .left-pane {
   flex: 1;
-  padding: 0.5em;
+  padding: 0.7em;
   background-color: var(--background-color, $white-clr);
   border-radius: 10px;
   border: 1px solid $gray-clr;

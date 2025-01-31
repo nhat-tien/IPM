@@ -10,28 +10,27 @@
   import toast from "svelte-5-french-toast";
   import { ZodError, type ZodIssue } from "zod";
   import type { PageData } from "./$types";
-  import type { EventSubmitElements } from "../../../../shared.types";
+  import type { EventSubmitElements } from "@/shared.types";
   import RowToRight from "@components/Row/RowToRight.svelte";
   import { invalidate } from "$app/navigation";
+  import transformCurrencyUnitToTable from "@useCases/currencyUnitUseCase/transformCurrencyUnitToTable";
+  import createCurrencyUnit from "@useCases/currencyUnitUseCase/createCurrencyUnit";
   import RowToLeft from "@components/Row/RowToLeft.svelte";
-  import transformCategoryToTable from "@useCases/categoryUseCase/transformCategoryToTable";
-  import createCategory from "@useCases/categoryUseCase/createCategory";
-  import type { Category } from "@useCases/useCases.types";
-  import updateCategory from "@useCases/categoryUseCase/updateCategory";
-  import deleteCategory from "@useCases/categoryUseCase/deleteCategory";
+  import type { CurrencyUnit } from "@useCases/useCases.types";
+  import updateCurrencyUnit from "@useCases/currencyUnitUseCase/updateCurrencyUnit";
+  import deleteCurrencyUnit from "@useCases/currencyUnitUseCase/deleteCurrencyUnit";
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
 
+  type CurrencyUnitUpdateDto = Omit<CurrencyUnit, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
 
-  type CategoryUpdateDto = Omit<Category, "createdAt" | "updatedAt">;
-
-  let modelName = "Danh mục";
+  let modelName = "Đơn vị tiền tệ";
   let headers = [
     `Mã ${modelName.toLowerCase()}`,
     `Tên ${modelName.toLowerCase()}`,
   ];
   let error: ZodIssue[] = $state([]);
-  let selectedModel: CategoryUpdateDto | null = $state(null);
+  let selectedModel: CurrencyUnitUpdateDto | null = $state(null);
 
   function resetError() {
     error = [];
@@ -39,8 +38,8 @@
 
   function selectModel(model: any[]) {
     selectedModel = {
-      categoryId: model[0],
-      categoryName: model[1],
+      currencyUnitId: model[0],
+      currencyUnitName: model[1],
     };
   }
 
@@ -58,11 +57,11 @@
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const result = await createCategory(formData);
-
+    const result = await createCurrencyUnit(formData);
+    console.log(result);
     if (result.isSuccess) {
       toast.success("Thêm thành công");
-      invalidate("category:getAll");
+      invalidate("currencyUnit:getAll");
     } else {
       if (result.error instanceof ZodError) {
         error = result.error.issues;
@@ -76,11 +75,14 @@
     if (selectedModel == null) return;
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const result = await updateCategory(formData, selectedModel?.categoryId);
+    const result = await updateCurrencyUnit(
+      formData,
+      selectedModel?.currencyUnitId,
+    );
 
     if (result.isSuccess) {
       toast.success("Cập nhật thành công");
-      invalidate("category:getAll");
+      invalidate("currencyUnit:getAll");
     } else {
       if (result.error instanceof ZodError) {
         error = result.error.issues;
@@ -91,11 +93,11 @@
   async function onDelete() {
     if (selectedModel == null) return;
 
-    const result = await deleteCategory(selectedModel.categoryId);
+    const result = await deleteCurrencyUnit(selectedModel.currencyUnitId);
 
     if (result.isSuccess) {
       toast.success("Xóa thành công");
-      invalidate("category:getAll");
+      invalidate("currencyUnit:getAll");
       closeModal();
     } else {
       if (result.error instanceof ZodError) {
@@ -118,14 +120,14 @@
     >
   </RowToRight>
   <Table hasAction {headers}>
-    {#await data.category}
+    {#await data.currencyUnit}
       <div>Loading</div>
-    {:then categorys}
-      {#each transformCategoryToTable(categorys) as category}
+    {:then listData}
+      {#each transformCurrencyUnitToTable(listData) as item}
         <TableRow
-          row={category}
-          onDelete={() => openConfirmDelete(category)}
-          onEdit={() => openUpdateModal(category)}
+          row={item}
+          onDelete={() => openConfirmDelete(item)}
+          onEdit={() => openUpdateModal(item)}
         />
       {/each}
     {/await}
@@ -137,15 +139,15 @@
     <h4>Thêm {modelName.toLowerCase()}</h4>
     <form onsubmit={onCreate}>
       <PrimaryTextField
-        id="categoryName"
-        name="categoryName"
+        id="currencyUnitName"
+        name="currencyUnitName"
         type="text"
         placeHolder=""
         label={`Tên ${modelName.toLowerCase()}`}
         --margin-top="1em"
         --margin-bottom="1em"
         {error}
-        errorId="categoryName"
+        errorId="currencyUnitName"
         onfocus={resetError}
       ></PrimaryTextField>
       <RowToLeft>
@@ -160,21 +162,21 @@
     <h4>Chỉnh sửa {modelName.toLowerCase()}</h4>
     <form onsubmit={onUpdate}>
       <PrimaryTextField
-        id="categoryName"
-        name="categoryName"
+        id="currencyUnitName"
+        name="currencyUnitName"
         type="text"
         placeHolder=""
         label={`Tên ${modelName.toLowerCase()}`}
         --margin-top="1em"
         --margin-bottom="1em"
-        {error}
         required
-        value={selectedModel?.categoryName}
-        errorId="categoryName"
+        value={selectedModel?.currencyUnitName}
+        {error}
+        errorId="currencyUnitName"
         onfocus={resetError}
       ></PrimaryTextField>
       <RowToLeft>
-        <PrimaryButton variant="orange" type="submit">Lưu</PrimaryButton>
+        <PrimaryButton variant="orange" type="submit">Thêm</PrimaryButton>
         <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
       </RowToLeft>
     </form>

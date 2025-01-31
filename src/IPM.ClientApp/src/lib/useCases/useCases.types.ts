@@ -37,32 +37,56 @@ export type CurrencyUnit = {
   updatedAt: string,
 }
 
-export type Category  = {
-    categoryId: number,
-    categoryName: string,
-    createdAt: string,
-    updatedAt: string,
+export type Category = {
+  categoryId: number,
+  categoryName: string,
+  createdAt: string,
+  updatedAt: string,
 }
 
 export type Counterparty = {
-    counterpartyId: number,
-    counterpartyName: string,
-    createdAt: string,
-    updatedAt: string,
+  counterpartyId: number,
+  counterpartyName: string,
+  createdAt: string,
+  updatedAt: string,
 }
 
 export type Position = {
-    positionId: number,
-    positionName: string,
-    createdAt: string,
-    updatedAt: string,
+  positionId: number,
+  positionName: string,
+  createdAt: string,
+  updatedAt: string,
 }
 
 export type Sponsor = {
-    sponsorId: number,
-    sponsorName: string,
-    createdAt: string,
-    updatedAt: string,
+  sponsorId: number,
+  sponsorName: string,
+  createdAt: string,
+  updatedAt: string,
+}
+
+export type Project = {
+  projectId: number,
+  projectNameEnglish: string,
+  projectNameVietnamese: string,
+  projectPurpose: string,
+  content: string,
+  createdAt: string
+  updatedAt: string,
+  fundedEquipment: string,
+  projectBudget: string,
+  startDate: string,
+  endDate: string,
+  projectProgress: string,
+  percentageOfProgress: string,
+  affilatedUnitId: number,
+  categoryId: number,
+  sponsorId: number,
+  aidTypeId: number,
+  approvingAgencyId: number,
+  counterpartyId: number,
+  currencyUnitId: number,
+  ownerId: string,
 }
 
 

@@ -10,36 +10,36 @@
   import toast from "svelte-5-french-toast";
   import { ZodError, type ZodIssue } from "zod";
   import type { PageData } from "./$types";
-  import type { EventSubmitElements } from "../../../../shared.types";
+  import type { EventSubmitElements } from "@/shared.types";
   import RowToRight from "@components/Row/RowToRight.svelte";
   import { invalidate } from "$app/navigation";
   import RowToLeft from "@components/Row/RowToLeft.svelte";
-  import transformSponsorToTable from "@useCases/sponsorUseCase/transformSponsorToTable";
-  import createSponsor from "@useCases/sponsorUseCase/createSponsor";
-    import type { Sponsor } from "@useCases/useCases.types";
-    import updateSponsor from "@useCases/sponsorUseCase/updateSponsor";
-    import deleteSponsor from "@useCases/sponsorUseCase/deleteSponsor";
-    import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
+  import transformCounterpartyToTable from "@useCases/counterpartyUseCase/transformCounterpartyToTable";
+  import createCounterparty from "@useCases/counterpartyUseCase/createCounterparty";
+  import type { Counterparty } from "@useCases/useCases.types";
+  import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
+  import updateCounterparty from "@useCases/counterpartyUseCase/updateCounterparty";
+  import deleteCounterparty from "@useCases/counterpartyUseCase/deleteCounterparty";
 
-  type SponsorUpdateDto = Omit<Sponsor, "createdAt" | "updatedAt">;
+  type CounterpartyUpdateDto = Omit<Counterparty, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
-  let selectedModel: SponsorUpdateDto | null = $state(null);
 
-  let modelName = "Nhà tài trợ";
+  let modelName = "Đối tác";
   let headers = [
     `Mã ${modelName.toLowerCase()}`,
     `Tên ${modelName.toLowerCase()}`,
   ];
   let error: ZodIssue[] = $state([]);
+  let selectedModel: CounterpartyUpdateDto | null = $state(null);
 
   function resetError() {
     error = [];
-  } 
+  }
 
   function selectModel(model: any[]) {
     selectedModel = {
-      sponsorId: model[0],
-      sponsorName: model[1],
+      counterpartyId: model[0],
+      counterpartyName: model[1],
     };
   }
 
@@ -53,17 +53,15 @@
     openModal(confirmDelete);
   }
 
-
-
   async function onCreate(e: EventSubmitElements) {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const result = await createSponsor(formData);
+    const result = await createCounterparty(formData);
 
     if (result.isSuccess) {
       toast.success("Thêm thành công");
-      invalidate("sponsor:getAll");
+      invalidate("counterparty:getAll");
     } else {
       if (result.error instanceof ZodError) {
         error = result.error.issues;
@@ -77,11 +75,14 @@
     if (selectedModel == null) return;
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const result = await updateSponsor(formData, selectedModel?.sponsorId);
+    const result = await updateCounterparty(
+      formData,
+      selectedModel?.counterpartyId,
+    );
 
     if (result.isSuccess) {
       toast.success("Cập nhật thành công");
-      invalidate("sponsor:getAll");
+      invalidate("counterparty:getAll");
     } else {
       if (result.error instanceof ZodError) {
         error = result.error.issues;
@@ -92,11 +93,11 @@
   async function onDelete() {
     if (selectedModel == null) return;
 
-    const result = await deleteSponsor(selectedModel.sponsorId);
+    const result = await deleteCounterparty(selectedModel.counterpartyId);
 
     if (result.isSuccess) {
       toast.success("Xóa thành công");
-      invalidate("sponsor:getAll");
+      invalidate("counterparty:getAll");
       closeModal();
     } else {
       if (result.error instanceof ZodError) {
@@ -119,14 +120,14 @@
     >
   </RowToRight>
   <Table hasAction {headers}>
-    {#await data.sponsor}
+    {#await data.counterparty}
       <div>Loading</div>
-    {:then sponsors}
-      {#each transformSponsorToTable(sponsors) as sponsor}
+    {:then counterpartys}
+      {#each transformCounterpartyToTable(counterpartys) as counterparty}
         <TableRow
-          row={sponsor}
-          onDelete={() => openConfirmDelete(sponsor)}
-          onEdit={() => openUpdateModal(sponsor)}
+          row={counterparty}
+          onDelete={() => openConfirmDelete(counterparty)}
+          onEdit={() => openUpdateModal(counterparty)}
         />
       {/each}
     {/await}
@@ -138,15 +139,15 @@
     <h4>Thêm {modelName.toLowerCase()}</h4>
     <form onsubmit={onCreate}>
       <PrimaryTextField
-        id="sponsorName"
-        name="sponsorName"
+        id="counterpartyName"
+        name="counterpartyName"
         type="text"
         placeHolder=""
         label={`Tên ${modelName.toLowerCase()}`}
         --margin-top="1em"
         --margin-bottom="1em"
         {error}
-        errorId="sponsorName"
+        errorId="counterpartyName"
         onfocus={resetError}
       ></PrimaryTextField>
       <RowToLeft>
@@ -156,23 +157,22 @@
     </form>
   </div>
 {/snippet}
-
 {#snippet updateModal()}
   <div class="modal">
     <h4>Chỉnh sửa {modelName.toLowerCase()}</h4>
     <form onsubmit={onUpdate}>
       <PrimaryTextField
-        id="sponsorName"
-        name="sponsorName"
+        id="counterpartyName"
+        name="counterpartyName"
         type="text"
         placeHolder=""
         label={`Tên ${modelName.toLowerCase()}`}
         --margin-top="1em"
         --margin-bottom="1em"
         required
-        value={selectedModel?.sponsorName}
+        value={selectedModel?.counterpartyName}
         {error}
-        errorId="sponsorName"
+        errorId="counterpartyName"
         onfocus={resetError}
       ></PrimaryTextField>
       <RowToLeft>

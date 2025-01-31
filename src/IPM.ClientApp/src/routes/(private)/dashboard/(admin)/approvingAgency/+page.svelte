@@ -6,31 +6,34 @@
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import TableRow from "@components/Table/TableRow.svelte";
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
+  import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
+  import RowToRight from "@components/Row/RowToRight.svelte";
+  import RowToLeft from "@components/Row/RowToLeft.svelte";
   import { closeModal, openModal } from "@stores/modal.svelte";
   import toast from "svelte-5-french-toast";
+  import updateApprovingAgency from "@useCases/approvingAgencyUseCase/updateApprovingAgency";
+  import deleteApprovingAgency from "@useCases/approvingAgencyUseCase/deleteApprovingAgency";
+  import { invalidate } from "$app/navigation";
+  import createApprovingAgency from "@useCases/approvingAgencyUseCase/createApprovingAgency";
+  import transformApprovingAgencyToTable from "@useCases/approvingAgencyUseCase/transformApprovingAgencyToTable";
   import { ZodError, type ZodIssue } from "zod";
   import type { PageData } from "./$types";
-  import type { EventSubmitElements } from "../../../../shared.types";
-  import RowToRight from "@components/Row/RowToRight.svelte";
-  import { invalidate } from "$app/navigation";
-  import transformCurrencyUnitToTable from "@useCases/currencyUnitUseCase/transformCurrencyUnitToTable";
-  import createCurrencyUnit from "@useCases/currencyUnitUseCase/createCurrencyUnit";
-  import RowToLeft from "@components/Row/RowToLeft.svelte";
-  import type { CurrencyUnit } from "@useCases/useCases.types";
-  import updateCurrencyUnit from "@useCases/currencyUnitUseCase/updateCurrencyUnit";
-  import deleteCurrencyUnit from "@useCases/currencyUnitUseCase/deleteCurrencyUnit";
-  import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
+  import type { EventSubmitElements } from "@/shared.types";
+  import type { ApprovingAgency } from "@useCases/useCases.types";
 
-  type CurrencyUnitUpdateDto = Omit<CurrencyUnit, "createdAt" | "updatedAt">;
+  type ApprovingAgencyUpdateDto = Omit<
+    ApprovingAgency,
+    "createdAt" | "updatedAt"
+  >;
   let { data }: { data: PageData } = $props();
 
-  let modelName = "Đơn vị tiền tệ";
+  let modelName = "Cơ quan phê duyệt";
   let headers = [
     `Mã ${modelName.toLowerCase()}`,
     `Tên ${modelName.toLowerCase()}`,
   ];
   let error: ZodIssue[] = $state([]);
-  let selectedModel: CurrencyUnitUpdateDto | null = $state(null);
+  let selectedModel: ApprovingAgencyUpdateDto | null = $state(null);
 
   function resetError() {
     error = [];
@@ -38,8 +41,8 @@
 
   function selectModel(model: any[]) {
     selectedModel = {
-      currencyUnitId: model[0],
-      currencyUnitName: model[1],
+      approvingAgencyId: model[0],
+      approvingAgencyName: model[1],
     };
   }
 
@@ -52,16 +55,15 @@
     selectModel(model);
     openModal(confirmDelete);
   }
-
   async function onCreate(e: EventSubmitElements) {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const result = await createCurrencyUnit(formData);
-    console.log(result);
+    const result = await createApprovingAgency(formData);
+
     if (result.isSuccess) {
       toast.success("Thêm thành công");
-      invalidate("currencyUnit:getAll");
+      invalidate("approvingAgency:getAll");
     } else {
       if (result.error instanceof ZodError) {
         error = result.error.issues;
@@ -75,14 +77,14 @@
     if (selectedModel == null) return;
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const result = await updateCurrencyUnit(
+    const result = await updateApprovingAgency(
       formData,
-      selectedModel?.currencyUnitId,
+      selectedModel?.approvingAgencyId,
     );
 
     if (result.isSuccess) {
       toast.success("Cập nhật thành công");
-      invalidate("currencyUnit:getAll");
+      invalidate("approvingAgency:getAll");
     } else {
       if (result.error instanceof ZodError) {
         error = result.error.issues;
@@ -93,11 +95,11 @@
   async function onDelete() {
     if (selectedModel == null) return;
 
-    const result = await deleteCurrencyUnit(selectedModel.currencyUnitId);
+    const result = await deleteApprovingAgency(selectedModel.approvingAgencyId);
 
     if (result.isSuccess) {
       toast.success("Xóa thành công");
-      invalidate("currencyUnit:getAll");
+      invalidate("approvingAgency:getAll");
       closeModal();
     } else {
       if (result.error instanceof ZodError) {
@@ -119,11 +121,11 @@
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
   </RowToRight>
-  <Table hasAction {headers}>
-    {#await data.currencyUnit}
+  <Table {headers} hasAction>
+    {#await data.approvingAgency}
       <div>Loading</div>
     {:then listData}
-      {#each transformCurrencyUnitToTable(listData) as item}
+      {#each transformApprovingAgencyToTable(listData) as item}
         <TableRow
           row={item}
           onDelete={() => openConfirmDelete(item)}
@@ -139,15 +141,15 @@
     <h4>Thêm {modelName.toLowerCase()}</h4>
     <form onsubmit={onCreate}>
       <PrimaryTextField
-        id="currencyUnitName"
-        name="currencyUnitName"
+        id="approvingAgencyName"
+        name="approvingAgencyName"
         type="text"
         placeHolder=""
         label={`Tên ${modelName.toLowerCase()}`}
         --margin-top="1em"
         --margin-bottom="1em"
         {error}
-        errorId="currencyUnitName"
+        errorId="approvingAgencyName"
         onfocus={resetError}
       ></PrimaryTextField>
       <RowToLeft>
@@ -157,26 +159,27 @@
     </form>
   </div>
 {/snippet}
+
 {#snippet updateModal()}
   <div class="modal">
-    <h4>Chỉnh sửa {modelName.toLowerCase()}</h4>
+    <h4>Thêm {modelName.toLowerCase()}</h4>
     <form onsubmit={onUpdate}>
       <PrimaryTextField
-        id="currencyUnitName"
-        name="currencyUnitName"
+        id="approvingAgencyName"
+        name="approvingAgencyName"
         type="text"
         placeHolder=""
         label={`Tên ${modelName.toLowerCase()}`}
         --margin-top="1em"
         --margin-bottom="1em"
         required
-        value={selectedModel?.currencyUnitName}
         {error}
-        errorId="currencyUnitName"
+        errorId="approvingAgencyName"
         onfocus={resetError}
+        value={selectedModel?.approvingAgencyName}
       ></PrimaryTextField>
       <RowToLeft>
-        <PrimaryButton variant="orange" type="submit">Thêm</PrimaryButton>
+        <PrimaryButton variant="orange" type="submit">Lưu</PrimaryButton>
         <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
       </RowToLeft>
     </form>

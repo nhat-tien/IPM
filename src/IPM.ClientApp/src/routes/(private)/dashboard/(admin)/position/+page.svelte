@@ -6,58 +6,67 @@
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import TableRow from "@components/Table/TableRow.svelte";
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
-  import RowToRight from "@components/Row/RowToRight.svelte";
-  import RowToLeft from "@components/Row/RowToLeft.svelte";
   import { closeModal, openModal } from "@stores/modal.svelte";
-  import createAffiliatedUnit from "@useCases/affiliatedUnitUseCase/createAffiliatedUnit";
   import toast from "svelte-5-french-toast";
-  import transformAffliatedUnitToTable from "@useCases/affiliatedUnitUseCase/transformAffliatedUnitToTable";
-  import { invalidate } from "$app/navigation";
-  import deleteAffiliatedUnit from "@useCases/affiliatedUnitUseCase/deleteAffiliatedUnit";
-  import updateAffiliatedUnit from "@useCases/affiliatedUnitUseCase/updateAffiliatedUnit";
-  import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
-
   import { ZodError, type ZodIssue } from "zod";
   import type { PageData } from "./$types";
-  import type { EventSubmitElements } from "../../../../shared.types";
-  import type { AffiliatedUnit } from "@useCases/useCases.types";
+  import type { EventSubmitElements } from "@/shared.types";
+  import RowToRight from "@components/Row/RowToRight.svelte";
+  import { invalidate } from "$app/navigation";
+  import RowToLeft from "@components/Row/RowToLeft.svelte";
+  import transformPositionToTable from "@useCases/positionUseCase/transformPositionToTable";
+  import createPosition from "@useCases/positionUseCase/createPosition";
+  import type { Position } from "@useCases/useCases.types";
+  import updatePosition from "@useCases/positionUseCase/updatePosition";
+  import deletePosition from "@useCases/positionUseCase/deletePosition";
+  import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
 
-  type AffiliatedUnitUpdateDto = Omit<
-    AffiliatedUnit,
-    "createdAt" | "updatedAt"
-  >;
-  let headers = ["Mã đơn vị trực thuộc", "Tên đơn vị trực thuộc"];
-
+  type PositionUpdateDto = Omit<Position, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
+  let selectedModel: PositionUpdateDto | null = $state(null);
+
+  let modelName = "Chức vụ";
+  let headers = [
+    `Mã ${modelName.toLowerCase()}`,
+    `Tên ${modelName.toLowerCase()}`,
+  ];
   let error: ZodIssue[] = $state([]);
-  let selectedModel: AffiliatedUnitUpdateDto | null = $state(null);
+
+  function resetError() {
+    error = [];
+  }
 
   function selectModel(model: any[]) {
     selectedModel = {
-      affiliatedUnitId: model[0],
-      affiliatedUnitName: model[1],
+      positionId: model[0],
+      positionName: model[1],
     };
+  }
+
+  function openUpdateModal(model: any[]) {
+    selectModel(model);
+    openModal(updateModal);
+  }
+
+  function openConfirmDelete(model: any[]) {
+    selectModel(model);
+    openModal(confirmDelete);
   }
 
   async function onCreate(e: EventSubmitElements) {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const result = await createAffiliatedUnit(formData);
+    const result = await createPosition(formData);
 
     if (result.isSuccess) {
-      toast.success("Thêm đơn vị thành công");
-      invalidate("affiliatedUnit:getAll");
+      toast.success("Thêm thành công");
+      invalidate("position:getAll");
     } else {
       if (result.error instanceof ZodError) {
         error = result.error.issues;
       }
     }
-  }
-
-  function openUpdateModal(model: any[]) {
-    selectModel(model);
-    openModal(updateModal);
   }
 
   async function onUpdate(e: EventSubmitElements) {
@@ -66,14 +75,11 @@
     if (selectedModel == null) return;
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const result = await updateAffiliatedUnit(
-      formData,
-      selectedModel?.affiliatedUnitId,
-    );
+    const result = await updatePosition(formData, selectedModel?.positionId);
 
     if (result.isSuccess) {
-      toast.success("Cập nhật đơn vị thành công");
-      invalidate("affiliatedUnit:getAll");
+      toast.success("Cập nhật thành công");
+      invalidate("position:getAll");
     } else {
       if (result.error instanceof ZodError) {
         error = result.error.issues;
@@ -84,11 +90,11 @@
   async function onDelete() {
     if (selectedModel == null) return;
 
-    const result = await deleteAffiliatedUnit(selectedModel.affiliatedUnitId);
+    const result = await deletePosition(selectedModel.positionId);
 
     if (result.isSuccess) {
-      toast.success("Xóa đơn vị thành công");
-      invalidate("affiliatedUnit:getAll");
+      toast.success("Xóa thành công");
+      invalidate("position:getAll");
       closeModal();
     } else {
       if (result.error instanceof ZodError) {
@@ -96,34 +102,29 @@
       }
     }
   }
-
-  function openConfirmDelete(model: any[]) {
-    selectModel(model);
-    openModal(confirmDelete);
-  }
 </script>
 
-<TitleWebPage title="Đơn vị trực thuộc" />
-<BasicCenterLayout
-  header={"Đơn vị trực thuộc"}
-  breadcrumb={["Đơn vị trực thuộc", "Danh sách"]}
->
+<TitleWebPage title={modelName} />
+<BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
   <RowToRight>
     <PrimaryButton
-      onclick={() => openModal(createModal)}
+      onclick={() => {
+        resetError();
+        openModal(createModal);
+      }}
       variant="orange"
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
   </RowToRight>
-  <Table {headers} hasAction>
-    {#await data.affiliatedUnit}
+  <Table hasAction {headers}>
+    {#await data.position}
       <div>Loading</div>
-    {:then affiliatedUnits}
-      {#each transformAffliatedUnitToTable(affiliatedUnits) as affiliatedUnit}
+    {:then positions}
+      {#each transformPositionToTable(positions) as position}
         <TableRow
-          row={affiliatedUnit}
-          onDelete={() => openConfirmDelete(affiliatedUnit)}
-          onEdit={() => openUpdateModal(affiliatedUnit)}
+          row={position}
+          onDelete={() => openConfirmDelete(position)}
+          onEdit={() => openUpdateModal(position)}
         />
       {/each}
     {/await}
@@ -132,19 +133,19 @@
 
 {#snippet createModal()}
   <div class="modal">
-    <h4>Thêm đơn vị trực thuộc</h4>
+    <h4>Thêm {modelName.toLowerCase()}</h4>
     <form onsubmit={onCreate}>
       <PrimaryTextField
-        id="affiliatedUnitName"
-        name="affiliatedUnitName"
+        id="positionName"
+        name="positionName"
         type="text"
         placeHolder=""
-        label="Tên đơn vị trực thuộc"
-        required
+        label={`Tên ${modelName.toLowerCase()}`}
         --margin-top="1em"
         --margin-bottom="1em"
         {error}
-        errorId="affiliatedUnitName"
+        errorId="positionName"
+        onfocus={resetError}
       ></PrimaryTextField>
       <RowToLeft>
         <PrimaryButton variant="orange" type="submit">Thêm</PrimaryButton>
@@ -156,20 +157,21 @@
 
 {#snippet updateModal()}
   <div class="modal">
-    <h4>Chỉnh sửa đơn vị trực thuộc</h4>
+    <h4>Chỉnh sửa {modelName.toLowerCase()}</h4>
     <form onsubmit={onUpdate}>
       <PrimaryTextField
-        id="affiliatedUnitName"
-        name="affiliatedUnitName"
+        id="positionName"
+        name="positionName"
         type="text"
         placeHolder=""
-        label="Tên đơn vị trực thuộc"
-        required
+        label={`Tên ${modelName.toLowerCase()}`}
         --margin-top="1em"
         --margin-bottom="1em"
+        required
+        value={selectedModel?.positionName}
         {error}
-        errorId="affiliatedUnitName"
-        value={selectedModel?.affiliatedUnitName}
+        errorId="positionName"
+        onfocus={resetError}
       ></PrimaryTextField>
       <RowToLeft>
         <PrimaryButton variant="orange" type="submit">Lưu</PrimaryButton>
