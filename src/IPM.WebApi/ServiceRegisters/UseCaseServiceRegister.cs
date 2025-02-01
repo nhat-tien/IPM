@@ -42,6 +42,10 @@ using IPM.Application.UseCases.Sponsor.DeleteSponsorUseCase;
 using IPM.Application.UseCases.Sponsor.GetAllSponsorUseCase;
 using IPM.Application.UseCases.Sponsor.UpdateSponsorUseCase;
 
+using IPM.Application.UseCases.Project.CreateProjectUseCase;
+using IPM.Application.UseCases.Project.DeleteProjectUseCase;
+using IPM.Application.UseCases.Project.GetAllProjectUseCase;
+using IPM.Application.UseCases.Project.UpdateProjectUseCase;
 
 using IPM.Application.UseCases.Role;
 
@@ -98,6 +102,11 @@ public static class UseCaseServiceRegister
         services.AddScoped<IGetAllSponsorUseCase, GetAllSponsorHandler>();
         services.AddScoped<IDeleteSponsorUseCase, DeleteSponsorHandler>();
         services.AddScoped<IUpdateSponsorUseCase, UpdateSponsorHandler>();
+
+        services.AddScoped<ICreateProjectUseCase, CreateProjectHandler>();
+        services.AddScoped<IGetAllProjectUseCase, GetAllProjectHandler>();
+        services.AddScoped<IDeleteProjectUseCase, DeleteProjectHandler>();
+        services.AddScoped<IUpdateProjectUseCase, UpdateProjectHandler>();
 
         services.AddScoped<IGetAllUserUseCase, GetAllUserHandler>();
         services.AddScoped<IGetCurrentUserUseCase, GetCurrentUserHandler>();
