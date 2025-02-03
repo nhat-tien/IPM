@@ -5,7 +5,8 @@ import getAllAidType from "@useCases/aidTypeUseCase/getAllAidType";
 import getAllApprovingAgency from "@useCases/approvingAgencyUseCase/getAllApprovingAgency";
 import getAllCounterparty from "@useCases/counterpartyUseCase/getAllCounterparty";
 
-export const load: PageLoad = async () => {
+export const load: PageLoad = async ({ depends }) => {
+  depends("project:create")
   return {
     category: getAllCategory(),
     sponsor: getAllSponsor(),

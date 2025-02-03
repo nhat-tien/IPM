@@ -13,6 +13,9 @@
   import transformAidTypeToOption from "@useCases/aidTypeUseCase/transformAidTypeToOption";
   import transformApprovingAgencyToOption from "@useCases/approvingAgencyUseCase/transformApprovingAgencyToOption";
   import transformCounterpartyToOption from "@useCases/counterpartyUseCase/transformCounterpartyToOption";
+  import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
+  import createCategory from "@useCases/categoryUseCase/createCategory";
+  import { openModal } from "@stores/modal.svelte";
 
   let { data }: { data: PageData } = $props();
   let step: 1 | 2 | 3 = $state(1);
@@ -61,12 +64,17 @@
         --margin-top="1em"
         name="categoryId"
         bind:value={modelState.categoryId}
+        onclick={() => openModal(createCategoryModal)}
       >
         {#await data.category}
           <option value="">Loading</option>
         {:then categories}
           {#each transformCategoryToOption(categories) as category}
-            <option value={category.value} selected={category.value == modelState.categoryId}>{category.name}</option>
+            <option
+              value={category.value}
+              selected={category.value == modelState.categoryId}
+              >{category.name}</option
+            >
           {/each}
         {/await}
       </SelectWithCreateButton>
@@ -83,7 +91,11 @@
           <option value="">Loading</option>
         {:then sponsors}
           {#each transformSponsorToOption(sponsors) as sponsor}
-            <option value={sponsor.value} selected={sponsor.value == modelState.sponsorId}>{sponsor.name}</option>
+            <option
+              value={sponsor.value}
+              selected={sponsor.value == modelState.sponsorId}
+              >{sponsor.name}</option
+            >
           {/each}
         {/await}
       </SelectWithCreateButton>
@@ -100,7 +112,11 @@
           <option value="">Loading</option>
         {:then aidTypes}
           {#each transformAidTypeToOption(aidTypes) as aidType}
-            <option value={aidType.value} selected={aidType.value == modelState.aidTypeId}>{aidType.name}</option>
+            <option
+              value={aidType.value}
+              selected={aidType.value == modelState.aidTypeId}
+              >{aidType.name}</option
+            >
           {/each}
         {/await}
       </SelectWithCreateButton>
@@ -117,7 +133,10 @@
           <option value="">Loading</option>
         {:then approvingAgencies}
           {#each transformApprovingAgencyToOption(approvingAgencies) as approvingAgency}
-            <option value={approvingAgency.value} selected={approvingAgency.value == modelState.approvingAgencyId}>{approvingAgency.name}</option
+            <option
+              value={approvingAgency.value}
+              selected={approvingAgency.value == modelState.approvingAgencyId}
+              >{approvingAgency.name}</option
             >
           {/each}
         {/await}
@@ -135,11 +154,15 @@
           <option value="">Loading</option>
         {:then counterParties}
           {#each transformCounterpartyToOption(counterParties) as counterParty}
-            <option value={counterParty.value} selected={counterParty.value == modelState.counterPartyId}>{counterParty.name}</option>
+            <option
+              value={counterParty.value}
+              selected={counterParty.value == modelState.counterPartyId}
+              >{counterParty.name}</option
+            >
           {/each}
         {/await}
       </SelectWithCreateButton>
-      <RowToRight>
+      <RowToRight --margin-top="1rem">
         <PrimaryButton variant="orange" onclick={() => step++}
           >Tiếp theo</PrimaryButton
         >
@@ -163,6 +186,43 @@
     {/if}
   </div>
 </BasicCenterLayout>
+
+{#snippet createCategoryModal()}
+  <SingleFieldCreateModal
+    title="Thêm danh mục"
+    label="Tên danh mục"
+    placeHolder="Vui lòng nhập tên danh mục"
+    fieldName="categoryName"
+    successMessage="Thêm thành công"
+    invalidateStr="project:create"
+    createFn={createCategory}
+  />
+{/snippet}
+
+{#snippet createAidTypeModal()}
+  <SingleFieldCreateModal
+    title="Thêm danh mục"
+    label="Tên danh mục"
+    placeHolder="Vui lòng nhập tên danh mục"
+    fieldName="categoryName"
+    successMessage="Thêm thành công"
+    invalidateStr="project:create"
+    createFn={createCategory}
+  />
+{/snippet}
+
+{#snippet createSponsorModal()}
+  <SingleFieldCreateModal
+    title="Thêm danh mục"
+    label="Tên danh mục"
+    placeHolder="Vui lòng nhập tên danh mục"
+    fieldName="categoryName"
+    successMessage="Thêm thành công"
+    invalidateStr="project:create"
+    createFn={createCategory}
+  />
+{/snippet}
+
 
 <style lang="scss">
   .container {

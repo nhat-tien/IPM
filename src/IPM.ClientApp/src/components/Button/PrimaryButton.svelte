@@ -4,7 +4,7 @@
     children,
     onclick = () => {},
     variant,
-    type = "button"
+    type = "button",
   }: {
     children: Snippet;
     onclick?: () => void;
@@ -13,13 +13,13 @@
   } = $props();
 
   let variantName = () => {
-    switch(variant) {
-      case "orange": 
-         return "button--orange";
+    switch (variant) {
+      case "orange":
+        return "button--orange";
       default:
         return "";
     }
-  }
+  };
 </script>
 
 <button {onclick} class={variantName()} {type}>
@@ -30,8 +30,8 @@
   button {
     margin-top: var(--margin-top, 0);
     margin-bottom: var(--margin-bottom, 0);
-    margin-left:  var(--margin-left, "auto");
-    margin-right:  var(--margin-right, "auto");
+    margin-left: var(--margin-left, "auto");
+    margin-right: var(--margin-right, "auto");
     background-color: var(--background-color, $text-clr);
     color: var(--color, $primary-clr);
     padding: 0.6em;
@@ -44,6 +44,6 @@
   .button--orange {
     background-color: var(--background-color, $text-second-clr);
     color: var(--color, $white-clr);
-  font-family: "Inter SemiBold";
+    font-family: "Inter SemiBold";
   }
 </style>

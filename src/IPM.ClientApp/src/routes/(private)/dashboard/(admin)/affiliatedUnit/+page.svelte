@@ -21,7 +21,7 @@
   import type { PageData } from "./$types";
   import type { EventSubmitElements } from "@/shared.types";
   import type { AffiliatedUnit } from "@useCases/useCases.types";
-    import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
+  import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
 
   type AffiliatedUnitUpdateDto = Omit<
     AffiliatedUnit,
