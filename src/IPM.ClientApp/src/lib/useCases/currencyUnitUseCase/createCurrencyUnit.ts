@@ -13,7 +13,7 @@ type CreateCurrencyUnitRequest = z.infer<typeof CreateCurrencyUnitScheme>;
 export default async function createCurrencyUnit(formData: FormData): Promise<UseCaseResult> {
 
   const data: CreateCurrencyUnitRequest = {
-    currencyUnitName: formData.get("currencyUnitName") as string,
+    currencyUnitName: (formData.get("currencyUnitName") as string).trim(),
   }
 
   return await create<CreateCurrencyUnitRequest>({

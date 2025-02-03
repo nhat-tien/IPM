@@ -13,7 +13,7 @@ type CreateAidTypeRequest = z.infer<typeof CreateAidTypeScheme>;
 export default async function createAidType(formData: FormData): Promise<UseCaseResult> {
 
   const data: CreateAidTypeRequest = {
-    aidTypeName: formData.get("aidTypeName") as string,
+    aidTypeName: (formData.get("aidTypeName") as string).trim(),
   }
 
   return await create<CreateAidTypeRequest>({

@@ -11,7 +11,7 @@ type UpdatePositionRequest = z.infer<typeof UpdatePositionScheme>;
 
 export default async function updatePosition(formData: FormData, id: number): Promise<UseCaseResult> {
   const data: UpdatePositionRequest = {
-    positionName: formData.get("positionName") as string,
+    positionName: (formData.get("positionName") as string).trim(),
   }
 
   return await update<UpdatePositionRequest>({

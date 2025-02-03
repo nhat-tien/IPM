@@ -4,10 +4,27 @@
   import BasicCenterLayout from "@components/Layout/BasicCenterLayout.svelte";
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
   import RowToRight from "@components/Row/RowToRight.svelte";
-  import Select from "@components/Select/Select.svelte";
-  import PrimaryTextField from "@components/TextField/PrimaryTextField.svelte";
+  import SelectWithCreateButton from "@components/Select/SelectWithCreateButton.svelte";
+  import PrimaryTextFieldBindable from "@components/TextField/PrimaryTextFieldBindable.svelte";
   import StepProgressBar from "@components/UniqueComponents/StepProgressBar.svelte";
+  import type { PageData } from "./$types";
+  import transformCategoryToOption from "@useCases/categoryUseCase/transformCategoryToOption";
+  import transformSponsorToOption from "@useCases/sponsorUseCase/transformSponsorToOption";
+  import transformAidTypeToOption from "@useCases/aidTypeUseCase/transformAidTypeToOption";
+  import transformApprovingAgencyToOption from "@useCases/approvingAgencyUseCase/transformApprovingAgencyToOption";
+  import transformCounterpartyToOption from "@useCases/counterpartyUseCase/transformCounterpartyToOption";
+
+  let { data }: { data: PageData } = $props();
   let step: 1 | 2 | 3 = $state(1);
+  let modelState = $state({
+    projectNameVietnamese: "",
+    projectNameEnglish: "",
+    categoryId: "",
+    sponsorId: "",
+    aidTypeId: "",
+    approvingAgencyId: "",
+    counterPartyId: "",
+  });
 </script>
 
 <TitleWebPage title="Tạo dự án mới" />
@@ -16,36 +33,112 @@
   <div class="container">
     {#if step == 1}
       <h3>Thông tin dự án</h3>
-      <PrimaryTextField
+      <PrimaryTextFieldBindable
         id="projectNameVietnamese"
         label="Tên dự án Tiếng Việt"
         placeHolder=""
         type="text"
         name="projectNameVietnamese"
+        bind:value={modelState.projectNameVietnamese}
         --margin-top="1.5em"
         required
       />
-      <PrimaryTextField
+      <PrimaryTextFieldBindable
         id="projectNameEnglish"
         label="Tên dự án Tiếng Anh"
         placeHolder=""
         type="text"
-        name="projectNameVietnamese"
+        name="projectNameEnglish"
+        bind:value={modelState.projectNameEnglish}
         --margin-top="1em"
         required
       />
-      <Select
+      <SelectWithCreateButton
         id="categoryId"
-        items={[
-          { value: "1", name: "Admin" },
-          { value: "2", name: "Manager" },
-          { value: "3", name: "User" },
-        ]}
+        items={[]}
         label="Danh mục"
         placeHolder=""
         --margin-top="1em"
         name="categoryId"
-      />
+        bind:value={modelState.categoryId}
+      >
+        {#await data.category}
+          <option value="">Loading</option>
+        {:then categories}
+          {#each transformCategoryToOption(categories) as category}
+            <option value={category.value} selected={category.value == modelState.categoryId}>{category.name}</option>
+          {/each}
+        {/await}
+      </SelectWithCreateButton>
+      <SelectWithCreateButton
+        id="sponsorId"
+        items={[]}
+        label="Nhà tài trợ"
+        placeHolder=""
+        --margin-top="1em"
+        name="sponsorId"
+        bind:value={modelState.sponsorId}
+      >
+        {#await data.sponsor}
+          <option value="">Loading</option>
+        {:then sponsors}
+          {#each transformSponsorToOption(sponsors) as sponsor}
+            <option value={sponsor.value} selected={sponsor.value == modelState.sponsorId}>{sponsor.name}</option>
+          {/each}
+        {/await}
+      </SelectWithCreateButton>
+      <SelectWithCreateButton
+        id="aidTypeId"
+        items={[]}
+        label="Loại viện trợ"
+        placeHolder=""
+        --margin-top="1em"
+        name="aidTypeId"
+        bind:value={modelState.aidTypeId}
+      >
+        {#await data.aidType}
+          <option value="">Loading</option>
+        {:then aidTypes}
+          {#each transformAidTypeToOption(aidTypes) as aidType}
+            <option value={aidType.value} selected={aidType.value == modelState.aidTypeId}>{aidType.name}</option>
+          {/each}
+        {/await}
+      </SelectWithCreateButton>
+      <SelectWithCreateButton
+        id="approvingAgencyId"
+        items={[]}
+        label="Cơ quan phê duyệt"
+        placeHolder=""
+        --margin-top="1em"
+        name="approvingAgencyId"
+        bind:value={modelState.approvingAgencyId}
+      >
+        {#await data.approvingAgency}
+          <option value="">Loading</option>
+        {:then approvingAgencies}
+          {#each transformApprovingAgencyToOption(approvingAgencies) as approvingAgency}
+            <option value={approvingAgency.value} selected={approvingAgency.value == modelState.approvingAgencyId}>{approvingAgency.name}</option
+            >
+          {/each}
+        {/await}
+      </SelectWithCreateButton>
+      <SelectWithCreateButton
+        id="counterPartyId"
+        items={[]}
+        label="Đối tác thực hiện"
+        placeHolder=""
+        --margin-top="1em"
+        name="counterPartyId"
+        bind:value={modelState.counterPartyId}
+      >
+        {#await data.counterParty}
+          <option value="">Loading</option>
+        {:then counterParties}
+          {#each transformCounterpartyToOption(counterParties) as counterParty}
+            <option value={counterParty.value} selected={counterParty.value == modelState.counterPartyId}>{counterParty.name}</option>
+          {/each}
+        {/await}
+      </SelectWithCreateButton>
       <RowToRight>
         <PrimaryButton variant="orange" onclick={() => step++}
           >Tiếp theo</PrimaryButton

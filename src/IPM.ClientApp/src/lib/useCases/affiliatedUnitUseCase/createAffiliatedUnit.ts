@@ -13,7 +13,7 @@ type CreateAffiliatedUnitRequest = z.infer<typeof CreateAffiliatedUnitScheme>;
 export default async function createAffiliatedUnit(formData: FormData): Promise<UseCaseResult> {
 
   const data: CreateAffiliatedUnitRequest = {
-    affiliatedUnitName: formData.get("affiliatedUnitName") as string,
+    affiliatedUnitName: (formData.get("affiliatedUnitName") as string).trim(),
   }
 
   return await create<CreateAffiliatedUnitRequest>({

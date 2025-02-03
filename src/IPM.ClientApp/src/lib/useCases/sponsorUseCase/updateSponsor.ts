@@ -11,7 +11,7 @@ type UpdateSponsorRequest = z.infer<typeof UpdateSponsorScheme>;
 
 export default async function updateSponsor(formData: FormData, id: number): Promise<UseCaseResult> {
   const data: UpdateSponsorRequest = {
-    sponsorName: formData.get("sponsorName") as string,
+    sponsorName: (formData.get("sponsorName") as string).trim(),
   }
 
   return await update<UpdateSponsorRequest>({

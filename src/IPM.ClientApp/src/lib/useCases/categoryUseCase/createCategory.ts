@@ -14,7 +14,7 @@ type CreateCategoryRequest = z.infer<typeof CreateCategoryScheme>;
 export default async function createCategory(formData: FormData): Promise<UseCaseResult> {
 
   const data: CreateCategoryRequest = {
-    categoryName: formData.get("categoryName") as string,
+    categoryName: (formData.get("categoryName") as string).trim(),
   }
 
   return await create<CreateCategoryRequest>({

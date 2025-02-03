@@ -21,11 +21,13 @@
   import type { PageData } from "./$types";
   import type { EventSubmitElements } from "@/shared.types";
   import type { AffiliatedUnit } from "@useCases/useCases.types";
+    import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
 
   type AffiliatedUnitUpdateDto = Omit<
     AffiliatedUnit,
     "createdAt" | "updatedAt"
   >;
+  let modelName = "Đơn vị trực thuộc";
   let headers = ["Mã đơn vị trực thuộc", "Tên đơn vị trực thuộc"];
 
   let { data }: { data: PageData } = $props();
@@ -37,22 +39,6 @@
       affiliatedUnitId: model[0],
       affiliatedUnitName: model[1],
     };
-  }
-
-  async function onCreate(e: EventSubmitElements) {
-    e.preventDefault();
-
-    const formData = new FormData(e.target as HTMLFormElement);
-    const result = await createAffiliatedUnit(formData);
-
-    if (result.isSuccess) {
-      toast.success("Thêm đơn vị thành công");
-      invalidate("affiliatedUnit:getAll");
-    } else {
-      if (result.error instanceof ZodError) {
-        error = result.error.issues;
-      }
-    }
   }
 
   function openUpdateModal(model: any[]) {
@@ -131,27 +117,15 @@
 </BasicCenterLayout>
 
 {#snippet createModal()}
-  <div class="modal">
-    <h4>Thêm đơn vị trực thuộc</h4>
-    <form onsubmit={onCreate}>
-      <PrimaryTextField
-        id="affiliatedUnitName"
-        name="affiliatedUnitName"
-        type="text"
-        placeHolder=""
-        label="Tên đơn vị trực thuộc"
-        required
-        --margin-top="1em"
-        --margin-bottom="1em"
-        {error}
-        errorId="affiliatedUnitName"
-      ></PrimaryTextField>
-      <RowToLeft>
-        <PrimaryButton variant="orange" type="submit">Thêm</PrimaryButton>
-        <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
-      </RowToLeft>
-    </form>
-  </div>
+  <SingleFieldCreateModal
+    title={`Thêm ${modelName.toLowerCase()}`}
+    label={`Tên ${modelName.toLowerCase()}`}
+    placeHolder={`Vui lòng nhập tên ${modelName.toLowerCase()}`}
+    fieldName="affiliatedUnitName"
+    invalidateStr="affiliatedUnit:getAll"
+    successMessage="Thêm thành công"
+    createFn={createAffiliatedUnit}
+  />
 {/snippet}
 
 {#snippet updateModal()}

@@ -11,7 +11,7 @@ type UpdateCategoryRequest = z.infer<typeof UpdateCategoryScheme>;
 
 export default async function updateCategory(formData: FormData, id: number): Promise<UseCaseResult> {
   const data: UpdateCategoryRequest = {
-    categoryName: formData.get("categoryName") as string,
+    categoryName: (formData.get("categoryName") as string).trim(),
   }
 
   return await update<UpdateCategoryRequest>({

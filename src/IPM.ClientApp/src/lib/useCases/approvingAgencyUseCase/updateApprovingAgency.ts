@@ -11,7 +11,7 @@ type UpdateApprovingAgencyRequest = z.infer<typeof UpdateApprovingAgencyScheme>;
 
 export default async function updateApprovingAgency(formData: FormData, id: number): Promise<UseCaseResult> {
   const data: UpdateApprovingAgencyRequest = {
-    approvingAgencyName: formData.get("approvingAgencyName") as string,
+    approvingAgencyName: (formData.get("approvingAgencyName") as string).trim(),
   }
 
   return await update<UpdateApprovingAgencyRequest>({

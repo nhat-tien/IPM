@@ -14,7 +14,7 @@ type CreateSponsorRequest = z.infer<typeof CreateSponsorScheme>;
 export default async function createSponsor(formData: FormData): Promise<UseCaseResult> {
 
   const data: CreateSponsorRequest = {
-    sponsorName: formData.get("sponsorName") as string,
+    sponsorName: (formData.get("sponsorName") as string).trim(),
   }
 
   return await create<CreateSponsorRequest>({

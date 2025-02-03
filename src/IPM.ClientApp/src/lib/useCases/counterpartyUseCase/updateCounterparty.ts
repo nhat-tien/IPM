@@ -11,7 +11,7 @@ type UpdateCounterpartyRequest = z.infer<typeof UpdateCounterpartyScheme>;
 
 export default async function updateCounterparty(formData: FormData, id: number): Promise<UseCaseResult> {
   const data: UpdateCounterpartyRequest = {
-    counterpartyName: formData.get("counterpartyName") as string,
+    counterpartyName: (formData.get("counterpartyName") as string).trim(),
   }
 
   return await update<UpdateCounterpartyRequest>({

@@ -11,7 +11,7 @@ type UpdateAidTypeRequest = z.infer<typeof UpdateAidTypeScheme>;
 
 export default async function updateAidType(formData: FormData, id: number): Promise<UseCaseResult> {
   const data: UpdateAidTypeRequest = {
-    aidTypeName: formData.get("aidTypeName") as string,
+    aidTypeName: (formData.get("aidTypeName") as string).trim(),
   }
 
   return await update<UpdateAidTypeRequest>({

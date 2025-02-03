@@ -14,7 +14,7 @@ type CreatePositionRequest = z.infer<typeof CreatePositionScheme>;
 export default async function createPosition(formData: FormData): Promise<UseCaseResult> {
 
   const data: CreatePositionRequest = {
-    positionName: formData.get("positionName") as string,
+    positionName: (formData.get("positionName") as string).trim(),
   }
 
   return await create<CreatePositionRequest>({

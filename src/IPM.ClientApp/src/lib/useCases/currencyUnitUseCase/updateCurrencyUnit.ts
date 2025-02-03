@@ -11,7 +11,7 @@ type UpdateCurrencyUnitRequest = z.infer<typeof UpdateCurrencyUnitScheme>;
 
 export default async function updateCurrencyUnit(formData: FormData, id: number): Promise<UseCaseResult> {
   const data: UpdateCurrencyUnitRequest = {
-    currencyUnitName: formData.get("currencyUnitName") as string,
+    currencyUnitName: (formData.get("currencyUnitName") as string).trim(),
   }
 
   return await update<UpdateCurrencyUnitRequest>({

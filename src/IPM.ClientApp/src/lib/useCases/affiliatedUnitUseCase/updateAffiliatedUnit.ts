@@ -11,7 +11,7 @@ type UpdateAffiliatedUnitRequest = z.infer<typeof UpdateAffiliatedUnitScheme>;
 
 export default async function updateAffiliatedUnit(formData: FormData, id: number): Promise<UseCaseResult> {
   const data: UpdateAffiliatedUnitRequest = {
-    affiliatedUnitName: formData.get("affiliatedUnitName") as string,
+    affiliatedUnitName: (formData.get("affiliatedUnitName") as string).trim(),
   }
 
   return await update<UpdateAffiliatedUnitRequest>({
