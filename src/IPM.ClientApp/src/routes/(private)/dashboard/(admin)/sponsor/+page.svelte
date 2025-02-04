@@ -16,10 +16,10 @@
   import RowToLeft from "@components/Row/RowToLeft.svelte";
   import transformSponsorToTable from "@useCases/sponsorUseCase/transformSponsorToTable";
   import createSponsor from "@useCases/sponsorUseCase/createSponsor";
-    import type { Sponsor } from "@useCases/useCases.types";
-    import updateSponsor from "@useCases/sponsorUseCase/updateSponsor";
-    import deleteSponsor from "@useCases/sponsorUseCase/deleteSponsor";
-    import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
+  import type { Sponsor } from "@useCases/useCases.types";
+  import updateSponsor from "@useCases/sponsorUseCase/updateSponsor";
+  import deleteSponsor from "@useCases/sponsorUseCase/deleteSponsor";
+  import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
 
   type SponsorUpdateDto = Omit<Sponsor, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -34,7 +34,7 @@
 
   function resetError() {
     error = [];
-  } 
+  }
 
   function selectModel(model: any[]) {
     selectedModel = {
@@ -52,8 +52,6 @@
     selectModel(model);
     openModal(confirmDelete);
   }
-
-
 
   async function onCreate(e: EventSubmitElements) {
     e.preventDefault();

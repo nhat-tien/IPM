@@ -1,19 +1,34 @@
-<script>
-  import BasicCenterLayout from "@components/Layout/BasicCenterLayout.svelte";
+<script lang="ts">
   import Table from "@components/Table/Table.svelte";
-    import TableRow from "@components/Table/TableRow.svelte";
-  let headers = ["Họ lót", "Tên", "Địa chỉ"];
-  let content = [
-    ["Nguyễn Thị", "Lan", "An Giang"],
-    ["Nguyễn Thị", "Lan", "An Giang"],
-  ];
+  import BasicCenterLayout from "@components/Layout/BasicCenterLayout.svelte";
+  import TableRow from "@components/Table/TableRow.svelte";
+  import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
+  import type { PageData } from "./$types";
+  import transformUserToTable from "@useCases/userUseCase/transformUserToTable";
+  let { data }: { data: PageData } = $props();
 
+  let modelName = "Người dùng";
+  let headers = [
+    `Mã ${modelName.toLowerCase()}`,
+    `Username`,
+    `Email`,
+    `Họ lót`,
+    `Tên`,
+  ];
 </script>
 
-<BasicCenterLayout header={"User"} breadcrumb={["Users", "List"]}> 
-  <Table {headers}> 
-    {#each content as row}
-      <TableRow row={row} />
-    {/each}
+<TitleWebPage title={modelName} />
+<BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
+  <Table {headers}>
+    {#await data.users}
+      <div>Loading</div>
+    {:then users}
+      {#each transformUserToTable(users) as user}
+        <TableRow row={user} />
+      {/each}
+    {/await}
   </Table>
 </BasicCenterLayout>
+
+<style lang="scss">
+</style>

@@ -74,6 +74,10 @@ export const projectEndPoint = apiWithBearerToken.extend((option) => ({
   prefixUrl: `${option.prefixUrl}/projects`,
 }));
 
+export const userEndPoint = apiWithBearerToken.extend((option) => ({
+  prefixUrl: `${option.prefixUrl}/users`,
+}));
+
 
 
 

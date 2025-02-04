@@ -89,4 +89,30 @@ export type Project = {
   ownerId: string,
 }
 
+export type Role = {
+  roleId: string,
+  roleName: string
+}
+
+export type User = {
+  userId: string,
+  userName: string,
+  firstName: string,
+  lastName: string,
+  positionId: number,
+  affilatedUnitId: number,
+  roleId: number,
+  phoneNumber: string,
+  address: string,
+  email: string,
+  status: number,
+  createdAt: string,
+  updatedAt: string,
+  role: Role
+  position: Position
+  verifiedCodeEmail: number,
+  verifiedStatus: number,
+  verificationValidTime: string
+}
+
 

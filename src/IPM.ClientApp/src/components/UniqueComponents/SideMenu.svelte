@@ -96,6 +96,14 @@
           Chức vụ
         {/snippet}
       </SideMenuItem>
+      <SideMenuItem href="/dashboard/users">
+        {#snippet icon()}
+          <BookIcon />
+        {/snippet}
+        {#snippet content()}
+          Danh sách người dùng
+        {/snippet}
+      </SideMenuItem>
     </SideMenuGroup>
   </div>
 </section>
