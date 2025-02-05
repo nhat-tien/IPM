@@ -105,24 +105,6 @@ namespace IPM.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Files",
-                columns: table => new
-                {
-                    FileId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ProjectId = table.Column<int>(type: "integer", nullable: false),
-                    FileName = table.Column<string>(type: "text", nullable: true),
-                    FileTypeId = table.Column<int>(type: "integer", nullable: false),
-                    Url = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Files", x => x.FileId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "FileTypes",
                 columns: table => new
                 {
@@ -135,25 +117,6 @@ namespace IPM.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FileTypes", x => x.FileTypeId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Participations",
-                columns: table => new
-                {
-                    ParticipationId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ProjectId = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    JoinDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Status = table.Column<string>(type: "text", nullable: true),
-                    Note = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Participations", x => x.ParticipationId);
                 });
 
             migrationBuilder.CreateTable(
@@ -306,8 +269,6 @@ namespace IPM.Infrastructure.Migrations
                     ProjectNameVietnamese = table.Column<string>(type: "text", nullable: true),
                     ProjectPurpose = table.Column<string>(type: "text", nullable: true),
                     Content = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     FundedEquipment = table.Column<string>(type: "text", nullable: true),
                     ProjectBudget = table.Column<string>(type: "text", nullable: true),
                     StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -321,7 +282,8 @@ namespace IPM.Infrastructure.Migrations
                     ApprovingAgencyId = table.Column<int>(type: "integer", nullable: true),
                     CounterpartyId = table.Column<int>(type: "integer", nullable: true),
                     CurrencyUnitId = table.Column<int>(type: "integer", nullable: true),
-                    OwnerId = table.Column<string>(type: "text", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -361,11 +323,6 @@ namespace IPM.Infrastructure.Migrations
                         column: x => x.SponsorId,
                         principalTable: "Sponsors",
                         principalColumn: "SponsorId");
-                    table.ForeignKey(
-                        name: "FK_Projects_Users_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -473,6 +430,66 @@ namespace IPM.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Files",
+                columns: table => new
+                {
+                    FileId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    FileName = table.Column<string>(type: "text", nullable: true),
+                    Url = table.Column<string>(type: "text", nullable: true),
+                    ProjectId = table.Column<int>(type: "integer", nullable: false),
+                    FileTypeId = table.Column<int>(type: "integer", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Files", x => x.FileId);
+                    table.ForeignKey(
+                        name: "FK_Files_FileTypes_FileTypeId",
+                        column: x => x.FileTypeId,
+                        principalTable: "FileTypes",
+                        principalColumn: "FileTypeId");
+                    table.ForeignKey(
+                        name: "FK_Files_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "ProjectId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Participations",
+                columns: table => new
+                {
+                    ProjectId = table.Column<int>(type: "integer", nullable: false),
+                    UsersId = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    JoinDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: true),
+                    Note = table.Column<string>(type: "text", nullable: true),
+                    Owner = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Participations", x => new { x.ProjectId, x.UsersId });
+                    table.ForeignKey(
+                        name: "FK_Participations_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "ProjectId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Participations_Users_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
@@ -482,6 +499,21 @@ namespace IPM.Infrastructure.Migrations
                     { "2", null, "Manager", "MANAGER" },
                     { "3", null, "User", "USER" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Files_FileTypeId",
+                table: "Files",
+                column: "FileTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Files_ProjectId",
+                table: "Files",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Participations_UsersId",
+                table: "Participations",
+                column: "UsersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_AffilatedUnitId",
@@ -512,11 +544,6 @@ namespace IPM.Infrastructure.Migrations
                 name: "IX_Projects_CurrencyUnitId",
                 table: "Projects",
                 column: "CurrencyUnitId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Projects_OwnerId",
-                table: "Projects",
-                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_SponsorId",
@@ -571,6 +598,12 @@ namespace IPM.Infrastructure.Migrations
                 column: "AffilatedUnitId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_PositionId",
                 table: "Users",
                 column: "PositionId");
@@ -589,13 +622,7 @@ namespace IPM.Infrastructure.Migrations
                 name: "Files");
 
             migrationBuilder.DropTable(
-                name: "FileTypes");
-
-            migrationBuilder.DropTable(
                 name: "Participations");
-
-            migrationBuilder.DropTable(
-                name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "ProjectUpdateLogs");
@@ -622,6 +649,18 @@ namespace IPM.Infrastructure.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
+                name: "FileTypes");
+
+            migrationBuilder.DropTable(
+                name: "Projects");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
                 name: "AidTypes");
 
             migrationBuilder.DropTable(
@@ -638,12 +677,6 @@ namespace IPM.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Sponsors");
-
-            migrationBuilder.DropTable(
-                name: "Roles");
-
-            migrationBuilder.DropTable(
-                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "AffiliatedUnits");

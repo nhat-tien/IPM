@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { WindowMouseEvent } from "@/shared.types";
   import type { Snippet } from "svelte";
   import { fly } from "svelte/transition";
 

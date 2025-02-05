@@ -16,6 +16,8 @@
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
   import createCategory from "@useCases/categoryUseCase/createCategory";
   import { openModal } from "@stores/modal.svelte";
+  import createSponsor from "@useCases/sponsorUseCase/createSponsor";
+  import createAidType from "@useCases/aidTypeUseCase/createAidType";
 
   let { data }: { data: PageData } = $props();
   let step: 1 | 2 | 3 = $state(1);
@@ -86,6 +88,7 @@
         --margin-top="1em"
         name="sponsorId"
         bind:value={modelState.sponsorId}
+        onclick={() => openModal(createSponsorModal)}
       >
         {#await data.sponsor}
           <option value="">Loading</option>
@@ -107,6 +110,7 @@
         --margin-top="1em"
         name="aidTypeId"
         bind:value={modelState.aidTypeId}
+        onclick={() => openModal(createAidTypeModal)}
       >
         {#await data.aidType}
           <option value="">Loading</option>
@@ -199,30 +203,29 @@
   />
 {/snippet}
 
-{#snippet createAidTypeModal()}
-  <SingleFieldCreateModal
-    title="Thêm danh mục"
-    label="Tên danh mục"
-    placeHolder="Vui lòng nhập tên danh mục"
-    fieldName="categoryName"
-    successMessage="Thêm thành công"
-    invalidateStr="project:create"
-    createFn={createCategory}
-  />
-{/snippet}
-
 {#snippet createSponsorModal()}
   <SingleFieldCreateModal
-    title="Thêm danh mục"
-    label="Tên danh mục"
-    placeHolder="Vui lòng nhập tên danh mục"
-    fieldName="categoryName"
+    title="Thêm nhà tài trợ"
+    label="Tên nhà tài trợ"
+    placeHolder="Vui lòng nhập tên nhà tài trợ"
+    fieldName="sponsorName"
     successMessage="Thêm thành công"
     invalidateStr="project:create"
-    createFn={createCategory}
+    createFn={createSponsor}
   />
 {/snippet}
 
+{#snippet createAidTypeModal()}
+  <SingleFieldCreateModal
+    title="Thêm loại viện trợ"
+    label="Tên loại viện trợ"
+    placeHolder="Vui lòng nhập tên loại viện trợ"
+    fieldName="aidTypeName"
+    successMessage="Thêm thành công"
+    invalidateStr="project:create"
+    createFn={createAidType}
+  />
+{/snippet}
 
 <style lang="scss">
   .container {

@@ -78,7 +78,6 @@ export const userEndPoint = apiWithBearerToken.extend((option) => ({
   prefixUrl: `${option.prefixUrl}/users`,
 }));
 
-
-
-
-
+export const fileTypeEndPoint = apiWithBearerToken.extend((option) => ({
+  prefixUrl: `${option.prefixUrl}/fileTypes`,
+}));

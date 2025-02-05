@@ -20,6 +20,7 @@
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
   import deleteAidType from "@useCases/aidTypeUseCase/deleteAidType";
   import updateAidType from "@useCases/aidTypeUseCase/updateAidType";
+  import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
 
   type AidTypeUpdateDto = Omit<AidType, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -70,22 +71,6 @@
       }
     }
   }
-  async function onCreate(e: EventSubmitElements) {
-    e.preventDefault();
-
-    const formData = new FormData(e.target as HTMLFormElement);
-    const result = await createAidType(formData);
-
-    if (result.isSuccess) {
-      toast.success("Thêm thành công");
-      invalidate("aidType:getAll");
-    } else {
-      if (result.error instanceof ZodError) {
-        error = result.error.issues;
-      }
-    }
-  }
-
   async function onDelete() {
     if (selectedModel == null) return;
 
@@ -130,27 +115,15 @@
 </BasicCenterLayout>
 
 {#snippet createModal()}
-  <div class="modal">
-    <h4>Thêm {modelName.toLowerCase()}</h4>
-    <form onsubmit={onCreate}>
-      <PrimaryTextField
-        id="aidTypeName"
-        name="aidTypeName"
-        type="text"
-        placeHolder=""
-        label={`Tên ${modelName.toLowerCase()}`}
-        --margin-top="1em"
-        --margin-bottom="1em"
-        {error}
-        errorId="aidTypeName"
-        onfocus={resetError}
-      ></PrimaryTextField>
-      <RowToLeft>
-        <PrimaryButton variant="orange" type="submit">Thêm</PrimaryButton>
-        <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
-      </RowToLeft>
-    </form>
-  </div>
+  <SingleFieldCreateModal
+    title={`Thêm ${modelName.toLowerCase()}`}
+    label={`Tên ${modelName.toLowerCase()}`}
+    placeHolder={`Vui lòng nhập tên ${modelName.toLowerCase()}`}
+    fieldName="aidTypeName"
+    invalidateStr="aidType:getAll"
+    successMessage="Thêm thành công"
+    createFn={createAidType}
+  />
 {/snippet}
 
 {#snippet updateModal()}

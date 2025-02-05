@@ -20,6 +20,7 @@
   import updateCurrencyUnit from "@useCases/currencyUnitUseCase/updateCurrencyUnit";
   import deleteCurrencyUnit from "@useCases/currencyUnitUseCase/deleteCurrencyUnit";
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
+  import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
 
   type CurrencyUnitUpdateDto = Omit<CurrencyUnit, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -51,22 +52,6 @@
   function openConfirmDelete(model: any[]) {
     selectModel(model);
     openModal(confirmDelete);
-  }
-
-  async function onCreate(e: EventSubmitElements) {
-    e.preventDefault();
-
-    const formData = new FormData(e.target as HTMLFormElement);
-    const result = await createCurrencyUnit(formData);
-    console.log(result);
-    if (result.isSuccess) {
-      toast.success("Thêm thành công");
-      invalidate("currencyUnit:getAll");
-    } else {
-      if (result.error instanceof ZodError) {
-        error = result.error.issues;
-      }
-    }
   }
 
   async function onUpdate(e: EventSubmitElements) {
@@ -135,27 +120,15 @@
 </BasicCenterLayout>
 
 {#snippet createModal()}
-  <div class="modal">
-    <h4>Thêm {modelName.toLowerCase()}</h4>
-    <form onsubmit={onCreate}>
-      <PrimaryTextField
-        id="currencyUnitName"
-        name="currencyUnitName"
-        type="text"
-        placeHolder=""
-        label={`Tên ${modelName.toLowerCase()}`}
-        --margin-top="1em"
-        --margin-bottom="1em"
-        {error}
-        errorId="currencyUnitName"
-        onfocus={resetError}
-      ></PrimaryTextField>
-      <RowToLeft>
-        <PrimaryButton variant="orange" type="submit">Thêm</PrimaryButton>
-        <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
-      </RowToLeft>
-    </form>
-  </div>
+  <SingleFieldCreateModal
+    title={`Thêm ${modelName.toLowerCase()}`}
+    label={`Tên ${modelName.toLowerCase()}`}
+    placeHolder={`Vui lòng nhập tên ${modelName.toLowerCase()}`}
+    fieldName="currencyUnitName"
+    invalidateStr="currencyUnit:getAll"
+    successMessage="Thêm thành công"
+    createFn={createCurrencyUnit}
+  />
 {/snippet}
 {#snippet updateModal()}
   <div class="modal">

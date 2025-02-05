@@ -20,6 +20,7 @@
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
   import updateCounterparty from "@useCases/counterpartyUseCase/updateCounterparty";
   import deleteCounterparty from "@useCases/counterpartyUseCase/deleteCounterparty";
+  import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
 
   type CounterpartyUpdateDto = Omit<Counterparty, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -51,22 +52,6 @@
   function openConfirmDelete(model: any[]) {
     selectModel(model);
     openModal(confirmDelete);
-  }
-
-  async function onCreate(e: EventSubmitElements) {
-    e.preventDefault();
-
-    const formData = new FormData(e.target as HTMLFormElement);
-    const result = await createCounterparty(formData);
-
-    if (result.isSuccess) {
-      toast.success("Thêm thành công");
-      invalidate("counterparty:getAll");
-    } else {
-      if (result.error instanceof ZodError) {
-        error = result.error.issues;
-      }
-    }
   }
 
   async function onUpdate(e: EventSubmitElements) {
@@ -135,28 +120,17 @@
 </BasicCenterLayout>
 
 {#snippet createModal()}
-  <div class="modal">
-    <h4>Thêm {modelName.toLowerCase()}</h4>
-    <form onsubmit={onCreate}>
-      <PrimaryTextField
-        id="counterpartyName"
-        name="counterpartyName"
-        type="text"
-        placeHolder=""
-        label={`Tên ${modelName.toLowerCase()}`}
-        --margin-top="1em"
-        --margin-bottom="1em"
-        {error}
-        errorId="counterpartyName"
-        onfocus={resetError}
-      ></PrimaryTextField>
-      <RowToLeft>
-        <PrimaryButton variant="orange" type="submit">Thêm</PrimaryButton>
-        <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
-      </RowToLeft>
-    </form>
-  </div>
+  <SingleFieldCreateModal
+    title={`Thêm ${modelName.toLowerCase()}`}
+    label={`Tên ${modelName.toLowerCase()}`}
+    placeHolder={`Vui lòng nhập tên ${modelName.toLowerCase()}`}
+    fieldName="counterpartyName"
+    invalidateStr="counterparty:getAll"
+    successMessage="Thêm thành công"
+    createFn={createCounterparty}
+  />
 {/snippet}
+
 {#snippet updateModal()}
   <div class="modal">
     <h4>Chỉnh sửa {modelName.toLowerCase()}</h4>

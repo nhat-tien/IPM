@@ -1,13 +1,39 @@
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 
-  public class File
-  {
-      public int FileId {get; set;}
-      public int ProjectId { get; set; }
-      public string? FileName { get; set; }
-      public int FileTypeId { get; set; }
-      public string? Url { get; set; }
-      public DateTime CreatedAt { get; set; }
-      public DateTime UpdatedAt { get; set; }
-  }
- 
+public class File : BaseEntity
+{
+    public int FileId { get; set; }
+    public string? FileName { get; set; }
+    public string? Url { get; set; }
+
+    public int ProjectId { get; set; }
+    public Project? Project { get; set; }
+
+    public int? FileTypeId { get; set; }
+    public FileType? FileType { get; set; }
+
+    public Domain.File MapTo()
+    {
+        return new Domain.File()
+        {
+            FileId = this.FileId,
+            FileName = this.FileName,
+            ProjectId = this.ProjectId,
+            Url = this.Url,
+            FileTypeId = this.FileTypeId,
+            CreatedAt = this.CreatedAt,
+            UpdatedAt = this.UpdatedAt,
+        };
+    }
+
+    public static File MapFrom(Domain.File model)
+    {
+        return new File()
+        {
+            FileId = model.FileId,
+            FileName = model.FileName,
+            CreatedAt = model.CreatedAt,
+            UpdatedAt = model.UpdatedAt,
+        };
+    }
+}

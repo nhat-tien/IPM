@@ -9,6 +9,7 @@ print_help() {
     echo "            fe:install      Install FE dependencies"
     echo "            be:run          Run"
     echo "            be:dev          Run and hot reload"
+    echo "            be:build        Build"
     echo "            mg:new <name>   Make new migration"
     echo "            mg:remove       Remove migration"
     echo "            db:update       Update database"
@@ -65,6 +66,10 @@ main() {
         "be:dev")
             echo "dotnet watch --project src/IPM.WebApi"
             dotnet watch --project src/IPM.WebApi
+            ;;
+        "be:build")
+            echo "dotnet build --project src/IPM.WebApi"
+            dotnet build --project src/IPM.WebApi
             ;;
         *)
             echo "Command not found: $1"

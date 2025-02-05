@@ -38,8 +38,10 @@ public class AppDBContext : IdentityDbContext<User>
                 entityType.SetTableName(tableName.Substring(6));
             }
         }
-        builder.ApplyConfiguration(new RefreshTokenConfiguration());
+        builder.ApplyConfiguration(new UserConfiguration());
         builder.ApplyConfiguration(new IdentityRoleConfiguration());
+        builder.ApplyConfiguration(new RefreshTokenConfiguration());
+        builder.ApplyConfiguration(new ProjectConfiguration());
         // builder.HasDefaultSchema();
     }
 }

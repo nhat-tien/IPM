@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IPM.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20250118150051_NewMigration")]
+    [Migration("20250205075826_NewMigration")]
     partial class NewMigration
     {
         /// <inheritdoc />
@@ -171,7 +171,7 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<string>("FileName")
                         .HasColumnType("text");
 
-                    b.Property<int>("FileTypeId")
+                    b.Property<int?>("FileTypeId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ProjectId")
@@ -184,6 +184,10 @@ namespace IPM.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("FileId");
+
+                    b.HasIndex("FileTypeId");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Files");
                 });
@@ -212,11 +216,11 @@ namespace IPM.Infrastructure.Migrations
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Participation", b =>
                 {
-                    b.Property<int>("ParticipationId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("ProjectId")
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ParticipationId"));
+                    b.Property<string>("UsersId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -227,8 +231,8 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("text");
 
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("integer");
+                    b.Property<bool>("Owner")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Status")
                         .HasColumnType("text");
@@ -239,7 +243,9 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.HasKey("ParticipationId");
+                    b.HasKey("ProjectId", "UsersId");
+
+                    b.HasIndex("UsersId");
 
                     b.ToTable("Participations");
                 });
@@ -304,9 +310,6 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<string>("FundedEquipment")
                         .HasColumnType("text");
 
-                    b.Property<string>("OwnerId")
-                        .HasColumnType("text");
-
                     b.Property<string>("PercentageOfProgress")
                         .HasColumnType("text");
 
@@ -347,8 +350,6 @@ namespace IPM.Infrastructure.Migrations
                     b.HasIndex("CounterpartyId");
 
                     b.HasIndex("CurrencyUnitId");
-
-                    b.HasIndex("OwnerId");
 
                     b.HasIndex("SponsorId");
 
@@ -535,6 +536,9 @@ namespace IPM.Infrastructure.Migrations
 
                     b.HasIndex("AffilatedUnitId");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -699,6 +703,38 @@ namespace IPM.Infrastructure.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.File", b =>
+                {
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.FileType", "FileType")
+                        .WithMany()
+                        .HasForeignKey("FileTypeId");
+
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FileType");
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Participation", b =>
+                {
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Project", null)
+                        .WithMany("Participations")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.User", null)
+                        .WithMany("Participations")
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Project", b =>
                 {
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.AffiliatedUnit", "AffilatedUnit")
@@ -725,10 +761,6 @@ namespace IPM.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("CurrencyUnitId");
 
-                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.User", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId");
-
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Sponsor", "Sponsor")
                         .WithMany()
                         .HasForeignKey("SponsorId");
@@ -744,8 +776,6 @@ namespace IPM.Infrastructure.Migrations
                     b.Navigation("Counterparty");
 
                     b.Navigation("CurrencyUnit");
-
-                    b.Navigation("Owner");
 
                     b.Navigation("Sponsor");
                 });
@@ -825,6 +855,16 @@ namespace IPM.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Project", b =>
+                {
+                    b.Navigation("Participations");
+                });
+
+            modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.User", b =>
+                {
+                    b.Navigation("Participations");
                 });
 #pragma warning restore 612, 618
         }

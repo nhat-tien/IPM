@@ -36,8 +36,8 @@ public class Project: BaseEntity
     public int? CurrencyUnitId { get; set; }
     public CurrencyUnit? CurrencyUnit { get; set; }
 
-    public string? OwnerId { get; set; }
-    public User? Owner { get; set; }
+    public List<User>? Users { get; set; }
+    public List<Participation>? Participations { get; set; }
 
     public Domain.Project MapTo()
     {
@@ -60,7 +60,6 @@ public class Project: BaseEntity
             ApprovingAgencyId = this.ApprovingAgencyId,
             CounterpartyId = this.CounterpartyId,
             CurrencyUnitId = this.CurrencyUnitId,
-            OwnerId = this.OwnerId,
             CreatedAt = this.CreatedAt,
             UpdatedAt = this.UpdatedAt,
         };
@@ -87,7 +86,6 @@ public class Project: BaseEntity
             ApprovingAgencyId = model.ApprovingAgencyId,
             CounterpartyId = model.CounterpartyId,
             CurrencyUnitId = model.CurrencyUnitId,
-            OwnerId = model.OwnerId,
             CreatedAt = model.CreatedAt,
             UpdatedAt = model.UpdatedAt,
         };

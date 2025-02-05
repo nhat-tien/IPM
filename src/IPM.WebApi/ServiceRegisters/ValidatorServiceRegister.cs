@@ -27,6 +27,9 @@ using IPM.Application.UseCases.Position.UpdatePositionUseCase;
 using IPM.Application.UseCases.Sponsor.CreateSponsorUseCase;
 using IPM.Application.UseCases.Sponsor.UpdateSponsorUseCase;
 
+using IPM.Application.UseCases.Project.CreateProjectUseCase;
+using IPM.Application.UseCases.Project.UpdateProjectUseCase;
+
 using IPM.WebApi.Validators.Auth;
 using IPM.WebApi.Validators.ApprovingAgency;
 using IPM.WebApi.Validators.AffiliatedUnit;
@@ -36,6 +39,7 @@ using IPM.WebApi.Validators.Category;
 using IPM.WebApi.Validators.Counterparty;
 using IPM.WebApi.Validators.Position;
 using IPM.WebApi.Validators.Sponsor;
+using IPM.WebApi.Validators.Project;
 
 namespace IPM.WebApi.ServiceRegisters;
 
@@ -85,6 +89,9 @@ public static class ValidatorServiceRegister
 
         services.AddScoped<IValidator<CreateSponsorRequest>, SponsorCreateValidator>();
         services.AddScoped<IValidator<UpdateSponsorRequest>, SponsorUpdateValidator>();
+
+        services.AddScoped<IValidator<CreateProjectRequest>, ProjectCreateValidator>();
+        services.AddScoped<IValidator<UpdateProjectRequest>, ProjectUpdateValidator>();
         return services;
     }
 

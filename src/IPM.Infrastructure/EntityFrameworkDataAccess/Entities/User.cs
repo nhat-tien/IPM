@@ -21,24 +21,27 @@ public class User : IdentityUser
     public Position? Position {get; set; } 
     public AffiliatedUnit? AffilatedUnit { get; set; }
 
+    public List<Project>? Projects { get; set; }
+    public List<Participation>? Participations { get; set; }
+
     public Domain.User MapTo()
     {
         return new Domain.User()
         {
-            UserId = Id,
-            UserName = UserName,
-            FirstName = FirstName,
-            LastName = LastName,
-            PositionId = PositionId,
-            AffilatedUnitId = AffilatedUnitId,
-            Email = Email,
-            Address = Address,
-            Status = Status,
-            CreatedAt = CreatedAt,
-            UpdatedAt = UpdatedAt,
-            VerifiedCodeEmail = VerifiedCodeEmail,
-            VerifiedStatus = VerifiedStatus,
-            VerificationValidTime = VerificationValidTime,
+            UserId = this.Id,
+            UserName = this.UserName,
+            FirstName = this.FirstName,
+            LastName = this.LastName,
+            PositionId = this.PositionId,
+            AffilatedUnitId = this.AffilatedUnitId,
+            Email = this.Email,
+            Address = this.Address,
+            Status = this.Status,
+            CreatedAt = this.CreatedAt,
+            UpdatedAt = this.UpdatedAt,
+            VerifiedCodeEmail = this.VerifiedCodeEmail,
+            VerifiedStatus = this.VerifiedStatus,
+            VerificationValidTime = this.VerificationValidTime,
         };
     }
 

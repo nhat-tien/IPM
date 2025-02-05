@@ -64,7 +64,7 @@
       --margin-bottom="2em"
       {error}
       required
-      errorId="affiliatedUnitName"
+      errorId={fieldName}
       onfocus={clearError}
     ></PrimaryTextField>
     <RowToLeft

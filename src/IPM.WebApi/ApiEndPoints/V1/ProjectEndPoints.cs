@@ -2,6 +2,7 @@ using IPM.Application.UseCases.Project.CreateProjectUseCase;
 using IPM.Application.UseCases.Project.DeleteProjectUseCase;
 using IPM.Application.UseCases.Project.GetAllProjectUseCase;
 using IPM.Application.UseCases.Project.UpdateProjectUseCase;
+using IPM.WebApi.Filters;
 
 namespace IPM.WebApi.ApiEndPoints.V1;
 
@@ -23,6 +24,7 @@ public static class ProjectEndPoints
                     await handler.Handle(req);
                 }
             )
+            .WithRequestValidation<CreateProjectRequest>()
             .RequireAuthorization("UserPermission");
 
         endpoints
@@ -43,6 +45,7 @@ public static class ProjectEndPoints
                     await handler.Handle(id, req);
                 }
             )
+            .WithRequestValidation<UpdateProjectRequest>()
             .RequireAuthorization("UserPermission");
     }
 }
