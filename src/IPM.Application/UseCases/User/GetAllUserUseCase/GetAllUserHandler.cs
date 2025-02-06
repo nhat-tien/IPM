@@ -5,6 +5,6 @@ public class GetAllUserHandler(IUserRepository repo): IGetAllUserUseCase
 {
     public async Task<IEnumerable<Domain.User>> Handle()
     {
-        return await repo.GetAll();
+        return await repo.GetAllWithRole();
     }
 }

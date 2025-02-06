@@ -30,6 +30,7 @@ builder.Services.AddControllersWithViews();
  */
 builder.Services.AddPersistenceService(builder.Configuration);
 builder.Services.AddAuthServices(builder.Configuration);
+builder.Services.AddFileService(builder.Configuration);
 builder.Services.AddEmailService();
 builder.Services.AddUseCaseServices();
 builder.Services.AddSwaggerGenWithAuth();
