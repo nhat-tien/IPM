@@ -60,6 +60,7 @@ docker compose up -d
 [Documents](/docs/README.md)
 
 ## Will fix
+- [ ] Catch email existing SQL error
 - [ ] Prevent users sign up with role
 - [ ] Data return in order by createDate 
 

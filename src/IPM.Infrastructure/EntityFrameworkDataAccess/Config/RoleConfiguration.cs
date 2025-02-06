@@ -1,27 +1,32 @@
-using Microsoft.AspNetCore.Identity;
+using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Config;
 
-public class IdentityRoleConfiguration : IEntityTypeConfiguration<IdentityRole>
+public class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
-    public void Configure(EntityTypeBuilder<IdentityRole> builder)
+    public void Configure(EntityTypeBuilder<Role> builder)
     {
+        builder.HasMany(e => e.UserRoles)
+                .WithOne(e => e.Role)
+                .HasForeignKey(ur => ur.RoleId)
+                .IsRequired();
+
         builder.HasData(
-            new IdentityRole()
+            new Role()
             {
                 Id = "1",
                 Name = "Admin",
                 NormalizedName = "ADMIN",
             },
-            new IdentityRole()
+            new Role()
             {
                 Id = "2",
                 Name = "Manager",
                 NormalizedName = "MANAGER",
             },
-            new IdentityRole()
+            new Role()
             {
                 Id = "3",
                 Name = "User",

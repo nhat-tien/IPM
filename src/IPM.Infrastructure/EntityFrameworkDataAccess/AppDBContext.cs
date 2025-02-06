@@ -3,9 +3,13 @@ namespace IPM.Infrastructure.EntityFrameworkDataAccess;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Config;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-public class AppDBContext : IdentityDbContext<User> 
+public class AppDBContext : IdentityDbContext<
+        User, Role, string,
+        IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>,
+        IdentityRoleClaim<string>, IdentityUserToken<string>>
 {
     public AppDBContext(DbContextOptions<AppDBContext> options)
         : base(options) { }
@@ -39,7 +43,7 @@ public class AppDBContext : IdentityDbContext<User>
             }
         }
         builder.ApplyConfiguration(new UserConfiguration());
-        builder.ApplyConfiguration(new IdentityRoleConfiguration());
+        builder.ApplyConfiguration(new RoleConfiguration());
         builder.ApplyConfiguration(new RefreshTokenConfiguration());
         builder.ApplyConfiguration(new ProjectConfiguration());
         // builder.HasDefaultSchema();

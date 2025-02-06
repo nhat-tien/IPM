@@ -102,4 +102,27 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
         return listOfDomain;
     }
 
+    public async Task<IEnumerable<Domain.User>> GetAllWithRole()
+    {
+        List<User> entity = await userManager
+            .Users.Include(e => e.UserRoles)!
+            .ThenInclude(e => e.Role)
+            .ToListAsync();
+        IEnumerable<Domain.User> listOfDomain = entity.Select(entity =>
+        {
+            ICollection<UserRole>? userRoles = entity.UserRoles;
+            if (userRoles is null)
+            {
+                return entity.MapTo();
+            }
+            var userRole = userRoles.FirstOrDefault();
+            var role = userRole!.Role;
+            Domain.Role roleDomain = new Domain.Role() { RoleId = role!.Id, RoleName = role!.Name };
+            var domain = entity.MapTo();
+            domain.Role = roleDomain;
+            return domain;
+        });
+
+        return listOfDomain;
+    }
 }

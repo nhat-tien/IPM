@@ -63,7 +63,7 @@ public static class AuthServiceRegister
         });
         services
             .AddIdentityApiEndpoints<User>()
-            .AddRoles<IdentityRole>()
+            .AddRoles<Role>()
             .AddEntityFrameworkStores<AppDBContext>();
         // services.AddOptions<BearerTokenOptions>(IdentityConstants.BearerScheme).Configure(options =>
         // {
