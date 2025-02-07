@@ -4,8 +4,8 @@ namespace IPM.Application.UseCases.Project.CreateProjectUseCase;
 
 public class CreateProjectHandler(IProjectRepository repo): ICreateProjectUseCase
 {
-    public async Task Handle(CreateProjectRequest req)
+    public async Task<Domain.Project> Handle(CreateProjectRequest req)
     {
-        await repo.AddAsync(req.MapTo());
+        return await repo.AddAsync(req.MapTo());
     }
 }

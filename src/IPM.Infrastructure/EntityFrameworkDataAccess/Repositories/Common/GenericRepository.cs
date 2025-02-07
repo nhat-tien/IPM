@@ -20,7 +20,7 @@ public abstract class GenericRepository<TDomain, TEntity>
 
     public abstract IQueryable<TEntity> WhereId(int id);
 
-    public async Task AddAsync(TDomain domain)
+    public virtual async Task AddAsync(TDomain domain)
     {
         TEntity entity = MapFromDomain(domain);
         entity.CreatedAt = DateTime.UtcNow;
@@ -34,14 +34,14 @@ public abstract class GenericRepository<TDomain, TEntity>
         await WhereId(id).ExecuteDeleteAsync();
     }
 
-    public async Task<IEnumerable<TDomain>> GetAllAsync()
+    public virtual async Task<IEnumerable<TDomain>> GetAllAsync()
     {
         List<TEntity> entity = await context.Set<TEntity>().ToListAsync();
         IEnumerable<TDomain> listOfDomain = entity.Select(entity => MapToDomain(entity));
         return listOfDomain;
     }
 
-    public async Task<TDomain?> FindByIdAsync(int id)
+    public virtual async Task<TDomain?> FindByIdAsync(int id)
     {
         TEntity? entity = await context.Set<TEntity>().FindAsync(id);
         if(entity is null) 
@@ -51,7 +51,7 @@ public abstract class GenericRepository<TDomain, TEntity>
         return MapToDomain(entity);
     }
 
-    public async Task UpdateAsync(TDomain domain)
+    public virtual async Task UpdateAsync(TDomain domain)
     {
         var domainId = GetDomainId(domain);
         TEntity? entity = await WhereId(domainId).FirstOrDefaultAsync();

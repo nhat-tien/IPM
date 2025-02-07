@@ -29,4 +29,15 @@ public class ProjectRepository : GenericRepository<Domain.Project, Project>, IPr
     {
         return entity.MapTo();
     }
+
+    public override async Task<Domain.Project> AddAsync(Domain.Project domain) 
+    {
+        Project entity = MapFromDomain(domain);
+        entity.CreatedAt = DateTime.UtcNow;
+        entity.UpdatedAt = DateTime.UtcNow;
+        await context.Set<Project>().AddAsync(entity);
+        await context.SaveChangesAsync();
+
+        return entity.MapTo();
+    }
 }
