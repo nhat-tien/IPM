@@ -18,7 +18,7 @@ public class CounterpartyRepository
 
     public override IQueryable<Counterparty> WhereId(int id)
     {
-        return context.Counterparties.Where(e => e.CounterpartyId == id);
+        return db.Counterparties.Where(e => e.CounterpartyId == id);
     }
 
     public override Counterparty MapFromDomain(Domain.Counterparty domain)

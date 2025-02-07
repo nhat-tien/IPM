@@ -17,7 +17,7 @@ public class SponsorRepository : GenericRepository<Domain.Sponsor, Sponsor>, ISp
 
     public override IQueryable<Sponsor> WhereId(int id)
     {
-        return context.Sponsors.Where(e => e.SponsorId == id);
+        return db.Sponsors.Where(e => e.SponsorId == id);
     }
 
     public override Sponsor MapFromDomain(Domain.Sponsor domain)

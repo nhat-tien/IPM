@@ -17,7 +17,7 @@ public class PositionRepository : GenericRepository<Domain.Position, Position>, 
 
     public override IQueryable<Position> WhereId(int id)
     {
-        return context.Positions.Where(e => e.PositionId == id);
+        return db.Positions.Where(e => e.PositionId == id);
     }
 
     public override Position MapFromDomain(Domain.Position domain)

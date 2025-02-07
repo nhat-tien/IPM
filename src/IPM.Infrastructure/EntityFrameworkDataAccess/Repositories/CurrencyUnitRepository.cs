@@ -17,7 +17,7 @@ public class CurrencyUnitRepository : GenericRepository<Domain.CurrencyUnit, Cur
 
     public override IQueryable<CurrencyUnit> WhereId(int id)
     {
-        return context.CurrencyUnits.Where(e => e.CurrencyUnitId == id);
+        return db.CurrencyUnits.Where(e => e.CurrencyUnitId == id);
     }
 
     public override CurrencyUnit MapFromDomain(Domain.CurrencyUnit domain)

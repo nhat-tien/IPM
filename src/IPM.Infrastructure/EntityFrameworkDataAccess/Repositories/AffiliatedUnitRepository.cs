@@ -13,7 +13,7 @@ public class AffiliatedUnitRepository
      
     public override IQueryable<AffiliatedUnit> WhereId(int id)
     {
-        return context.AffiliatedUnits.Where(e => e.AffiliatedUnitId == id);
+        return db.AffiliatedUnits.Where(e => e.AffiliatedUnitId == id);
     }
 
     public override int GetDomainId(Domain.AffiliatedUnit domain)

@@ -27,6 +27,6 @@ public class FileTypeRepository : GenericRepository<Domain.FileType, FileType>, 
 
     public override IQueryable<FileType> WhereId(int id)
     {
-        return context.FileTypes.Where(e => e.FileTypeId == id);
+        return db.FileTypes.Where(e => e.FileTypeId == id);
     }
 }

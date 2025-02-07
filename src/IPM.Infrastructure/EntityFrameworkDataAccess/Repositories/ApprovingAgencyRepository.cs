@@ -17,7 +17,7 @@ public class ApprovingAgencyRepository : GenericRepository<Domain.ApprovingAgenc
 
     public override IQueryable<ApprovingAgency> WhereId(int id)
     {
-        return context.ApprovingAgencies.Where(e => e.ApprovingAgencyId == id);
+        return db.ApprovingAgencies.Where(e => e.ApprovingAgencyId == id);
     }
 
     public override ApprovingAgency MapFromDomain(Domain.ApprovingAgency domain)

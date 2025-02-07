@@ -17,7 +17,7 @@ public class CategoryRepository : GenericRepository<Domain.Category, Category>, 
 
     public override IQueryable<Category> WhereId(int id)
     {
-        return context.Categories.Where(e => e.CategoryId == id);
+        return db.Categories.Where(e => e.CategoryId == id);
     }
 
     public override Category MapFromDomain(Domain.Category domain)

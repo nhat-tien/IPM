@@ -17,7 +17,7 @@ public class ProjectRepository : GenericRepository<Domain.Project, Project>, IPr
 
     public override IQueryable<Project> WhereId(int id)
     {
-        return context.Projects.Where(e => e.ProjectId == id);
+        return db.Projects.Where(e => e.ProjectId == id);
     }
 
     public override Project MapFromDomain(Domain.Project domain)
@@ -35,8 +35,8 @@ public class ProjectRepository : GenericRepository<Domain.Project, Project>, IPr
         Project entity = MapFromDomain(domain);
         entity.CreatedAt = DateTime.UtcNow;
         entity.UpdatedAt = DateTime.UtcNow;
-        await context.Set<Project>().AddAsync(entity);
-        await context.SaveChangesAsync();
+        await db.Set<Project>().AddAsync(entity);
+        await db.SaveChangesAsync();
 
         return entity.MapTo();
     }

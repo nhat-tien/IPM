@@ -8,10 +8,10 @@ public abstract class GenericRepository<TDomain, TEntity>
     where TDomain : class 
     where TEntity : BaseEntity 
 {
-    protected AppDBContext context {get; set;}
+    protected AppDBContext db {get; set;}
     protected GenericRepository(AppDBContext ctx)
     {
-        context = ctx;
+        db = ctx;
     }
 
     public abstract TEntity MapFromDomain(TDomain domain);
@@ -25,8 +25,8 @@ public abstract class GenericRepository<TDomain, TEntity>
         TEntity entity = MapFromDomain(domain);
         entity.CreatedAt = DateTime.UtcNow;
         entity.UpdatedAt = DateTime.UtcNow;
-        await context.Set<TEntity>().AddAsync(entity);
-        await context.SaveChangesAsync();
+        await db.Set<TEntity>().AddAsync(entity);
+        await db.SaveChangesAsync();
     }
 
     public async Task DeleteByIdAsync(int id)
@@ -36,14 +36,14 @@ public abstract class GenericRepository<TDomain, TEntity>
 
     public virtual async Task<IEnumerable<TDomain>> GetAllAsync()
     {
-        List<TEntity> entity = await context.Set<TEntity>().ToListAsync();
+        List<TEntity> entity = await db.Set<TEntity>().ToListAsync();
         IEnumerable<TDomain> listOfDomain = entity.Select(entity => MapToDomain(entity));
         return listOfDomain;
     }
 
     public virtual async Task<TDomain?> FindByIdAsync(int id)
     {
-        TEntity? entity = await context.Set<TEntity>().FindAsync(id);
+        TEntity? entity = await db.Set<TEntity>().FindAsync(id);
         if(entity is null) 
         {
             return null;
@@ -56,7 +56,7 @@ public abstract class GenericRepository<TDomain, TEntity>
         var domainId = GetDomainId(domain);
         TEntity? entity = await WhereId(domainId).FirstOrDefaultAsync();
         if(entity is null) return;
-        context.Set<TEntity>().Attach(entity);
+        db.Set<TEntity>().Attach(entity);
 
         Type typeOfModel = domain.GetType();
         PropertyInfo[] properties = typeOfModel.GetProperties();
@@ -64,10 +64,10 @@ public abstract class GenericRepository<TDomain, TEntity>
         {
             if(property.GetValue(domain) is not null) 
             {
-                context.Entry(entity).Property(property.Name).CurrentValue = property.GetValue(domain); 
+                db.Entry(entity).Property(property.Name).CurrentValue = property.GetValue(domain); 
             }
         }
         entity.UpdatedAt = DateTime.UtcNow;
-        await context.SaveChangesAsync();
+        await db.SaveChangesAsync();
     }
 }

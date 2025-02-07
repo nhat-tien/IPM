@@ -17,7 +17,7 @@ public class AidTypeRepository : GenericRepository<Domain.AidType, AidType>, IAi
 
     public override IQueryable<AidType> WhereId(int id)
     {
-        return context.AidTypes.Where(e => e.AidTypeId == id);
+        return db.AidTypes.Where(e => e.AidTypeId == id);
     }
 
     public override AidType MapFromDomain(Domain.AidType domain)
