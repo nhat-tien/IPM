@@ -47,6 +47,12 @@ using IPM.Application.UseCases.Project.DeleteProjectUseCase;
 using IPM.Application.UseCases.Project.GetAllProjectUseCase;
 using IPM.Application.UseCases.Project.UpdateProjectUseCase;
 
+
+using IPM.Application.UseCases.FileType.CreateFileTypeUseCase;
+using IPM.Application.UseCases.FileType.DeleteFileTypeUseCase;
+using IPM.Application.UseCases.FileType.GetAllFileTypeUseCase;
+using IPM.Application.UseCases.FileType.UpdateFileTypeUseCase;
+
 using IPM.Application.UseCases.Role;
 
 using IPM.Application.UseCases.User.GetAllUserUseCase;
@@ -107,6 +113,11 @@ public static class UseCaseServiceRegister
         services.AddScoped<IGetAllProjectUseCase, GetAllProjectHandler>();
         services.AddScoped<IDeleteProjectUseCase, DeleteProjectHandler>();
         services.AddScoped<IUpdateProjectUseCase, UpdateProjectHandler>();
+
+        services.AddScoped<ICreateFileTypeUseCase, CreateFileTypeHandler>();
+        services.AddScoped<IGetAllFileTypeUseCase, GetAllFileTypeHandler>();
+        services.AddScoped<IDeleteFileTypeUseCase, DeleteFileTypeHandler>();
+        services.AddScoped<IUpdateFileTypeUseCase, UpdateFileTypeHandler>();
 
         services.AddScoped<IGetAllUserUseCase, GetAllUserHandler>();
         services.AddScoped<IGetCurrentUserUseCase, GetCurrentUserHandler>();
