@@ -7,7 +7,6 @@
   import { getUserInfo } from "@stores/userInfo.svelte";
   import IconButton from "@components/Button/IconButton.svelte";
   import LogoutIcon from "@components/Icons/LogoutIcon.svelte";
-  import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import Row from "@components/Row/Row.svelte";
   import UserIcon from "@components/Icons/UserIcon.svelte";
 

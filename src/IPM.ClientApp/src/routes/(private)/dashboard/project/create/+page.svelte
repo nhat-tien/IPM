@@ -18,6 +18,8 @@
   import { openModal } from "@stores/modal.svelte";
   import createSponsor from "@useCases/sponsorUseCase/createSponsor";
   import createAidType from "@useCases/aidTypeUseCase/createAidType";
+  import createApprovingAgency from "@useCases/approvingAgencyUseCase/createApprovingAgency";
+  import createCounterparty from "@useCases/counterpartyUseCase/createCounterparty";
 
   let { data }: { data: PageData } = $props();
   let step: 1 | 2 | 3 = $state(1);
@@ -132,6 +134,7 @@
         --margin-top="1em"
         name="approvingAgencyId"
         bind:value={modelState.approvingAgencyId}
+        onclick={() => openModal(createApprovingAgencyModal)}
       >
         {#await data.approvingAgency}
           <option value="">Loading</option>
@@ -153,6 +156,7 @@
         --margin-top="1em"
         name="counterPartyId"
         bind:value={modelState.counterPartyId}
+        onclick={() => openModal(createCounterpartyModal)}
       >
         {#await data.counterParty}
           <option value="">Loading</option>
@@ -224,6 +228,30 @@
     successMessage="Thêm thành công"
     invalidateStr="project:create"
     createFn={createAidType}
+  />
+{/snippet}
+
+{#snippet createApprovingAgencyModal()}
+  <SingleFieldCreateModal
+    title="Thêm cơ quan phê duyệt"
+    label="Tên cơ quan phê duyệt"
+    placeHolder="Vui lòng nhập tên cơ quan phê duyệt"
+    fieldName="approvingAgencyName"
+    successMessage="Thêm thành công"
+    invalidateStr="project:create"
+    createFn={createApprovingAgency}
+  />
+{/snippet}
+
+{#snippet createCounterpartyModal()}
+  <SingleFieldCreateModal
+    title="Thêm đối tác"
+    label="Tên đối tác"
+    placeHolder="Vui lòng nhập tên đối tác"
+    fieldName="counterpartyName"
+    successMessage="Thêm thành công"
+    invalidateStr="project:create"
+    createFn={createCounterparty}
   />
 {/snippet}
 

@@ -1,5 +1,5 @@
 import { authEndPoint } from "@services/httpService";
-import { saveAccessToken } from "@services/jwtService";
+import { saveAccessToken } from "@services/accessTokenService";
 import { decodeUserInfoFromJWT } from "@services/userInfoService";
 import { setUserInfo } from "@stores/userInfo.svelte";
 import type { HttpError } from "@sveltejs/kit";

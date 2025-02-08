@@ -14,6 +14,7 @@
     `Email`,
     `Họ lót`,
     `Tên`,
+    `Vai trò`
   ];
 </script>
 

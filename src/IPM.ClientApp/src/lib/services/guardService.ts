@@ -1,7 +1,7 @@
 import { goto } from "$app/navigation";
 import { getUserInfo } from "@stores/userInfo.svelte";
 import toast from "svelte-5-french-toast";
-import { getAccessToken } from "./jwtService";
+import { getAccessToken } from "./accessTokenService";
 
 export function isCurrentUserHasRole(roles: string[]): boolean {
   let currentUser = getUserInfo();

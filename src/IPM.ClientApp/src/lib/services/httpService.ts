@@ -1,5 +1,5 @@
 import ky, { HTTPError } from "ky";
-import { getAccessToken, saveAccessToken } from "./jwtService";
+import { getAccessToken, saveAccessToken } from "./accessTokenService";
 import refreshToken from "@useCases/authUseCases/refreshTokenUseCase";
 import logout from "@useCases/authUseCases/logoutUseCase";
 

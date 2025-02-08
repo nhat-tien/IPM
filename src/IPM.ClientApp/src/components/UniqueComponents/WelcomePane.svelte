@@ -2,14 +2,15 @@
     import Grid2Column from "@components/Grid/Grid2Column.svelte";
     import CircleAvatar from "@components/Avatar/CircleAvatar.svelte";
     import Row from "@components/Row/Row.svelte";
-    import { getFullName } from "@stores/userInfo.svelte";
+    import { getFullName, getUserInfo } from "@stores/userInfo.svelte";
     let name = getFullName()
+    let info = getUserInfo();
 </script>
 <Grid2Column>
   <div class="left-pane">
     <Row --gap="1em">
       <CircleAvatar --radius="40px"
-      >T</CircleAvatar
+      >{info?.firstName.charAt(0)}</CircleAvatar
       >
       <div>
         <p class="welcome-text">Chào mừng</p>

@@ -1,4 +1,4 @@
-import { getAccessToken } from "@services/jwtService";
+import { getAccessToken } from "@services/accessTokenService";
 import { decodeUserInfoFromJWT } from "@services/userInfoService";
 
 type UserInfo = {

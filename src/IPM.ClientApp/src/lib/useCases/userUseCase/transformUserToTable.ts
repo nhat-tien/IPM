@@ -9,7 +9,8 @@ export default function transformUserToTable(users: User[]): any[][] {
       model.userName,
       model.email,
       model.lastName,
-      model.firstName
+      model.firstName,
+      model.role?.roleName
     ]);
 }
 
