@@ -13,11 +13,14 @@ public static class FileServiceRegister
     {
         services.AddMinio(configureClient =>
             configureClient
-                .WithEndpoint(configuration["Minio:EndPoint"])
+                .WithEndpoint(configuration["Minio:EndPoint"], 9000)
                 .WithCredentials(configuration["Minio:AccessKey"], configuration["Minio:SecretKey"])
+                //WARN: Without SSL
+                .WithSSL(false)
                 .Build()
         );
-        services.AddScoped<IFileService, FileService>();
+
+        services.AddScoped<IFileService, MinioService>();
         return services;
     }
 }

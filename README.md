@@ -47,7 +47,12 @@ docker compose up -d
 ./ipm db:update
 ```
 
-**4. Run development**
+**4. Build frontend**
+```bash
+./ipm fe:build
+```
+
+**5. Run development**
 ```bash
 ./ipm be:run
 ```

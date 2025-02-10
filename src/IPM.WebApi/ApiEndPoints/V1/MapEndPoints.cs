@@ -19,5 +19,6 @@ public static class MapEndPoints
       PositionEndPoints.Map(endpoints);
       SponsorEndPoints.Map(endpoints);
       FileTypeEndPoints.Map(endpoints);
+      FileEndPoints.Map(endpoints);
   }
 }

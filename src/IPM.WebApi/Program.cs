@@ -35,6 +35,7 @@ builder.Services.AddEmailService();
 builder.Services.AddUseCaseServices();
 builder.Services.AddSwaggerGenWithAuth();
 builder.Services.AddValidatorServices();
+builder.Services.AddUtilsServices();
 
 //
 // -----------------------------------
