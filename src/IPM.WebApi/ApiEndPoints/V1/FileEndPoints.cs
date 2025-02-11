@@ -22,6 +22,7 @@ public class FileEndPoints
             {
                 await handler.Handle(new FormFileProxy(file), fileTypeId, projectId);
             }
-        );
+        )
+        .RequireAuthorization("UserPermission");
     }
 }

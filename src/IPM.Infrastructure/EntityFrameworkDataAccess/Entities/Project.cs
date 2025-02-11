@@ -37,7 +37,6 @@ public class Project: BaseEntity
     public CurrencyUnit? CurrencyUnit { get; set; }
 
     public List<User>? Users { get; set; }
-    public List<Participation>? Participations { get; set; }
 
     public Domain.Project MapTo()
     {

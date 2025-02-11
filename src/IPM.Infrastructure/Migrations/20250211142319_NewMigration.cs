@@ -437,7 +437,7 @@ namespace IPM.Infrastructure.Migrations
                     FileId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     FileName = table.Column<string>(type: "text", nullable: true),
-                    Url = table.Column<string>(type: "text", nullable: true),
+                    ObjectName = table.Column<string>(type: "text", nullable: true),
                     ProjectId = table.Column<int>(type: "integer", nullable: false),
                     FileTypeId = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -464,8 +464,7 @@ namespace IPM.Infrastructure.Migrations
                 columns: table => new
                 {
                     ProjectId = table.Column<int>(type: "integer", nullable: false),
-                    UsersId = table.Column<string>(type: "text", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
                     JoinDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: true),
                     Note = table.Column<string>(type: "text", nullable: true),
@@ -475,7 +474,7 @@ namespace IPM.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Participations", x => new { x.ProjectId, x.UsersId });
+                    table.PrimaryKey("PK_Participations", x => new { x.ProjectId, x.UserId });
                     table.ForeignKey(
                         name: "FK_Participations_Projects_ProjectId",
                         column: x => x.ProjectId,
@@ -483,8 +482,8 @@ namespace IPM.Infrastructure.Migrations
                         principalColumn: "ProjectId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Participations_Users_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_Participations_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -511,9 +510,9 @@ namespace IPM.Infrastructure.Migrations
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Participations_UsersId",
+                name: "IX_Participations_UserId",
                 table: "Participations",
-                column: "UsersId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_AffilatedUnitId",

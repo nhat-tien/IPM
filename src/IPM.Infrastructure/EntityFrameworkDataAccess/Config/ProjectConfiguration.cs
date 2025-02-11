@@ -11,8 +11,8 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
         builder.HasMany(e => e.Users)
             .WithMany(e => e.Projects)
             .UsingEntity<Participation>(
-                    l => l.HasOne<User>().WithMany(e => e.Participations),
-                    r => r.HasOne<Project>().WithMany(e => e.Participations)
+                    l => l.HasOne<User>().WithMany().HasForeignKey(e => e.UserId),
+                    r => r.HasOne<Project>().WithMany().HasForeignKey(e => e.ProjectId)
             );
     }
 }

@@ -40,6 +40,8 @@ public static class InfrastructureService
         services.AddScoped<ISponsorRepository, SponsorRepository>();
         services.AddScoped<IProjectRepository, ProjectRepository>();
         services.AddScoped<IFileTypeRepository, FileTypeRepository>();
+        services.AddScoped<IFileRepository, FileRepository>();
+        services.AddScoped<IParticipationRepository, ParticipationRepository>();
         return services;
     }
 }

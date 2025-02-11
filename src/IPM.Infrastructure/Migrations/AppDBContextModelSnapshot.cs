@@ -171,14 +171,14 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<int?>("FileTypeId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("ObjectName")
+                        .HasColumnType("text");
+
                     b.Property<int>("ProjectId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("text");
 
                     b.HasKey("FileId");
 
@@ -216,7 +216,7 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<int>("ProjectId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("UsersId")
+                    b.Property<string>("UserId")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
@@ -237,12 +237,9 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.HasKey("ProjectId", "UserId");
 
-                    b.HasKey("ProjectId", "UsersId");
-
-                    b.HasIndex("UsersId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Participations");
                 });
@@ -720,14 +717,14 @@ namespace IPM.Infrastructure.Migrations
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Participation", b =>
                 {
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Project", null)
-                        .WithMany("Participations")
+                        .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.User", null)
-                        .WithMany("Participations")
-                        .HasForeignKey("UsersId")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -858,11 +855,6 @@ namespace IPM.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Project", b =>
-                {
-                    b.Navigation("Participations");
-                });
-
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Role", b =>
                 {
                     b.Navigation("UserRoles");
@@ -873,8 +865,6 @@ namespace IPM.Infrastructure.Migrations
                     b.Navigation("Claims");
 
                     b.Navigation("Logins");
-
-                    b.Navigation("Participations");
 
                     b.Navigation("Tokens");
 

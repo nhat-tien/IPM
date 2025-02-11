@@ -7,7 +7,7 @@ namespace IPM.WebApi.Services;
 
 public class MinioService(IMinioClient minio) : IFileService
 {
-    public async Task Upload(MemoryStream file, long fileSize, string fileName, string contentType, string bucketName)
+    public async Task<bool> Upload(MemoryStream file, long fileSize, string fileName, string contentType, string bucketName)
     {
         try
         {
@@ -19,10 +19,13 @@ public class MinioService(IMinioClient minio) : IFileService
                 .WithContentType(contentType);
 
             await minio.PutObjectAsync(poa);
+
+            return true;
         }
         catch (MinioException e)
         {
             Console.WriteLine("File Upload Error: {0}", e.Message);
+            return false;
         }
     }
 }

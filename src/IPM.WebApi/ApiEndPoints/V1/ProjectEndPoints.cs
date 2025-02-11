@@ -1,3 +1,4 @@
+using IPM.Application.UseCases.Project.AssignUserToProjectUseCase;
 using IPM.Application.UseCases.Project.CreateProjectUseCase;
 using IPM.Application.UseCases.Project.DeleteProjectUseCase;
 using IPM.Application.UseCases.Project.GetAllProjectUseCase;
@@ -25,6 +26,16 @@ public static class ProjectEndPoints
                 }
             )
             .WithRequestValidation<CreateProjectRequest>()
+            .RequireAuthorization("UserPermission");
+
+        endpoints
+            .MapPost(
+                "/assignment",
+                async (AssignUserToProjectRequest req, IAssignUserToProjectUseCase handler) =>
+                {
+                    await handler.Handle(req);
+                }
+            )
             .RequireAuthorization("UserPermission");
 
         endpoints
