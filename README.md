@@ -57,6 +57,9 @@ docker compose up -d
 ./ipm be:run
 ```
 
+**API Documents**
+In url `/docs`
+
 ### Production 
 > [!NOTE]  
 > Work in progress

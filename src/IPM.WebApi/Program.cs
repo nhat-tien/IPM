@@ -52,10 +52,13 @@ if (!app.Environment.IsDevelopment())
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
+    app.UseSwagger(o => {
+            o.RouteTemplate = "/docs/{documentName}/swagger.json";
+            });
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "IPM.WebApi v1");
+        c.RoutePrefix = "docs";
+        c.SwaggerEndpoint("/docs/v1/swagger.json", "IPM.WebApi v1");
     });
     app.UseCors(MyAllowSpecificOrigins);
 }
