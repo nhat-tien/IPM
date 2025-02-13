@@ -34,50 +34,38 @@ const apiWithBearerToken = api.extend({
   }
 });
 
+const apiEndPointFactory = (endpoint: string) => apiWithBearerToken.extend((option) => ({
+  prefixUrl: `${option.prefixUrl}/${endpoint}`,
+}));
+
 export const authEndPoint = api.extend((option) => ({
   prefixUrl: `${option.prefixUrl}/auth`,
 }));
 
-export const affiliatedUnitEndPoint = apiWithBearerToken.extend((option) => ({
-  prefixUrl: `${option.prefixUrl}/affiliatedUnits`,
-}));
+export const affiliatedUnitEndPoint = apiEndPointFactory("affiliatedUnits");
 
-export const aidTypeEndPoint = apiWithBearerToken.extend((option) => ({
-  prefixUrl: `${option.prefixUrl}/aidTypes`,
-}));
+export const aidTypeEndPoint = apiEndPointFactory("aidTypes");
 
-export const approvingAgencyEndPoint = apiWithBearerToken.extend((option) => ({
-  prefixUrl: `${option.prefixUrl}/approvingAgencies`,
-}));
+export const approvingAgencyEndPoint = apiEndPointFactory("approvingAgencies");
 
-export const currencyUnitEndPoint = apiWithBearerToken.extend((option) => ({
-  prefixUrl: `${option.prefixUrl}/currencyUnits`,
-}));
+export const currencyUnitEndPoint = apiEndPointFactory("currencyUnits");
 
-export const categoryEndPoint = apiWithBearerToken.extend((option) => ({
-  prefixUrl: `${option.prefixUrl}/categories`,
-}));
+export const categoryEndPoint = apiEndPointFactory("categories");
 
-export const counterpartyEndPoint = apiWithBearerToken.extend((option) => ({
-  prefixUrl: `${option.prefixUrl}/counterparties`,
-}));
+export const counterpartyEndPoint = apiEndPointFactory("counterparties");
 
-export const positionEndPoint = apiWithBearerToken.extend((option) => ({
-  prefixUrl: `${option.prefixUrl}/positions`,
-}));
+export const positionEndPoint = apiEndPointFactory("positions");
 
-export const sponsorEndPoint = apiWithBearerToken.extend((option) => ({
-  prefixUrl: `${option.prefixUrl}/sponsors`,
-}));
+export const sponsorEndPoint = apiEndPointFactory("sponsors");
 
-export const projectEndPoint = apiWithBearerToken.extend((option) => ({
-  prefixUrl: `${option.prefixUrl}/projects`,
-}));
+export const projectEndPoint = apiEndPointFactory("projects");
 
-export const userEndPoint = apiWithBearerToken.extend((option) => ({
-  prefixUrl: `${option.prefixUrl}/users`,
-}));
+export const assignEndPoint = apiEndPointFactory("projects/assignment");
 
-export const fileTypeEndPoint = apiWithBearerToken.extend((option) => ({
-  prefixUrl: `${option.prefixUrl}/fileTypes`,
-}));
+export const userEndPoint = apiEndPointFactory("users");
+
+export const fileTypeEndPoint = apiEndPointFactory("fileTypes");
+
+export const fileEndPoint = apiEndPointFactory("file");
+
+

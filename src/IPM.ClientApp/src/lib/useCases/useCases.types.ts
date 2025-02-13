@@ -65,6 +65,13 @@ export type Sponsor = {
   updatedAt: string,
 }
 
+export type FileType = {
+    fileTypeId: number,
+    fileTypeName: string,
+    createdAt: string,
+    updatedAt: string
+}
+
 export type Project = {
   projectId: number,
   projectNameEnglish: string,

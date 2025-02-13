@@ -96,6 +96,14 @@
           Chức vụ
         {/snippet}
       </SideMenuItem>
+      <SideMenuItem href="/dashboard/fileType">
+        {#snippet icon()}
+          <BookIcon />
+        {/snippet}
+        {#snippet content()}
+          Loại file
+        {/snippet}
+      </SideMenuItem>
       <SideMenuItem href="/dashboard/users">
         {#snippet icon()}
           <BookIcon />

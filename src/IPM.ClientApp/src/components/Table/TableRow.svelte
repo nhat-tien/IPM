@@ -1,7 +1,7 @@
 <script lang="ts">
-    import EyeIcon from "@components/Icons/EyeIcon.svelte";
-    import PencilIcon from "@components/Icons/PencilIcon.svelte";
-    import TrashIcon from "@components/Icons/TrashIcon.svelte";
+  import EyeIcon from "@components/Icons/EyeIcon.svelte";
+  import PencilIcon from "@components/Icons/PencilIcon.svelte";
+  import TrashIcon from "@components/Icons/TrashIcon.svelte";
 
   const {
     row,
@@ -20,35 +20,35 @@
   {#each row as cell}
     <td>{cell}</td>
   {/each}
-  {#if onEdit || onDelete || onView }
-  <td class="td-action">
-    <div class="action">
-    {#if onView}
-      <button class="button-view" onclick={onView}>
-        <div class="icon">
-        <EyeIcon --stroke="hsl(30, 0%, 30%)"/>
-        </div>
-        Xem
-      </button>
-    {/if}
-    {#if onEdit}
-      <button class="button-edit" onclick={onEdit}>
-        <div class="icon">
-          <PencilIcon --stroke="hsl(40, 84%, 48%)"/>
-        </div>
-        Chỉnh sửa
-      </button>
-    {/if}
-    {#if onDelete}
-      <button class="button-delete" onclick={onDelete}>
-        <div class="icon">
-        <TrashIcon --stroke=" hsl(0, 84%, 48%)"/>
-        </div>
-        Xóa
-      </button>
-    {/if}
-    </div>
-  </td>
+  {#if onEdit || onDelete || onView}
+    <td class="td-action">
+      <div class="action">
+        {#if onView}
+          <button class="button-view" onclick={onView}>
+            <div class="icon">
+              <EyeIcon --stroke="hsl(30, 0%, 30%)" />
+            </div>
+            Xem
+          </button>
+        {/if}
+        {#if onEdit}
+          <button class="button-edit" onclick={onEdit}>
+            <div class="icon">
+              <PencilIcon --stroke="hsl(40, 84%, 48%)" />
+            </div>
+            Chỉnh sửa
+          </button>
+        {/if}
+        {#if onDelete}
+          <button class="button-delete" onclick={onDelete}>
+            <div class="icon">
+              <TrashIcon --stroke=" hsl(0, 84%, 48%)" />
+            </div>
+            Xóa
+          </button>
+        {/if}
+      </div>
+    </td>
   {/if}
 </tr>
 

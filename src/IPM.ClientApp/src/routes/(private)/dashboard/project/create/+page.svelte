@@ -20,10 +20,24 @@
   import createAidType from "@useCases/aidTypeUseCase/createAidType";
   import createApprovingAgency from "@useCases/approvingAgencyUseCase/createApprovingAgency";
   import createCounterparty from "@useCases/counterpartyUseCase/createCounterparty";
+  import UserSuggestSelectTextField from "@components/UniqueComponents/UserSuggestSelectTextField.svelte";
+  import type { User } from "@useCases/useCases.types";
+  import TrashIcon from "@components/Icons/TrashIcon.svelte";
+  import transformFileTypeToOption from "@useCases/fileTypeUseCase/transformFileTypeToOption";
+  import createFileType from "@useCases/fileTypeUseCase/createFileType";
 
   let { data }: { data: PageData } = $props();
   let step: 1 | 2 | 3 = $state(1);
-  let modelState = $state({
+  let modelState: {
+    projectNameVietnamese: string;
+    projectNameEnglish: string;
+    categoryId: string;
+    sponsorId: string;
+    aidTypeId: string;
+    approvingAgencyId: string;
+    counterPartyId: string;
+    members: User[];
+  } = $state({
     projectNameVietnamese: "",
     projectNameEnglish: "",
     categoryId: "",
@@ -31,7 +45,16 @@
     aidTypeId: "",
     approvingAgencyId: "",
     counterPartyId: "",
+    members: [],
   });
+
+  function selectUserHandler(user: User) {
+    modelState.members.push(user);
+  }
+
+  function removeUserHandler(email: string) {
+    modelState.members = modelState.members.filter(e => !(e.email == email));
+  }
 </script>
 
 <TitleWebPage title="Tạo dự án mới" />
@@ -177,6 +200,36 @@
       </RowToRight>
     {:else if step == 2}
       <h3>Thành viên</h3>
+      {#await data.users}
+        <div>Loading</div>
+      {:then users}
+        <UserSuggestSelectTextField
+          label="Tìm kiếm thành viên"
+          placeHolder=""
+          --margin-top="1.5em"
+          selectionCallback={selectUserHandler}
+          excludeUsers={modelState.members}
+          {users}
+        />
+      {/await}
+      <h3 class="member-list-title">Danh sách thành viên</h3>
+      <div class="member-list">
+        {#each modelState.members as member}
+          <div class="member">
+            <div class="member__info">
+              <p class="member__name">
+                {`${member.lastName} ${member.firstName}`}
+              </p>
+              <p class="member__email">{member.email}</p>
+            </div>
+            <button class="delete-btn" onclick={() => removeUserHandler(member.email)}>
+              <div class="icon">
+                <TrashIcon --stroke=" hsl(0, 84%, 48%)" />
+              </div>
+            </button>
+          </div>
+        {/each}
+      </div>
       <RowToRight>
         <SecondaryButton onclick={() => step--}>Trở lại</SecondaryButton>
         <PrimaryButton variant="orange" onclick={() => step++}
@@ -185,6 +238,28 @@
       </RowToRight>
     {:else}
       <h3>File đính kèm</h3>
+      <SelectWithCreateButton
+        id="counterPartyId"
+        items={[]}
+        label="Chọn loại file"
+        placeHolder=""
+        --margin-top="1em"
+        --width="60%"
+        name="counterPartyId"
+        bind:value={modelState.counterPartyId}
+        onclick={() => openModal(createFileTypeModal)}
+      >
+        {#await data.fileType}
+          <option value="">Loading</option>
+        {:then fileTypes}
+          {#each transformFileTypeToOption(fileTypes) as fileType}
+            <option
+              value={fileType.value}
+              >{fileType.name}</option
+            >
+          {/each}
+        {/await}
+      </SelectWithCreateButton>
       <RowToRight>
         <SecondaryButton onclick={() => step--}>Trở lại</SecondaryButton>
         <PrimaryButton variant="orange" onclick={() => {}}
@@ -255,6 +330,18 @@
   />
 {/snippet}
 
+{#snippet createFileTypeModal()}
+  <SingleFieldCreateModal
+    title="Thêm loại file" 
+    label="Tên loại file"
+    placeHolder="Vui lòng nhập tên"
+    fieldName="fileTypeName"
+    invalidateStr="project:create"
+    successMessage="Thêm thành công"
+    createFn={createFileType}
+  />
+{/snippet}
+
 <style lang="scss">
   .container {
     display: flex;
@@ -263,5 +350,27 @@
     border: 1px solid $gray-clr;
     border-radius: 15px;
     padding: 1em;
+  }
+  .member-list-title {
+    margin: 1em 0 0.3em 0;
+  }
+  .member {
+    margin: 0.5em 0;
+    padding: 0.5em;
+    border-radius: 5px;
+    border: 0.5px solid $gray-clr;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .member__name {
+    font-family: "Inter SemiBold";
+  }
+  .member__email {
+    font-size: 0.9rem;
+  }
+  .icon {
+    width: 1.4em;
+    @include center;
   }
 </style>

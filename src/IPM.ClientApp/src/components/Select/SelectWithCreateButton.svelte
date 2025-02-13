@@ -31,7 +31,6 @@
   function onChange(target: EventSelectElements) {
     value = target.currentTarget.value;
   }
-  $inspect(value);
 </script>
 
 <div class="select-container">
