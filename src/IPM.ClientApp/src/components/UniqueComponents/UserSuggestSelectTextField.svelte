@@ -21,7 +21,6 @@
   let searchUsers = $derived.by(() => {
     return users.filter(e => !excludeUsers.find(x => x.email == e.email));
   });
-  $inspect(searchUsers);
   let fuse = $derived(new Fuse(searchUsers, {
     keys: ["firstName", "lastName", "email"],
   }));
@@ -104,7 +103,7 @@
     padding: 0.5em;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    align-items: flex-start;
     width: 100%;
     &:hover {
       background-color: $gray-clr;

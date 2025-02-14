@@ -9,6 +9,16 @@ export type UseCaseResultWithData<T> = UseCaseResult & {
   data: T
 }
 
+export type OptionType = {
+  value: string;
+  name: string;
+}
+
+export type FileUpload = {
+  fileTypeId: number,
+  file: File | null
+}
+
 export type ApprovingAgency = {
   approvingAgencyId: number,
   approvingAgencyName: string,

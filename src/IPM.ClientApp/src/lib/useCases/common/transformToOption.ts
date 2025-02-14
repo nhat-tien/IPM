@@ -1,6 +1,6 @@
-export type OptionType =  Array<{value: string, name: string}>
+import type { OptionType } from "@useCases/useCases.types";
 
-export default function transformToOption<T>(models: T[], callback: (e: T) => any[]): Array<{value: string, name: string}> {
+export default function transformToOption<T>(models: T[], callback: (e: T) => any[]): OptionType[] {
 
   let options = [];
   for(let model of models) {

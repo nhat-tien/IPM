@@ -1,16 +1,18 @@
 <script lang="ts">
+    import { closeModal } from "@stores/modal.svelte";
   import type { Snippet } from "svelte";
 
   const { children }: { children: Snippet } = $props();
+
 </script>
 
-<div class="modal-backdrop">
+<button class="modal-backdrop" onclick={() => closeModal()}>
   <div class="modal">
     <div class="content">
       {@render children()}
     </div>
   </div>
-</div>
+</button>
 
 <style lang="scss">
   .modal-backdrop {
@@ -23,6 +25,7 @@
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
   }
   .modal {
     background-color: $white-clr;
@@ -30,6 +33,8 @@
     flex-direction: column;
     border-radius: 10px;
     animation: scale-larger 0.07s linear;
+    align-items: flex-start;
+    text-align: left;
   }
 
   .content {

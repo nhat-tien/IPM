@@ -37,6 +37,8 @@
     padding: 0.6em;
     border-radius: 10px;
     opacity: 1;
+    width: var(--width, max-content);
+    font-size: var(--font-size, 1em);
   }
   button:hover {
     opacity: 0.8;

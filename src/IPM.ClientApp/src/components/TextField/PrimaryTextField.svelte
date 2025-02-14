@@ -9,8 +9,8 @@
     onfocus,
     error,
     errorId = "",
-    value
-  }:{
+    value,
+  }: {
     label?: string;
     id: string;
     type: string;
@@ -25,17 +25,28 @@
 </script>
 
 <div class="text-field">
-{#if label != null}
-  <label for={id}>{label}
+  {#if label != null}
+    <label for={id}
+      >{label}
       {#if required}
         <sup>*</sup>
+      {/if}
+    </label>
   {/if}
-  </label>
-{/if}
-<input {required} {type} {id} placeholder={placeHolder} {name} {value} onfocus={onfocus}/>
-{#if error != null}
-    <div class="error">{error?.filter((e) => e.path[0] === errorId)[0]?.message}</div>
-{/if}
+  <input
+    {required}
+    {type}
+    {id}
+    placeholder={placeHolder}
+    {name}
+    {value}
+    {onfocus}
+  />
+  {#if error != null}
+    <div class="error">
+      {error?.filter((e) => e.path[0] === errorId)[0]?.message}
+    </div>
+  {/if}
 </div>
 
 <style lang="scss">
@@ -43,7 +54,7 @@
     margin-top: var(--margin-top);
     margin-bottom: var(--margin-bottom);
     width: var(--width, 100%);
- }
+  }
   input {
     padding: 0.4em 0.5em;
     border: 0.5px solid $gray-clr;

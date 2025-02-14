@@ -1,7 +1,7 @@
-import transformToOption, { type OptionType } from "@useCases/common/transformToOption";
-import type {  FileType } from "@useCases/useCases.types";
+import transformToOption from "@useCases/common/transformToOption";
+import type {  FileType, OptionType } from "@useCases/useCases.types";
 
-export default function transformFileTypeToOption(fileType: FileType[]): OptionType {
+export default function transformFileTypeToOption(fileType: FileType[]): OptionType[] {
 
   return transformToOption<FileType>(fileType, (model) =>
     [

@@ -1,22 +1,9 @@
 <script lang="ts">
   import type { EventSelectElements } from "@/shared.types";
   import PlusIcon from "@components/Icons/PlusIcon.svelte";
+  import type { OptionType } from "@useCases/useCases.types";
   import type { Snippet } from "svelte";
 
-  type SelectOption = {
-    value: string;
-    name: string;
-  };
-  type SelectProps = {
-    name: string;
-    label?: string;
-    value?: string;
-    items: SelectOption[];
-    id: string;
-    placeHolder: string;
-    children?: Snippet;
-    onclick?: () => void;
-  };
   let {
     value = $bindable(""),
     items,
@@ -24,9 +11,24 @@
     id,
     placeHolder,
     name,
+    required,
+    error,
+    errorId,
     children,
     onclick,
-  }: SelectProps = $props();
+  }: {
+    name: string;
+    label?: string;
+    value?: string;
+    items: OptionType[];
+    id: string;
+    required?: boolean;
+    placeHolder: string;
+    error?: any[];
+    errorId?: string;
+    children?: Snippet;
+    onclick?: () => void;
+  } = $props();
 
   function onChange(target: EventSelectElements) {
     value = target.currentTarget.value;
@@ -35,7 +37,12 @@
 
 <div class="select-container">
   {#if label != null}
-    <label for={id}>{label}</label>
+    <label for={id}
+      >{label}
+      {#if required}
+        <sup>*</sup>
+      {/if}
+    </label>
   {/if}
   <div class="select-with-button">
     <select {name} {id} onchange={onChange}>
@@ -52,6 +59,9 @@
       <PlusIcon --stroke="hsl(0,100%, 100%)" />
     </button>
   </div>
+{#if error != null}
+    <div class="error">{error?.filter((e) => e.path[0] === errorId)[0]?.message}</div>
+{/if}
 </div>
 
 <style lang="scss">
@@ -59,14 +69,16 @@
     border: 0.5px solid $gray-clr;
     padding: 0.4em 0.5em;
     border-radius: 5px 0 0 5px;
-    width: var(--width, 100%);
+    width: 100%;
   }
 
   .select-container {
     margin-top: var(--margin-top);
     margin-bottom: var(--margin-bottom);
+    width: var(--width, 100%);
     label {
       display: block;
+      margin-top: 0.2em;
     }
   }
   .select-with-button {
@@ -85,5 +97,13 @@
         opacity: 0.8;
       }
     }
+  }
+  sup {
+    color: $red-clr;
+  }
+  .error {
+    /* height: 1.2rem; */
+    font-size: 0.9rem;
+    color: $red-clr;
   }
 </style>
