@@ -31,12 +31,12 @@
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
   </RowToRight>
-  <Table {headers}>
+  <Table {headers} hasAction>
     {#await data.project}
       <div>Loading</div>
     {:then listData}
       {#each transformProjectToTable(listData) as item}
-        <TableRow row={item} />
+        <TableRow row={item} onView={() => goto("project/view")} />
       {/each}
     {/await}
   </Table>

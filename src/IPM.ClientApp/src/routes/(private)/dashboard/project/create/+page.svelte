@@ -3,7 +3,6 @@
   import BasicCenterLayout from "@components/Layout/BasicCenterLayout.svelte";
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
   import RowToRight from "@components/Row/RowToRight.svelte";
-  import SelectWithCreateButton from "@components/Select/SelectWithCreateButton.svelte";
   import PrimaryTextFieldBindable from "@components/TextField/PrimaryTextFieldBindable.svelte";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
   import transformCategoryToOption from "@useCases/categoryUseCase/transformCategoryToOption";
@@ -14,6 +13,7 @@
   import { ZodError, type ZodIssue } from "zod";
   import toast from "svelte-5-french-toast";
   import { invalidate } from "$app/navigation";
+  import SelectWithCreateButtonCustom from "@components/Select/SelectWithCreatedButtonCustom.svelte";
 
   let { data }: { data: PageData } = $props();
   let error: ZodIssue[] = $state([]);
@@ -74,31 +74,19 @@
       --margin-top="1em"
       required
     />
-    <SelectWithCreateButton
-      id="categoryId"
-      items={[]}
-      label="Danh mục"
-      placeHolder=""
-      --margin-top="1em"
-      name="categoryId"
-      {error}
-      errorId="categoryId"
-      bind:value={modelState.categoryId}
-      onclick={() => openModal(createCategoryModal)}
-      required
-    >
       {#await data.category}
-        <option value="">Loading</option>
+      <div>Loading</div>
       {:then categories}
-        {#each transformCategoryToOption(categories) as category}
-          <option
-            value={category.value}
-            selected={category.value == modelState.categoryId}
-            >{category.name}</option
-          >
-        {/each}
+      <SelectWithCreateButtonCustom 
+        label="Danh mục"
+        required
+        items={transformCategoryToOption(categories)}
+        placeHolder="Chọn danh mục"
+        selectFn={(e) => modelState.categoryId = e.value}
+        btnClickFn={() => openModal(createCategoryModal)}
+        --margin-top="1em"
+      />
       {/await}
-    </SelectWithCreateButton>
     <RowToRight --margin-top="1rem">
       <PrimaryButton variant="orange" onclick={() => onCreate()}
         >Xác nhận</PrimaryButton

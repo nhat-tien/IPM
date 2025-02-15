@@ -1,11 +1,5 @@
-<script lang="ts">
-  let count = $state(0);
-</script>
-
 <div>
   <h1>Welcome to IPM</h1>
-  <button onclick={() => count++}>{count}</button>
-  <a href="/about">About</a>
   <a data-sveltekit-preload-data="tap" href="/dashboard">Go to Dashboard</a>
 </div>
 

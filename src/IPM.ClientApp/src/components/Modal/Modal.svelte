@@ -1,18 +1,17 @@
 <script lang="ts">
-    import { closeModal } from "@stores/modal.svelte";
   import type { Snippet } from "svelte";
 
   const { children }: { children: Snippet } = $props();
 
 </script>
 
-<button class="modal-backdrop" onclick={() => closeModal()}>
+<div class="modal-backdrop">
   <div class="modal">
     <div class="content">
       {@render children()}
     </div>
   </div>
-</button>
+</div>
 
 <style lang="scss">
   .modal-backdrop {
