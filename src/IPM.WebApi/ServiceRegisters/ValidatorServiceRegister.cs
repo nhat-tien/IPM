@@ -18,6 +18,9 @@ using IPM.Application.UseCases.AidType.UpdateAidTypeUseCase;
 using IPM.Application.UseCases.Category.CreateCategoryUseCase;
 using IPM.Application.UseCases.Category.UpdateCategoryUseCase;
 
+using IPM.Application.UseCases.FileType.CreateFileTypeUseCase;
+using IPM.Application.UseCases.FileType.UpdateFileTypeUseCase;
+
 using IPM.Application.UseCases.Counterparty.CreateCounterpartyUseCase;
 using IPM.Application.UseCases.Counterparty.UpdateCounterpartyUseCase;
 
@@ -36,6 +39,7 @@ using IPM.WebApi.Validators.AffiliatedUnit;
 using IPM.WebApi.Validators.CurrencyUnit;
 using IPM.WebApi.Validators.AidType;
 using IPM.WebApi.Validators.Category;
+using IPM.WebApi.Validators.FileType;
 using IPM.WebApi.Validators.Counterparty;
 using IPM.WebApi.Validators.Position;
 using IPM.WebApi.Validators.Sponsor;
@@ -92,6 +96,9 @@ public static class ValidatorServiceRegister
 
         services.AddScoped<IValidator<CreateProjectRequest>, ProjectCreateValidator>();
         services.AddScoped<IValidator<UpdateProjectRequest>, ProjectUpdateValidator>();
+
+        services.AddScoped<IValidator<CreateFileTypeRequest>, FileTypeCreateValidator>();
+        services.AddScoped<IValidator<UpdateFileTypeRequest>, FileTypeUpdateValidator>();
         return services;
     }
 
