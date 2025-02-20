@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace IPM.WebApi.Filters;
+namespace IPM.WebApi.EndpointFilters;
 
 public class ValidationFilter<TRequest> : IEndpointFilter
 {

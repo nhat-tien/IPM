@@ -1,8 +1,8 @@
 using IPM.Application.UseCases.Role;
 
-namespace IPM.WebApi.ApiEndPoints.V1;
+namespace IPM.WebApi.ApiEndpoints.V1;
 
-public class RoleEndPoints
+public class RoleEndpoints
 {
     public static void Map(RouteGroupBuilder route)
     {

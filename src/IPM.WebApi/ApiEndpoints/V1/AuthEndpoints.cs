@@ -1,4 +1,4 @@
-namespace IPM.WebApi.ApiEndPoints.V1;
+namespace IPM.WebApi.ApiEndpoints.V1;
 
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Security.Claims;
@@ -7,9 +7,9 @@ using Microsoft.IdentityModel.JsonWebTokens;
 using IPM.Application.UseCases.Auth.LoginUseCase;
 using IPM.Application.UseCases.Auth.RefreshTokenUseCase;
 using IPM.Application.UseCases.Auth.RegisterUseCase;
-using IPM.WebApi.Filters;
+using IPM.WebApi.EndpointFilters;
 
-public class AuthEndPoints
+public class AuthEndpoints
 {
     public static void Map(RouteGroupBuilder route)
     {

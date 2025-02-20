@@ -1,20 +1,38 @@
+using IPM.Application.Queries.Project;
 using IPM.Application.UseCases.Project.AssignUserToProjectUseCase;
 using IPM.Application.UseCases.Project.CreateProjectUseCase;
 using IPM.Application.UseCases.Project.DeleteProjectUseCase;
 using IPM.Application.UseCases.Project.GetAllProjectUseCase;
 using IPM.Application.UseCases.Project.UpdateProjectUseCase;
-using IPM.WebApi.Filters;
+using IPM.WebApi.EndpointFilters;
 
-namespace IPM.WebApi.ApiEndPoints.V1;
+namespace IPM.WebApi.ApiEndpoints.V1;
 
-public static class ProjectEndPoints
+public static class ProjectEndpoints
 {
     public static void Map(RouteGroupBuilder route)
     {
         var endpoints = route.MapGroup("/projects");
 
         endpoints
-            .MapGet("/", async (IGetAllProjectUseCase handler) => await handler.Handle())
+            .MapGet(
+                "/",
+                async (
+                    string? include,
+                    string? sortBy,
+                    string? sortOrd,
+                    IGetAllProjectUseCase handler
+                ) =>
+                {
+                   var query = new ProjectQuery()
+                   {
+                       Include = include,
+                       SortColumn = sortBy,
+                       SortOrder = sortOrd,
+                   };
+                   return await handler.Handle(query);
+                }
+            )
             .RequireAuthorization("UserPermission");
 
         endpoints

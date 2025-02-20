@@ -2,11 +2,11 @@ using IPM.Application.UseCases.Counterparty.CreateCounterpartyUseCase;
 using IPM.Application.UseCases.Counterparty.DeleteCounterpartyUseCase;
 using IPM.Application.UseCases.Counterparty.GetAllCounterpartyUseCase;
 using IPM.Application.UseCases.Counterparty.UpdateCounterpartyUseCase;
-using IPM.WebApi.Filters;
+using IPM.WebApi.EndpointFilters;
 
-namespace IPM.WebApi.ApiEndPoints.V1;
+namespace IPM.WebApi.ApiEndpoints.V1;
 
-public class CounterpartyEndPoints
+public class CounterpartyEndpoints
 {
     public static void Map(RouteGroupBuilder route)
     {

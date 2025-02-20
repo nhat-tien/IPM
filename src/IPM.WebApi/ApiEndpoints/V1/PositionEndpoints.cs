@@ -2,11 +2,11 @@ using IPM.Application.UseCases.Position.CreatePositionUseCase;
 using IPM.Application.UseCases.Position.DeletePositionUseCase;
 using IPM.Application.UseCases.Position.GetAllPositionUseCase;
 using IPM.Application.UseCases.Position.UpdatePositionUseCase;
-using IPM.WebApi.Filters;
+using IPM.WebApi.EndpointFilters;
 
-namespace IPM.WebApi.ApiEndPoints.V1;
+namespace IPM.WebApi.ApiEndpoints.V1;
 
-public class PositionEndPoints
+public class PositionEndpoints
 {
     public static void Map(RouteGroupBuilder route)
     {

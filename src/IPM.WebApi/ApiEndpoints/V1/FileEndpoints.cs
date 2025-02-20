@@ -2,9 +2,9 @@ using IPM.Application.UseCases.File.UploadFileUseCase;
 using IPM.WebApi.Utils;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IPM.WebApi.ApiEndPoints.V1;
+namespace IPM.WebApi.ApiEndpoints.V1;
 
-public class FileEndPoints
+public class FileEndpoints
 {
     public static void Map(RouteGroupBuilder route)
     {

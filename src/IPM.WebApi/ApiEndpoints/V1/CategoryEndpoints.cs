@@ -2,11 +2,11 @@ using IPM.Application.UseCases.Category.CreateCategoryUseCase;
 using IPM.Application.UseCases.Category.DeleteCategoryUseCase;
 using IPM.Application.UseCases.Category.GetAllCategoryUseCase;
 using IPM.Application.UseCases.Category.UpdateCategoryUseCase;
-using IPM.WebApi.Filters;
+using IPM.WebApi.EndpointFilters;
 
-namespace IPM.WebApi.ApiEndPoints.V1;
+namespace IPM.WebApi.ApiEndpoints.V1;
 
-public class CategoryEndPoints
+public class CategoryEndpoints
 {
     public static void Map(RouteGroupBuilder route)
     {

@@ -1,4 +1,4 @@
-namespace IPM.WebApi.Filters;
+namespace IPM.WebApi.EndpointFilters;
 
   public static class ValidationExtensions
   {

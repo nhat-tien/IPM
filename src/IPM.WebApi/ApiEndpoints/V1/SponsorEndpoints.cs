@@ -2,11 +2,11 @@ using IPM.Application.UseCases.Sponsor.CreateSponsorUseCase;
 using IPM.Application.UseCases.Sponsor.DeleteSponsorUseCase;
 using IPM.Application.UseCases.Sponsor.GetAllSponsorUseCase;
 using IPM.Application.UseCases.Sponsor.UpdateSponsorUseCase;
-using IPM.WebApi.Filters;
+using IPM.WebApi.EndpointFilters;
 
-namespace IPM.WebApi.ApiEndPoints.V1;
+namespace IPM.WebApi.ApiEndpoints.V1;
 
-public class SponsorEndPoints
+public class SponsorEndpoints
 {
     public static void Map(RouteGroupBuilder route)
     {

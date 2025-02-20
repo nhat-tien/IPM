@@ -2,11 +2,11 @@ using IPM.Application.UseCases.CurrencyUnit.CreateCurrencyUnitUseCase;
 using IPM.Application.UseCases.CurrencyUnit.DeleteCurrencyUnitUseCase;
 using IPM.Application.UseCases.CurrencyUnit.GetAllCurrencyUnitUseCase;
 using IPM.Application.UseCases.CurrencyUnit.UpdateCurrencyUnitUseCase;
-using IPM.WebApi.Filters;
+using IPM.WebApi.EndpointFilters;
 
-namespace IPM.WebApi.ApiEndPoints.V1;
+namespace IPM.WebApi.ApiEndpoints.V1;
 
-public class CurrencyUnitEndPoints
+public class CurrencyUnitEndpoints
 {
     public static void Map(RouteGroupBuilder route)
     {

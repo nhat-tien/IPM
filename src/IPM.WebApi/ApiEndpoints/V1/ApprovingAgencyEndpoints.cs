@@ -2,11 +2,11 @@ using IPM.Application.UseCases.ApprovingAgency.CreateApprovingAgencyUseCase;
 using IPM.Application.UseCases.ApprovingAgency.DeleteApprovingAgencyUseCase;
 using IPM.Application.UseCases.ApprovingAgency.GetAllApprovingAgencyUseCase;
 using IPM.Application.UseCases.ApprovingAgency.UpdateApprovingAgencyUseCase;
-using IPM.WebApi.Filters;
+using IPM.WebApi.EndpointFilters;
 
-namespace IPM.WebApi.ApiEndPoints.V1;
+namespace IPM.WebApi.ApiEndpoints.V1;
 
-public class ApprovingAgencyEndPoints
+public class ApprovingAgencyEndpoints
 {
     public static void Map(RouteGroupBuilder route)
     {

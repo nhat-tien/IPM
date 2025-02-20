@@ -1,7 +1,7 @@
 using IPM.Application.UseCases.User.GetAllUserUseCase;
-namespace IPM.WebApi.ApiEndPoints.V1;
+namespace IPM.WebApi.ApiEndpoints.V1;
 
-public class UserEndPoints
+public class UserEndpoints
 {
     public static void Map(RouteGroupBuilder route)
     {

@@ -2,15 +2,15 @@ using IPM.Application.UseCases.FileType.CreateFileTypeUseCase;
 using IPM.Application.UseCases.FileType.DeleteFileTypeUseCase;
 using IPM.Application.UseCases.FileType.GetAllFileTypeUseCase;
 using IPM.Application.UseCases.FileType.UpdateFileTypeUseCase;
-using IPM.WebApi.Filters;
+using IPM.WebApi.EndpointFilters;
 
-namespace IPM.WebApi.ApiEndPoints.V1;
+namespace IPM.WebApi.ApiEndpoints.V1;
 
-public class FileTypeEndPoints
+public class FileTypeEndpoints
 {
     public static void Map(RouteGroupBuilder route)
     {
-        var endpoints = route.MapGroup("/fileType");
+        var endpoints = route.MapGroup("/fileTypes");
 
         endpoints.MapGet("/", async (IGetAllFileTypeUseCase handler) => await handler.Handle())
         .RequireAuthorization("UserPermission");

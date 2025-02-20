@@ -2,12 +2,11 @@ using IPM.Application.UseCases.AidType.CreateAidTypeUseCase;
 using IPM.Application.UseCases.AidType.DeleteAidTypeUseCase;
 using IPM.Application.UseCases.AidType.GetAllAidTypeUseCase;
 using IPM.Application.UseCases.AidType.UpdateAidTypeUseCase;
+using IPM.WebApi.EndpointFilters;
 
-using IPM.WebApi.Filters;
+namespace IPM.WebApi.ApiEndpoints.V1;
 
-namespace IPM.WebApi.ApiEndPoints.V1;
-
-public class AidTypeEndPoints
+public class AidTypeEndpoints
 {
     public static void Map(RouteGroupBuilder route)
     {

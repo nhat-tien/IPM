@@ -2,12 +2,11 @@ using IPM.Application.UseCases.AffiliatedUnit.CreateAffiliatedUnitUseCase;
 using IPM.Application.UseCases.AffiliatedUnit.DeleteAffiliatedUnitUseCase;
 using IPM.Application.UseCases.AffiliatedUnit.GetAllAffiliatedUnitUseCase;
 using IPM.Application.UseCases.AffiliatedUnit.UpdateAffiliatedUnitUseCase;
+using IPM.WebApi.EndpointFilters;
 
-using IPM.WebApi.Filters;
+namespace IPM.WebApi.ApiEndpoints.V1;
 
-namespace IPM.WebApi.ApiEndPoints.V1;
-
-public class AffiliatedUnitEndPoints
+public class AffiliatedUnitEndpoints
 {
     public static void Map(RouteGroupBuilder route)
     {

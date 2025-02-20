@@ -1,5 +1,5 @@
 using IPM.Infrastructure;
-using IPM.WebApi.ApiEndPoints.V1;
+using IPM.WebApi.ApiEndpoints.V1;
 using IPM.WebApi.ServiceRegisters;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -75,5 +75,5 @@ app.MapControllerRoute(
     pattern: "{*url}",
     defaults: new { controller = "Home", action = "Index" }
 );
-app.MapEndPointsApi();
+app.MapEndpointsApi();
 app.Run();
