@@ -5,14 +5,23 @@ public class Project: BaseEntity
     public int ProjectId { get; set; }
 
     public string? ProjectNameEnglish { get; set; }
+
     public string? ProjectNameVietnamese { get; set; }
+
     public string? ProjectPurpose { get; set; }
+
     public string? Content { get; set; }
+
     public string? FundedEquipment { get; set; }
+
     public string? ProjectBudget { get; set; }
+
     public DateTime StartDate { get; set; }
+
     public DateTime EndDate { get; set; }
+
     public string? ProjectProgress { get; set; }
+
     public string? PercentageOfProgress { get; set; }
 
     public int? AffilatedUnitId { get; set; }
@@ -42,6 +51,7 @@ public class Project: BaseEntity
     {
         return new Domain.Project()
         {
+            ProjectId = this.ProjectId,
             ProjectNameEnglish = this.ProjectNameEnglish,
             ProjectNameVietnamese = this.ProjectNameVietnamese,
             ProjectPurpose = this.ProjectPurpose,
@@ -53,12 +63,19 @@ public class Project: BaseEntity
             ProjectProgress = this.ProjectProgress,
             PercentageOfProgress = this.PercentageOfProgress,
             AffilatedUnitId = this.AffilatedUnitId,
+            AffilatedUnit = this.AffilatedUnit is not null ? AffilatedUnit.MapTo() : null,
             CategoryId = this.CategoryId,
+            Category = this.Category is not null ? Category.MapTo() : null,
             SponsorId = this.SponsorId,
+            Sponsor = this.Sponsor is not null ? Sponsor.MapTo() : null, 
             AidTypeId = this.AidTypeId,
+            AidType = this.AidType is not null ? AidType.MapTo() : null, 
             ApprovingAgencyId = this.ApprovingAgencyId,
+            ApprovingAgency = this.ApprovingAgency is not null ? ApprovingAgency.MapTo() : null, 
             CounterpartyId = this.CounterpartyId,
+            Counterparty = this.Counterparty is not null ? Counterparty.MapTo() : null, 
             CurrencyUnitId = this.CurrencyUnitId,
+            CurrencyUnit = this.CurrencyUnit is not null ? CurrencyUnit.MapTo() : null, 
             CreatedAt = this.CreatedAt,
             UpdatedAt = this.UpdatedAt,
         };

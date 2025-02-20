@@ -1,22 +1,25 @@
+using System.Linq.Expressions;
 using System.Reflection;
+using IPM.Application.Queries;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories.Common;
 
 public abstract class GenericRepository<TDomain, TEntity>
-    where TDomain : class 
-    where TEntity : BaseEntity 
+    where TDomain : class
+    where TEntity : BaseEntity
 {
-    protected AppDBContext db {get; set;}
+    protected AppDBContext db { get; set; }
+
     protected GenericRepository(AppDBContext ctx)
     {
         db = ctx;
     }
 
     public abstract TEntity MapFromDomain(TDomain domain);
-    public abstract TDomain MapToDomain(TEntity entity); 
-    public abstract int GetDomainId(TDomain domain); 
+    public abstract TDomain MapToDomain(TEntity entity);
+    public abstract int GetDomainId(TDomain domain);
 
     public abstract IQueryable<TEntity> WhereId(int id);
 
@@ -41,10 +44,53 @@ public abstract class GenericRepository<TDomain, TEntity>
         return listOfDomain;
     }
 
+    private IQueryable<TEntity> IncludeWith(IQueryable<TEntity> query, string[] includeList)
+    {
+        foreach (var item in includeList)
+        {
+            query = query.Include(item);
+            Console.WriteLine(item);
+        }
+        return query;
+    }
+
+    private IQueryable<TEntity> Sort(
+        IQueryable<TEntity> query,
+        Expression<Func<TEntity, object>> keySelector,
+        bool isDesc = false
+    )
+    {
+        if(isDesc)
+        {
+            query = query.OrderByDescending(keySelector);
+        } else 
+        {
+            query = query.OrderBy(keySelector);
+        }
+        return query;
+    }
+
+    public virtual async Task<IEnumerable<TDomain>> GetAllAsync(CriteriaQuery queryParam)
+    {
+        IQueryable<TEntity> query = db.Set<TEntity>();
+
+        if(queryParam.Include is not null)
+        {
+            query = IncludeWith(query, queryParam.GetIncludeList);
+            Console.WriteLine("Tn cs");
+        }
+
+        List<TEntity> entity = await query.ToListAsync();
+
+        IEnumerable<TDomain> listOfDomain = entity.Select(entity => MapToDomain(entity));
+
+        return listOfDomain;
+    }
+
     public virtual async Task<TDomain?> FindByIdAsync(int id)
     {
         TEntity? entity = await db.Set<TEntity>().FindAsync(id);
-        if(entity is null) 
+        if (entity is null)
         {
             return null;
         }
@@ -55,16 +101,17 @@ public abstract class GenericRepository<TDomain, TEntity>
     {
         var domainId = GetDomainId(domain);
         TEntity? entity = await WhereId(domainId).FirstOrDefaultAsync();
-        if(entity is null) return;
+        if (entity is null)
+            return;
         db.Set<TEntity>().Attach(entity);
 
         Type typeOfModel = domain.GetType();
         PropertyInfo[] properties = typeOfModel.GetProperties();
-        foreach(PropertyInfo property in properties) 
+        foreach (PropertyInfo property in properties)
         {
-            if(property.GetValue(domain) is not null) 
+            if (property.GetValue(domain) is not null)
             {
-                db.Entry(entity).Property(property.Name).CurrentValue = property.GetValue(domain); 
+                db.Entry(entity).Property(property.Name).CurrentValue = property.GetValue(domain);
             }
         }
         entity.UpdatedAt = DateTime.UtcNow;
