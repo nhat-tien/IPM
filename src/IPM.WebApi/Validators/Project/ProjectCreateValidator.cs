@@ -7,7 +7,6 @@ public class ProjectCreateValidator : AbstractValidator<CreateProjectRequest>
 {
     public ProjectCreateValidator()
     {
-        RuleFor(r => r.ProjectNameEnglish).NotEmpty();
         RuleFor(r => r.ProjectNameVietnamese).NotEmpty();
     }
 }

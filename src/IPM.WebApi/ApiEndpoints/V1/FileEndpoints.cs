@@ -8,21 +8,25 @@ public class FileEndpoints
 {
     public static void Map(RouteGroupBuilder route)
     {
-        //WARN: Disable antiforgery - this seem bad practice, I'll check this later
-        var endpoints = route.MapGroup("/file").DisableAntiforgery();
+        var endpoints = route.MapGroup("/file");
 
-        endpoints.MapPost(
-            "/",
-            async (
-                IFormFile file,
-                [FromForm] string fileTypeId,
-                [FromForm] string projectId,
-                IUploadFileUseCase handler
-            ) =>
-            {
-                await handler.Handle(new FormFileProxy(file), fileTypeId, projectId);
-            }
-        )
-        .RequireAuthorization("UserPermission");
+        endpoints
+            .MapPost(
+                "/",
+                async (
+                    IFormFile file,
+                    [FromForm] string fileTypeId,
+                    [FromForm] string projectId,
+                    IUploadFileUseCase handler
+                ) =>
+                {
+                    await handler.Handle(new FormFileProxy(file), fileTypeId, projectId);
+                }
+            )
+            //WARN: Disable antiforgery - this seem bad practice, I'll check this later
+            .DisableAntiforgery()
+            .RequireAuthorization("UserPermission");
+
+        endpoints.MapGet("/project/{id}", (int id) => { });
     }
 }

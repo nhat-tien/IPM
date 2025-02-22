@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IPM.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20250211142319_NewMigration")]
+    [Migration("20250221031024_NewMigration")]
     partial class NewMigration
     {
         /// <inheritdoc />
@@ -719,17 +719,21 @@ namespace IPM.Infrastructure.Migrations
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Participation", b =>
                 {
-                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Project", null)
-                        .WithMany()
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Project", "Project")
+                        .WithMany("Participations")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.User", null)
-                        .WithMany()
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.User", "User")
+                        .WithMany("Participations")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Project", b =>
@@ -858,6 +862,11 @@ namespace IPM.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Project", b =>
+                {
+                    b.Navigation("Participations");
+                });
+
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Role", b =>
                 {
                     b.Navigation("UserRoles");
@@ -868,6 +877,8 @@ namespace IPM.Infrastructure.Migrations
                     b.Navigation("Claims");
 
                     b.Navigation("Logins");
+
+                    b.Navigation("Participations");
 
                     b.Navigation("Tokens");
 

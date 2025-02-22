@@ -60,6 +60,7 @@ using IPM.Application.UseCases.Role;
 
 using IPM.Application.UseCases.User.GetAllUserUseCase;
 using IPM.Application.UseCases.User.GetCurrentUserUseCase;
+using IPM.Application.UseCases.Project.GetProjectUseCase;
 
 namespace IPM.WebApi.ServiceRegisters;
 
@@ -114,6 +115,7 @@ public static class UseCaseServiceRegister
 
         services.AddScoped<ICreateProjectUseCase, CreateProjectHandler>();
         services.AddScoped<IGetAllProjectUseCase, GetAllProjectHandler>();
+        services.AddScoped<IGetProjectUseCase, GetProjectHandler>();
         services.AddScoped<IDeleteProjectUseCase, DeleteProjectHandler>();
         services.AddScoped<IUpdateProjectUseCase, UpdateProjectHandler>();
         services.AddScoped<IAssignUserToProjectUseCase, AssignUserToProjectHandler>();

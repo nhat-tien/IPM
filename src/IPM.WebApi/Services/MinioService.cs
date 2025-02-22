@@ -7,7 +7,13 @@ namespace IPM.WebApi.Services;
 
 public class MinioService(IMinioClient minio) : IFileService
 {
-    public async Task<bool> Upload(MemoryStream file, long fileSize, string fileName, string contentType, string bucketName)
+    public async Task<bool> Upload(
+        MemoryStream file,
+        long fileSize,
+        string fileName,
+        string contentType,
+        string bucketName
+    )
     {
         try
         {

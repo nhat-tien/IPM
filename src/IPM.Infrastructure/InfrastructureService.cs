@@ -15,7 +15,6 @@ public static class InfrastructureService
     )
     {
         services.AddDbContextPool<AppDBContext>(options =>
-             // options.UseNpgsql(configuration.GetConnectionString("WebApiDB"))
              options.UseNpgsql(new NpgsqlConnectStringBuilder {
                  Port = configuration["DbConfig:Post"]!,
                  Host = configuration["DbConfig:Server"]!,
@@ -25,8 +24,6 @@ public static class InfrastructureService
                  }.ConnectionString)
         );
 
-        // services.AddScoped<IAppDBContext>(provider => provider.GetRequiredService<AppDBContext>());
-        // services.AddSingleton<AppDBContext>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();

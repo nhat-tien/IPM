@@ -1,10 +1,12 @@
-using IPM.Application.Queries.Project;
+using IPM.Application.Queries;
 using IPM.Application.UseCases.Project.AssignUserToProjectUseCase;
 using IPM.Application.UseCases.Project.CreateProjectUseCase;
 using IPM.Application.UseCases.Project.DeleteProjectUseCase;
 using IPM.Application.UseCases.Project.GetAllProjectUseCase;
+using IPM.Application.UseCases.Project.GetProjectUseCase;
 using IPM.Application.UseCases.Project.UpdateProjectUseCase;
 using IPM.WebApi.EndpointFilters;
+using IPM.WebApi.ResponseDtos;
 
 namespace IPM.WebApi.ApiEndpoints.V1;
 
@@ -24,13 +26,39 @@ public static class ProjectEndpoints
                     IGetAllProjectUseCase handler
                 ) =>
                 {
-                   var query = new ProjectQuery()
+                   var query = new CriteriaQuery()
                    {
                        Include = include,
                        SortColumn = sortBy,
                        SortOrder = sortOrd,
                    };
                    return await handler.Handle(query);
+                }
+            )
+            .RequireAuthorization("UserPermission");
+
+
+        endpoints
+            .MapGet(
+                "/{id}",
+                async (
+                    int id,
+                    string? include,
+                    string? sortBy,
+                    string? sortOrd,
+                    IGetProjectUseCase handler
+                ) =>
+                {
+                   var query = new CriteriaQuery()
+                   {
+                       Include = include,
+                       SortColumn = sortBy,
+                       SortOrder = sortOrd,
+                   };
+
+                   var result = new OptionResult<Domain.Project>(await handler.Handle(id, query));
+
+                   return result.GetResult();
                 }
             )
             .RequireAuthorization("UserPermission");
