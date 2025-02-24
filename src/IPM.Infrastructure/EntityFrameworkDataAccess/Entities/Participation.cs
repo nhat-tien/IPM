@@ -9,15 +9,47 @@ public class Participation: BaseEntity
     public string? Note { get; set; }
     public bool Owner { get; set; }
 
+    public User? User {get; set;} 
+    public Project? Project {get; set;} 
+
     public Domain.Participation MapTo()
     {
         return new Domain.Participation()
         {
             ProjectId = this.ProjectId,
             UserId = this.UserId,
-            Owner = this.Owner,
             Status = this.Status,
             Note = this.Note,
+            CreatedAt = this.CreatedAt,
+            UpdatedAt = this.UpdatedAt,
+            JoinDate = this.JoinDate
+        };
+    }
+
+    public Domain.Participation MapToWithUser()
+    {
+        return new Domain.Participation()
+        {
+            ProjectId = this.ProjectId,
+            UserId = this.UserId,
+            Status = this.Status,
+            Note = this.Note,
+            User = this.User is not null ? this.User.MapTo(): null,
+            CreatedAt = this.CreatedAt,
+            UpdatedAt = this.UpdatedAt,
+            JoinDate = this.JoinDate
+        };
+    }
+
+    public Domain.Participation MapToWithProject()
+    {
+        return new Domain.Participation()
+        {
+            ProjectId = this.ProjectId,
+            UserId = this.UserId,
+            Status = this.Status,
+            Note = this.Note,
+            Project = this.Project is not null ? this.Project.MapTo(): null,
             CreatedAt = this.CreatedAt,
             UpdatedAt = this.UpdatedAt,
             JoinDate = this.JoinDate
@@ -30,7 +62,6 @@ public class Participation: BaseEntity
         {
             ProjectId = model.ProjectId,
             UserId = model.UserId,
-            Owner = model.Owner,
             Status = model.Status,
             Note = model.Note,
             CreatedAt = model.CreatedAt,

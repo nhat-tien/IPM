@@ -22,7 +22,8 @@ public class User : IdentityUser
     public Position? Position { get; set; }
     public AffiliatedUnit? AffilatedUnit { get; set; }
 
-    public List<Project>? Projects { get; set; }
+    // public List<Project>? Projects { get; set; }
+    public List<Participation>? Participations {get; set;}
 
     public virtual ICollection<IdentityUserClaim<string>>? Claims { get; set; }
     public virtual ICollection<IdentityUserLogin<string>>? Logins { get; set; }

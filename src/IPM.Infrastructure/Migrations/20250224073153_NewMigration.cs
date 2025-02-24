@@ -275,7 +275,7 @@ namespace IPM.Infrastructure.Migrations
                     EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ProjectProgress = table.Column<string>(type: "text", nullable: true),
                     PercentageOfProgress = table.Column<string>(type: "text", nullable: true),
-                    AffilatedUnitId = table.Column<int>(type: "integer", nullable: true),
+                    AffiliatedUnitId = table.Column<int>(type: "integer", nullable: true),
                     CategoryId = table.Column<int>(type: "integer", nullable: true),
                     SponsorId = table.Column<int>(type: "integer", nullable: true),
                     AidTypeId = table.Column<int>(type: "integer", nullable: true),
@@ -289,8 +289,8 @@ namespace IPM.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Projects", x => x.ProjectId);
                     table.ForeignKey(
-                        name: "FK_Projects_AffiliatedUnits_AffilatedUnitId",
-                        column: x => x.AffilatedUnitId,
+                        name: "FK_Projects_AffiliatedUnits_AffiliatedUnitId",
+                        column: x => x.AffiliatedUnitId,
                         principalTable: "AffiliatedUnits",
                         principalColumn: "AffiliatedUnitId");
                     table.ForeignKey(
@@ -515,9 +515,9 @@ namespace IPM.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_AffilatedUnitId",
+                name: "IX_Projects_AffiliatedUnitId",
                 table: "Projects",
-                column: "AffilatedUnitId");
+                column: "AffiliatedUnitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_AidTypeId",

@@ -2,7 +2,7 @@ using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace IPM.Infrastructure.EntityFrameworkDataAccess.Config;
+namespace IPM.Infrastructure.EntityFrameworkDataAccess.Configurations;
 
 public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
 {

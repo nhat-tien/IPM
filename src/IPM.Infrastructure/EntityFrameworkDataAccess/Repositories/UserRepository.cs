@@ -108,6 +108,7 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
             .Users.Include(e => e.UserRoles)!
             .ThenInclude(e => e.Role)
             .ToListAsync();
+
         IEnumerable<Domain.User> listOfDomain = entity.Select(entity =>
         {
             ICollection<UserRole>? userRoles = entity.UserRoles;

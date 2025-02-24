@@ -65,8 +65,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
-// app.MapIdentityApi<User>();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -274,7 +274,7 @@ namespace IPM.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProjectId"));
 
-                    b.Property<int?>("AffilatedUnitId")
+                    b.Property<int?>("AffiliatedUnitId")
                         .HasColumnType("integer");
 
                     b.Property<int?>("AidTypeId")
@@ -333,7 +333,7 @@ namespace IPM.Infrastructure.Migrations
 
                     b.HasKey("ProjectId");
 
-                    b.HasIndex("AffilatedUnitId");
+                    b.HasIndex("AffiliatedUnitId");
 
                     b.HasIndex("AidTypeId");
 
@@ -704,7 +704,7 @@ namespace IPM.Infrastructure.Migrations
                         .HasForeignKey("FileTypeId");
 
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Project", "Project")
-                        .WithMany()
+                        .WithMany("Files")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -735,9 +735,9 @@ namespace IPM.Infrastructure.Migrations
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Project", b =>
                 {
-                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.AffiliatedUnit", "AffilatedUnit")
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.AffiliatedUnit", "AffiliatedUnit")
                         .WithMany()
-                        .HasForeignKey("AffilatedUnitId");
+                        .HasForeignKey("AffiliatedUnitId");
 
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.AidType", "AidType")
                         .WithMany()
@@ -763,7 +763,7 @@ namespace IPM.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("SponsorId");
 
-                    b.Navigation("AffilatedUnit");
+                    b.Navigation("AffiliatedUnit");
 
                     b.Navigation("AidType");
 
@@ -861,6 +861,8 @@ namespace IPM.Infrastructure.Migrations
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Project", b =>
                 {
+                    b.Navigation("Files");
+
                     b.Navigation("Participations");
                 });
 

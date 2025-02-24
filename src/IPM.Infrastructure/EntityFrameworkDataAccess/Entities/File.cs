@@ -20,6 +20,7 @@ public class File : BaseEntity
             FileName = this.FileName,
             ProjectId = this.ProjectId,
             FileTypeId = this.FileTypeId,
+            FileType = this.FileType is not null ? this.FileType.MapTo() : null,
             CreatedAt = this.CreatedAt,
             UpdatedAt = this.UpdatedAt,
         };

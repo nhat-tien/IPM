@@ -18,7 +18,9 @@ public abstract class GenericRepository<TDomain, TEntity>
     }
 
     public abstract TEntity MapFromDomain(TDomain domain);
+
     public abstract TDomain MapToDomain(TEntity entity);
+
     public abstract int GetDomainId(TDomain domain);
 
     public abstract IQueryable<TEntity> WhereId(int id);
@@ -44,17 +46,16 @@ public abstract class GenericRepository<TDomain, TEntity>
         return listOfDomain;
     }
 
-    private IQueryable<TEntity> IncludeWith(IQueryable<TEntity> query, string[] includeList)
+    protected virtual IQueryable<TEntity> IncludeWith(IQueryable<TEntity> query, string[] includeList)
     {
         foreach (var item in includeList)
         {
             query = query.Include(item);
-            Console.WriteLine(item);
         }
         return query;
     }
 
-    private IQueryable<TEntity> Sort(
+    protected virtual IQueryable<TEntity> Sort(
         IQueryable<TEntity> query,
         Expression<Func<TEntity, object>> keySelector,
         bool isDesc = false
@@ -77,7 +78,6 @@ public abstract class GenericRepository<TDomain, TEntity>
         if(queryParam.Include is not null)
         {
             query = IncludeWith(query, queryParam.GetIncludeList);
-            Console.WriteLine("Tn cs");
         }
 
         List<TEntity> entity = await query.ToListAsync();
@@ -96,6 +96,26 @@ public abstract class GenericRepository<TDomain, TEntity>
         }
         return MapToDomain(entity);
     }
+
+    public virtual async Task<TDomain?> FindByIdAsync(int id, CriteriaQuery queryParam)
+    {
+        IQueryable<TEntity> query = WhereId(id);
+
+        if(queryParam.Include is not null)
+        {
+            query = IncludeWith(query, queryParam.GetIncludeList);
+        }
+
+        TEntity? entity = await query.FirstOrDefaultAsync();
+
+        if (entity is null)
+        {
+            return null;
+        }
+
+        return MapToDomain(entity);
+    }
+
 
     public virtual async Task UpdateAsync(TDomain domain)
     {

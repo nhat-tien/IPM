@@ -1,6 +1,8 @@
 using IPM.Application.IRepositories;
+using IPM.Application.Queries;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Repositories.Common;
+using Microsoft.EntityFrameworkCore;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
 
@@ -40,4 +42,38 @@ public class ProjectRepository : GenericRepository<Domain.Project, Project>, IPr
 
         return entity.MapTo();
     }
+
+    protected override IQueryable<Project> IncludeWith(IQueryable<Project> query, string[] includeList)
+    {
+        foreach (var item in includeList)
+        {
+            if(item.Equals("Participations"))
+            {
+                query = query.Include(e => e.Participations)!.ThenInclude(e => e.User);
+            } else {
+                query = query.Include(item);
+            }
+        }
+        return query;
+    }
+
+    public override async Task<Domain.Project?> FindByIdAsync(int id, CriteriaQuery queryParam)
+    {
+        IQueryable<Project> query = WhereId(id);
+
+        if(queryParam.Include is not null)
+        {
+            query = IncludeWith(query, queryParam.GetIncludeList);
+        }
+
+        Project? entity = await query.FirstOrDefaultAsync();
+
+        if (entity is null)
+        {
+            return null;
+        }
+
+        return entity.MapTo();
+    }
+
 }
