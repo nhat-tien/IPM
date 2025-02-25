@@ -4,24 +4,34 @@
   const {
     icon,
     children,
+    variant,
     onclick = (_e) => {},
     type = "button",
   }: {
-    icon: Snippet,
+    icon: Snippet;
     children: Snippet;
+    variant?: string;
     type?: "button" | "submit" | "reset" | null | undefined;
     onclick?: (e: MouseEvent) => void;
   } = $props();
 
+  const variantName = () => {
+    switch (variant) {
+      case "orange":
+        return "button--orange";
+      default:
+        return "";
+    }
+  };
 </script>
 
-<button {onclick} {type}> 
-    <div class="icon">
-      {@render icon()}
-    </div>
-    <div>
-      {@render children()}
-    </div>
+<button {onclick} {type} class={variantName()}>
+  <div class="icon">
+    {@render icon()}
+  </div>
+  <div>
+    {@render children()}
+  </div>
 </button>
 
 <style lang="scss">
@@ -45,6 +55,16 @@
     gap: 0.3em;
     &:hover {
       background-color: hsl(0, 0%, 95%);
+    }
+  }
+
+  .button--orange {
+    background-color: var(--background-color, $text-second-clr);
+    color: var(--color, $white-clr);
+    font-family: "Inter SemiBold";
+    &:hover {
+      background-color: var(--background-color, $text-second-clr);
+      opacity: 0.8;
     }
   }
 </style>

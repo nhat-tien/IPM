@@ -76,10 +76,10 @@ export type Sponsor = {
 }
 
 export type FileType = {
-    fileTypeId: number,
-    fileTypeName: string,
-    createdAt: string,
-    updatedAt: string
+  fileTypeId: number,
+  fileTypeName: string,
+  createdAt: string,
+  updatedAt: string
 }
 
 export type Project = {
@@ -96,14 +96,21 @@ export type Project = {
   endDate: string,
   projectProgress: string,
   percentageOfProgress: string,
-  affilatedUnitId: number,
+  affiliatedUnitId: number,
+  affiliatedUnit: AffiliatedUnit | null,
   categoryId: number,
+  category: Category | null,
   sponsorId: number,
+  sponsor: Sponsor | null,
   aidTypeId: number,
+  aidType: AidType | null,
   approvingAgencyId: number,
+  approvingAgency: ApprovingAgency | null,
   counterpartyId: number,
+  counterparty: Counterparty | null,
   currencyUnitId: number,
-  ownerId: string,
+  currencyUnit: CurrencyUnit | null
+  participations: Participation[]
 }
 
 export type Role = {
@@ -132,4 +139,60 @@ export type User = {
   verificationValidTime: string
 }
 
+export type Participation = {
+  projectId: number,
+  userId: string,
+  joinDate: string,
+  status: string,
+  note: string,
+  owner: true,
+  createdAt: string,
+  updatedAt: string,
+  user: User | null
+  project: Project | null
+}
+
+export type ParticipationReduce = {
+  owner: boolean,
+  lastName: string,
+  firstName: string,
+  email: string,
+  userId: string,
+}
+
+export type ParticipationDiff = {
+  type: "delete" | "add",
+  payload: ParticipationReduce
+}
+
+export type EditState = {
+  projectNameVietnamese: string;
+  projectNameEnglish: string;
+  projectProgress: string;
+  content: string;
+  projectPurpose: string;
+  percentageOfProgress: string;
+  categoryId: string;
+  affiliatedUnitId: string;
+  sponsorId: string;
+  aidTypeId: string;
+  approvingAgencyId: string;
+  counterPartyId: string;
+  members: ParticipationReduce[];
+  participationDiff: ParticipationDiff[],
+  fileUpload: FileUpload[];
+};
+
+
+export type EditProjectDataPage = {
+  project: Project;
+  affiliatedUnit: Promise<AffiliatedUnit[]>;
+  category: Promise<Category[]>;
+  aidType: Promise<AidType[]>;
+  approvingAgency: Promise<ApprovingAgency[]>;
+  sponsor: Promise<Sponsor[]>;
+  counterparty: Promise<Counterparty[]>;
+  users: Promise<User[]>;
+  id: string;
+};
 

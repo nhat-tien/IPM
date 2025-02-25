@@ -11,10 +11,19 @@ export function isCurrentUserHasRole(roles: string[]): boolean {
   return false;
 }
 
-export function routeGuardByRole(roles: string[]) {
+export function routeGuardByRole(roles: string[], fallbackUrl?: string, isNotify: boolean = true) {
+
   if (!isCurrentUserHasRole(roles)) {
-    goto("/dashboard");
-    toast.error("Bạn không được đủ thẩm quyền")
+
+    if(fallbackUrl) {
+      goto((fallbackUrl));
+    } else {
+      goto("/dashboard");
+    }
+
+    if(isNotify) {
+      toast.error("Bạn không được đủ thẩm quyền")
+    }
   }
 }
 

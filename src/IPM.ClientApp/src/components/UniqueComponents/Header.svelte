@@ -9,12 +9,13 @@
   import LogoutIcon from "@components/Icons/LogoutIcon.svelte";
   import Row from "@components/Row/Row.svelte";
   import UserIcon from "@components/Icons/UserIcon.svelte";
+  import { goto } from "$app/navigation";
 
   let info = getUserInfo();
 </script>
 
 <header>
-  <div class="logo">IPM Demo</div>
+  <button onclick={() => goto("/dashboard")} class="logo">IPM Demo</button>
   <div class="right-pane">
     <div class="avatar">
       <FloatMenuWrapper>

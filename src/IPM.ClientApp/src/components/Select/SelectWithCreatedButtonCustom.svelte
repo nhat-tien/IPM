@@ -177,6 +177,7 @@
   }
   .float-container {
     position: absolute;
+    z-index: 1;
     top: calc(100% + 5px);
     left: 0;
     width: 100%;

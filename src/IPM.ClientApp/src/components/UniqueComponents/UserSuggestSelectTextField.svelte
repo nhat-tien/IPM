@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { WindowMouseEvent } from "@/shared.types";
-  import type { User } from "@useCases/useCases.types";
+  import type { ParticipationReduce, User } from "@useCases/useCases.types";
   import Fuse from "fuse.js";
 
   let {
@@ -13,13 +13,13 @@
     label?: string;
     placeHolder: string;
     users: User[];
-    excludeUsers: User[];
+    excludeUsers: ParticipationReduce[];
     selectionCallback: (user: User) => void;
   } = $props();
 
   let searchString = $state("");
   let searchUsers = $derived.by(() => {
-    return users.filter(e => !excludeUsers.find(x => x.email == e.email));
+    return users.filter(e => !excludeUsers.find(x => x.userId == e.userId));
   });
   let fuse = $derived(new Fuse(searchUsers, {
     keys: ["firstName", "lastName", "email"],
@@ -47,7 +47,7 @@
 <svelte:window onclick={onWindowClick} />
 <div bind:this={container} class="text-field">
   {#if label != null}
-    <label for="userName">{label} </label>
+    <label for="userName">{label}</label>
   {/if}
   <input
     type="text"

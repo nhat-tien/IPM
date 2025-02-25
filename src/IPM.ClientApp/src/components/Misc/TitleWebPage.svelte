@@ -2,5 +2,5 @@
    const { title }: { title: string } = $props();
 </script>
 <svelte:head>
-  <title>{title} - IPM</title>
+  <title>IPM - {title}</title>
 </svelte:head>

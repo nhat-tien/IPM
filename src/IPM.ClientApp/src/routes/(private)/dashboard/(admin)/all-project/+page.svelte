@@ -6,17 +6,17 @@
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
   import RowToRight from "@components/Row/RowToRight.svelte";
   import type { PageData } from "./$types";
-  // import type { Project } from "@useCases/useCases.types";
   import transformProjectToTable from "@useCases/projectUseCase/transformProjectToTable";
-    import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
+  import SquareSkeleton from "@components/Skeleton/SquareSkeleton.svelte";
 
-  // type ProjectUpdateDto = Omit<Project, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
 
   let modelName = "Dự án";
   let headers = [
     `Mã ${modelName.toLowerCase()}`,
     `Tên ${modelName.toLowerCase()}`,
+    "Danh mục",
   ];
 </script>
 
@@ -33,14 +33,15 @@
   </RowToRight>
   <Table {headers} hasAction>
     {#await data.project}
-      <div>Loading</div>
+      <SquareSkeleton --width="100%" --height="2em" />
     {:then listData}
       {#each transformProjectToTable(listData) as item}
-        <TableRow row={item} onView={() => goto("project/view")} />
+        <TableRow
+          row={item}
+          onView={() => goto(`project/${item[0]}/view`)}
+          onEdit={() => goto(`project/${item[0]}/edit`)}
+        />
       {/each}
     {/await}
   </Table>
 </BasicCenterLayout>
-
-<style lang="scss">
-</style>
