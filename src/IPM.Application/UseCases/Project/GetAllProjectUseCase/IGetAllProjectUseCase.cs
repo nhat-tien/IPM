@@ -1,8 +1,8 @@
-using IPM.Application.Queries.Project;
+using IPM.Application.Queries;
 
 namespace IPM.Application.UseCases.Project.GetAllProjectUseCase;
 
 public interface IGetAllProjectUseCase
 {
-    Task<IEnumerable<Domain.Project>> Handle(ProjectQuery query);
+    Task<IEnumerable<Domain.Project>> Handle(CriteriaQuery query);
 }

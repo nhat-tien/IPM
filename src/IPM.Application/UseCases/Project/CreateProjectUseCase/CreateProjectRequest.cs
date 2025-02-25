@@ -12,14 +12,13 @@ public class CreateProjectRequest
     public DateTime EndDate { get; set; }
     public string? ProjectProgress { get; set; }
     public string? PercentageOfProgress { get; set; }
-    public int? AffilatedUnitId { get; set; }
+    public int? AffiliatedUnitId { get; set; }
     public int? CategoryId { get; set; }
     public int? SponsorId { get; set; }
     public int? AidTypeId { get; set; }
     public int? ApprovingAgencyId { get; set; }
     public int? CounterpartyId { get; set; }
     public int? CurrencyUnitId { get; set; }
-    public string? OwnerId { get; set; }
 
     public Domain.Project MapTo()
     {
@@ -35,14 +34,13 @@ public class CreateProjectRequest
             EndDate = this.EndDate,
             ProjectProgress = this.ProjectProgress,
             PercentageOfProgress = this.PercentageOfProgress,
-            AffilatedUnitId = this.AffilatedUnitId,
+            AffiliatedUnitId = this.AffiliatedUnitId,
             CategoryId = this.CategoryId,
             SponsorId = this.SponsorId,
             AidTypeId = this.AidTypeId,
             ApprovingAgencyId = this.ApprovingAgencyId,
             CounterpartyId = this.CounterpartyId,
             CurrencyUnitId = this.CurrencyUnitId,
-            OwnerId = this.OwnerId,
         };
     }
 }
