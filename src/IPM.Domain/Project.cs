@@ -27,8 +27,8 @@ public class Project
 
     public string? PercentageOfProgress{ get; set; }
 
-    public int? AffilatedUnitId { get; set; }
-    public AffiliatedUnit? AffilatedUnit { get; set; }
+    public int? AffiliatedUnitId { get; set; }
+    public AffiliatedUnit? AffiliatedUnit { get; set; }
 
     public int? CategoryId { get; set; }
     public Category? Category { get; set; }
@@ -48,6 +48,6 @@ public class Project
     public int? CurrencyUnitId { get; set; }
     public CurrencyUnit? CurrencyUnit { get; set; }
 
-    public string? OwnerId {get; set;}
-    public User? Owner {get; set;}
+    public List<Participation>? Participations {get; set;}
+    public List<File>? Files {get; set;}
 }
