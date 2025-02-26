@@ -21,6 +21,7 @@
   import deleteSponsor from "@useCases/sponsorUseCase/deleteSponsor";
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
     import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
+    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
 
   type SponsorUpdateDto = Omit<Sponsor, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -103,7 +104,7 @@
   </RowToRight>
   <Table hasAction {headers}>
     {#await data.sponsor}
-      <div>Loading</div>
+      <TableSkeleton {headers} />
     {:then sponsors}
       {#each transformSponsorToTable(sponsors) as sponsor}
         <TableRow

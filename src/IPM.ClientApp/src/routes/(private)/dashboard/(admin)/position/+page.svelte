@@ -21,6 +21,7 @@
   import deletePosition from "@useCases/positionUseCase/deletePosition";
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
     import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
+    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
 
   type PositionUpdateDto = Omit<Position, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -103,7 +104,7 @@
   </RowToRight>
   <Table hasAction {headers}>
     {#await data.position}
-      <div>Loading</div>
+      <TableSkeleton {headers} />
     {:then positions}
       {#each transformPositionToTable(positions) as position}
         <TableRow

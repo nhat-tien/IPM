@@ -4,7 +4,7 @@ import { z } from "zod";
 import type { UseCaseResult } from "@useCases/useCases.types";
 
 const AssignMemberScheme = z.object({
-  assginments: z.array(z.object({
+  assignments: z.array(z.object({
     userId: z.string().nonempty(),
     projectId: z.number().gt(0),
     owner: z.boolean()
@@ -17,7 +17,7 @@ export default async function assignMember(req: AssignMemberRequest): Promise<Us
   try {
     AssignMemberScheme.parse(req);
 
-    await projectEndPoint.post("assginment", {
+    await projectEndPoint.post("assignment", {
       json: req,
       credentials: "include",
     }).json();

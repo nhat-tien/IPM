@@ -21,6 +21,7 @@
   import type { EventSubmitElements } from "@/shared.types";
   import type { ApprovingAgency } from "@useCases/useCases.types";
     import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
+    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
 
   type ApprovingAgencyUpdateDto = Omit<
     ApprovingAgency,
@@ -109,7 +110,7 @@
   </RowToRight>
   <Table {headers} hasAction>
     {#await data.approvingAgency}
-      <div>Loading</div>
+      <TableSkeleton {headers} />
     {:then listData}
       {#each transformApprovingAgencyToTable(listData) as item}
         <TableRow

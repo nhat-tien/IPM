@@ -9,9 +9,12 @@
   import SquareSkeleton from "@components/Skeleton/SquareSkeleton.svelte";
   import TrashIcon from "@components/Icons/TrashIcon.svelte";
   import { getUserInfo } from "@stores/userInfo.svelte";
-    import RowToRight from "@components/Row/RowToRight.svelte";
-    import SecondaryButton from "@components/Button/SecondaryButton.svelte";
-    import PrimaryButton from "@components/Button/PrimaryButton.svelte";
+  import RowToRight from "@components/Row/RowToRight.svelte";
+  import SecondaryButton from "@components/Button/SecondaryButton.svelte";
+  import PrimaryButton from "@components/Button/PrimaryButton.svelte";
+  import assignMember from "@useCases/projectUseCase/assignMember";
+  import toast from "svelte-5-french-toast";
+    import { invalidateCache } from "@stores/cache.svelte";
 
   let {
     modelState = $bindable(),
@@ -40,7 +43,7 @@
         (e) => !(e.payload.email == userPayload.email),
       );
     } else {
-      modelState.participationDiff.push({ type: "add", payload: userPayload});
+      modelState.participationDiff.push({ type: "add", payload: userPayload });
     }
   }
 
@@ -62,13 +65,30 @@
     }
   }
 
-
   function handleCancel() {
     //TODO:
   }
 
-  function handleSave() {
-    //TODO:
+  async function handleSave() {
+
+    let addMember = [];
+
+    for (let participation of modelState.participationDiff) {
+      if (participation.type == "add") {
+        addMember.push({
+          userId: participation.payload.userId,
+          projectId: parseInt(data.id),
+          owner: participation.payload.owner,
+        });
+      }
+    }
+
+    const result = await assignMember({ assignments: addMember });
+
+    if (result.isSuccess) {
+      toast.success("Thay đổi thành viên thành công");
+      invalidateCache(`project:${data.id}`)
+    }
   }
 </script>
 

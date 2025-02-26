@@ -21,6 +21,7 @@
   import deleteAidType from "@useCases/aidTypeUseCase/deleteAidType";
   import updateAidType from "@useCases/aidTypeUseCase/updateAidType";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
+    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
 
   type AidTypeUpdateDto = Omit<AidType, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -101,7 +102,7 @@
   </RowToRight>
   <Table hasAction {headers}>
     {#await data.aidType}
-      <div>Loading</div>
+      <TableSkeleton {headers} />
     {:then aidTypes}
       {#each transformAidTypeToTable(aidTypes) as aidType}
         <TableRow

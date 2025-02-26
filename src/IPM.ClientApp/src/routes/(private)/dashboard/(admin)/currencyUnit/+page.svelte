@@ -21,6 +21,7 @@
   import deleteCurrencyUnit from "@useCases/currencyUnitUseCase/deleteCurrencyUnit";
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
+    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
 
   type CurrencyUnitUpdateDto = Omit<CurrencyUnit, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -106,7 +107,7 @@
   </RowToRight>
   <Table hasAction {headers}>
     {#await data.currencyUnit}
-      <div>Loading</div>
+      <TableSkeleton {headers} />
     {:then listData}
       {#each transformCurrencyUnitToTable(listData) as item}
         <TableRow

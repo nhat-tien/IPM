@@ -21,6 +21,7 @@
   import updateCounterparty from "@useCases/counterpartyUseCase/updateCounterparty";
   import deleteCounterparty from "@useCases/counterpartyUseCase/deleteCounterparty";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
+    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
 
   type CounterpartyUpdateDto = Omit<Counterparty, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -106,7 +107,7 @@
   </RowToRight>
   <Table hasAction {headers}>
     {#await data.counterparty}
-      <div>Loading</div>
+      <TableSkeleton {headers} />
     {:then counterpartys}
       {#each transformCounterpartyToTable(counterpartys) as counterparty}
         <TableRow

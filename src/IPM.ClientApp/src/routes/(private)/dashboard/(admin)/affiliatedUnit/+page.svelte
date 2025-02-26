@@ -22,6 +22,7 @@
   import type { EventSubmitElements } from "@/shared.types";
   import type { AffiliatedUnit } from "@useCases/useCases.types";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
+    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
 
   type AffiliatedUnitUpdateDto = Omit<
     AffiliatedUnit,
@@ -103,7 +104,7 @@
   </RowToRight>
   <Table {headers} hasAction>
     {#await data.affiliatedUnit}
-      <div>Loading</div>
+      <TableSkeleton {headers} />
     {:then affiliatedUnits}
       {#each transformAffliatedUnitToTable(affiliatedUnits) as affiliatedUnit}
         <TableRow

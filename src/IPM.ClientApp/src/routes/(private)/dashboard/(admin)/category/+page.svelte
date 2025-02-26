@@ -21,6 +21,7 @@
   import deleteCategory from "@useCases/categoryUseCase/deleteCategory";
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
+    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
 
   let { data }: { data: PageData } = $props();
 
@@ -104,7 +105,7 @@
   </RowToRight>
   <Table hasAction {headers}>
     {#await data.category}
-      <div>Loading</div>
+      <TableSkeleton {headers} />
     {:then categorys}
       {#each transformCategoryToTable(categorys) as category}
         <TableRow

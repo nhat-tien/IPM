@@ -21,6 +21,7 @@
   import deleteFileType from "@useCases/fileTypeUseCase/deleteFileType";
   import updateFileType from "@useCases/fileTypeUseCase/updateFileType";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
+    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
 
   type FileTypeUpdateDto = Omit<FileType, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -101,7 +102,7 @@
   </RowToRight>
   <Table hasAction {headers}>
     {#await data.fileType}
-      <div>Loading</div>
+      <TableSkeleton {headers} />
     {:then fileTypes}
       {#each transformFileTypeToTable(fileTypes) as fileType}
         <TableRow

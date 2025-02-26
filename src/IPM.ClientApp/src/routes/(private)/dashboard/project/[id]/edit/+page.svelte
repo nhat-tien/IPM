@@ -43,9 +43,6 @@
     fileUpload: [],
   });
 
-  $effect(() => {
-    $inspect(modelState.participationDiff);
-  });
 </script>
 
 <TitleWebPage title="Dự án - Chỉnh sửa" />
@@ -80,6 +77,6 @@
   {:else if pageState == 2}
     <Members {data} bind:modelState />
   {:else}
-    <AttachedFiles />
+    <AttachedFiles {data} bind:modelState />
   {/if}
 </BasicCenterLayout>
