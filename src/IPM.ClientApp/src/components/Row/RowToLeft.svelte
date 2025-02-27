@@ -14,7 +14,7 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    align-items: center;
+    align-items: var(--align-items, center);
     gap: var(--gap, 0.5em);
     margin-top: var(--margin-top, 0.5em);
     margin-bottom: var(--margin-bottom, 0.5em);

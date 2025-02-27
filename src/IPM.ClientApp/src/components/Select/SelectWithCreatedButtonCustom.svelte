@@ -52,6 +52,7 @@
   }
 
   let container: HTMLDivElement | null = $state(null);
+  let input: HTMLInputElement | null = $state(null);
 
   function onWindowClick(e: WindowMouseEvent) {
     if (!container) {
@@ -61,6 +62,12 @@
       isShowDropdown = false;
     }
   }
+
+  $effect(() => {
+    if(input) {
+      input.focus()
+    }
+  })
 </script>
 
 <svelte:window onclick={onWindowClick} />
@@ -95,6 +102,7 @@
       <div class="float-container">
         <div class="input">
           <input
+            bind:this={input}
             type="text"
             bind:value={searchString}
             placeholder="Gõ để tìm kiếm"

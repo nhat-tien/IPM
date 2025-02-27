@@ -193,6 +193,7 @@ export type EditProjectDataPage = {
   sponsor: Promise<Sponsor[]>;
   counterparty: Promise<Counterparty[]>;
   users: Promise<User[]>;
+  fileType: Promise<FileType[]>;
   id: string;
 };
 

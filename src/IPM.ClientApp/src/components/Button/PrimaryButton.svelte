@@ -8,7 +8,7 @@
   }: {
     children: Snippet;
     onclick?: () => void;
-    variant?: string;
+    variant?: "orange";
     type?: "button" | "submit" | "reset" | null | undefined;
   } = $props();
 

@@ -5,7 +5,7 @@
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
   import type { PageData } from "./$types";
   import transformUserToTable from "@useCases/userUseCase/transformUserToTable";
-    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
+  import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
   let { data }: { data: PageData } = $props();
 
   let modelName = "Người dùng";
@@ -15,7 +15,7 @@
     `Email`,
     `Họ lót`,
     `Tên`,
-    `Vai trò`
+    `Vai trò`,
   ];
 </script>
 
@@ -31,6 +31,3 @@
     {/await}
   </Table>
 </BasicCenterLayout>
-
-<style lang="scss">
-</style>
