@@ -47,6 +47,7 @@ using IPM.Application.UseCases.Project.DeleteProjectUseCase;
 using IPM.Application.UseCases.Project.GetAllProjectUseCase;
 using IPM.Application.UseCases.Project.UpdateProjectUseCase;
 using IPM.Application.UseCases.Project.AssignUserToProjectUseCase;
+using IPM.Application.UseCases.Project.RemoveUserInProjectUseCase;
 
 
 using IPM.Application.UseCases.FileType.CreateFileTypeUseCase;
@@ -119,6 +120,7 @@ public static class UseCaseServiceRegister
         services.AddScoped<IDeleteProjectUseCase, DeleteProjectHandler>();
         services.AddScoped<IUpdateProjectUseCase, UpdateProjectHandler>();
         services.AddScoped<IAssignUserToProjectUseCase, AssignUserToProjectHandler>();
+        services.AddScoped<IRemoveUserInProjectUseCase, RemoveUserInProjectHandler>();
 
         services.AddScoped<ICreateFileTypeUseCase, CreateFileTypeHandler>();
         services.AddScoped<IGetAllFileTypeUseCase, GetAllFileTypeHandler>();

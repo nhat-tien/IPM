@@ -13,6 +13,7 @@ const config = {
       "@components": "./src/components",
       "@services": "./src/lib/services",
       "@useCases": "./src/lib/useCases",
+      "@utils": "./src/lib/utils",
       "@": "./src",
     },
     // adapter-auto only supports some environments, see https://svelte.dev/docs/kit/adapter-auto for a list.

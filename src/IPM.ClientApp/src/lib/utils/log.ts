@@ -1,8 +1,8 @@
 
 export class AppLog {
 
-  public static error(message: string) {
-    console.log(`>>> IPM [ERROR]: ` + message);
+  public static error(message: string, placeOccur?: string) {
+    console.table({ "[ERROR]": message, "Place occur": placeOccur});
   }
 
   public static cache(message: string) {

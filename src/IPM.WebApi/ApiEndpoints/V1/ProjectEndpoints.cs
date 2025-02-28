@@ -5,8 +5,10 @@ using IPM.Application.UseCases.Project.DeleteProjectUseCase;
 using IPM.Application.UseCases.Project.GetAllProjectUseCase;
 using IPM.Application.UseCases.Project.GetProjectUseCase;
 using IPM.Application.UseCases.Project.UpdateProjectUseCase;
+using IPM.Application.UseCases.Project.RemoveUserInProjectUseCase;
 using IPM.WebApi.EndpointFilters;
 using IPM.WebApi.ResponseDtos;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IPM.WebApi.ApiEndpoints.V1;
 
@@ -78,6 +80,16 @@ public static class ProjectEndpoints
             .MapPost(
                 "/assignment",
                 async (AssignUserToProjectRequest req, IAssignUserToProjectUseCase handler) =>
+                {
+                    await handler.Handle(req);
+                }
+            )
+            .RequireAuthorization("UserPermission");
+
+        endpoints
+            .MapDelete(
+                "/assignment",
+                async ([FromBody] RemoveUserInProjectRequest req, IRemoveUserInProjectUseCase handler) =>
                 {
                     await handler.Handle(req);
                 }

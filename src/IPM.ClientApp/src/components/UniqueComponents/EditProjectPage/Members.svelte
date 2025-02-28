@@ -13,6 +13,7 @@
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
   import assignMember from "@useCases/projectUseCase/assignMember";
+  import removeMember  from "@useCases/projectUseCase/removeMember"; 
   import toast from "svelte-5-french-toast";
     import { invalidateCache } from "@stores/cache.svelte";
 
@@ -72,6 +73,7 @@
   async function handleSave() {
 
     let addMember = [];
+    let deleteMember = [];
 
     for (let participation of modelState.participationDiff) {
       if (participation.type == "add") {
@@ -81,11 +83,20 @@
           owner: participation.payload.owner,
         });
       }
+      if (participation.type == "delete") {
+        deleteMember.push({
+          userId: participation.payload.userId,
+          projectId: parseInt(data.id),
+        });
+      }
     }
 
-    const result = await assignMember({ assignments: addMember });
+    const result = await Promise.all([
+      assignMember({ assignments: addMember }),
+      removeMember({ assignments: deleteMember }),
+    ]);
 
-    if (result.isSuccess) {
+    if (result[0].isSuccess && result[1].isSuccess) {
       toast.success("Thay đổi thành viên thành công");
       invalidateCache(`project:${data.id}`)
     }
@@ -116,11 +127,15 @@
           </p>
           <p class="member__email">{member.email}</p>
         </div>
-        <button class="delete-btn" onclick={() => removeUserHandler(member)}>
-          <div class="icon">
-            <TrashIcon --stroke=" hsl(0, 84%, 48%)" />
-          </div>
-        </button>
+        {#if member.email !== info?.email}
+          <button class="delete-btn" onclick={() => removeUserHandler(member)}>
+            <div class="icon">
+              <TrashIcon --stroke=" hsl(0, 84%, 48%)" />
+            </div>
+          </button>
+        {:else}
+          <div class="owner-label">Chủ dự án</div>
+        {/if}
       </div>
     {/each}
   </div>
@@ -166,6 +181,9 @@
   }
   .icon {
     width: 1.4em;
+    @include center;
+  }
+  .owner-label {
     @include center;
   }
 </style>

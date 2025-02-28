@@ -77,6 +77,6 @@
   {:else if pageState == 2}
     <Members {data} bind:modelState />
   {:else}
-    <AttachedFiles {data} bind:modelState />
+    <AttachedFiles {data} />
   {/if}
 </BasicCenterLayout>
