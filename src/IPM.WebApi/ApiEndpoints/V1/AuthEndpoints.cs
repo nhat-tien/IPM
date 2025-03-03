@@ -1,13 +1,12 @@
 namespace IPM.WebApi.ApiEndpoints.V1;
 
 using Microsoft.AspNetCore.Http.HttpResults;
-using System.Security.Claims;
 using IPM.Application.UseCases.User.GetCurrentUserUseCase;
-using Microsoft.IdentityModel.JsonWebTokens;
 using IPM.Application.UseCases.Auth.LoginUseCase;
 using IPM.Application.UseCases.Auth.RefreshTokenUseCase;
 using IPM.Application.UseCases.Auth.RegisterUseCase;
 using IPM.WebApi.EndpointFilters;
+using IPM.WebApi.Helper;
 
 public class AuthEndpoints
 {
@@ -74,16 +73,18 @@ public class AuthEndpoints
 
         endpoints.MapGet("/profile", async (HttpContext context, IGetCurrentUserUseCase handler) =>
         {
-            if (context.User is ClaimsPrincipal principal)
+            var userId = GetUserIdFromHttpContext.Get(context);
+            if (userId is null)
             {
-                string? userId = principal.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-
-                if (userId is null) return Results.BadRequest();
-
-                Domain.User? user = await handler.Handle(userId);
-                return TypedResults.Ok(user);
+                return Results.BadRequest();
             }
-            return Results.BadRequest();
+            Domain.User? user = await handler.Handle(userId);
+            if(user is null)
+            {
+                return Results.BadRequest();
+            }
+            return Results.Ok(user);
+
         }).RequireAuthorization("UserPermission");
     }
 

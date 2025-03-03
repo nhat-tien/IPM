@@ -9,7 +9,9 @@ public class User
     public int? PositionId { get; set; }
     public int? AffilatedUnitId { get; set; }
     public int RoleId { get; set; }
+    public int Sex {get; set; }
     public string? PhoneNumber { get; set; }
+    public string? AvatarUrl {get; set; }
     public string? Address { get; set; }
     public string? Email { get; set; }
     public int Status { get; set; }
@@ -23,40 +25,5 @@ public class User
 
     public int VerifiedStatus { get; set; }
     public DateTime VerificationValidTime { get; set; }
-
-    // public User(
-    //     string userId,
-    //     string firstName,
-    //     string lastName,
-    //     int positionId,
-    //     int affilatedUnitId,
-    //     int roleId,
-    //     string phoneNumber,
-    //     string address,
-    //     string email,
-    //     int status,
-    //     DateTime createdAt,
-    //     DateTime updatedAt,
-    //     int verifiedCodeEmail,
-    //     int verifiedStatus,
-    //     DateTime verificationValidTime
-    // )
-    // {
-    //     UserId = userId;
-    //     FirstName = firstName;
-    //     LastName = lastName;
-    //     PositionId = positionId;
-    //     AffilatedUnitId = affilatedUnitId;
-    //     RoleId = roleId;
-    //     PhoneNumber = phoneNumber;
-    //     Address = address;
-    //     Email = email;
-    //     Status = status;
-    //     CreatedAt = createdAt;
-    //     UpdatedAt = updatedAt;
-    //     VerifiedCodeEmail = verifiedCodeEmail;
-    //     VerifiedStatus = verifiedStatus;
-    //     VerificationValidTime = verificationValidTime;
-    // }
 
 }

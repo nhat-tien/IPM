@@ -3,6 +3,7 @@ import type { PageLoad } from './$types';
 import getProject from '@useCases/projectUseCase/getProject';
 import { cacheFetch } from '@stores/cache.svelte';
 import type { Project } from '@useCases/useCases.types';
+import getAttachedFiles from '@useCases/projectUseCase/getAttachedFiles';
 
 export const load: PageLoad = async ({ params }) => {
   const id = params.id;
@@ -14,6 +15,7 @@ export const load: PageLoad = async ({ params }) => {
 
   return {
     project: project,
+    files: getAttachedFiles(id),
     id: id
   };
 };

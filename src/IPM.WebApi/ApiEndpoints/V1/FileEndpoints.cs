@@ -1,4 +1,5 @@
 using IPM.Application.UseCases.File.UploadFileUseCase;
+using IPM.Application.UseCases.File.GetFileInProject;
 using IPM.WebApi.Utils;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +28,9 @@ public class FileEndpoints
             .DisableAntiforgery()
             .RequireAuthorization("UserPermission");
 
-        endpoints.MapGet("/project/{id}", (int id) => { });
+        endpoints.MapGet("/project/{id}", async (int id, IGetFileInProject handler) => {
+            return await handler.Handle(id);
+        }).RequireAuthorization("UserPermission");
+
     }
 }

@@ -80,6 +80,7 @@ public class Project : BaseEntity
             CurrencyUnitId = this.CurrencyUnitId,
             CurrencyUnit = this.CurrencyUnit is not null ? CurrencyUnit.MapTo() : null,
             // Users = this.Users is not null ? Users.Select(e => e.MapTo()).ToList(): null,
+            Files = this.Files is not null ? this.Files.Select(e => e.MapTo()).ToList() : null,
             Participations = this.Participations is not null
                 ? Participations.Select(e => e.MapToWithUser()).ToList()
                 : null,

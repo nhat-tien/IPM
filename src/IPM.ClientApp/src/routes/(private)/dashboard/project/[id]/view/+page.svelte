@@ -6,6 +6,7 @@
   import RowToRight from "@components/Row/RowToRight.svelte";
   import IconButton from "@components/Button/IconButton.svelte";
   import PencilIcon from "@components/Icons/PencilIcon.svelte";
+    import SquareSkeleton from "@components/Skeleton/SquareSkeleton.svelte";
   const { data }: { data: PageData } = $props();
 </script>
 
@@ -32,6 +33,7 @@
       }}
       variant="orange"
       --margin-bottom="0.5em"
+      --icon-size="1.3em"
     >
       {#snippet icon()}
         <PencilIcon --stroke="hsl(0, 0%, 97%)" />
@@ -68,9 +70,28 @@
   </div>
   <div class="container">
     <h2>Thành viên</h2>
+    {#each data.project.participations as member}
+      <div>
+        <p>
+          <span>{member.user?.lastName} {member.user?.firstName}</span>
+          <span>
+        {member.user?.email}
+          </span>
+        </p>
+      </div>
+    {/each}
   </div>
   <div class="container">
     <h2>File đính kèm</h2>
+    {#await data.files}
+      <SquareSkeleton />
+    {:then files} 
+      <ul>
+      {#each files as file}
+        <li>{file.fileName}</li>
+      {/each}
+      </ul>
+    {/await}
   </div>
 </BasicCenterLayout>
 

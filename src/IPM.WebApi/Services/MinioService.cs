@@ -30,7 +30,26 @@ public class MinioService(IMinioClient minio) : IFileService
         }
         catch (MinioException e)
         {
-            Console.WriteLine("File Upload Error: {0}", e.Message);
+            Console.WriteLine("[MinioException]: File Upload Error {0}", e.Message);
+            return false;
+        }
+    }
+
+    public async Task<bool> Delete(string objectName, string bucketName)
+    {
+        try
+        {
+            RemoveObjectArgs rmArgs = new RemoveObjectArgs()
+                                          .WithBucket(bucketName)
+                                          .WithObject(objectName);
+
+            await minio.RemoveObjectAsync(rmArgs);
+
+            return true;
+        }
+        catch (MinioException e)
+        {
+            Console.WriteLine("[MinioException]: Error " + e.Message);
             return false;
         }
     }

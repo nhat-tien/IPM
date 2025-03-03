@@ -12,10 +12,13 @@ public class UploadFileHandler(IFileService fileService, IFileRepository repo) :
         {
             await file.CopyToAsync(streamData);
             streamData.Position = 0;
+
+            var objectName = $"{projectId}_{DateTime.UtcNow.ToString("dd-MM-yyyyTHH:mm:ss.fffffffZ")}_{file.FileName}";
+
             var isSuccess = await fileService.Upload(
                 streamData,
                 file.Length,
-                file.FileName,
+                objectName,
                 file.ContentType,
                 "files"
             );
@@ -25,6 +28,7 @@ public class UploadFileHandler(IFileService fileService, IFileRepository repo) :
             Domain.File fileInfo = new Domain.File() {
                 FileName = file.FileName,
                 FileTypeId = Convert.ToInt32(fileTypeId),
+                ObjectName = objectName,
                 ProjectId = Convert.ToInt32(projectId),
             };
 

@@ -90,6 +90,7 @@ public abstract class GenericRepository<TDomain, TEntity>
     public virtual async Task<TDomain?> FindByIdAsync(int id)
     {
         TEntity? entity = await db.Set<TEntity>().FindAsync(id);
+
         if (entity is null)
         {
             return null;
@@ -114,6 +115,21 @@ public abstract class GenericRepository<TDomain, TEntity>
         }
 
         return MapToDomain(entity);
+    }
+
+    public virtual async Task<IEnumerable<TDomain>> GetBy(IQueryable<TEntity> query, CriteriaQuery queryParam)
+    {
+
+        if(queryParam.Include is not null)
+        {
+            query = IncludeWith(query, queryParam.GetIncludeList);
+        }
+
+        List<TEntity> entity = await query.ToListAsync();
+
+        IEnumerable<TDomain> listOfDomain = entity.Select(entity => MapToDomain(entity));
+
+        return listOfDomain;
     }
 
 

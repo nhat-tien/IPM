@@ -9,7 +9,9 @@ public class User : IdentityUser
     public string? LastName { get; set; }
     public int? PositionId { get; set; }
     public int? AffilatedUnitId { get; set; }
+    public Sex Sex {get; set; }  
     public string? Address { get; set; }
+    public string? AvatarUrl {get; set; }
     public int Status { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }

@@ -11,6 +11,7 @@ import getAllCounterparty from '@useCases/counterpartyUseCase/getAllCounterparty
 import getAllAffiliatedUnit from '@useCases/affiliatedUnitUseCase/getAllAffiliatedUnit';
 import getAllUser from '@useCases/userUseCase/getAllUser';
 import getAllFileType from '@useCases/fileTypeUseCase/getAllFileType';
+import getAttachedFiles from '@useCases/projectUseCase/getAttachedFiles';
 
 export const load: PageLoad = async ({ params, depends }) => {
 
@@ -23,6 +24,8 @@ export const load: PageLoad = async ({ params, depends }) => {
     error(404, "Not Found");
   }
 
+  console.log(project);
+
   return {
     project: project,
     affiliatedUnit: getAllAffiliatedUnit(),
@@ -32,6 +35,7 @@ export const load: PageLoad = async ({ params, depends }) => {
     sponsor: getAllSponsor(),
     counterparty: getAllCounterparty(),
     fileType: getAllFileType(),
+    files: getAttachedFiles(id),
     users: cacheFetch<User[]>("users", 300, getAllUser),
     id: id
   };

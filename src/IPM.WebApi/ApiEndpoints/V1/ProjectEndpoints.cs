@@ -7,7 +7,6 @@ using IPM.Application.UseCases.Project.GetProjectUseCase;
 using IPM.Application.UseCases.Project.UpdateProjectUseCase;
 using IPM.Application.UseCases.Project.RemoveUserInProjectUseCase;
 using IPM.WebApi.EndpointFilters;
-using IPM.WebApi.ResponseDtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IPM.WebApi.ApiEndpoints.V1;
@@ -58,9 +57,13 @@ public static class ProjectEndpoints
                        SortOrder = sortOrd,
                    };
 
-                   var result = new OptionResult<Domain.Project>(await handler.Handle(id, query));
+                   var result = await handler.Handle(id, query);
 
-                   return result.GetResult();
+                   if(result is not null) {
+                      return Results.Ok(result);
+                   } else {
+                       return Results.NotFound();
+                   }
                 }
             )
             .RequireAuthorization("UserPermission");

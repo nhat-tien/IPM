@@ -1,4 +1,5 @@
 using IPM.Application.IRepositories;
+using IPM.Application.Queries;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Repositories.Common;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
@@ -29,13 +30,8 @@ public class FileRepository : GenericRepository<Domain.File, Entities.File>, IFi
         return db.Files.Where(e => e.FileId == id);
     }
 
-    public override async Task AddAsync(Domain.File domain) 
+    public async Task<IEnumerable<Domain.File>> GetByProjectId(int id, CriteriaQuery query)
     {
-        Entities.File entity = MapFromDomain(domain);
-        entity.ObjectName = $"{domain.ProjectId}_{DateTime.UtcNow.ToString()}_{domain.FileName}";
-        entity.CreatedAt = DateTime.UtcNow;
-        entity.UpdatedAt = DateTime.UtcNow;
-        await db.Set<Entities.File>().AddAsync(entity);
-        await db.SaveChangesAsync();
+        return await GetBy(db.Files.Where(e => e.ProjectId == id), query);
     }
 }

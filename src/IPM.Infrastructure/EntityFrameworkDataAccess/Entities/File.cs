@@ -20,6 +20,7 @@ public class File : BaseEntity
             FileName = this.FileName,
             ProjectId = this.ProjectId,
             FileTypeId = this.FileTypeId,
+            ObjectName = this.ObjectName,
             FileType = this.FileType is not null ? this.FileType.MapTo() : null,
             CreatedAt = this.CreatedAt,
             UpdatedAt = this.UpdatedAt,
@@ -32,6 +33,9 @@ public class File : BaseEntity
         {
             FileId = model.FileId,
             FileName = model.FileName,
+            ProjectId = model.ProjectId,
+            FileTypeId = model.FileTypeId,
+            ObjectName = model.ObjectName,
             CreatedAt = model.CreatedAt,
             UpdatedAt = model.UpdatedAt,
         };

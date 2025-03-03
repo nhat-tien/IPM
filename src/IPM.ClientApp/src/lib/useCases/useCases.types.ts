@@ -82,6 +82,18 @@ export type FileType = {
   updatedAt: string
 }
 
+export type File = {
+  fileId: number,
+  fileName: string,
+  fileType: FileType,
+  fileTypeId: number
+  objectName: string
+  projectId: number
+  createdAt: string,
+  updatedAt: string
+  url: string | null
+}
+
 export type Project = {
   projectId: number,
   projectNameEnglish: string,
@@ -180,7 +192,6 @@ export type EditState = {
   counterPartyId: string;
   members: ParticipationReduce[];
   participationDiff: ParticipationDiff[],
-  fileUpload: FileUpload[];
 };
 
 
@@ -194,6 +205,7 @@ export type EditProjectDataPage = {
   counterparty: Promise<Counterparty[]>;
   users: Promise<User[]>;
   fileType: Promise<FileType[]>;
+  files: Promise<File[]>;
   id: string;
 };
 

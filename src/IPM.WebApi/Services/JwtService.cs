@@ -21,8 +21,8 @@ namespace IPM.WebApi.Services;
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity([
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email ?? ""),
+                    new Claim("sub", user.Id),
+                    new Claim("email", user.Email ?? ""),
                     new Claim("role", role),
                     new Claim("firstName", user.FirstName ?? ""),
                     new Claim("lastName", user.LastName ?? ""),
