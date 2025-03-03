@@ -1,11 +1,15 @@
 <script lang="ts">
-  import BookIcon from "@components/Icons/BookIcon.svelte";
   import HomeIcon from "@components/Icons/HomeIcon.svelte";
+  import KeyIcon from "@components/Icons/KeyIcon.svelte";
+  import ListBulletIcon from "@components/Icons/ListBulletIcon.svelte";
+  import PresentationChartBarIcon from "@components/Icons/PresentationChartBarIcon.svelte";
+  import RectangleStackIcon from "@components/Icons/RectangleStackIcon.svelte";
+  import UserGroupIcon from "@components/Icons/UserGroupIcon.svelte";
   import SideMenuGroup from "@components/SideMenu/SideMenuGroup.svelte";
   import SideMenuItem from "@components/SideMenu/SideMenuItem.svelte";
 </script>
 
-<section class="side-menu">
+<aside class="side-menu">
   <div class="column">
     <SideMenuItem href="/dashboard">
       {#snippet icon()}
@@ -17,16 +21,19 @@
     </SideMenuItem>
     <SideMenuItem href="/dashboard/project">
       {#snippet icon()}
-        <BookIcon />
+        <PresentationChartBarIcon />
       {/snippet}
       {#snippet content()}
         Dự án của tôi
       {/snippet}
     </SideMenuItem>
     <SideMenuGroup title="Quản lí của Admin">
+      {#snippet icon()}
+        <KeyIcon />
+      {/snippet}
       <SideMenuItem href="/dashboard/all-project">
         {#snippet icon()}
-          <BookIcon />
+          <RectangleStackIcon />
         {/snippet}
         {#snippet content()}
           Tất cả dự án
@@ -34,7 +41,7 @@
       </SideMenuItem>
       <SideMenuItem href="/dashboard/affiliatedUnit">
         {#snippet icon()}
-          <BookIcon />
+          <ListBulletIcon />
         {/snippet}
         {#snippet content()}
           Đơn vị trực thuộc
@@ -42,7 +49,7 @@
       </SideMenuItem>
       <SideMenuItem href="/dashboard/approvingAgency">
         {#snippet icon()}
-          <BookIcon />
+          <ListBulletIcon />
         {/snippet}
         {#snippet content()}
           Cơ quan phê duyệt
@@ -50,7 +57,7 @@
       </SideMenuItem>
       <SideMenuItem href="/dashboard/aidType">
         {#snippet icon()}
-          <BookIcon />
+          <ListBulletIcon />
         {/snippet}
         {#snippet content()}
           Loại viện trợ
@@ -58,7 +65,7 @@
       </SideMenuItem>
       <SideMenuItem href="/dashboard/currencyUnit">
         {#snippet icon()}
-          <BookIcon />
+          <ListBulletIcon />
         {/snippet}
         {#snippet content()}
           Đơn vị tiền tệ
@@ -66,7 +73,7 @@
       </SideMenuItem>
       <SideMenuItem href="/dashboard/counterparty">
         {#snippet icon()}
-          <BookIcon />
+          <ListBulletIcon />
         {/snippet}
         {#snippet content()}
           Đối tác
@@ -74,7 +81,7 @@
       </SideMenuItem>
       <SideMenuItem href="/dashboard/category">
         {#snippet icon()}
-          <BookIcon />
+          <ListBulletIcon />
         {/snippet}
         {#snippet content()}
           Danh mục
@@ -82,7 +89,7 @@
       </SideMenuItem>
       <SideMenuItem href="/dashboard/sponsor">
         {#snippet icon()}
-          <BookIcon />
+          <ListBulletIcon />
         {/snippet}
         {#snippet content()}
           Nhà tài trợ
@@ -90,7 +97,7 @@
       </SideMenuItem>
       <SideMenuItem href="/dashboard/position">
         {#snippet icon()}
-          <BookIcon />
+          <ListBulletIcon />
         {/snippet}
         {#snippet content()}
           Chức vụ
@@ -98,7 +105,7 @@
       </SideMenuItem>
       <SideMenuItem href="/dashboard/fileType">
         {#snippet icon()}
-          <BookIcon />
+          <ListBulletIcon />
         {/snippet}
         {#snippet content()}
           Loại file
@@ -106,7 +113,7 @@
       </SideMenuItem>
       <SideMenuItem href="/dashboard/users">
         {#snippet icon()}
-          <BookIcon />
+          <UserGroupIcon />
         {/snippet}
         {#snippet content()}
           Danh sách người dùng
@@ -114,7 +121,7 @@
       </SideMenuItem>
     </SideMenuGroup>
   </div>
-</section>
+</aside>
 
 <style lang="scss">
   .side-menu {

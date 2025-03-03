@@ -38,7 +38,7 @@
   }
 </script>
 
-<div class="container">
+<section class="container">
   <h2>Thông tin dự án</h2>
   <PrimaryTextFieldBindable
     id="projectNameVietnamese"
@@ -187,7 +187,7 @@
       >Lưu</PrimaryButton
     >
   </RowToRight>
-</div>
+</section>
 
 {#snippet createAffiliatedUnitModal()}
   <SingleFieldCreateModal

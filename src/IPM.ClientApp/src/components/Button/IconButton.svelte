@@ -37,7 +37,7 @@
 <style lang="scss">
   .icon {
     @include center;
-    width: 1.5em;
+    width: var(--icon-size, 1.5em);
   }
   button {
     margin-top: var(--margin-top, 0);

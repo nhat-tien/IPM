@@ -13,9 +13,9 @@
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
   import assignMember from "@useCases/projectUseCase/assignMember";
-  import removeMember  from "@useCases/projectUseCase/removeMember"; 
+  import removeMember from "@useCases/projectUseCase/removeMember";
   import toast from "svelte-5-french-toast";
-    import { invalidateCache } from "@stores/cache.svelte";
+  import { invalidateCache } from "@stores/cache.svelte";
 
   let {
     modelState = $bindable(),
@@ -71,7 +71,6 @@
   }
 
   async function handleSave() {
-
     let addMember = [];
     let deleteMember = [];
 
@@ -98,12 +97,12 @@
 
     if (result[0].isSuccess && result[1].isSuccess) {
       toast.success("Thay đổi thành viên thành công");
-      invalidateCache(`project:${data.id}`)
+      invalidateCache(`project:${data.id}`);
     }
   }
 </script>
 
-<div class="container">
+<section class="container">
   <h2>Thành viên</h2>
   {#await data.users}
     <SquareSkeleton --width="100%" --height="2em" --radius="5px" />
@@ -147,7 +146,7 @@
       >Lưu</PrimaryButton
     >
   </RowToRight>
-</div>
+</section>
 
 <style lang="scss">
   .container {
