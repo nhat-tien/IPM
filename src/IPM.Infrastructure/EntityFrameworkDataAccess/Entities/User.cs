@@ -30,7 +30,7 @@ public class User : IdentityUser
     public virtual ICollection<IdentityUserClaim<string>>? Claims { get; set; }
     public virtual ICollection<IdentityUserLogin<string>>? Logins { get; set; }
     public virtual ICollection<IdentityUserToken<string>>? Tokens { get; set; }
-    public virtual ICollection<UserRole>? UserRoles { get; set; }
+    public virtual List<UserRole>? UserRoles { get; set; }
 
     public Domain.User MapTo()
     {
@@ -46,10 +46,13 @@ public class User : IdentityUser
             Address = this.Address,
             Status = this.Status,
             CreatedAt = this.CreatedAt,
+            Sex = (int) this.Sex,
+            AvatarUrl = this.AvatarUrl,
             UpdatedAt = this.UpdatedAt,
             VerifiedCodeEmail = this.VerifiedCodeEmail,
             VerifiedStatus = this.VerifiedStatus,
             VerificationValidTime = this.VerificationValidTime,
+            Role = this.UserRoles is not null ? this.UserRoles[0].Role!.MapTo() : null
         };
     }
 

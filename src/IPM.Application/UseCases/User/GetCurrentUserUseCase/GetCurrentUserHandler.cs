@@ -7,6 +7,6 @@ public class GetCurrentUserHandler(IUserRepository repo): IGetCurrentUserUseCase
 {
     public async Task<Domain.User?> Handle(string userId)
     {
-        return await repo.GetById(userId);
+        return await repo.GetByIdIncludeRole(userId);
     }
 }

@@ -5,6 +5,7 @@ namespace IPM.Application.IRepositories;
 public interface IUserRepository
 {
     Task<User?> GetById(string id);
+    Task<User?> GetByIdIncludeRole(string id);
     Task<User?> FindByName(string name);
     Task<bool> CheckPassword(User user, string password);
     Task<IList<string>> GetRoles(User user);

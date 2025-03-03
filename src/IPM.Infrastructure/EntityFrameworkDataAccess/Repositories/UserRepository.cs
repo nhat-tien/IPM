@@ -27,6 +27,20 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
         return user.MapTo();
     }
 
+    public async Task<Domain.User?> GetByIdIncludeRole(string id)
+    {
+        User? user = await userManager.Users.Where(e => e.Id == id)
+            .Include(e => e.UserRoles)!
+            .ThenInclude(e => e.Role)
+            .FirstOrDefaultAsync()
+;
+        if (user is null)
+        {
+            return null;
+        }
+        return user.MapTo();
+    }
+
     public async Task<Domain.User?> GetById(string id)
     {
         User? user = await userManager.FindByIdAsync(id);
@@ -109,21 +123,22 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
             .ThenInclude(e => e.Role)
             .ToListAsync();
 
-        IEnumerable<Domain.User> listOfDomain = entity.Select(entity =>
-        {
-            ICollection<UserRole>? userRoles = entity.UserRoles;
-            if (userRoles is null)
-            {
-                return entity.MapTo();
-            }
-            var userRole = userRoles.FirstOrDefault();
-            var role = userRole!.Role;
-            Domain.Role roleDomain = new Domain.Role() { RoleId = role!.Id, RoleName = role!.Name };
-            var domain = entity.MapTo();
-            domain.Role = roleDomain;
-            return domain;
-        });
-
+        // IEnumerable<Domain.User> listOfDomain = entity.Select(entity =>
+        // {
+        //     ICollection<UserRole>? userRoles = entity.UserRoles;
+        //     if (userRoles is null)
+        //     {
+        //         return entity.MapTo();
+        //     }
+        //     var userRole = userRoles.FirstOrDefault();
+        //     var role = userRole!.Role;
+        //     Domain.Role roleDomain = new Domain.Role() { RoleId = role!.Id, RoleName = role!.Name };
+        //     var domain = entity.MapTo();
+        //     domain.Role = roleDomain;
+        //     return domain;
+        // });
+        //
+        IEnumerable<Domain.User> listOfDomain = entity.Select(entity => entity.MapTo());
         return listOfDomain;
     }
 }
