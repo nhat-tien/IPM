@@ -3,7 +3,7 @@ using IPM.Domain;
 
 namespace IPM.Application.IRepositories;
 
-public interface IProjectRepository: IResourceRepository<Project>
+public interface IProjectRepository: IGenericRepository<Project>
 {
     new Task<Domain.Project> AddAsync(Domain.Project model);
     Task<IEnumerable<Domain.Project>> GetAllAsync(CriteriaQuery queryParam);

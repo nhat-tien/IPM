@@ -2,6 +2,4 @@ using IPM.Domain;
 
 namespace IPM.Application.IRepositories;
 
-public interface IFileTypeRepository: IResourceRepository<FileType>
-{
-}
+public interface IFileTypeRepository: IGenericRepository<FileType>;

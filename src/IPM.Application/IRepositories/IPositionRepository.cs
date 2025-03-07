@@ -2,6 +2,4 @@ using IPM.Domain;
 
 namespace IPM.Application.IRepositories;
 
-public interface IPositionRepository: IResourceRepository<Position>
-{
-}
+public interface IPositionRepository: IGenericRepository<Position>;
