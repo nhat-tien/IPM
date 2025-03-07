@@ -58,7 +58,7 @@
       </button>
     {/if}
     <div class="icon">
-      <CalendarIcon />
+      <CalendarIcon --stroke="hsl(30, 0%, 30%)"/>
     </div>
   </div>
 </div>

@@ -1,6 +1,5 @@
 import { authEndPoint } from "@services/httpService";
 import type { HttpError } from "@sveltejs/kit";
-import { HTTPError } from "ky";
 import { z, ZodError } from "zod";
 
 const RegisterScheme = z.object({
@@ -59,9 +58,6 @@ export default async function register(formData: RegisterParam): Promise<Registe
         error: null,
       }
   } catch (e: ZodError | HttpError | any) {
-    if(e instanceof HTTPError) {
-      console.log(await e.response.json());
-    }
     return {
       isSuccess: false,
       error: e,

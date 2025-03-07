@@ -23,6 +23,10 @@
   import RowToRight from "@components/Row/RowToRight.svelte";
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
+  import DatePicker from "@components/DatePicker/DatePicker.svelte";
+  import updateProject from "@useCases/projectUseCase/updateProject";
+  import toast from "svelte-5-french-toast";
+  import { invalidateCache } from "@stores/cache.svelte";
 
   let {
     modelState = $bindable(),
@@ -33,8 +37,35 @@
     //TODO:
   }
 
-  function handleSave() {
-    //TODO:
+  async function handleSave() {
+    const updateDto = {
+      projectNameVietnamese: modelState.projectNameVietnamese,
+      projectNameEnglish: modelState.projectNameEnglish,
+      projectProgress: modelState.projectProgress,
+      content: modelState.content,
+      projectPurpose: modelState.projectPurpose,
+      projectBudget: modelState.projectBudget,
+      startDate: modelState.startDate,
+      endDate: modelState.endDate,
+      percentageOfProgress: modelState.percentageOfProgress,
+      fundedEquipment: modelState.fundedEquipment,
+      categoryId: modelState.categoryId,
+      affiliatedUnitId: modelState.affiliatedUnitId,
+      sponsorId: modelState.sponsorId,
+      aidTypeId: modelState.aidTypeId,
+      approvingAgencyId: modelState.approvingAgencyId,
+      counterPartyId: modelState.counterPartyId,
+    };
+    const result = await updateProject({
+      formData: updateDto,
+      id: data.id,
+      project: data.project,
+    });
+
+    if (result.isSuccess) {
+      invalidateCache(`project:${data.id}`);
+      toast.success("Chỉnh sửa dự án thành công");
+    }
   }
 </script>
 
@@ -94,6 +125,38 @@
     bind:value={modelState.percentageOfProgress}
     --margin-top="1.5em"
   />
+  <PrimaryTextFieldBindable
+    id="fundedEquipment"
+    label="Thiết bị tài trợ"
+    placeHolder=""
+    type="text"
+    name="fundedEquipment"
+    bind:value={modelState.fundedEquipment}
+    --margin-top="1.5em"
+  />
+  <PrimaryTextFieldBindable
+    id="projectBudget"
+    label="Kinh phí dự án"
+    placeHolder=""
+    type="text"
+    name="projectBudget"
+    bind:value={modelState.projectBudget}
+    --margin-top="1.5em"
+  />
+  <DatePicker
+    --margin-top="1.5em"
+    --width="20ch"
+    label="Ngày bắt đầu"
+    id="startDate"
+    bind:value={modelState.startDate}
+  />
+  <DatePicker
+    --margin-top="1.5em"
+    --width="20ch"
+    label="Ngày kết thúc"
+    id="endDate"
+    bind:value={modelState.endDate}
+  />
   {#await data.affiliatedUnit}
     <SquareSkeleton --width="100%" --height="2em" --radius="5px" />
   {:then affiliatedUnit}
@@ -103,7 +166,7 @@
       value={data.project.affiliatedUnit?.affiliatedUnitName}
       items={transformAffliatedUnitToOption(affiliatedUnit)}
       placeHolder="Chọn đơn vị trực thuộc"
-      selectFn={(e) => (modelState.affiliatedUnitId = e.value)}
+      selectFn={(e) => (modelState.affiliatedUnitId = parseInt(e.value))}
       btnClickFn={() => openModal(createAffiliatedUnitModal)}
       --margin-top="1em"
     />
@@ -117,7 +180,7 @@
       value={data.project.category?.categoryName}
       items={transformCategoryToOption(categories)}
       placeHolder="Chọn danh mục"
-      selectFn={(e) => (modelState.categoryId = e.value)}
+      selectFn={(e) => (modelState.categoryId = parseInt(e.value))}
       btnClickFn={() => openModal(createCategoryModal)}
       --margin-top="1em"
     />
@@ -131,7 +194,7 @@
       value={data.project.approvingAgency?.approvingAgencyName}
       items={transformApprovingAgencyToOption(approvingAgencies)}
       placeHolder="Chọn cơ quan phê duyệt"
-      selectFn={(e) => (modelState.approvingAgencyId = e.value)}
+      selectFn={(e) => (modelState.approvingAgencyId = parseInt(e.value))}
       btnClickFn={() => openModal(createApprovingAgencyModal)}
       --margin-top="1em"
     />
@@ -145,7 +208,7 @@
       value={data.project.sponsor?.sponsorName}
       items={transformSponsorToOption(sponsors)}
       placeHolder="Chọn nhà tài trợ"
-      selectFn={(e) => (modelState.sponsorId = e.value)}
+      selectFn={(e) => (modelState.sponsorId = parseInt(e.value))}
       btnClickFn={() => openModal(createSponsorModal)}
       --margin-top="1em"
     />
@@ -159,7 +222,7 @@
       value={data.project.aidType?.aidTypeName}
       items={transformAidTypeToOption(aidTypes)}
       placeHolder="Chọn loại viện trợ"
-      selectFn={(e) => (modelState.aidTypeId = e.value)}
+      selectFn={(e) => (modelState.aidTypeId = parseInt(e.value))}
       btnClickFn={() => openModal(createAidTypeModal)}
       --margin-top="1em"
     />
@@ -173,7 +236,7 @@
       value={data.project.counterparty?.counterpartyName}
       items={transformCounterpartyToOption(counterparties)}
       placeHolder="Chọn đối tác"
-      selectFn={(e) => (modelState.counterPartyId = e.value)}
+      selectFn={(e) => (modelState.counterPartyId = parseInt(e.value))}
       btnClickFn={() => openModal(createCounterpartyModal)}
       --margin-top="1em"
     />

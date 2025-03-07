@@ -5,6 +5,7 @@
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import RowToLeft from "@components/Row/RowToLeft.svelte";
   import PrimaryTextField from "@components/TextField/PrimaryTextField.svelte";
+  import { invalidateCache } from "@stores/cache.svelte";
   import { closeModal } from "@stores/modal.svelte";
   import type { UseCaseResult } from "@useCases/useCases.types";
   import toast from "svelte-5-french-toast";
@@ -19,6 +20,7 @@
     fieldName,
     successMessage,
     invalidateStr,
+    invalidateCacheStr,
     placeHolder = "",
   }: {
     title: string;
@@ -26,7 +28,8 @@
     fieldName: string;
     placeHolder?: string;
     successMessage: string;
-    invalidateStr: string;
+    invalidateStr?: string;
+    invalidateCacheStr?: string;
     createFn: (formData: FormData) => Promise<UseCaseResult>;
   } = $props();
 
@@ -38,7 +41,13 @@
 
     if (result.isSuccess) {
       toast.success(successMessage);
-      invalidate(invalidateStr);
+
+      if (invalidateStr) {
+        invalidate(invalidateStr);
+      }
+      if (invalidateCacheStr) {
+        invalidateCache(invalidateCacheStr);
+      }
     } else {
       if (result.error instanceof ZodError) {
         error = result.error.issues;
@@ -67,9 +76,7 @@
       errorId={fieldName}
       onfocus={clearError}
     ></PrimaryTextField>
-    <RowToLeft
-      --margin-bottom="0"
-    >
+    <RowToLeft --margin-bottom="0">
       <PrimaryButton variant="orange" type="submit">Thêm</PrimaryButton>
       <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
     </RowToLeft>

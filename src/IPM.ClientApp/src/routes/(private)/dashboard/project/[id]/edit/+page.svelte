@@ -12,6 +12,7 @@
   import GeneralInformation from "@components/UniqueComponents/EditProjectPage/GeneralInformation.svelte";
   import Members from "@components/UniqueComponents/EditProjectPage/Members.svelte";
   import AttachedFiles from "@components/UniqueComponents/EditProjectPage/AttachedFiles.svelte";
+  import { getDateOrNull } from "@utils/datetime";
   const { data }: { data: PageData } = $props();
 
   let pageState: 1 | 2 | 3 = $state(1);
@@ -23,12 +24,16 @@
     content: data.project.content,
     projectPurpose: data.project.projectPurpose,
     percentageOfProgress: data.project.percentageOfProgress,
-    categoryId: data.project.categoryId + "",
-    affiliatedUnitId: data.project.affiliatedUnitId + "",
-    sponsorId: data.project.sponsorId + "",
-    aidTypeId: data.project.aidTypeId + "",
-    approvingAgencyId: data.project.approvingAgencyId + "",
-    counterPartyId: data.project.counterpartyId + "",
+    startDate: getDateOrNull(data.project.startDate),
+    endDate: getDateOrNull(data.project.endDate),
+    fundedEquipment: data.project.fundedEquipment,
+    projectBudget: data.project.projectBudget,
+    categoryId: data.project.categoryId, 
+    affiliatedUnitId: data.project.affiliatedUnitId, 
+    sponsorId: data.project.sponsorId,
+    aidTypeId: data.project.aidTypeId ,
+    approvingAgencyId: data.project.approvingAgencyId,
+    counterPartyId: data.project.counterpartyId,
     members: data.project.participations.map(
       (e) =>
         ({
@@ -43,6 +48,7 @@
     fileUpload: [],
   });
 
+  $inspect(modelState);
 </script>
 
 <TitleWebPage title="Dự án - Chỉnh sửa" />

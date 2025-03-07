@@ -2,7 +2,7 @@ import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 import getProject from '@useCases/projectUseCase/getProject';
 import { cacheFetch } from '@stores/cache.svelte';
-import type { Project, User } from '@useCases/useCases.types';
+import type { AffiliatedUnit, File, AidType, ApprovingAgency, Category, Counterparty, FileType, Project, Sponsor, User } from '@useCases/useCases.types';
 import getAllCategory from '@useCases/categoryUseCase/getAllCategory';
 import getAllAidType from '@useCases/aidTypeUseCase/getAllAidType';
 import getAllApprovingAgency from '@useCases/approvingAgencyUseCase/getAllApprovingAgency';
@@ -23,7 +23,6 @@ export const load: PageLoad = async ({ params, depends }) => {
   if (!project) {
     error(404, "Not Found");
   }
-
   console.log(project);
 
   return {
@@ -34,7 +33,7 @@ export const load: PageLoad = async ({ params, depends }) => {
     approvingAgency: getAllApprovingAgency(),
     sponsor: getAllSponsor(),
     counterparty: getAllCounterparty(),
-    fileType: getAllFileType(),
+    fileType:getAllFileType(),
     files: getAttachedFiles(id),
     users: cacheFetch<User[]>("users", 300, getAllUser),
     id: id

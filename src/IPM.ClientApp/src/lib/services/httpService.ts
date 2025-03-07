@@ -9,7 +9,7 @@ const api = ky.create({
 
 const apiWithBearerToken = api.extend({
   retry: {
-    limit: 2,
+    limit: 3,
     statusCodes: [401]
   },
   hooks: {
@@ -67,5 +67,7 @@ export const userEndPoint = apiEndPointFactory("users");
 export const fileTypeEndPoint = apiEndPointFactory("fileTypes");
 
 export const fileEndPoint = apiEndPointFactory("file");
+
+export const profileEndPoint = apiEndPointFactory("auth/profile");
 
 

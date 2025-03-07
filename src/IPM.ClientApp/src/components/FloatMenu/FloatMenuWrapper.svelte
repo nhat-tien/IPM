@@ -18,10 +18,9 @@
     }
     if (container.contains(e.target as Node) == false) {
       isShow = false;
+    } else {
+      isShow = !isShow;
     }
-  }
-  function show() {
-    isShow = !isShow;
   }
 </script>
 
@@ -30,9 +29,9 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div bind:this={container} class="float-menu-wrapper">
-  <button onclick={show} class="center-child">
+  <div class="center-child">
     {@render centerChild()}
-  </button>
+  </div>
   {#if isShow}
     <div transition:fly={{ x: 0, y: -10, duration: 100 }} class="float-menu">
       {@render menuContainer()}

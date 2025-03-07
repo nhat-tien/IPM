@@ -8,7 +8,6 @@
   import type { PageData } from "./$types";
   import transformProjectToTable from "@useCases/projectUseCase/transformProjectToTable";
   import { goto } from "$app/navigation";
-  import SquareSkeleton from "@components/Skeleton/SquareSkeleton.svelte";
     import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
 
   let { data }: { data: PageData } = $props();

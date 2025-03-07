@@ -139,6 +139,8 @@ export type User = {
   affilatedUnitId: number,
   roleId: number,
   phoneNumber: string,
+  avatarUrl: string,
+  sex: number,
   address: string,
   email: string,
   status: number,
@@ -183,13 +185,17 @@ export type EditState = {
   projectProgress: string;
   content: string;
   projectPurpose: string;
+  projectBudget: string,
   percentageOfProgress: string;
-  categoryId: string;
-  affiliatedUnitId: string;
-  sponsorId: string;
-  aidTypeId: string;
-  approvingAgencyId: string;
-  counterPartyId: string;
+  fundedEquipment: string,
+  startDate: Date | null,
+  endDate: Date | null,
+  categoryId: number | null;
+  affiliatedUnitId: number | null;
+  sponsorId: number | null;
+  aidTypeId: number | null;
+  approvingAgencyId: number | null;
+  counterPartyId: number | null;
   members: ParticipationReduce[];
   participationDiff: ParticipationDiff[],
 };

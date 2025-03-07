@@ -37,7 +37,6 @@
       goto("/login");
     } else {
       let zodError = result.error as ZodError;
-      console.log(zodError.issues);
       error = zodError.issues[0].message;
     }
   }

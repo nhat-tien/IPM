@@ -82,8 +82,12 @@
   {/if}
   <div bind:this={container} class="select-with-button">
     <div class="select">
-      <button class="value-show" onclick={() => (isShowDropdown = true)}>
-        {value ?? placeHolder}
+      <button class="value-show" onclick={() => (isShowDropdown = true)}> 
+        {#if value}
+          <span class="value">{value}</span>
+          {:else}
+          <span class="placeHolder">{placeHolder}</span>
+        {/if}
       </button>
       {#if isShowRemoveIcon}
         <button class="select-icon remove-icon" onclick={() => (value = null)}>
@@ -140,7 +144,9 @@
     .value-show {
       flex: 1;
       text-align: left;
-      color: $view-clr;
+      .placeHolder {
+        color: $view-clr;
+      }
     }
   }
   .select-icon {

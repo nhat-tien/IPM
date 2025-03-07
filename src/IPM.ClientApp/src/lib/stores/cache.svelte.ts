@@ -30,7 +30,7 @@ export async function cacheFetch<T>(key: string, timeExpired: number, fetchCallb
       });
     }
 
-    AppLog.cache("Miss cache");
+    AppLog.cache("Miss cache " + key);
 
     return new Promise((resolve, _) => {
       resolve(data);
@@ -51,7 +51,7 @@ export async function cacheFetch<T>(key: string, timeExpired: number, fetchCallb
       });
     }
 
-    AppLog.cache("Hit cache timeout, recall data");
+    AppLog.cache("Hit cache timeout, recall data " + key);
 
     return new Promise((resolve, _) => {
       resolve(data);
@@ -61,7 +61,7 @@ export async function cacheFetch<T>(key: string, timeExpired: number, fetchCallb
   // Has cache
   const data = cache.get(key)?.data!;
 
-  AppLog.cache("Hit cache");
+  AppLog.cache("Hit cache " + key);
 
   return new Promise((resolve, _) => {
     resolve(data);
