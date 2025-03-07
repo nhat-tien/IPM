@@ -145,6 +145,9 @@ public abstract class GenericRepository<TDomain, TEntity>
         PropertyInfo[] properties = typeOfModel.GetProperties();
         foreach (PropertyInfo property in properties)
         {
+            if(property.Name == "CreatedAt") {
+                continue;
+            }
             if (property.GetValue(domain) is not null)
             {
                 db.Entry(entity).Property(property.Name).CurrentValue = property.GetValue(domain);

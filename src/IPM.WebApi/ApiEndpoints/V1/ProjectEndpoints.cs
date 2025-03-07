@@ -8,6 +8,7 @@ using IPM.Application.UseCases.Project.UpdateProjectUseCase;
 using IPM.Application.UseCases.Project.RemoveUserInProjectUseCase;
 using IPM.WebApi.EndpointFilters;
 using Microsoft.AspNetCore.Mvc;
+using IPM.WebApi.Helper;
 
 namespace IPM.WebApi.ApiEndpoints.V1;
 
@@ -71,9 +72,14 @@ public static class ProjectEndpoints
         endpoints
             .MapPost(
                 "/",
-                async (CreateProjectRequest req, ICreateProjectUseCase handler) =>
+                async (CreateProjectRequest req, HttpContext ctx, ICreateProjectUseCase handler) =>
                 {
-                    await handler.Handle(req);
+                    var userId = GetUserIdFromHttpContext.Get(ctx);
+                    if(userId is null) {
+                        return Results.BadRequest();
+                    }
+                    await handler.Handle(req, userId);
+                    return Results.Ok();
                 }
             )
             .WithRequestValidation<CreateProjectRequest>()

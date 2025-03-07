@@ -6,6 +6,8 @@ public class UpdateProjectHandler(IProjectRepository repo) : IUpdateProjectUseCa
 {
     public async Task Handle(int id, UpdateProjectRequest req) 
     { 
-        await repo.UpdateAsync(req.MapTo());
+        Domain.Project domain = req.MapTo();
+        domain.ProjectId = id;
+        await repo.UpdateAsync(domain);
     }
 }

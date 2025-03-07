@@ -1,11 +1,11 @@
-using IPM.Application.IRepositories;
+using IPM.Application.IUnitOfWorks;
 
 namespace IPM.Application.UseCases.Project.CreateProjectUseCase;
 
-public class CreateProjectHandler(IProjectRepository repo): ICreateProjectUseCase
+public class CreateProjectHandler(IProjectUnitOfWork uow): ICreateProjectUseCase
 {
-    public async Task<Domain.Project> Handle(CreateProjectRequest req)
+    public async Task<Domain.Project> Handle(CreateProjectRequest req, string userId)
     {
-        return await repo.AddAsync(req.MapTo());
+        return await uow.AddProjectAndAssignOwnerAsync(req.MapTo(), userId);
     }
 }

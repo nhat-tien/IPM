@@ -1,9 +1,11 @@
 using IPM.Infrastructure.EntityFrameworkDataAccess;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
+using IPM.Infrastructure.EntityFrameworkDataAccess.UnitOfWorks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using IPM.Application.IRepositories;
+using IPM.Application.IUnitOfWorks;
 
 namespace IPM.Infrastructure;
 
@@ -39,6 +41,8 @@ public static class InfrastructureService
         services.AddScoped<IFileTypeRepository, FileTypeRepository>();
         services.AddScoped<IFileRepository, FileRepository>();
         services.AddScoped<IParticipationRepository, ParticipationRepository>();
+
+        services.AddScoped<IProjectUnitOfWork, ProjectUnitOfWork>();
         return services;
     }
 }
