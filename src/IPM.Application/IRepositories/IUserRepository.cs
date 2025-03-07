@@ -13,6 +13,7 @@ public interface IUserRepository
     Task AddToRole(User user, string roleName);
     Task<IEnumerable<User>> GetAll();
     Task<IEnumerable<User>> GetAllWithRole();
+    Task AddAvaterUrl(string userId, string url);
 }
 
 public class CreateResult {

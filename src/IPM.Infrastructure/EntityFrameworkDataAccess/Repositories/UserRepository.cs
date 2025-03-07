@@ -141,4 +141,12 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
         IEnumerable<Domain.User> listOfDomain = entity.Select(entity => entity.MapTo());
         return listOfDomain;
     }
+
+    public async Task AddAvaterUrl(string userId, string url)
+    {
+        await userManager.Users.Where(e => e.Id == userId)
+            .ExecuteUpdateAsync(setter => 
+                    setter.SetProperty(e => e.AvatarUrl, url));
+
+    }
 }
