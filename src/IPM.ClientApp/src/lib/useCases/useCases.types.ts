@@ -136,7 +136,7 @@ export type User = {
   firstName: string,
   lastName: string,
   positionId: number,
-  affilatedUnitId: number,
+  affiliatedUnitId: number,
   roleId: number,
   phoneNumber: string,
   avatarUrl: string,
@@ -148,6 +148,7 @@ export type User = {
   updatedAt: string,
   role: Role
   position: Position
+  affiliatedUnit: AffiliatedUnit,
   verifiedCodeEmail: number,
   verifiedStatus: number,
   verificationValidTime: string

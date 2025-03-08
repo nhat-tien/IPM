@@ -200,7 +200,7 @@ namespace IPM.Infrastructure.Migrations
                     FirstName = table.Column<string>(type: "text", nullable: true),
                     LastName = table.Column<string>(type: "text", nullable: true),
                     PositionId = table.Column<int>(type: "integer", nullable: true),
-                    AffilatedUnitId = table.Column<int>(type: "integer", nullable: true),
+                    AffiliatedUnitId = table.Column<int>(type: "integer", nullable: true),
                     Sex = table.Column<int>(type: "integer", nullable: false),
                     Address = table.Column<string>(type: "text", nullable: true),
                     AvatarUrl = table.Column<string>(type: "text", nullable: true),
@@ -229,8 +229,8 @@ namespace IPM.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_AffiliatedUnits_AffilatedUnitId",
-                        column: x => x.AffilatedUnitId,
+                        name: "FK_Users_AffiliatedUnits_AffiliatedUnitId",
+                        column: x => x.AffiliatedUnitId,
                         principalTable: "AffiliatedUnits",
                         principalColumn: "AffiliatedUnitId");
                     table.ForeignKey(
@@ -594,9 +594,9 @@ namespace IPM.Infrastructure.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_AffilatedUnitId",
+                name: "IX_Users_AffiliatedUnitId",
                 table: "Users",
-                column: "AffilatedUnitId");
+                column: "AffiliatedUnitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IPM.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20250303093128_NewMigration")]
+    [Migration("20250307151107_NewMigration")]
     partial class NewMigration
     {
         /// <inheritdoc />
@@ -501,7 +501,7 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("text");
 
-                    b.Property<int?>("AffilatedUnitId")
+                    b.Property<int?>("AffiliatedUnitId")
                         .HasColumnType("integer");
 
                     b.Property<string>("AvatarUrl")
@@ -583,7 +583,7 @@ namespace IPM.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AffilatedUnitId");
+                    b.HasIndex("AffiliatedUnitId");
 
                     b.HasIndex("Email")
                         .IsUnique();
@@ -800,15 +800,15 @@ namespace IPM.Infrastructure.Migrations
 
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.User", b =>
                 {
-                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.AffiliatedUnit", "AffilatedUnit")
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.AffiliatedUnit", "AffiliatedUnit")
                         .WithMany()
-                        .HasForeignKey("AffilatedUnitId");
+                        .HasForeignKey("AffiliatedUnitId");
 
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Position", "Position")
                         .WithMany()
                         .HasForeignKey("PositionId");
 
-                    b.Navigation("AffilatedUnit");
+                    b.Navigation("AffiliatedUnit");
 
                     b.Navigation("Position");
                 });

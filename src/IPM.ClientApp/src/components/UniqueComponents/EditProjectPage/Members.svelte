@@ -8,7 +8,6 @@
   import UserSuggestSelectTextField from "../UserSuggestSelectTextField.svelte";
   import SquareSkeleton from "@components/Skeleton/SquareSkeleton.svelte";
   import TrashIcon from "@components/Icons/TrashIcon.svelte";
-  import { getUserInfo } from "@stores/userInfo.svelte";
   import RowToRight from "@components/Row/RowToRight.svelte";
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
@@ -22,15 +21,13 @@
     data,
   }: { modelState: EditState; data: EditProjectDataPage } = $props();
 
-  const info = getUserInfo();
-
   function addUserHandler(user: User) {
     const userPayload = {
       userId: user.userId,
       lastName: user.lastName,
       firstName: user.firstName,
       email: user.email,
-      owner: info?.email == user.email,
+      owner: false,
     };
 
     modelState.members.push(userPayload);
@@ -126,7 +123,7 @@
           </p>
           <p class="member__email">{member.email}</p>
         </div>
-        {#if member.email !== info?.email}
+        {#if member.owner}
           <button class="delete-btn" onclick={() => removeUserHandler(member)}>
             <div class="icon">
               <TrashIcon --stroke=" hsl(0, 84%, 48%)" />

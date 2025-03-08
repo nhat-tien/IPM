@@ -1,6 +1,11 @@
+using IPM.Application.Queries;
+using IPM.Application.UseCases.User.GetCurrentUserUseCase;
+using IPM.WebApi.Helper;
 using IPM.Application.UseCases.User.GetAllUserUseCase;
+using IPM.Application.UseCases.User.UpdateUserInfoUseCase;
 using IPM.Application.UseCases.User.UploadAvatarUseCase;
 using IPM.WebApi.Utils;
+
 namespace IPM.WebApi.ApiEndpoints.V1;
 
 public class UserEndpoints
@@ -9,17 +14,27 @@ public class UserEndpoints
     {
         var endpoints = route.MapGroup("/users");
 
-        endpoints.MapGet("/", async (IGetAllUserUseCase handler) => await handler.Handle())
-        .RequireAuthorization("UserPermission");
+        endpoints
+            .MapGet("/", async (string? include, IGetAllUserUseCase handler) => {
+                   var query = new CriteriaQuery()
+                   {
+                       Include = include,
+                   };
+                    return await handler.Handle(query);
+            })
+            .RequireAuthorization("UserPermission");
+
+        endpoints.MapPatch(
+            "/{userId}",
+            async (string userId, UpdateUserInfoRequest req, IUpdateUserInfoUseCase handler) => {
+                await handler.Handle(userId, req);
+            }
+        );
 
         endpoints
             .MapPost(
                 "/{userId}/avatar",
-                async (
-                    string userId,
-                    IFormFile image,
-                    IUploadAvatarUseCase handler
-                ) =>
+                async (string userId, IFormFile image, IUploadAvatarUseCase handler) =>
                 {
                     if (userId is null)
                     {
@@ -29,7 +44,7 @@ public class UserEndpoints
                     var fileTest = new FormFileProxy(image);
                     var contentType = fileTest.ContentType;
 
-                    if(!contentType.Equals("image/png") && !contentType.Equals("image/jpeg"))
+                    if (!contentType.Equals("image/png") && !contentType.Equals("image/jpeg"))
                     {
                         Console.Write(contentType);
                         return Results.BadRequest();
@@ -44,6 +59,33 @@ public class UserEndpoints
             .DisableAntiforgery()
             .RequireAuthorization("UserPermission");
 
+        endpoints
+            .MapGet(
+                "/profile",
+                async (
+                    string? include,
+                    HttpContext context,
+                    IGetCurrentUserUseCase handler
+                ) =>
+                {
+                   var query = new CriteriaQuery()
+                   {
+                       Include = include,
+                   };
+
+                    var userId = GetUserIdFromHttpContext.Get(context);
+                    if (userId is null)
+                    {
+                        return Results.BadRequest();
+                    }
+                    Domain.User? user = await handler.Handle(userId, query);
+                    if (user is null)
+                    {
+                        return Results.BadRequest();
+                    }
+                    return Results.Ok(user);
+                }
+            )
+            .RequireAuthorization("UserPermission");
     }
 }
-

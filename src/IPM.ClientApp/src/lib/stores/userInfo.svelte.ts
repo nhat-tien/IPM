@@ -6,6 +6,7 @@ type UserInfo = {
   firstName: string; 
   lastName: string; 
   role: string;
+  sub: string;
 } | null
 
 let userInfo: UserInfo = $state(null);

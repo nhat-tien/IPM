@@ -8,6 +8,9 @@
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
   import { Gender } from "@utils/getGenderFromNumber";
   import UserCircle from "@components/Icons/UserCircle.svelte";
+  import getAvatar from "@utils/getAvatarUrl";
+  import { openModal } from "@stores/modal.svelte";
+  import UploadAvatar from "@components/UniqueComponents/Profile/UploadAvatar.svelte";
   const { data }: { data: PageData } = $props();
 </script>
 
@@ -44,7 +47,14 @@
   </RowToRight>
   <section class="container">
     <section class="avatar-container">
-      <UserCircle --fill="hsl(30, 0%, 30%)" />
+      {#if data.user.avatarUrl}
+        <img src={getAvatar(data.user.avatarUrl)} alt="avatar" />
+      {:else}
+        <UserCircle --fill="hsl(30, 0%, 30%)" />
+      {/if}
+      <button class="update-avatar-btn" onclick={() => openModal(uploadAvatar)}>
+        <PencilIcon />
+      </button>
     </section>
     <section class="info-container">
       <h2>Thông tin cá nhân</h2>
@@ -56,11 +66,21 @@
       <p>{Gender[data.user.sex].vietnamese}</p>
       <h3>Địa chỉ</h3>
       <p>{data.user.address}</p>
+      <h3>Số điện thoại</h3>
+      <p>{data.user.phoneNumber}</p>
       <h3>Vai trò</h3>
-      <p>{data.user.role.roleName}</p>
+      <p>{data.user.role?.roleName}</p>
+      <h3>Chức vụ</h3>
+      <p>{data.user.position?.positionName}</p>
+      <h3>Đơn vị trực thuộc</h3>
+      <p>{data.user.affiliatedUnit?.affiliatedUnitName}</p>
     </section>
   </section>
 </BasicCenterLayout>
+
+{#snippet uploadAvatar()}
+  <UploadAvatar />
+{/snippet}
 
 <style lang="scss">
   .container {
@@ -74,8 +94,31 @@
   }
   .avatar-container {
     width: 15em;
+    position: relative;
+    height: max-content;
+    img {
+      width: 100%;
+    }
+    .update-avatar-btn {
+      border: 2px solid $edit-clr;
+      background-color: $white-clr;
+      border-radius: 90%;
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      bottom: 2px;
+      right: 2px;
+      padding: 5px;
+    }
   }
   .info-container {
+    margin-left: 1.5em;
     flex: 1;
+    h2 {
+      margin-bottom: 0.5em;
+    }
+    h3 {
+      margin-top: 0.3em;
+    }
   }
 </style>

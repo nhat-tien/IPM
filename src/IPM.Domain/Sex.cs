@@ -1,4 +1,4 @@
-namespace IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
+namespace IPM.Domain;
 
 public enum Sex
 {

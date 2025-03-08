@@ -2,6 +2,7 @@ using IPM.Application.UseCases.File.UploadFileUseCase;
 using IPM.Application.UseCases.File.GetFileInProject;
 using IPM.WebApi.Utils;
 using Microsoft.AspNetCore.Mvc;
+using IPM.Application.UseCases.File.DeleteFileUseCase;
 
 namespace IPM.WebApi.ApiEndpoints.V1;
 
@@ -31,6 +32,18 @@ public class FileEndpoints
         endpoints.MapGet("/project/{id}", async (int id, IGetFileInProject handler) => {
             return await handler.Handle(id);
         }).RequireAuthorization("UserPermission");
+
+        endpoints
+            .MapDelete(
+            "/{fileId}",
+            async (
+                int fileId,
+                IDeleteFileUseCase handler
+            ) => 
+            {
+               await handler.Handle(fileId);
+            }
+        ).RequireAuthorization("UserPermission");
 
     }
 }

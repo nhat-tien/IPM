@@ -113,7 +113,7 @@ public static class ProjectEndpoints
                     await handler.Handle(id);
                 }
             )
-            .RequireAuthorization("UserPermission");
+            .RequireAuthorization("AdminPermission");
 
         endpoints
             .MapPatch(

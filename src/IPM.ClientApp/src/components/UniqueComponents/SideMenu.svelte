@@ -7,6 +7,7 @@
   import UserGroupIcon from "@components/Icons/UserGroupIcon.svelte";
   import SideMenuGroup from "@components/SideMenu/SideMenuGroup.svelte";
   import SideMenuItem from "@components/SideMenu/SideMenuItem.svelte";
+  import { isCurrentUserHasRole } from "@services/guardService";
 </script>
 
 <aside class="side-menu">
@@ -27,99 +28,101 @@
         Dự án của tôi
       {/snippet}
     </SideMenuItem>
-    <SideMenuGroup title="Quản lí của Admin">
-      {#snippet icon()}
-        <KeyIcon />
-      {/snippet}
-      <SideMenuItem href="/dashboard/all-project">
+    {#if isCurrentUserHasRole(["Admin"])}
+      <SideMenuGroup title="Quản lí của Admin">
         {#snippet icon()}
-          <RectangleStackIcon />
+          <KeyIcon />
         {/snippet}
-        {#snippet content()}
-          Tất cả dự án
-        {/snippet}
-      </SideMenuItem>
-      <SideMenuItem href="/dashboard/affiliatedUnit">
-        {#snippet icon()}
-          <ListBulletIcon />
-        {/snippet}
-        {#snippet content()}
-          Đơn vị trực thuộc
-        {/snippet}
-      </SideMenuItem>
-      <SideMenuItem href="/dashboard/approvingAgency">
-        {#snippet icon()}
-          <ListBulletIcon />
-        {/snippet}
-        {#snippet content()}
-          Cơ quan phê duyệt
-        {/snippet}
-      </SideMenuItem>
-      <SideMenuItem href="/dashboard/aidType">
-        {#snippet icon()}
-          <ListBulletIcon />
-        {/snippet}
-        {#snippet content()}
-          Loại viện trợ
-        {/snippet}
-      </SideMenuItem>
-      <SideMenuItem href="/dashboard/currencyUnit">
-        {#snippet icon()}
-          <ListBulletIcon />
-        {/snippet}
-        {#snippet content()}
-          Đơn vị tiền tệ
-        {/snippet}
-      </SideMenuItem>
-      <SideMenuItem href="/dashboard/counterparty">
-        {#snippet icon()}
-          <ListBulletIcon />
-        {/snippet}
-        {#snippet content()}
-          Đối tác
-        {/snippet}
-      </SideMenuItem>
-      <SideMenuItem href="/dashboard/category">
-        {#snippet icon()}
-          <ListBulletIcon />
-        {/snippet}
-        {#snippet content()}
-          Danh mục
-        {/snippet}
-      </SideMenuItem>
-      <SideMenuItem href="/dashboard/sponsor">
-        {#snippet icon()}
-          <ListBulletIcon />
-        {/snippet}
-        {#snippet content()}
-          Nhà tài trợ
-        {/snippet}
-      </SideMenuItem>
-      <SideMenuItem href="/dashboard/position">
-        {#snippet icon()}
-          <ListBulletIcon />
-        {/snippet}
-        {#snippet content()}
-          Chức vụ
-        {/snippet}
-      </SideMenuItem>
-      <SideMenuItem href="/dashboard/fileType">
-        {#snippet icon()}
-          <ListBulletIcon />
-        {/snippet}
-        {#snippet content()}
-          Loại file
-        {/snippet}
-      </SideMenuItem>
-      <SideMenuItem href="/dashboard/users">
-        {#snippet icon()}
-          <UserGroupIcon />
-        {/snippet}
-        {#snippet content()}
-          Danh sách người dùng
-        {/snippet}
-      </SideMenuItem>
-    </SideMenuGroup>
+        <SideMenuItem href="/dashboard/all-project">
+          {#snippet icon()}
+            <RectangleStackIcon />
+          {/snippet}
+          {#snippet content()}
+            Tất cả dự án
+          {/snippet}
+        </SideMenuItem>
+        <SideMenuItem href="/dashboard/affiliatedUnit">
+          {#snippet icon()}
+            <ListBulletIcon />
+          {/snippet}
+          {#snippet content()}
+            Đơn vị trực thuộc
+          {/snippet}
+        </SideMenuItem>
+        <SideMenuItem href="/dashboard/approvingAgency">
+          {#snippet icon()}
+            <ListBulletIcon />
+          {/snippet}
+          {#snippet content()}
+            Cơ quan phê duyệt
+          {/snippet}
+        </SideMenuItem>
+        <SideMenuItem href="/dashboard/aidType">
+          {#snippet icon()}
+            <ListBulletIcon />
+          {/snippet}
+          {#snippet content()}
+            Loại viện trợ
+          {/snippet}
+        </SideMenuItem>
+        <SideMenuItem href="/dashboard/currencyUnit">
+          {#snippet icon()}
+            <ListBulletIcon />
+          {/snippet}
+          {#snippet content()}
+            Đơn vị tiền tệ
+          {/snippet}
+        </SideMenuItem>
+        <SideMenuItem href="/dashboard/counterparty">
+          {#snippet icon()}
+            <ListBulletIcon />
+          {/snippet}
+          {#snippet content()}
+            Đối tác
+          {/snippet}
+        </SideMenuItem>
+        <SideMenuItem href="/dashboard/category">
+          {#snippet icon()}
+            <ListBulletIcon />
+          {/snippet}
+          {#snippet content()}
+            Danh mục
+          {/snippet}
+        </SideMenuItem>
+        <SideMenuItem href="/dashboard/sponsor">
+          {#snippet icon()}
+            <ListBulletIcon />
+          {/snippet}
+          {#snippet content()}
+            Nhà tài trợ
+          {/snippet}
+        </SideMenuItem>
+        <SideMenuItem href="/dashboard/position">
+          {#snippet icon()}
+            <ListBulletIcon />
+          {/snippet}
+          {#snippet content()}
+            Chức vụ
+          {/snippet}
+        </SideMenuItem>
+        <SideMenuItem href="/dashboard/fileType">
+          {#snippet icon()}
+            <ListBulletIcon />
+          {/snippet}
+          {#snippet content()}
+            Loại file
+          {/snippet}
+        </SideMenuItem>
+        <SideMenuItem href="/dashboard/users">
+          {#snippet icon()}
+            <UserGroupIcon />
+          {/snippet}
+          {#snippet content()}
+            Danh sách người dùng
+          {/snippet}
+        </SideMenuItem>
+      </SideMenuGroup>
+    {/if}
   </div>
 </aside>
 

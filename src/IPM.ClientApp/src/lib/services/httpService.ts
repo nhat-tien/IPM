@@ -68,6 +68,6 @@ export const fileTypeEndPoint = apiEndPointFactory("fileTypes");
 
 export const fileEndPoint = apiEndPointFactory("file");
 
-export const profileEndPoint = apiEndPointFactory("auth/profile");
+export const profileEndPoint = apiEndPointFactory("users/profile");
 
 

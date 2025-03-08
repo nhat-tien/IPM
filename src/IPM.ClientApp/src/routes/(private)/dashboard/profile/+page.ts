@@ -12,7 +12,6 @@ export const load: PageLoad = async () => {
     error(404, "Not Found");
   }
 
-  console.log(user);
   return {
     user: user
   };

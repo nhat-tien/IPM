@@ -17,7 +17,7 @@ public class RegisterHandler(IUserRepository userRepo, IRoleRepository roleRepo)
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
         };
-        var result = await userRepo.Create(user, req.Password);
+        var result = await userRepo.CreateAsync(user, req.Password);
         var role = await roleRepo.FindById(req.RoleId);
         if (role != null && role.RoleName != null)
         {

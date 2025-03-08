@@ -1,3 +1,4 @@
+using IPM.Domain;
 using Microsoft.AspNetCore.Identity;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
@@ -8,7 +9,7 @@ public class User : IdentityUser
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public int? PositionId { get; set; }
-    public int? AffilatedUnitId { get; set; }
+    public int? AffiliatedUnitId { get; set; }
     public Sex Sex {get; set; }  
     public string? Address { get; set; }
     public string? AvatarUrl {get; set; }
@@ -22,7 +23,7 @@ public class User : IdentityUser
     public DateTime VerificationValidTime { get; set; }
 
     public Position? Position { get; set; }
-    public AffiliatedUnit? AffilatedUnit { get; set; }
+    public AffiliatedUnit? AffiliatedUnit { get; set; }
 
     // public List<Project>? Projects { get; set; }
     public List<Participation>? Participations {get; set;}
@@ -41,18 +42,21 @@ public class User : IdentityUser
             FirstName = this.FirstName,
             LastName = this.LastName,
             PositionId = this.PositionId,
-            AffilatedUnitId = this.AffilatedUnitId,
+            PhoneNumber = this.PhoneNumber,
+            AffiliatedUnitId = this.AffiliatedUnitId,
             Email = this.Email,
             Address = this.Address,
             Status = this.Status,
-            CreatedAt = this.CreatedAt,
-            Sex = (int) this.Sex,
+            Sex = this.Sex,
             AvatarUrl = this.AvatarUrl,
+            CreatedAt = this.CreatedAt,
             UpdatedAt = this.UpdatedAt,
             VerifiedCodeEmail = this.VerifiedCodeEmail,
             VerifiedStatus = this.VerifiedStatus,
             VerificationValidTime = this.VerificationValidTime,
-            Role = this.UserRoles is not null ? this.UserRoles[0].Role!.MapTo() : null
+            Role = this.UserRoles is not null ? this.UserRoles[0].Role!.MapTo() : null,
+            AffiliatedUnit = this.AffiliatedUnit is not null ? this.AffiliatedUnit.MapTo() : null,
+            Position = this.Position is not null ? this.Position.MapTo() : null
         };
     }
 
@@ -66,8 +70,10 @@ public class User : IdentityUser
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 PositionId = user.PositionId,
-                AffilatedUnitId = user.AffilatedUnitId,
+                AffiliatedUnitId = user.AffiliatedUnitId,
                 Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                Sex = user.Sex,
                 Address = user.Address,
                 Status = user.Status,
                 CreatedAt = user.CreatedAt,
@@ -86,8 +92,10 @@ public class User : IdentityUser
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 PositionId = user.PositionId,
-                AffilatedUnitId = user.AffilatedUnitId,
+                PhoneNumber = user.PhoneNumber,
+                AffiliatedUnitId = user.AffiliatedUnitId,
                 Email = user.Email,
+                Sex = user.Sex,
                 Address = user.Address,
                 Status = user.Status,
                 CreatedAt = user.CreatedAt,

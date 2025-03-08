@@ -3,7 +3,7 @@
   import type { EventSubmitElements } from "@/shared.types";
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
-  import RowToLeft from "@components/Row/RowToLeft.svelte";
+  import RowToRight from "@components/Row/RowToRight.svelte";
   import PrimaryTextField from "@components/TextField/PrimaryTextField.svelte";
   import { invalidateCache } from "@stores/cache.svelte";
   import { closeModal } from "@stores/modal.svelte";
@@ -76,9 +76,9 @@
       errorId={fieldName}
       onfocus={clearError}
     ></PrimaryTextField>
-    <RowToLeft --margin-bottom="0">
+    <RowToRight --margin-bottom="0">
       <PrimaryButton variant="orange" type="submit">Thêm</PrimaryButton>
       <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
-    </RowToLeft>
+    </RowToRight>
   </form>
 </div>

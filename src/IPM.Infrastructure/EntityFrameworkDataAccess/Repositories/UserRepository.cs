@@ -1,11 +1,13 @@
+using System.Reflection;
 using IPM.Application.IRepositories;
+using IPM.Application.Queries;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
 
-public class UserRepository(UserManager<User> userManager) : IUserRepository
+public class UserRepository(UserManager<User> userManager, AppDBContext db) : IUserRepository
 {
     public async Task<bool> CheckPassword(Domain.User domainUser, string password)
     {
@@ -27,20 +29,6 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
         return user.MapTo();
     }
 
-    public async Task<Domain.User?> GetByIdIncludeRole(string id)
-    {
-        User? user = await userManager.Users.Where(e => e.Id == id)
-            .Include(e => e.UserRoles)!
-            .ThenInclude(e => e.Role)
-            .FirstOrDefaultAsync()
-;
-        if (user is null)
-        {
-            return null;
-        }
-        return user.MapTo();
-    }
-
     public async Task<Domain.User?> GetById(string id)
     {
         User? user = await userManager.FindByIdAsync(id);
@@ -49,6 +37,40 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
             return null;
         }
         return user.MapTo();
+    }
+
+    public async Task<Domain.User?> GetById(string id, CriteriaQuery queryParam)
+    {
+        IQueryable<User> query = userManager.Users.Where(e => e.Id == id);
+
+        if (queryParam.Include is not null)
+        {
+            query = IncludeWith(query, queryParam.GetIncludeList);
+        }
+
+        User? user = await query.FirstOrDefaultAsync();
+
+        if (user is null)
+        {
+            return null;
+        }
+        return user.MapTo();
+    }
+
+
+    protected virtual IQueryable<User> IncludeWith(IQueryable<User> query, string[] includeList)
+    {
+        foreach (var item in includeList)
+        {
+            if (item.Equals("Role"))
+            {
+                query = query.Include(e => e.UserRoles)!
+                            .ThenInclude(e => e.Role);
+            } else {
+                query = query.Include(item);
+            }
+        }
+        return query;
     }
 
     public async Task<IList<string>> GetRoles(Domain.User domainUser)
@@ -61,7 +83,7 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
         return await userManager.GetRolesAsync(user);
     }
 
-    public async Task<CreateResult> Create(Domain.User domainUser, string password)
+    public async Task<CreateResult> CreateAsync(Domain.User domainUser, string password)
     {
         var user = User.MapFrom(domainUser);
         var result = await userManager.CreateAsync(user, password);
@@ -116,37 +138,52 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
         return listOfDomain;
     }
 
-    public async Task<IEnumerable<Domain.User>> GetAllWithRole()
+    public async Task<IEnumerable<Domain.User>> GetAll(CriteriaQuery queryParam)
     {
-        List<User> entity = await userManager
-            .Users.Include(e => e.UserRoles)!
-            .ThenInclude(e => e.Role)
-            .ToListAsync();
+        IQueryable<User> query = userManager.Users;
 
-        // IEnumerable<Domain.User> listOfDomain = entity.Select(entity =>
-        // {
-        //     ICollection<UserRole>? userRoles = entity.UserRoles;
-        //     if (userRoles is null)
-        //     {
-        //         return entity.MapTo();
-        //     }
-        //     var userRole = userRoles.FirstOrDefault();
-        //     var role = userRole!.Role;
-        //     Domain.Role roleDomain = new Domain.Role() { RoleId = role!.Id, RoleName = role!.Name };
-        //     var domain = entity.MapTo();
-        //     domain.Role = roleDomain;
-        //     return domain;
-        // });
-        //
+        if (queryParam.Include is not null)
+        {
+            query = IncludeWith(query, queryParam.GetIncludeList);
+        }
+
+        List<User> entity = await query.ToListAsync();
+
         IEnumerable<Domain.User> listOfDomain = entity.Select(entity => entity.MapTo());
+
         return listOfDomain;
     }
 
     public async Task AddAvaterUrl(string userId, string url)
     {
         await userManager.Users.Where(e => e.Id == userId)
-            .ExecuteUpdateAsync(setter => 
+            .ExecuteUpdateAsync(setter =>
                     setter.SetProperty(e => e.AvatarUrl, url));
 
+    }
+
+    public async Task UpdateAsync(Domain.User model)
+    {
+        User? entity = await userManager.Users.Where(e => e.Id == model.UserId).FirstOrDefaultAsync();
+
+        if (entity is null)
+            return;
+        
+        db.Users.Attach(entity);
+
+        Type typeOfModel = model.GetType();
+        PropertyInfo[] properties = typeOfModel.GetProperties();
+        foreach (PropertyInfo property in properties)
+        {
+            if(property.Name == "CreatedAt") {
+                continue;
+            }
+            if (property.GetValue(model) is not null)
+            {
+                db.Entry(entity).Property(property.Name).CurrentValue = property.GetValue(model);
+            }
+        }
+        entity.UpdatedAt = DateTime.UtcNow;
+        await db.SaveChangesAsync();
     }
 }

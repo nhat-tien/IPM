@@ -7,9 +7,9 @@ public class User
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public int? PositionId { get; set; }
-    public int? AffilatedUnitId { get; set; }
+    public int? AffiliatedUnitId { get; set; }
     public int RoleId { get; set; }
-    public int Sex {get; set; }
+    public Sex Sex {get; set; }
     public string? PhoneNumber { get; set; }
     public string? AvatarUrl {get; set; }
     public string? Address { get; set; }
@@ -19,6 +19,7 @@ public class User
     public DateTime UpdatedAt { get; set; }
     public Role? Role {get; set;}
     public Position? Position {get; set; } 
+    public AffiliatedUnit? AffiliatedUnit {get; set;}
 
     //NOTE: I'm not sure about this property's type, maybe it's a string
     public int VerifiedCodeEmail { get; set; }
