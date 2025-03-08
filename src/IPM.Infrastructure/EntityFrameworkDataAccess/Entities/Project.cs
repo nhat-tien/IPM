@@ -88,6 +88,41 @@ public class Project : BaseEntity
             UpdatedAt = this.UpdatedAt,
         };
     }
+    public Domain.Project MapToWithOutParticipations()
+    {
+        return new Domain.Project()
+        {
+            ProjectId = this.ProjectId,
+            ProjectNameEnglish = this.ProjectNameEnglish,
+            ProjectNameVietnamese = this.ProjectNameVietnamese,
+            ProjectPurpose = this.ProjectPurpose,
+            ProjectBudget = this.ProjectBudget,
+            Content = this.Content,
+            FundedEquipment = this.FundedEquipment,
+            StartDate = this.StartDate,
+            EndDate = this.EndDate,
+            ProjectProgress = this.ProjectProgress,
+            PercentageOfProgress = this.PercentageOfProgress,
+            AffiliatedUnitId = this.AffiliatedUnitId,
+            AffiliatedUnit = this.AffiliatedUnit is not null ? AffiliatedUnit.MapTo() : null,
+            CategoryId = this.CategoryId,
+            Category = this.Category is not null ? Category.MapTo() : null,
+            SponsorId = this.SponsorId,
+            Sponsor = this.Sponsor is not null ? Sponsor.MapTo() : null,
+            AidTypeId = this.AidTypeId,
+            AidType = this.AidType is not null ? AidType.MapTo() : null,
+            ApprovingAgencyId = this.ApprovingAgencyId,
+            ApprovingAgency = this.ApprovingAgency is not null ? ApprovingAgency.MapTo() : null,
+            CounterpartyId = this.CounterpartyId,
+            Counterparty = this.Counterparty is not null ? Counterparty.MapTo() : null,
+            CurrencyUnitId = this.CurrencyUnitId,
+            CurrencyUnit = this.CurrencyUnit is not null ? CurrencyUnit.MapTo() : null,
+            // Users = this.Users is not null ? Users.Select(e => e.MapTo()).ToList(): null,
+            Files = this.Files is not null ? this.Files.Select(e => e.MapTo()).ToList() : null,
+            CreatedAt = this.CreatedAt,
+            UpdatedAt = this.UpdatedAt,
+        };
+    }
 
     public static Project MapFrom(Domain.Project model)
     {

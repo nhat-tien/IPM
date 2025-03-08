@@ -48,7 +48,6 @@
     fileUpload: [],
   });
 
-  $inspect(modelState);
 </script>
 
 <TitleWebPage title="Dự án - Chỉnh sửa" />

@@ -72,3 +72,7 @@ export function invalidateCache(key: string) {
   AppLog.cache("Invalidate cache id " + key);
   cache.delete(key);
 }
+
+export function invalidateCacheAll() {
+  cache = new Map<string, Cache>();
+}

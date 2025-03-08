@@ -66,7 +66,9 @@ public class UserRepository(UserManager<User> userManager, AppDBContext db) : IU
             {
                 query = query.Include(e => e.UserRoles)!
                             .ThenInclude(e => e.Role);
-            } else {
+            } else if(item.Equals("Participations"))
+                query = query.Include(e => e.Participations)!.ThenInclude(e => e.Project);
+            else {
                 query = query.Include(item);
             }
         }
@@ -175,7 +177,7 @@ public class UserRepository(UserManager<User> userManager, AppDBContext db) : IU
         PropertyInfo[] properties = typeOfModel.GetProperties();
         foreach (PropertyInfo property in properties)
         {
-            if(property.Name == "CreatedAt") {
+            if(property.Name == "CreatedAt" || property.Name == "UserId" ) {
                 continue;
             }
             if (property.GetValue(model) is not null)

@@ -151,7 +151,8 @@ export type User = {
   affiliatedUnit: AffiliatedUnit,
   verifiedCodeEmail: number,
   verifiedStatus: number,
-  verificationValidTime: string
+  verificationValidTime: string,
+  participations: Participation[],
 }
 
 export type Participation = {

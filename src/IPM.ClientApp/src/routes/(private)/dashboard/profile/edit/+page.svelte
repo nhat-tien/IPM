@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";
+  import { goto, invalidate } from "$app/navigation";
   import BasicCenterLayout from "@components/Layout/BasicCenterLayout.svelte";
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
   import PrimaryTextFieldBindable from "@components/TextField/PrimaryTextFieldBindable.svelte";
@@ -14,8 +14,14 @@
   import transformAffliatedUnitToOption from "@useCases/affiliatedUnitUseCase/transformAffliatedUnitToOption";
   import type { PageData } from "./$types";
   import transformPositionToOption from "@useCases/positionUseCase/transformPositionToOption";
+  import updateProfile from "@useCases/userUseCase/updateProfile";
+  import toast from "svelte-5-french-toast";
+  import { invalidateCache } from "@stores/cache.svelte";
+  import { ZodError, type ZodIssue } from "zod";
 
   const { data }: { data: PageData } = $props();
+
+  let error: ZodIssue[] = $state([]);
 
   let formState = $state({
     firstName: data.user.firstName,
@@ -37,8 +43,32 @@
     throw new Error("Function not implemented.");
   }
 
-  function handleSave(): void {
-    console.log($state.snapshot(formState));
+  async function handleSave() {
+    const req = {
+      firstName: formState.firstName,
+      lastName: formState.lastName,
+      phoneNumber: formState.phoneNumber,
+      sex: parseInt(formState.sex),
+      address: formState.address,
+      positionId: formState.positionId,
+      affiliatedUnitId: formState.affiliatedUnitId,
+    };
+
+    const result = await updateProfile(req, data.user);
+
+    if (result.isSuccess) {
+      invalidateCache("profile");
+      invalidate("user:profile");
+      toast.success("Cập nhật thành công");
+    } else {
+      if (result.error instanceof ZodError) {
+        error = result.error.issues;
+      }
+    }
+  }
+
+  function clearError() {
+    error = [];
   }
 </script>
 
@@ -68,6 +98,9 @@
         type="text"
         name="lastName"
         bind:value={formState.lastName}
+        {error}
+        errorId="lastName"
+        onfocus={clearError}
         --margin-top="1.5em"
         --width="60%"
       />
@@ -77,6 +110,9 @@
         placeHolder=""
         type="text"
         name="firstName"
+        {error}
+        errorId="firstName"
+      onfocus={clearError}
         bind:value={formState.firstName}
         --margin-top="1.5em"
         --width="38%"
@@ -88,6 +124,9 @@
       placeHolder=""
       type="text"
       name="phoneNumber"
+      {error}
+      errorId="phoneNumber"
+      onfocus={clearError}
       bind:value={formState.phoneNumber}
       --margin-top="1.5em"
     />
@@ -97,6 +136,9 @@
       placeHolder=""
       type="text"
       name="address"
+      {error}
+      errorId="address"
+      onfocus={clearError}
       bind:value={formState.address}
       --margin-top="1.5em"
     />

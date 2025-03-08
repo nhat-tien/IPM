@@ -34,7 +34,8 @@ public class Participation: BaseEntity
             UserId = this.UserId,
             Status = this.Status,
             Note = this.Note,
-            User = this.User is not null ? this.User.MapTo(): null,
+            User = this.User is not null ? this.User.MapToWithOutParticipations(): null,
+            Owner = this.Owner,
             CreatedAt = this.CreatedAt,
             UpdatedAt = this.UpdatedAt,
             JoinDate = this.JoinDate
@@ -49,7 +50,8 @@ public class Participation: BaseEntity
             UserId = this.UserId,
             Status = this.Status,
             Note = this.Note,
-            Project = this.Project is not null ? this.Project.MapTo(): null,
+            Project = this.Project is not null ? this.Project.MapToWithOutParticipations(): null,
+            Owner = this.Owner,
             CreatedAt = this.CreatedAt,
             UpdatedAt = this.UpdatedAt,
             JoinDate = this.JoinDate
@@ -64,6 +66,7 @@ public class Participation: BaseEntity
             UserId = model.UserId,
             Status = model.Status,
             Note = model.Note,
+            Owner = model.Owner,
             CreatedAt = model.CreatedAt,
             UpdatedAt = model.UpdatedAt,
             JoinDate = model.JoinDate

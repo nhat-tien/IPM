@@ -56,7 +56,36 @@ public class User : IdentityUser
             VerificationValidTime = this.VerificationValidTime,
             Role = this.UserRoles is not null ? this.UserRoles[0].Role!.MapTo() : null,
             AffiliatedUnit = this.AffiliatedUnit is not null ? this.AffiliatedUnit.MapTo() : null,
-            Position = this.Position is not null ? this.Position.MapTo() : null
+            Position = this.Position is not null ? this.Position.MapTo() : null,
+            Participations = this.Participations is not null
+                ? Participations.Select(e => e.MapToWithProject()).ToList()
+                : null,
+        };
+    }
+    public Domain.User MapToWithOutParticipations()
+    {
+        return new Domain.User()
+        {
+            UserId = this.Id,
+            UserName = this.UserName,
+            FirstName = this.FirstName,
+            LastName = this.LastName,
+            PositionId = this.PositionId,
+            PhoneNumber = this.PhoneNumber,
+            AffiliatedUnitId = this.AffiliatedUnitId,
+            Email = this.Email,
+            Address = this.Address,
+            Status = this.Status,
+            Sex = this.Sex,
+            AvatarUrl = this.AvatarUrl,
+            CreatedAt = this.CreatedAt,
+            UpdatedAt = this.UpdatedAt,
+            VerifiedCodeEmail = this.VerifiedCodeEmail,
+            VerifiedStatus = this.VerifiedStatus,
+            VerificationValidTime = this.VerificationValidTime,
+            Role = this.UserRoles is not null ? this.UserRoles[0].Role!.MapTo() : null,
+            AffiliatedUnit = this.AffiliatedUnit is not null ? this.AffiliatedUnit.MapTo() : null,
+            Position = this.Position is not null ? this.Position.MapTo() : null,
         };
     }
 

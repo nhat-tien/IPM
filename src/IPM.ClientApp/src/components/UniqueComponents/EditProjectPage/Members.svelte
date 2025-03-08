@@ -123,7 +123,7 @@
           </p>
           <p class="member__email">{member.email}</p>
         </div>
-        {#if member.owner}
+        {#if !member.owner}
           <button class="delete-btn" onclick={() => removeUserHandler(member)}>
             <div class="icon">
               <TrashIcon --stroke=" hsl(0, 84%, 48%)" />

@@ -5,9 +5,11 @@ import { AppLog } from "@utils/log";
 
 export default async function getProfile(): Promise<User | null> {
   try {
-    let data: User = await profileEndPoint.get("?include=Role,Position,AffiliatedUnit", {
+    let data: User = await profileEndPoint.get("?include=Role,Position,AffiliatedUnit,Participations", {
       credentials: "include",
     }).json();
+
+    console.log(data);
 
     return data;
 
