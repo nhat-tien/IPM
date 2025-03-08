@@ -3,6 +3,8 @@ import type { PageLoad } from './$types';
 import { cacheFetch } from '@stores/cache.svelte';
 import type { User } from '@useCases/useCases.types';
 import { error } from '@sveltejs/kit';
+import getAllAffiliatedUnit from '@useCases/affiliatedUnitUseCase/getAllAffiliatedUnit';
+import getAllPosition from '@useCases/positionUseCase/getAllPosition';
 
 export const load: PageLoad = async ({ depends }) => {
 
@@ -15,7 +17,10 @@ export const load: PageLoad = async ({ depends }) => {
   }
 
   return {
-    user: user
+    user: user,
+    affiliatedUnit: getAllAffiliatedUnit(),
+    position: getAllPosition(),
   };
 };
+
 

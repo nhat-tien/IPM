@@ -34,7 +34,11 @@
 <select {name} {id} onchange={onChange}>
   <option value="" disabled selected hidden>{placeHolder}</option>
   {#each items as item}
-    <option value={item.value}>{item.name}</option>
+    {#if item.value == value}
+      <option value={item.value} selected>{item.name}</option>
+      {:else}
+      <option value={item.value}>{item.name}</option>
+    {/if}
   {/each}
 </select>
 </div>

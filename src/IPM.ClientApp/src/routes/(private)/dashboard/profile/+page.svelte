@@ -12,6 +12,13 @@
   import { openModal } from "@stores/modal.svelte";
   import UploadAvatar from "@components/UniqueComponents/Profile/UploadAvatar.svelte";
   const { data }: { data: PageData } = $props();
+
+  const gender = (): 0 | 1 | 2 => {
+    if(data.user.sex === 1 || data.user.sex === 2) {
+      return data.user.sex;
+    }
+    return 0;
+  }
 </script>
 
 <TitleWebPage title="Dự án - Xem chi tiết" />
@@ -63,7 +70,7 @@
       <h3>Email</h3>
       <p>{data.user.email}</p>
       <h3>Giới tính</h3>
-      <p>{Gender[data.user.sex].vietnamese}</p>
+      <p>{Gender[gender()].vietnamese}</p>
       <h3>Địa chỉ</h3>
       <p>{data.user.address}</p>
       <h3>Số điện thoại</h3>
@@ -108,7 +115,7 @@
       height: 40px;
       bottom: 2px;
       right: 2px;
-      padding: 5px;
+      padding: 7px;
     }
   }
   .info-container {
