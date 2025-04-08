@@ -2,7 +2,7 @@ import type { ZodError } from "zod";
 
 export type UseCaseResult = {
   isSuccess: boolean;
-  error: ZodError | string | null
+  error: ZodError | string | null | ServerError
 }
 
 export type UseCaseResultWithData<T> = UseCaseResult & {
@@ -216,4 +216,11 @@ export type EditProjectDataPage = {
   files: Promise<File[]>;
   id: string;
 };
+
+export type ServerError = {
+  detail: string,
+  status: number
+  title: string
+  type: string
+}
 

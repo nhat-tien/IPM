@@ -63,7 +63,7 @@
     margin-top: 0.2em;
   }
   input:focus {
-    border: 1px solid $secondary-clr;
+    box-shadow: $secondary-clr 0px 0px 0px 2px;
   }
   sup {
     color: $red-clr;

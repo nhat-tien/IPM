@@ -6,7 +6,7 @@ public class CreateProjectHandler(IProjectRepository projectRepo, IParticipation
 {
     public async Task<Domain.Project> Handle(CreateProjectRequest req, string userId)
     {
-        var project = await projectRepo.AddAsync(req.MapTo());
+        Domain.Project project = await projectRepo.AddAsync(req.MapTo());
 
         Domain.Participation participation = new Domain.Participation()
         {
@@ -15,6 +15,7 @@ public class CreateProjectHandler(IProjectRepository projectRepo, IParticipation
             Owner = true,
         };
         await partRepo.AddAsync(participation);
+
         return project;
     }
 }

@@ -2,7 +2,9 @@ using System.Linq.Expressions;
 using System.Reflection;
 using IPM.Application.Queries;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
+using IPM.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories.Common;
 
@@ -36,7 +38,13 @@ public abstract class GenericRepository<TDomain, TEntity>
 
     public async Task DeleteByIdAsync(int id)
     {
-        await WhereId(id).ExecuteDeleteAsync();
+        try {
+            await WhereId(id).ExecuteDeleteAsync();
+        }
+        catch(PostgresException e)
+        {
+            DbExceptionHandler.TryHandle(e);
+        }
     }
 
     public virtual async Task<IEnumerable<TDomain>> GetAllAsync()

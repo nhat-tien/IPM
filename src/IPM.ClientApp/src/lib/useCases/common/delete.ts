@@ -1,5 +1,6 @@
 import type { UseCaseResult } from "@useCases/useCases.types";
 import { HTTPError, type KyInstance } from "ky";
+import handleServerError from "./handleServerError";
 
 
 export default async function deleteApi(endpoint: KyInstance, id: string): Promise<UseCaseResult> {
@@ -13,12 +14,8 @@ export default async function deleteApi(endpoint: KyInstance, id: string): Promi
       error: null,
     }
   } catch (e: HTTPError | any) {
-
-    if (e instanceof HTTPError && e.response.status == 401) {
-      return {
-        isSuccess: false,
-        error: "Unauthorized",
-      }
+    if (e instanceof HTTPError) {
+      return handleServerError(e);
     }
     return {
       isSuccess: false,

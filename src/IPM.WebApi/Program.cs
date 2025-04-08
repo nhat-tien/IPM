@@ -1,5 +1,6 @@
 using IPM.Infrastructure;
 using IPM.WebApi.ApiEndpoints.V1;
+using IPM.WebApi.Exceptions;
 using IPM.WebApi.ServiceRegisters;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -36,9 +37,11 @@ builder.Services.AddUseCaseServices();
 builder.Services.AddSwaggerGenWithAuth();
 builder.Services.AddValidatorServices();
 builder.Services.AddUtilsServices();
-
 //
 // -----------------------------------
+
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
 
@@ -64,6 +67,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseExceptionHandler();
+app.UseStatusCodePages();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();

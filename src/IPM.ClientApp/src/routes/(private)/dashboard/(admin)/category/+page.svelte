@@ -21,7 +21,7 @@
   import deleteCategory from "@useCases/categoryUseCase/deleteCategory";
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
-    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
+  import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
 
   let { data }: { data: PageData } = $props();
 
@@ -71,6 +71,7 @@
       if (result.error instanceof ZodError) {
         error = result.error.issues;
       }
+      toast.error(result.error?.toString() ?? "Lỗi không xác định");
     }
   }
 

@@ -59,7 +59,7 @@
     width: 100%;
   }
   input:focus {
-    border: 1px solid $secondary-clr;
+    box-shadow: $secondary-clr 0px 0px 0px 2px;
   }
   .input-container {
     position: relative;
