@@ -21,7 +21,7 @@
   import updateCounterparty from "@useCases/counterpartyUseCase/updateCounterparty";
   import deleteCounterparty from "@useCases/counterpartyUseCase/deleteCounterparty";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
-    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
+  import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
 
   type CounterpartyUpdateDto = Omit<Counterparty, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -97,7 +97,8 @@
 <BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
   <RowToRight>
     <PrimaryButton
-      onclick={() => {
+      onclick={(e) => {
+        e.stopPropagation();
         resetError();
         openModal(createModal);
       }}
@@ -107,7 +108,7 @@
   </RowToRight>
   <Table hasAction {headers}>
     {#await data.counterparty}
-      <TableSkeleton {headers} />
+      <RowSkeleton col={3}/>
     {:then counterpartys}
       {#each transformCounterpartyToTable(counterpartys) as counterparty}
         <TableRow

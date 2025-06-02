@@ -21,7 +21,7 @@
   import deleteCurrencyUnit from "@useCases/currencyUnitUseCase/deleteCurrencyUnit";
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
-    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
+  import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
 
   type CurrencyUnitUpdateDto = Omit<CurrencyUnit, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -97,7 +97,8 @@
 <BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
   <RowToRight>
     <PrimaryButton
-      onclick={() => {
+      onclick={(e) => {
+        e.stopPropagation();
         resetError();
         openModal(createModal);
       }}
@@ -107,7 +108,7 @@
   </RowToRight>
   <Table hasAction {headers}>
     {#await data.currencyUnit}
-      <TableSkeleton {headers} />
+      <RowSkeleton col={3} />
     {:then listData}
       {#each transformCurrencyUnitToTable(listData) as item}
         <TableRow

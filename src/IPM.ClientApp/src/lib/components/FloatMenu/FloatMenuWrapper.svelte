@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { WindowMouseEvent } from "@/shared.types";
+  import handleElementClickBoundary from "@/lib/helpers/handleElementClickBoundary";
   import type { Snippet } from "svelte";
   import { fly } from "svelte/transition";
 
@@ -8,27 +8,17 @@
     menuContainer: Snippet;
   };
   const { centerChild, menuContainer }: FloatMenuWrapperProps = $props();
-
   let isShow = $state(false);
-  let container: HTMLDivElement | null = $state(null);
-
-  function onWindowClick(e: WindowMouseEvent) {
-    if (!container) {
-      return;
-    }
-    if (container.contains(e.target as Node) == false) {
-      isShow = false;
-    } else {
-      isShow = !isShow;
-    }
+  const handleClickBoundary = {
+    onInside: () => isShow = !isShow,
+    onOutside: () => isShow = false,
   }
 </script>
 
-<svelte:window onclick={onWindowClick} />
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div bind:this={container} class="float-menu-wrapper">
+<div class="float-menu-wrapper" {@attach handleElementClickBoundary(handleClickBoundary) }>
   <div class="center-child">
     {@render centerChild()}
   </div>
@@ -47,6 +37,7 @@
     position: absolute;
     top: 140%;
     right: 0;
+    z-index: 100;
   }
   .center-child {
     cursor: pointer;

@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { getModal, getModalType, ModalType } from "@stores/modal.svelte";
+  import { getModal, getModalType, ModalType, isModalOpen} from "@stores/modal.svelte";
   import Modal from "@components/Modal/Modal.svelte";
   import ModalWithCloseIcon from "./ModalWithCloseIcon.svelte";
 </script>
 
-{#if getModal()}
+{#if isModalOpen()}
   {#if getModalType() === ModalType.CloseModal}
     <ModalWithCloseIcon>
       {@render getModal()?.()}

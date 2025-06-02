@@ -21,7 +21,7 @@
   import deleteFileType from "@useCases/fileTypeUseCase/deleteFileType";
   import updateFileType from "@useCases/fileTypeUseCase/updateFileType";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
-    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
+  import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
 
   type FileTypeUpdateDto = Omit<FileType, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -93,7 +93,8 @@
 <BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
   <RowToRight>
     <PrimaryButton
-      onclick={() => {
+      onclick={(e) => {
+        e.stopPropagation();
         openModal(createModal);
       }}
       variant="orange"
@@ -102,7 +103,7 @@
   </RowToRight>
   <Table hasAction {headers}>
     {#await data.fileType}
-      <TableSkeleton {headers} />
+      <RowSkeleton {headers} />
     {:then fileTypes}
       {#each transformFileTypeToTable(fileTypes) as fileType}
         <TableRow
@@ -167,4 +168,3 @@
     flex-direction: column;
   }
 </style>
-

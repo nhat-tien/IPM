@@ -23,6 +23,10 @@ export function getModal() {
   return modal.modalContent;
 }
 
+export function isModalOpen(): boolean {
+  return modal.modalContent != null;
+}
+
 export function closeModal() {
   modal.modalContent = null;
   modal.modalType = ModalType.Normal

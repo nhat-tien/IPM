@@ -2,17 +2,21 @@
 const { headers, col}: { headers?: string[], col?: number} = $props();
 </script>
 
-{#if headers}
-  {#each headers as _}
-    <td>
-      <div>&nbsp;</div>
-    </td>
-  {/each}
+<tr>
+  {#if headers}
+    {#each headers as _}
+      <td>
+        <div>&nbsp;</div>
+      </td>
+    {/each}
   {:else if col}
-  {#each { length: col} }
-    <td></td>
-  {/each}
-{/if}
+    {#each { length: col} }
+    <td>
+        <div>&nbsp;</div>
+    </td>
+    {/each}
+  {/if}
+</tr>
 
 <style lang="scss">
 td {

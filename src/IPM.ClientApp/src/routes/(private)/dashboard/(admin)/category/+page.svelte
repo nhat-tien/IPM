@@ -21,7 +21,7 @@
   import deleteCategory from "@useCases/categoryUseCase/deleteCategory";
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
-  import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
+  import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
 
   let { data }: { data: PageData } = $props();
 
@@ -96,7 +96,8 @@
 <BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
   <RowToRight>
     <PrimaryButton
-      onclick={() => {
+      onclick={(e) => {
+        e.stopPropagation();
         resetError();
         openModal(createModal);
       }}
@@ -106,7 +107,7 @@
   </RowToRight>
   <Table hasAction {headers}>
     {#await data.category}
-      <TableSkeleton {headers} />
+      <RowSkeleton {headers} />
     {:then categorys}
       {#each transformCategoryToTable(categorys) as category}
         <TableRow

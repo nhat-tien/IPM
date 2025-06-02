@@ -7,7 +7,7 @@
     type = "button",
   }: {
     children: Snippet;
-    onclick?: () => void;
+    onclick?: (e: MouseEvent) => void;
     variant?: "orange";
     type?: "button" | "submit" | "reset" | null | undefined;
   } = $props();

@@ -6,7 +6,9 @@
   import RowToRight from "@components/Row/RowToRight.svelte";
   import IconButton from "@components/Button/IconButton.svelte";
   import PencilIcon from "@components/Icons/PencilIcon.svelte";
-    import SquareSkeleton from "@components/Skeleton/SquareSkeleton.svelte";
+  import SquareSkeleton from "@components/Skeleton/SquareSkeleton.svelte";
+  import Col2 from "@components/Col/Col2.svelte";
+  import FieldDisplay from "@components/FieldDisplay";
   const { data }: { data: PageData } = $props();
 </script>
 
@@ -43,12 +45,26 @@
   </RowToRight>
   <div class="container">
     <h2>Thông tin dự án</h2>
-    <h3>Tên dự án (Tiếng Việt)</h3>
-    <p>{data.project.projectNameVietnamese}</p>
-    <h3>Tên dự án (Tiếng Anh)</h3>
-    <p>{data.project.projectNameEnglish}</p>
-    <h3>Mục tiêu dự án</h3>
-    <p>{data.project.projectPurpose}</p>
+    <Col2>
+      <FieldDisplay.Root>
+        <FieldDisplay.Label>
+          Tên dự án (Tiếng Việt)
+        </FieldDisplay.Label>
+        <FieldDisplay.Content>
+          {data.project.projectNameVietnamese}
+        </FieldDisplay.Content>
+      </FieldDisplay.Root>
+      <FieldDisplay.Root>
+        <FieldDisplay.Label>
+          Tên dự án (Tiếng Anh)
+        </FieldDisplay.Label>
+        <FieldDisplay.Content>
+          {data.project.projectNameEnglish}
+        </FieldDisplay.Content>
+      </FieldDisplay.Root>
+        Mục tiêu dự án
+      <p>{data.project.projectPurpose}</p>
+    </Col2>
     <h3>Nội dung</h3>
     <p>{data.project.content}</p>
     <h3>Tiến độ dự án</h3>
@@ -75,7 +91,7 @@
         <p>
           <span>{member.user?.lastName} {member.user?.firstName}</span>
           <span>
-        {member.user?.email}
+            {member.user?.email}
           </span>
         </p>
       </div>
@@ -85,11 +101,11 @@
     <h2>File đính kèm</h2>
     {#await data.files}
       <SquareSkeleton />
-    {:then files} 
+    {:then files}
       <ul>
-      {#each files as file}
-        <li>{file.fileName}</li>
-      {/each}
+        {#each files as file}
+          <li>{file.fileName}</li>
+        {/each}
       </ul>
     {/await}
   </div>

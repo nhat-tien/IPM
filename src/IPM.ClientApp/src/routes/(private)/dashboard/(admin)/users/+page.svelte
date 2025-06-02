@@ -5,7 +5,7 @@
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
   import type { PageData } from "./$types";
   import transformUserToTable from "@useCases/userUseCase/transformUserToTable";
-  import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
+  import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
   let { data }: { data: PageData } = $props();
 
   let modelName = "Người dùng";
@@ -23,7 +23,7 @@
 <BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
   <Table {headers}>
     {#await data.users}
-      <TableSkeleton {headers} />
+      <RowSkeleton {headers} />
     {:then users}
       {#each transformUserToTable(users) as user}
         <TableRow row={user} />

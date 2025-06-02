@@ -20,8 +20,8 @@
   import type { PageData } from "./$types";
   import type { EventSubmitElements } from "@/shared.types";
   import type { ApprovingAgency } from "@useCases/useCases.types";
-    import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
-    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
+  import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
+  import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
 
   type ApprovingAgencyUpdateDto = Omit<
     ApprovingAgency,
@@ -100,7 +100,8 @@
 <BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
   <RowToRight>
     <PrimaryButton
-      onclick={() => {
+      onclick={(e) => {
+        e.stopPropagation();
         resetError();
         openModal(createModal);
       }}
@@ -110,7 +111,7 @@
   </RowToRight>
   <Table {headers} hasAction>
     {#await data.approvingAgency}
-      <TableSkeleton {headers} />
+      <RowSkeleton {headers} />
     {:then listData}
       {#each transformApprovingAgencyToTable(listData) as item}
         <TableRow

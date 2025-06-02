@@ -32,6 +32,7 @@
     const result = await createProject(modelState);
     if (result.isSuccess) {
       toast.success("Tạo dự án thành công");
+      resetForm();
       invalidate("project:create");
     } else {
       if (result.error instanceof ZodError) {
@@ -42,6 +43,12 @@
 
   function clearError() {
     error = [];
+  }
+
+  function resetForm() {
+    modelState.projectNameVietnamese = "";
+    modelState.projectNameEnglish = "";
+    modelState.categoryId = "";
   }
 </script>
 

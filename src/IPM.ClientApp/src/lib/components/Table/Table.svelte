@@ -44,7 +44,6 @@
     padding: 1em 1em 1em 1.5em;
   }
   .table-wrapper {
-    overflow-x: auto;
     border-top: 1px solid $gray-clr;
   }
   table {

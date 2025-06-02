@@ -19,5 +19,8 @@
 <style lang="scss">
   svg {
     stroke: var(--stroke, $icon-clr);
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 </style>

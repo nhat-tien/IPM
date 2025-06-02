@@ -8,7 +8,7 @@
   import type { PageData } from "./$types";
   import transformProjectToTable from "@useCases/projectUseCase/transformProjectToTable";
   import { goto } from "$app/navigation";
-    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
+    import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
 
   let { data }: { data: PageData } = $props();
 
@@ -33,7 +33,7 @@
   </RowToRight>
   <Table {headers} hasAction>
     {#await data.project}
-      <TableSkeleton {headers} />
+      <RowSkeleton {headers} />
     {:then listData}
       {#each transformProjectToTable(listData) as item}
         <TableRow

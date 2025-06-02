@@ -21,7 +21,7 @@
   import deleteAidType from "@useCases/aidTypeUseCase/deleteAidType";
   import updateAidType from "@useCases/aidTypeUseCase/updateAidType";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
-    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
+    import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
 
   type AidTypeUpdateDto = Omit<AidType, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -93,8 +93,9 @@
 <BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
   <RowToRight>
     <PrimaryButton
-      onclick={() => {
-        openModal(createModal);
+      onclick={(e) => {
+        e.stopPropagation();
+        openModal(createModal)
       }}
       variant="orange"
       --margin-bottom="0.5em">Thêm</PrimaryButton
@@ -102,7 +103,7 @@
   </RowToRight>
   <Table hasAction {headers}>
     {#await data.aidType}
-      <TableSkeleton {headers} />
+      <RowSkeleton {headers} />
     {:then aidTypes}
       {#each transformAidTypeToTable(aidTypes) as aidType}
         <TableRow

@@ -20,8 +20,8 @@
   import updateSponsor from "@useCases/sponsorUseCase/updateSponsor";
   import deleteSponsor from "@useCases/sponsorUseCase/deleteSponsor";
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
-    import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
-    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
+  import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
+  import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
 
   type SponsorUpdateDto = Omit<Sponsor, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -94,7 +94,8 @@
 <BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
   <RowToRight>
     <PrimaryButton
-      onclick={() => {
+      onclick={(e) => {
+        e.stopPropagation();
         resetError();
         openModal(createModal);
       }}
@@ -104,7 +105,7 @@
   </RowToRight>
   <Table hasAction {headers}>
     {#await data.sponsor}
-      <TableSkeleton {headers} />
+      <RowSkeleton {headers} />
     {:then sponsors}
       {#each transformSponsorToTable(sponsors) as sponsor}
         <TableRow

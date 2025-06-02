@@ -8,7 +8,6 @@ export type EventSubmitElements = SubmitEvent & {
 export type WindowMouseEvent = MouseEvent & {
   currentTarget: EventTarget & Window;
 }
-
 export type CustomDragEvent = DragEvent & {
     currentTarget: EventTarget & HTMLDivElement;
 }

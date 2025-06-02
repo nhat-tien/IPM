@@ -22,7 +22,7 @@
   import type { EventSubmitElements } from "@/shared.types";
   import type { AffiliatedUnit } from "@useCases/useCases.types";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
-    import TableSkeleton from "@components/Skeleton/TableSkeleton.svelte";
+  import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
 
   type AffiliatedUnitUpdateDto = Omit<
     AffiliatedUnit,
@@ -97,14 +97,17 @@
 >
   <RowToRight>
     <PrimaryButton
-      onclick={() => openModal(createModal)}
+      onclick={(e) => {
+        e.stopPropagation();
+        openModal(createModal);
+      }}
       variant="orange"
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
   </RowToRight>
   <Table {headers} hasAction>
     {#await data.affiliatedUnit}
-      <TableSkeleton {headers} />
+      <RowSkeleton col={3} />
     {:then affiliatedUnits}
       {#each transformAffliatedUnitToTable(affiliatedUnits) as affiliatedUnit}
         <TableRow
