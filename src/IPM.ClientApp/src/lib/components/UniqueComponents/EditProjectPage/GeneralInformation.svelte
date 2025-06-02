@@ -20,7 +20,7 @@
   import createSponsor from "@useCases/sponsorUseCase/createSponsor";
   import { openModal } from "@stores/modal.svelte";
   import createAffiliatedUnit from "@useCases/affiliatedUnitUseCase/createAffiliatedUnit";
-  import RowToRight from "@components/Row/RowToRight.svelte";
+  import Row from "@components/Row/Row.svelte";
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
   import DatePicker from "@components/DatePicker/DatePicker.svelte";
@@ -242,14 +242,14 @@
     />
   {/await}
 
-  <RowToRight --padding-right="1em" --margin-top="1.5em">
+  <Row --justify-content="flex-end"  --padding="0 1em 0 0" --margin-top="1.5em">
     <SecondaryButton onclick={() => handleCancel()}
       >Hủy bỏ thay đổi</SecondaryButton
     >
     <PrimaryButton variant="orange" onclick={() => handleSave()}
       >Lưu</PrimaryButton
     >
-  </RowToRight>
+  </Row >
 </section>
 
 {#snippet createAffiliatedUnitModal()}

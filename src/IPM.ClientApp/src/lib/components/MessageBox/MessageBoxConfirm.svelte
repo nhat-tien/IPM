@@ -2,7 +2,7 @@
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import WarningIcon from "@components/Icons/WarningIcon.svelte";
-  import RowCenter from "@components/Row/RowCenter.svelte";
+  import Row from "@components/Row/Row.svelte";
 
   const {
     title,
@@ -16,10 +16,10 @@
     <WarningIcon />
   </div>
   <p class="title">{title}</p>
-  <RowCenter>
+  <Row --justify-content="center">
     <PrimaryButton variant="orange" onclick={onYes}>Xác nhận</PrimaryButton>
     <SecondaryButton onclick={onNo}>Hủy</SecondaryButton>
-  </RowCenter>
+  </Row>
 </div>
 
 <style lang="scss">

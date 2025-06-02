@@ -3,7 +3,7 @@
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import FileUploader from "@components/FileUploader/FileUploader.svelte";
-  import RowToRight from "@components/Row/RowToRight.svelte";
+  import Row from "@components/Row/Row.svelte";
     import { invalidateCache } from "@stores/cache.svelte";
   import { closeModal } from "@stores/modal.svelte";
   import uploadAvatar from "@useCases/userUseCase/uploadAvatar";
@@ -27,12 +27,12 @@
 <div class="modal">
   <h3>Thay đổi hình đại diện</h3>
   <FileUploader callback={(file) => (avatar = file)} />
-  <RowToRight --margin-bottom="0">
+  <Row --justify-content="flex-end"  --margin-bottom="0">
     <PrimaryButton variant="orange" onclick={handleUpload}
       >Tải lên</PrimaryButton
     >
     <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
-  </RowToRight>
+  </Row >
 </div>
 
 <style lang="scss">

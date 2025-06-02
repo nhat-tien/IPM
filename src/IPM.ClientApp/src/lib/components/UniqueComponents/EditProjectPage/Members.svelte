@@ -8,7 +8,7 @@
   import UserSuggestSelectTextField from "../UserSuggestSelectTextField.svelte";
   import SquareSkeleton from "@components/Skeleton/SquareSkeleton.svelte";
   import TrashIcon from "@components/Icons/TrashIcon.svelte";
-  import RowToRight from "@components/Row/RowToRight.svelte";
+  import Row from "@components/Row/Row.svelte";
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
   import assignMember from "@useCases/projectUseCase/assignMember";
@@ -135,14 +135,14 @@
       </div>
     {/each}
   </div>
-  <RowToRight --padding-right="1em" --margin-top="1.5em">
+  <Row --justify-content="flex-end"  --padding-right="1em" --margin-top="1.5em">
     <SecondaryButton onclick={() => handleCancel()}
       >Hủy bỏ thay đổi</SecondaryButton
     >
     <PrimaryButton variant="orange" onclick={() => handleSave()}
       >Lưu</PrimaryButton
     >
-  </RowToRight>
+  </Row >
 </section>
 
 <style lang="scss">

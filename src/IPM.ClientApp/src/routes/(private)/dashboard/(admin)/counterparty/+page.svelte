@@ -11,9 +11,8 @@
   import { ZodError, type ZodIssue } from "zod";
   import type { PageData } from "./$types";
   import type { EventSubmitElements } from "@/shared.types";
-  import RowToRight from "@components/Row/RowToRight.svelte";
   import { invalidate } from "$app/navigation";
-  import RowToLeft from "@components/Row/RowToLeft.svelte";
+  import Row from "@components/Row/Row.svelte";
   import transformCounterpartyToTable from "@useCases/counterpartyUseCase/transformCounterpartyToTable";
   import createCounterparty from "@useCases/counterpartyUseCase/createCounterparty";
   import type { Counterparty } from "@useCases/useCases.types";
@@ -22,6 +21,7 @@
   import deleteCounterparty from "@useCases/counterpartyUseCase/deleteCounterparty";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
   import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
+    import Container from "@components/Container/Container.svelte";
 
   type CounterpartyUpdateDto = Omit<Counterparty, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -95,7 +95,7 @@
 
 <TitleWebPage title={modelName} />
 <BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
-  <RowToRight>
+  <Row --justify-content="flex-end" >
     <PrimaryButton
       onclick={(e) => {
         e.stopPropagation();
@@ -105,7 +105,9 @@
       variant="orange"
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
-  </RowToRight>
+  </Row >
+  <Container>
+  <Row --padding="1em 1em 1em 1.5em"></Row>
   <Table hasAction {headers}>
     {#await data.counterparty}
       <RowSkeleton col={3}/>
@@ -119,6 +121,8 @@
       {/each}
     {/await}
   </Table>
+  <Row --padding="1em 1em 1em 1.5em"></Row>
+  </Container>
 </BasicCenterLayout>
 
 {#snippet createModal()}
@@ -151,10 +155,10 @@
         errorId="counterpartyName"
         onfocus={resetError}
       ></PrimaryTextField>
-      <RowToLeft>
+      <Row>
         <PrimaryButton variant="orange" type="submit">Lưu</PrimaryButton>
         <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
-      </RowToLeft>
+      </Row>
     </form>
   </div>
 {/snippet}

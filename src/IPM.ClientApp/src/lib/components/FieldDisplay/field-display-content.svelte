@@ -4,4 +4,9 @@
 <div>
   {@render children()}
 </div>
-
+<style lang="scss">
+div {
+  margin-top: var(--margin-top, 0);
+  margin-bottom: var(--margin-bottom, 0);
+}
+</style>

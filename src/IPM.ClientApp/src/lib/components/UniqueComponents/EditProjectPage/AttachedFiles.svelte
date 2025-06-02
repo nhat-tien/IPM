@@ -8,9 +8,8 @@
   import { openModal } from "@stores/modal.svelte";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
   import createFileType from "@useCases/fileTypeUseCase/createFileType";
-  import RowToLeft from "@components/Row/RowToLeft.svelte";
   import FileUploader from "@components/FileUploader/FileUploader.svelte";
-  import RowCenter from "@components/Row/RowCenter.svelte";
+  import Row from "@components/Row/Row.svelte";
   import uploadFile, {
     uploadFileScheme,
   } from "@useCases/fileUseCase/uploadFile";
@@ -88,14 +87,14 @@
     {/await}
   </ul>
   {#if !isShowUploadArea}
-    <RowCenter>
+    <Row --justify-content="center">
       <PrimaryButton onclick={() => (isShowUploadArea = true)}
         >Thêm</PrimaryButton
       >
-    </RowCenter>
+    </Row>
   {:else}
     <div class="file-upload-container">
-      <RowToLeft --align-items="flex-end">
+      <Row --align-items="flex-end">
         {#await data.fileType}
           <SquareSkeleton --width="100%" --height="2em" --radius="5px" />
         {:then fileType}
@@ -113,7 +112,7 @@
         <SecondaryButton onclick={() => (isShowUploadArea = false)}>
           Hủy</SecondaryButton
         >
-      </RowToLeft>
+      </Row>
       <FileUploader callback={(file) => (fileState.file = file)} />
     </div>
   {/if}

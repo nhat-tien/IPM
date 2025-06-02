@@ -1,5 +1,5 @@
 <script lang="ts">
-  import RowToRight from "@components/Row/RowToRight.svelte";
+  import Row from "@components/Row/Row.svelte";
   import type { PageData } from "./$types";
   import IconButton from "@components/Button/IconButton.svelte";
   import { goto } from "$app/navigation";
@@ -37,7 +37,7 @@
     },
   ]}
 >
-  <RowToRight>
+  <Row --justify-content="flex-end" >
     <IconButton
       onclick={() => {
         goto(`profile/edit`);
@@ -51,7 +51,7 @@
       {/snippet}
       Chỉnh sửa
     </IconButton>
-  </RowToRight>
+  </Row >
   <section class="container">
     <section class="avatar-container">
       {#if data.user.avatarUrl}

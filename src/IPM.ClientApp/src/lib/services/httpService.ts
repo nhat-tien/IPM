@@ -30,7 +30,7 @@ const apiWithBearerToken = api.extend({
             }
         }
       }
-    ]
+    ],
   }
 });
 

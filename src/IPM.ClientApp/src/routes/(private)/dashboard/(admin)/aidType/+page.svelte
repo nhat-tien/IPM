@@ -13,15 +13,15 @@
   import { ZodError, type ZodIssue } from "zod";
   import type { PageData } from "./$types";
   import type { EventSubmitElements } from "@/shared.types";
-  import RowToRight from "@components/Row/RowToRight.svelte";
   import { invalidate } from "$app/navigation";
-  import RowToLeft from "@components/Row/RowToLeft.svelte";
+  import Row from "@components/Row/Row.svelte";
   import type { AidType } from "@useCases/useCases.types";
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
   import deleteAidType from "@useCases/aidTypeUseCase/deleteAidType";
   import updateAidType from "@useCases/aidTypeUseCase/updateAidType";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
-    import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
+  import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
+  import Container from "@components/Container/Container.svelte";
 
   type AidTypeUpdateDto = Omit<AidType, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -91,29 +91,33 @@
 
 <TitleWebPage title={modelName} />
 <BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
-  <RowToRight>
+  <Row --justify-content="flex-end">
     <PrimaryButton
       onclick={(e) => {
         e.stopPropagation();
-        openModal(createModal)
+        openModal(createModal);
       }}
       variant="orange"
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
-  </RowToRight>
-  <Table hasAction {headers}>
-    {#await data.aidType}
-      <RowSkeleton {headers} />
-    {:then aidTypes}
-      {#each transformAidTypeToTable(aidTypes) as aidType}
-        <TableRow
-          row={aidType}
-          onDelete={() => openConfirmDelete(aidType)}
-          onEdit={() => openUpdateModal(aidType)}
-        />
-      {/each}
-    {/await}
-  </Table>
+  </Row>
+  <Container>
+    <Row --padding="1em 1em 1em 1.5em"></Row>
+    <Table hasAction {headers}>
+      {#await data.aidType}
+        <RowSkeleton {headers} />
+      {:then aidTypes}
+        {#each transformAidTypeToTable(aidTypes) as aidType}
+          <TableRow
+            row={aidType}
+            onDelete={() => openConfirmDelete(aidType)}
+            onEdit={() => openUpdateModal(aidType)}
+          />
+        {/each}
+      {/await}
+    </Table>
+    <Row --padding="1em 1em 1em 1.5em"></Row>
+  </Container>
 </BasicCenterLayout>
 
 {#snippet createModal()}
@@ -146,10 +150,10 @@
         value={selectedModel?.aidTypeName}
         onfocus={resetError}
       ></PrimaryTextField>
-      <RowToLeft>
+      <Row>
         <PrimaryButton variant="orange" type="submit">Lưu</PrimaryButton>
         <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
-      </RowToLeft>
+      </Row>
     </form>
   </div>
 {/snippet}

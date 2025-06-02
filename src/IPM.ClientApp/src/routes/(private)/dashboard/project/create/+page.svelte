@@ -2,7 +2,7 @@
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
   import BasicCenterLayout from "@components/Layout/BasicCenterLayout.svelte";
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
-  import RowToRight from "@components/Row/RowToRight.svelte";
+  import Row from "@components/Row/Row.svelte";
   import PrimaryTextFieldBindable from "@components/TextField/PrimaryTextFieldBindable.svelte";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
   import transformCategoryToOption from "@useCases/categoryUseCase/transformCategoryToOption";
@@ -94,11 +94,11 @@
         --margin-top="1em"
       />
       {/await}
-    <RowToRight --margin-top="1rem">
+    <Row --justify-content="flex-end"  --margin-top="1rem">
       <PrimaryButton variant="orange" onclick={() => onCreate()}
         >Xác nhận</PrimaryButton
       >
-    </RowToRight>
+    </Row >
   </div>
 </BasicCenterLayout>
 

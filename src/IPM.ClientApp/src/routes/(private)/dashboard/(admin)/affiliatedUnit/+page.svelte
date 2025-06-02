@@ -6,8 +6,6 @@
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import TableRow from "@components/Table/TableRow.svelte";
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
-  import RowToRight from "@components/Row/RowToRight.svelte";
-  import RowToLeft from "@components/Row/RowToLeft.svelte";
   import { closeModal, openModal } from "@stores/modal.svelte";
   import createAffiliatedUnit from "@useCases/affiliatedUnitUseCase/createAffiliatedUnit";
   import toast from "svelte-5-french-toast";
@@ -23,6 +21,8 @@
   import type { AffiliatedUnit } from "@useCases/useCases.types";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
   import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
+  import Container from "@components/Container/Container.svelte";
+  import Row from "@components/Row/Row.svelte";
 
   type AffiliatedUnitUpdateDto = Omit<
     AffiliatedUnit,
@@ -95,7 +95,7 @@
   header={"Đơn vị trực thuộc"}
   breadcrumb={["Đơn vị trực thuộc", "Danh sách"]}
 >
-  <RowToRight>
+  <Row --justify-content="flex-end">
     <PrimaryButton
       onclick={(e) => {
         e.stopPropagation();
@@ -104,20 +104,24 @@
       variant="orange"
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
-  </RowToRight>
-  <Table {headers} hasAction>
-    {#await data.affiliatedUnit}
-      <RowSkeleton col={3} />
-    {:then affiliatedUnits}
-      {#each transformAffliatedUnitToTable(affiliatedUnits) as affiliatedUnit}
-        <TableRow
-          row={affiliatedUnit}
-          onDelete={() => openConfirmDelete(affiliatedUnit)}
-          onEdit={() => openUpdateModal(affiliatedUnit)}
-        />
-      {/each}
-    {/await}
-  </Table>
+  </Row>
+  <Container>
+    <Row --padding="1em 1em 1em 1.5em"></Row>
+    <Table {headers} hasAction>
+      {#await data.affiliatedUnit}
+        <RowSkeleton col={3} />
+      {:then affiliatedUnits}
+        {#each transformAffliatedUnitToTable(affiliatedUnits) as affiliatedUnit}
+          <TableRow
+            row={affiliatedUnit}
+            onDelete={() => openConfirmDelete(affiliatedUnit)}
+            onEdit={() => openUpdateModal(affiliatedUnit)}
+          />
+        {/each}
+      {/await}
+      <Row --padding="1em 1em 1em 1.5em"></Row>
+    </Table>
+  </Container>
 </BasicCenterLayout>
 
 {#snippet createModal()}
@@ -149,10 +153,10 @@
         errorId="affiliatedUnitName"
         value={selectedModel?.affiliatedUnitName}
       ></PrimaryTextField>
-      <RowToLeft>
+      <Row>
         <PrimaryButton variant="orange" type="submit">Lưu</PrimaryButton>
         <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
-      </RowToLeft>
+      </Row>
     </form>
   </div>
 {/snippet}

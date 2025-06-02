@@ -3,13 +3,27 @@
   import BasicCenterLayout from "@components/Layout/BasicCenterLayout.svelte";
   import type { PageData } from "./$types";
   import { goto } from "$app/navigation";
-  import RowToRight from "@components/Row/RowToRight.svelte";
+  import Row from "@components/Row/Row.svelte";
   import IconButton from "@components/Button/IconButton.svelte";
   import PencilIcon from "@components/Icons/PencilIcon.svelte";
-  import SquareSkeleton from "@components/Skeleton/SquareSkeleton.svelte";
   import Col2 from "@components/Col/Col2.svelte";
   import FieldDisplay from "@components/FieldDisplay";
+  import Table from "@components/Table/Table.svelte";
+  import TableRow from "@components/Table/TableRow.svelte";
+  import type { Participation } from "@useCases/useCases.types";
+  import Container from "@components/Container/Container.svelte";
+  import Title from "@components/Title/Title.svelte";
+  import TitleRow from "@components/Row/TitleRow.svelte";
+  import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
   const { data }: { data: PageData } = $props();
+
+  const transformParticipateToTable = (e: Participation) => {
+    return [
+      e.user?.lastName ?? "",
+      e.user?.firstName ?? "",
+      e.user?.email ?? "",
+    ];
+  };
 </script>
 
 <TitleWebPage title="Dự án - Xem chi tiết" />
@@ -28,7 +42,7 @@
     },
   ]}
 >
-  <RowToRight>
+  <Row --justify-content="flex-end">
     <IconButton
       onclick={() => {
         goto(`/dashboard/project/${data.id}/edit`);
@@ -42,73 +56,111 @@
       {/snippet}
       Chỉnh sửa
     </IconButton>
-  </RowToRight>
+  </Row>
   <div class="container">
     <h2>Thông tin dự án</h2>
     <Col2>
       <FieldDisplay.Root>
-        <FieldDisplay.Label>
-          Tên dự án (Tiếng Việt)
-        </FieldDisplay.Label>
+        <FieldDisplay.Label>Tên dự án (Tiếng Việt)</FieldDisplay.Label>
         <FieldDisplay.Content>
           {data.project.projectNameVietnamese}
         </FieldDisplay.Content>
       </FieldDisplay.Root>
       <FieldDisplay.Root>
-        <FieldDisplay.Label>
-          Tên dự án (Tiếng Anh)
-        </FieldDisplay.Label>
+        <FieldDisplay.Label>Tên dự án (Tiếng Anh)</FieldDisplay.Label>
         <FieldDisplay.Content>
           {data.project.projectNameEnglish}
         </FieldDisplay.Content>
       </FieldDisplay.Root>
-        Mục tiêu dự án
-      <p>{data.project.projectPurpose}</p>
+      <FieldDisplay.Root>
+        <FieldDisplay.Label>Mục tiêu dự án</FieldDisplay.Label>
+        <FieldDisplay.Content>
+          {data.project.projectPurpose}
+        </FieldDisplay.Content>
+      </FieldDisplay.Root>
+      <FieldDisplay.Root>
+        <FieldDisplay.Label>Nội dung</FieldDisplay.Label>
+        <FieldDisplay.Content>{data.project.content}</FieldDisplay.Content>
+      </FieldDisplay.Root>
+      <FieldDisplay.Root>
+        <FieldDisplay.Label>Tiến độ dự án</FieldDisplay.Label>
+        <FieldDisplay.Content
+          >{data.project.projectProgress}</FieldDisplay.Content
+        >
+      </FieldDisplay.Root>
+      <FieldDisplay.Root>
+        <FieldDisplay.Label>Phần trăm tiến độ</FieldDisplay.Label>
+        <FieldDisplay.Content
+          >{data.project.percentageOfProgress}</FieldDisplay.Content
+        >
+      </FieldDisplay.Root>
+      <FieldDisplay.Root>
+        <FieldDisplay.Label>Đơn vị trực thuộc</FieldDisplay.Label>
+        <FieldDisplay.Content
+          >{data.project.affiliatedUnit
+            ?.affiliatedUnitName}</FieldDisplay.Content
+        >
+      </FieldDisplay.Root>
+      <FieldDisplay.Root>
+        <FieldDisplay.Label>Cơ quan phê duyệt</FieldDisplay.Label>
+        <FieldDisplay.Content
+          >{data.project.approvingAgency
+            ?.approvingAgencyName}</FieldDisplay.Content
+        >
+      </FieldDisplay.Root>
+      <FieldDisplay.Root>
+        <FieldDisplay.Label>Nhà tài trợ</FieldDisplay.Label>
+        <FieldDisplay.Content
+          >{data.project.sponsor?.sponsorName}</FieldDisplay.Content
+        >
+      </FieldDisplay.Root>
+      <FieldDisplay.Root>
+        <FieldDisplay.Label>Loại viện trợ</FieldDisplay.Label>
+        <FieldDisplay.Content
+          >{data.project.aidType?.aidTypeName}</FieldDisplay.Content
+        >
+      </FieldDisplay.Root>
+      <FieldDisplay.Root>
+        <FieldDisplay.Label>Đối tác</FieldDisplay.Label>
+        <FieldDisplay.Content
+          >{data.project.counterparty?.counterpartyName}</FieldDisplay.Content
+        >
+      </FieldDisplay.Root>
+      <FieldDisplay.Root>
+        <FieldDisplay.Label>Danh mục</FieldDisplay.Label>
+        <FieldDisplay.Content
+          >{data.project.category?.categoryName}</FieldDisplay.Content
+        >
+      </FieldDisplay.Root>
     </Col2>
-    <h3>Nội dung</h3>
-    <p>{data.project.content}</p>
-    <h3>Tiến độ dự án</h3>
-    <p>{data.project.projectProgress}</p>
-    <h3>Phần trăm tiến độ</h3>
-    <p>{data.project.percentageOfProgress}</p>
-    <h3>Đơn vị trực thuộc</h3>
-    <p>{data.project.affiliatedUnit?.affiliatedUnitName}</p>
-    <h3>Cơ quan phê duyệt</h3>
-    <p>{data.project.approvingAgency?.approvingAgencyName}</p>
-    <h3>Nhà tài trợ</h3>
-    <p>{data.project.sponsor?.sponsorName}</p>
-    <h3>Loại viện trợ</h3>
-    <p>{data.project.aidType?.aidTypeName}</p>
-    <h3>Đối tác</h3>
-    <p>{data.project.counterparty?.counterpartyName}</p>
-    <h3>Danh mục</h3>
-    <p>{data.project.category?.categoryName}</p>
   </div>
-  <div class="container">
-    <h2>Thành viên</h2>
-    {#each data.project.participations as member}
-      <div>
-        <p>
-          <span>{member.user?.lastName} {member.user?.firstName}</span>
-          <span>
-            {member.user?.email}
-          </span>
-        </p>
-      </div>
-    {/each}
-  </div>
-  <div class="container">
-    <h2>File đính kèm</h2>
-    {#await data.files}
-      <SquareSkeleton />
-    {:then files}
-      <ul>
+  <Container --margin-top="1em">
+    <TitleRow --margin-bottom="1em" --margin-top="0">
+      <Title>Thành viên</Title>
+    </TitleRow>
+    <Table headers={["Họ lót", "Tên", "Email"]}>
+      {#each data.project.participations as member}
+        {@const row = transformParticipateToTable(member)}
+        <TableRow {row} />
+      {/each}
+    </Table>
+    <Row></Row>
+  </Container>
+  <Container --margin-top="1em">
+    <TitleRow --margin-bottom="1em" --margin-top="0">
+      <Title>File</Title>
+    </TitleRow>
+    <Table headers={["Tên File"]}>
+      {#await data.files}
+        <RowSkeleton col={1} />
+      {:then files}
         {#each files as file}
-          <li>{file.fileName}</li>
+          <TableRow row={[file.fileName]} />
         {/each}
-      </ul>
-    {/await}
-  </div>
+      {/await}
+    </Table>
+    <Row></Row>
+  </Container>
 </BasicCenterLayout>
 
 <style lang="scss">
@@ -121,10 +173,5 @@
   }
   h2 {
     margin-bottom: 1em;
-  }
-  h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin: 1.5em 0 0.5em 0;
   }
 </style>

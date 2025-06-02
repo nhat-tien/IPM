@@ -13,15 +13,15 @@
   import { ZodError, type ZodIssue } from "zod";
   import type { PageData } from "./$types";
   import type { EventSubmitElements } from "@/shared.types";
-  import RowToRight from "@components/Row/RowToRight.svelte";
   import { invalidate } from "$app/navigation";
-  import RowToLeft from "@components/Row/RowToLeft.svelte";
+  import Row from "@components/Row/Row.svelte";
   import type { FileType } from "@useCases/useCases.types";
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
   import deleteFileType from "@useCases/fileTypeUseCase/deleteFileType";
   import updateFileType from "@useCases/fileTypeUseCase/updateFileType";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
   import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
+    import Container from "@components/Container/Container.svelte";
 
   type FileTypeUpdateDto = Omit<FileType, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -91,7 +91,7 @@
 
 <TitleWebPage title={modelName} />
 <BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
-  <RowToRight>
+  <Row --justify-content="flex-end" >
     <PrimaryButton
       onclick={(e) => {
         e.stopPropagation();
@@ -100,7 +100,9 @@
       variant="orange"
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
-  </RowToRight>
+  </Row >
+  <Container>
+    <Row --padding="1em 1em 1em 1.5em"></Row>
   <Table hasAction {headers}>
     {#await data.fileType}
       <RowSkeleton {headers} />
@@ -114,6 +116,8 @@
       {/each}
     {/await}
   </Table>
+    <Row --padding="1em 1em 1em 1.5em"></Row>
+  </Container>
 </BasicCenterLayout>
 
 {#snippet createModal()}
@@ -146,10 +150,10 @@
         value={selectedModel?.fileTypeName}
         onfocus={resetError}
       ></PrimaryTextField>
-      <RowToLeft>
+      <Row>
         <PrimaryButton variant="orange" type="submit">Lưu</PrimaryButton>
         <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
-      </RowToLeft>
+      </Row>
     </form>
   </div>
 {/snippet}

@@ -11,9 +11,8 @@
   import { ZodError, type ZodIssue } from "zod";
   import type { PageData } from "./$types";
   import type { EventSubmitElements } from "@/shared.types";
-  import RowToRight from "@components/Row/RowToRight.svelte";
+  import Row from "@components/Row/Row.svelte";
   import { invalidate } from "$app/navigation";
-  import RowToLeft from "@components/Row/RowToLeft.svelte";
   import transformCategoryToTable from "@useCases/categoryUseCase/transformCategoryToTable";
   import createCategory from "@useCases/categoryUseCase/createCategory";
   import type { Category } from "@useCases/useCases.types";
@@ -22,6 +21,7 @@
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
   import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
+  import Container from "@components/Container/Container.svelte";
 
   let { data }: { data: PageData } = $props();
 
@@ -85,16 +85,13 @@
       invalidate("category:getAll");
       closeModal();
     } else {
-      if (result.error instanceof ZodError) {
-        error = result.error.issues;
-      }
     }
   }
 </script>
 
 <TitleWebPage title={modelName} />
 <BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
-  <RowToRight>
+  <Row --justify-content="flex-end">
     <PrimaryButton
       onclick={(e) => {
         e.stopPropagation();
@@ -104,20 +101,24 @@
       variant="orange"
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
-  </RowToRight>
-  <Table hasAction {headers}>
-    {#await data.category}
-      <RowSkeleton {headers} />
-    {:then categorys}
-      {#each transformCategoryToTable(categorys) as category}
-        <TableRow
-          row={category}
-          onDelete={() => openConfirmDelete(category)}
-          onEdit={() => openUpdateModal(category)}
-        />
-      {/each}
-    {/await}
-  </Table>
+  </Row>
+  <Container>
+    <Row --padding="1em 1em 1em 1.5em"></Row>
+    <Table hasAction {headers}>
+      {#await data.category}
+        <RowSkeleton {headers} />
+      {:then categorys}
+        {#each transformCategoryToTable(categorys) as category}
+          <TableRow
+            row={category}
+            onDelete={() => openConfirmDelete(category)}
+            onEdit={() => openUpdateModal(category)}
+          />
+        {/each}
+      {/await}
+    </Table>
+    <Row --padding="1em 1em 1em 1.5em"></Row>
+  </Container>
 </BasicCenterLayout>
 
 {#snippet createModal()}
@@ -150,10 +151,10 @@
         errorId="categoryName"
         onfocus={resetError}
       ></PrimaryTextField>
-      <RowToLeft>
+      <Row>
         <PrimaryButton variant="orange" type="submit">Lưu</PrimaryButton>
         <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
-      </RowToLeft>
+      </Row>
     </form>
   </div>
 {/snippet}

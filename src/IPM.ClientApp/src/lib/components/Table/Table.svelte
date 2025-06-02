@@ -10,8 +10,6 @@
   const { headers, children, hasAction }: TableProps = $props();
 </script>
 
-<div class="table-container">
-  <div class="row-container"></div>
   <div class="table-wrapper">
     <table>
       <thead>
@@ -29,20 +27,8 @@
       </tbody>
     </table>
   </div>
-  <div class="row-container"></div>
-</div>
 
 <style lang="scss">
-  .table-container {
-    display: flex;
-    flex-direction: column;
-    background-color: $white-clr;
-    border: 1px solid $gray-clr;
-    border-radius: 15px;
-  }
-  .row-container {
-    padding: 1em 1em 1em 1.5em;
-  }
   .table-wrapper {
     border-top: 1px solid $gray-clr;
   }

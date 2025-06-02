@@ -7,8 +7,7 @@
   import TableRow from "@components/Table/TableRow.svelte";
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
-  import RowToRight from "@components/Row/RowToRight.svelte";
-  import RowToLeft from "@components/Row/RowToLeft.svelte";
+  import Row from "@components/Row/Row.svelte";
   import { closeModal, openModal } from "@stores/modal.svelte";
   import toast from "svelte-5-french-toast";
   import updateApprovingAgency from "@useCases/approvingAgencyUseCase/updateApprovingAgency";
@@ -22,6 +21,7 @@
   import type { ApprovingAgency } from "@useCases/useCases.types";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
   import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
+  import Container from "@components/Container/Container.svelte";
 
   type ApprovingAgencyUpdateDto = Omit<
     ApprovingAgency,
@@ -98,7 +98,7 @@
 
 <TitleWebPage title={modelName} />
 <BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
-  <RowToRight>
+  <Row --justify-content="flex-end">
     <PrimaryButton
       onclick={(e) => {
         e.stopPropagation();
@@ -108,20 +108,24 @@
       variant="orange"
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
-  </RowToRight>
-  <Table {headers} hasAction>
-    {#await data.approvingAgency}
-      <RowSkeleton {headers} />
-    {:then listData}
-      {#each transformApprovingAgencyToTable(listData) as item}
-        <TableRow
-          row={item}
-          onDelete={() => openConfirmDelete(item)}
-          onEdit={() => openUpdateModal(item)}
-        />
-      {/each}
-    {/await}
-  </Table>
+  </Row>
+  <Container>
+    <Row --padding="1em 1em 1em 1.5em"></Row>
+    <Table {headers} hasAction>
+      {#await data.approvingAgency}
+        <RowSkeleton {headers} />
+      {:then listData}
+        {#each transformApprovingAgencyToTable(listData) as item}
+          <TableRow
+            row={item}
+            onDelete={() => openConfirmDelete(item)}
+            onEdit={() => openUpdateModal(item)}
+          />
+        {/each}
+      {/await}
+    </Table>
+    <Row --padding="1em 1em 1em 1.5em"></Row>
+  </Container>
 </BasicCenterLayout>
 
 {#snippet createModal()}
@@ -154,10 +158,10 @@
         onfocus={resetError}
         value={selectedModel?.approvingAgencyName}
       ></PrimaryTextField>
-      <RowToLeft>
+      <Row>
         <PrimaryButton variant="orange" type="submit">Lưu</PrimaryButton>
         <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
-      </RowToLeft>
+      </Row>
     </form>
   </div>
 {/snippet}

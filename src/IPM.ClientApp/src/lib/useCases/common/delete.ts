@@ -1,6 +1,6 @@
 import type { UseCaseResult } from "@useCases/useCases.types";
 import { HTTPError, type KyInstance } from "ky";
-import handleServerError from "./handleServerError";
+import handleServerError from "@lib/errors/handleServerError";
 
 
 export default async function deleteApi(endpoint: KyInstance, id: string): Promise<UseCaseResult> {

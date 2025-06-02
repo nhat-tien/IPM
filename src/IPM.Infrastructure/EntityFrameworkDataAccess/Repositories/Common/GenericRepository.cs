@@ -43,7 +43,7 @@ public abstract class GenericRepository<TDomain, TEntity>
         }
         catch(PostgresException e)
         {
-            DbExceptionHandler.TryHandle(e);
+            DbExceptionHandler.TryHandle(e, this.GetType().ToString());
         }
     }
 

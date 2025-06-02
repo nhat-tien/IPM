@@ -1,19 +1,10 @@
 <script lang="ts">
-  import handleElementClickBoundary from "@/lib/helpers/handleElementClickBoundary";
-  import { closeModal, isModalOpen } from "@stores/modal.svelte";
   import type { Snippet } from "svelte";
   const { children }: { children: Snippet } = $props();
-  const handleClickBoundary = {
-    onOutside: () => { 
-      if(isModalOpen()) {
-        closeModal()
-      }
-    },
-  };
 </script>
 
 <div class="modal-backdrop">
-  <div class="modal" {@attach handleElementClickBoundary(handleClickBoundary)}>
+  <div class="modal">
     <div class="content">
       {@render children()}
     </div>

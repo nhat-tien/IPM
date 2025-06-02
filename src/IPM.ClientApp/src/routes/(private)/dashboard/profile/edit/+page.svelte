@@ -3,7 +3,7 @@
   import BasicCenterLayout from "@components/Layout/BasicCenterLayout.svelte";
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
   import PrimaryTextFieldBindable from "@components/TextField/PrimaryTextFieldBindable.svelte";
-  import RowToRight from "@components/Row/RowToRight.svelte";
+  import Row from "@components/Row/Row.svelte";
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
   import Select from "@components/Select/Select.svelte";
@@ -177,14 +177,14 @@
         --margin-top="1.5em"
       />
     {/await}
-    <RowToRight --padding-right="1em" --margin-top="1.5em">
+    <Row --justify-content="flex-end"  --padding-right="1em" --margin-top="1.5em">
       <SecondaryButton onclick={() => handleCancel()}
         >Hủy bỏ thay đổi</SecondaryButton
       >
       <PrimaryButton variant="orange" onclick={() => handleSave()}
         >Lưu</PrimaryButton
       >
-    </RowToRight>
+    </Row>
   </section>
 </BasicCenterLayout>
 

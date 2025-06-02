@@ -11,17 +11,17 @@
   import { ZodError, type ZodIssue } from "zod";
   import type { PageData } from "./$types";
   import type { EventSubmitElements } from "@/shared.types";
-  import RowToRight from "@components/Row/RowToRight.svelte";
   import { invalidate } from "$app/navigation";
   import transformCurrencyUnitToTable from "@useCases/currencyUnitUseCase/transformCurrencyUnitToTable";
   import createCurrencyUnit from "@useCases/currencyUnitUseCase/createCurrencyUnit";
-  import RowToLeft from "@components/Row/RowToLeft.svelte";
+  import Row from "@components/Row/Row.svelte";
   import type { CurrencyUnit } from "@useCases/useCases.types";
   import updateCurrencyUnit from "@useCases/currencyUnitUseCase/updateCurrencyUnit";
   import deleteCurrencyUnit from "@useCases/currencyUnitUseCase/deleteCurrencyUnit";
   import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
   import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
+  import Container from "@components/Container/Container.svelte";
 
   type CurrencyUnitUpdateDto = Omit<CurrencyUnit, "createdAt" | "updatedAt">;
   let { data }: { data: PageData } = $props();
@@ -95,7 +95,7 @@
 
 <TitleWebPage title={modelName} />
 <BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
-  <RowToRight>
+  <Row --justify-content="flex-end">
     <PrimaryButton
       onclick={(e) => {
         e.stopPropagation();
@@ -105,20 +105,24 @@
       variant="orange"
       --margin-bottom="0.5em">Thêm</PrimaryButton
     >
-  </RowToRight>
-  <Table hasAction {headers}>
-    {#await data.currencyUnit}
-      <RowSkeleton col={3} />
-    {:then listData}
-      {#each transformCurrencyUnitToTable(listData) as item}
-        <TableRow
-          row={item}
-          onDelete={() => openConfirmDelete(item)}
-          onEdit={() => openUpdateModal(item)}
-        />
-      {/each}
-    {/await}
-  </Table>
+  </Row>
+  <Container>
+    <Row --padding="1em 1em 1em 1.5em"></Row>
+    <Table hasAction {headers}>
+      {#await data.currencyUnit}
+        <RowSkeleton col={3} />
+      {:then listData}
+        {#each transformCurrencyUnitToTable(listData) as item}
+          <TableRow
+            row={item}
+            onDelete={() => openConfirmDelete(item)}
+            onEdit={() => openUpdateModal(item)}
+          />
+        {/each}
+      {/await}
+    </Table>
+    <Row --padding="1em 1em 1em 1.5em"></Row>
+  </Container>
 </BasicCenterLayout>
 
 {#snippet createModal()}
@@ -150,10 +154,10 @@
         errorId="currencyUnitName"
         onfocus={resetError}
       ></PrimaryTextField>
-      <RowToLeft>
+      <Row>
         <PrimaryButton variant="orange" type="submit">Thêm</PrimaryButton>
         <SecondaryButton onclick={() => closeModal()}>Hủy</SecondaryButton>
-      </RowToLeft>
+      </Row>
     </form>
   </div>
 {/snippet}
