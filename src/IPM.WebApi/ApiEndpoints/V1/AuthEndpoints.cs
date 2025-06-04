@@ -24,7 +24,7 @@ public class AuthEndpoints
                     SignInResponse res = await handler.Handle(req);
                     if (res.IsSuccess)
                     {
-                        SetTokenInsideCookie(res.RefreshToken!, httpContext);
+                        SetTokenInsideCookie(res.AccessToken!, res.RefreshToken!, httpContext);
                         return TypedResults.Ok(res);
                     }
                     else
@@ -70,7 +70,7 @@ public class AuthEndpoints
                 var res = await handler.Handle(new RefreshTokenRequest(refreshToken));
                 if (res.IsSuccess)
                 {
-                    SetTokenInsideCookie(res.RefreshToken!, httpContext);
+                    SetTokenInsideCookie(res.AccessToken!, res.RefreshToken!, httpContext);
                     return TypedResults.Ok(res);
                 }
                 else
@@ -82,8 +82,23 @@ public class AuthEndpoints
 
     }
 
-    public static void SetTokenInsideCookie(string refreshToken, HttpContext context)
+    public static void SetTokenInsideCookie(string accessToken, string refreshToken, HttpContext context)
     {
+
+        context.Response.Cookies.Append(
+            "AccessToken",
+            accessToken,
+            new CookieOptions
+            {
+                Expires = DateTime.Now.AddMinutes(10),
+                HttpOnly = true,
+                IsEssential = true,
+                Secure = true,
+                Domain = "localhost",
+                Path = "/",
+                SameSite = SameSiteMode.Strict,
+            }
+        );
         context.Response.Cookies.Append(
             "RefreshToken",
             refreshToken,

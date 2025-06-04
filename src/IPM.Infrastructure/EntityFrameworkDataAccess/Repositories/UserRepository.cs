@@ -64,8 +64,7 @@ public class UserRepository(UserManager<User> userManager, AppDBContext db) : IU
         {
             if (item.Equals("Role"))
             {
-                query = query.Include(e => e.UserRoles)!
-                            .ThenInclude(e => e.Role);
+                query = query.Include(e => e.UserRoles)!.ThenInclude(e => e.Role);
             } else if(item.Equals("Participations"))
                 query = query.Include(e => e.Participations)!.ThenInclude(e => e.Project);
             else {

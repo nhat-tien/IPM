@@ -27,8 +27,8 @@ export default async function login(formData: LoginParam): Promise<LoginResult> 
       },
       credentials: "include",
     }).json();
-    setUserInfo(decodeUserInfoFromJWT(response.accessToken));
-    saveAccessToken(response.accessToken);
+    // setUserInfo(decodeUserInfoFromJWT(response.accessToken));
+    // saveAccessToken(response.accessToken);
     return {
       isSuccess: true,
       error: null,

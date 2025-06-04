@@ -9,8 +9,6 @@ export default async function getProfile(): Promise<User | null> {
       credentials: "include",
     }).json();
 
-    console.log(data);
-
     return data;
 
   } catch(e: any) {

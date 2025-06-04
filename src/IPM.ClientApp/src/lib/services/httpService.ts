@@ -1,7 +1,7 @@
 import ky, { HTTPError } from "ky";
-import { getAccessToken, saveAccessToken } from "./accessTokenService";
 import refreshToken from "@useCases/authUseCases/refreshTokenUseCase";
 import logout from "@useCases/authUseCases/logoutUseCase";
+import { AppLog } from "@utils/log";
 
 const api = ky.create({
   prefixUrl: 'http://localhost:5286/api/v1',
@@ -14,18 +14,20 @@ const apiWithBearerToken = api.extend({
   },
   hooks: {
     beforeRequest: [
-      request => {
-        request.headers.set('Accept', 'application/json');
-        request.headers.set('Authorization', 'Bearer ' + getAccessToken());
-      }
+      // request => {
+      //   request.headers.set('Accept', 'application/json');
+      //   request.headers.set('Authorization', 'Bearer ' + getAccessToken());
+      // }
     ],
     beforeRetry: [
       async ({ error }) => {
         if (error instanceof HTTPError && error.response.status == 401) {
             const res = await refreshToken();
             if (res.isSuccess && res.accessToken) {
-              saveAccessToken(res.accessToken)
+              // saveAccessToken(res.accessToken)
+              AppLog.info("send refresh token successfully")
             } else {
+              AppLog.info("send refresh token fail, log out!")
               logout();
             }
         }

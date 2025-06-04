@@ -6,6 +6,15 @@ export class AppLog {
   }
 
   public static cache(message: string) {
-    console.log(`>>> IPM [CACHE]: ` + message);
+    console.log(`[CACHE]: ` + message);
   }
+
+  public static info(message: string) {
+    console.log(`[INFO]: ` + message);
+  }
+
+  public static refreshToken(message: string) {
+    console.log(`[REFRESH_TOKEN]: ` + message);
+  }
+
 }

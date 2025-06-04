@@ -1,5 +1,5 @@
-import { getAccessToken } from "@services/accessTokenService";
-import { decodeUserInfoFromJWT } from "@services/userInfoService";
+import getUserInfoFromApi from "@useCases/userUseCase/getUserInfoFromApi";
+import { AppLog } from "@utils/log";
 
 type UserInfo = {
   email: string;
@@ -15,12 +15,18 @@ function setUserInfo(newUserInfo: UserInfo) {
   userInfo = newUserInfo;
 }
 
-function getUserInfo(): UserInfo {
+async function getUserInfo(): Promise<UserInfo> {
   if(userInfo == null) {
-    let accessToken = getAccessToken() ;
-    if(accessToken != null) {
-      setUserInfo(decodeUserInfoFromJWT(accessToken));
+    AppLog.cache("miss cache info user")
+    const user = await getUserInfoFromApi();
+    if(user != null) {
+      setUserInfo(user);
+      AppLog.info("update info user successfully")
+    } else {
+      AppLog.info("update info user fail")
     }
+  } else {
+      AppLog.cache("hit cache info user")
   }
   return userInfo;
 }

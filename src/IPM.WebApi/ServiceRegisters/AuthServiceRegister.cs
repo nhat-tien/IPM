@@ -35,19 +35,18 @@ public static class AuthServiceRegister
                     ValidAudience = configuration["Jwt:Audience"],
                     ClockSkew = TimeSpan.Zero,
                 };
-                // o.Events = new JwtBearerEvents
-                // {
-                //     OnMessageReceived = ctx => 
-                //     {
-                //        ctx.Request.Cookies.TryGetValue("AccessToken", out var accessToken);
-                //        if(!string.IsNullOrEmpty(accessToken))
-                //        {
-                //            ctx.Token = accessToken;
-                //        }
-                //        return Task.CompletedTask;
-                //     }
-                // };
-                //
+                o.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = ctx => 
+                    {
+                       ctx.Request.Cookies.TryGetValue("AccessToken", out var accessToken);
+                       if(!string.IsNullOrEmpty(accessToken))
+                       {
+                           ctx.Token = accessToken;
+                       }
+                       return Task.CompletedTask;
+                    }
+                };
             });
         services.AddAuthorizationBuilder()
             .AddPolicy("AdminPermission", policy => policy.RequireRole("Admin"))

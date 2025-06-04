@@ -11,9 +11,8 @@ export default async function get<T>(endpont: KyInstance, id: string | number, q
     return data;
 
   } catch (e: any) {
-
     AppLog.error("Error when fetch API GET");
-
+    console.log(e)
     return null;
   }
 }

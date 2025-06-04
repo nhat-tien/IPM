@@ -1,10 +1,9 @@
 import { goto } from "$app/navigation";
 import { getUserInfo } from "@stores/userInfo.svelte";
 import toast from "svelte-5-french-toast";
-import { getAccessToken } from "./accessTokenService";
 
-export function isCurrentUserHasRole(roles: string[]): boolean {
-  let currentUser = getUserInfo();
+export async function isCurrentUserHasRole(roles: string[]): Promise<boolean> {
+  let currentUser = await getUserInfo();
   for (let role of roles) {
     if (currentUser?.role === role) return true;
   }
@@ -27,9 +26,9 @@ export function routeGuardByRole(roles: string[], fallbackUrl?: string, isNotify
   }
 }
 
-export function routeGuardByAuth() {
-  const accessToken = getAccessToken();
-  if(accessToken == null) {
+export async function routeGuardByAuth() {
+  let currentUser = await getUserInfo();
+  if(currentUser == null) {
     goto("/login");
   }
 }

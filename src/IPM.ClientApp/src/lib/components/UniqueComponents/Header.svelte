@@ -11,7 +11,6 @@
   import UserIcon from "@components/Icons/UserIcon.svelte";
   import { goto } from "$app/navigation";
 
-  let info = getUserInfo();
 </script>
 
 <header>
@@ -20,9 +19,15 @@
     <div class="avatar">
       <FloatMenuWrapper>
         {#snippet centerChild()}
-          <CircleAvatar --radius="30px"
-            >{info?.firstName.charAt(0)}</CircleAvatar
-          >
+          {#await getUserInfo()}
+            <CircleAvatar --radius="30px"
+              >{" "}</CircleAvatar
+            >
+          {:then info}
+            <CircleAvatar --radius="30px"
+              >{info?.firstName.charAt(0)}</CircleAvatar
+            >
+          {/await}
         {/snippet}
         {#snippet menuContainer()}
           <FloatMenu>

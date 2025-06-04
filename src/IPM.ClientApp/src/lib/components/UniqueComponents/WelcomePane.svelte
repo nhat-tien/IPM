@@ -4,12 +4,19 @@
   import Row from "@components/Row/Row.svelte";
   import { getFullName, getUserInfo } from "@stores/userInfo.svelte";
   let name = getFullName();
-  let info = getUserInfo();
 </script>
 <Grid2Column>
   <div class="left-pane">
     <Row --gap="1em">
-      <CircleAvatar --radius="40px">{info?.firstName.charAt(0)}</CircleAvatar>
+          {#await getUserInfo()}
+            <CircleAvatar --radius="40px"
+              >{" "}</CircleAvatar
+            >
+          {:then info}
+            <CircleAvatar --radius="40px"
+              >{info?.firstName.charAt(0)}</CircleAvatar
+            >
+          {/await}
       <div>
         <p class="welcome-text">Chào mừng</p>
         <p class="name">{name}</p>
