@@ -21,7 +21,11 @@ public class Project
     public string? ProjectBudget { get; set; }
 
     public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
+    public DateTime? EndDate { get; set; }
+
+    public bool IsDeleted {get; set; }
+
+    public bool IsReported {get; set; }
 
     public string? ProjectProgress { get; set; }
 

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IPM.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20250307151107_NewMigration")]
+    [Migration("20250606132233_NewMigration")]
     partial class NewMigration
     {
         /// <inheritdoc />
@@ -301,11 +301,17 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<int?>("CurrencyUnitId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("FundedEquipment")
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsReported")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("PercentageOfProgress")
                         .HasColumnType("text");

@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 
 public class Project : BaseEntity
@@ -18,7 +20,13 @@ public class Project : BaseEntity
 
     public DateTime StartDate { get; set; }
 
-    public DateTime EndDate { get; set; }
+    public DateTime? EndDate { get; set; }
+
+    [DefaultValue(false)]
+    public bool IsDeleted {get; set; }
+
+    [DefaultValue(false)]
+    public bool IsReported {get; set; }
 
     public string? ProjectProgress { get; set; }
 
@@ -101,6 +109,8 @@ public class Project : BaseEntity
             FundedEquipment = this.FundedEquipment,
             StartDate = this.StartDate,
             EndDate = this.EndDate,
+            IsDeleted = this.IsDeleted,
+            IsReported = this.IsReported,
             ProjectProgress = this.ProjectProgress,
             PercentageOfProgress = this.PercentageOfProgress,
             AffiliatedUnitId = this.AffiliatedUnitId,
@@ -136,6 +146,8 @@ public class Project : BaseEntity
             FundedEquipment = model.FundedEquipment,
             StartDate = model.StartDate,
             EndDate = model.EndDate,
+            IsDeleted = model.IsDeleted,
+            IsReported = model.IsReported,
             ProjectProgress = model.ProjectProgress,
             PercentageOfProgress = model.PercentageOfProgress,
             AffiliatedUnitId = model.AffiliatedUnitId,
