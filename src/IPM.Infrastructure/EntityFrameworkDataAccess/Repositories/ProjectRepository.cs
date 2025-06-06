@@ -2,6 +2,7 @@ using IPM.Application.IRepositories;
 using IPM.Application.Queries;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Repositories.Common;
+using IPM.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace IPM.Infrastructure.EntityFrameworkDataAccess.Repositories;
@@ -74,6 +75,19 @@ public class ProjectRepository : GenericRepository<Domain.Project, Project>, IPr
         }
 
         return entity.MapTo();
+    }
+
+    public override async Task DeleteByIdAsync(int id) 
+    {
+        Domain.Project? project = await this.FindByIdAsync(id);
+
+        if(project is null) {
+            throw new DbException(DbException.NOT_FOUND, "ProjectRepository", "Not found entity");
+        }
+
+        project.IsDeleted = true; 
+
+        await this.UpdateAsync(project);
     }
 
 }

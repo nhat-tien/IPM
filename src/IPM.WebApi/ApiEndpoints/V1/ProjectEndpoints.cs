@@ -25,11 +25,13 @@ public static class ProjectEndpoints
                     string? include,
                     string? sortBy,
                     string? sortOrd,
+                    string? filter,
                     IGetAllProjectUseCase handler
                 ) =>
                 {
                    var query = new CriteriaQuery()
                    {
+                       Filter = filter,
                        Include = include,
                        SortColumn = sortBy,
                        SortOrder = sortOrd,

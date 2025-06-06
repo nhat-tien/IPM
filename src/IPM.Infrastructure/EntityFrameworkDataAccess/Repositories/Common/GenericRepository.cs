@@ -36,12 +36,13 @@ public abstract class GenericRepository<TDomain, TEntity>
         await db.SaveChangesAsync();
     }
 
-    public async Task DeleteByIdAsync(int id)
+    public virtual async Task DeleteByIdAsync(int id)
     {
-        try {
+        try
+        {
             await WhereId(id).ExecuteDeleteAsync();
         }
-        catch(PostgresException e)
+        catch (PostgresException e)
         {
             DbExceptionHandler.TryHandle(e, this.GetType().ToString());
         }
@@ -63,16 +64,103 @@ public abstract class GenericRepository<TDomain, TEntity>
         return query;
     }
 
+    protected virtual IQueryable<TEntity> Filter(IQueryable<TEntity> query, List<FilterItem> filterItem)
+    {
+        foreach (var item in filterItem)
+        {
+            string property = item.Property;
+            string op = item.Operator;
+            object value = item.Value;
+
+            var param = Expression.Parameter(typeof(TEntity), "e");
+            var propExpression = Expression.Property(param, property);
+
+            if (propExpression.Type != typeof(string))
+                value = Convert.ChangeType(value, propExpression.Type);
+
+            Expression<System.Func<TEntity, bool>> filterLambda;
+            switch (op)
+            {
+                case "<":
+                    filterLambda = Expression.Lambda<Func<TEntity, bool>>(
+                       Expression.LessThan(
+                           propExpression,
+                           Expression.Constant(value)
+                       ),
+                       param
+                   );
+                    break;
+                case ">":
+                    filterLambda = Expression.Lambda<Func<TEntity, bool>>(
+                       Expression.GreaterThan(
+                           propExpression,
+                           Expression.Constant(value)
+                       ),
+                       param
+                   );
+                    break;
+                case "=":
+                    filterLambda = Expression.Lambda<Func<TEntity, bool>>(
+                       Expression.Equal(
+                           propExpression,
+                           Expression.Constant(value)
+                       ),
+                       param
+                   );
+                    break;
+                case ">=":
+                    filterLambda = Expression.Lambda<Func<TEntity, bool>>(
+                       Expression.GreaterThanOrEqual(
+                           propExpression,
+                           Expression.Constant(value)
+                       ),
+                       param
+                   );
+                    break;
+                case "<=":
+                    filterLambda = Expression.Lambda<Func<TEntity, bool>>(
+                       Expression.LessThanOrEqual(
+                           propExpression,
+                           Expression.Constant(value)
+                       ),
+                       param
+                   );
+                    break;
+                case "!=":
+                    filterLambda = Expression.Lambda<Func<TEntity, bool>>(
+                       Expression.NotEqual(
+                           propExpression,
+                           Expression.Constant(value)
+                       ),
+                       param
+                   );
+                    break;
+                default:
+                    filterLambda = Expression.Lambda<Func<TEntity, bool>>(
+                   Expression.Equal(
+                       propExpression,
+                       Expression.Constant(value)
+                   ),
+                   param
+                   );
+                    break;
+            }
+            query = query.Where(filterLambda);
+        }
+        return query;
+    }
+
     protected virtual IQueryable<TEntity> Sort(
         IQueryable<TEntity> query,
         Expression<Func<TEntity, object>> keySelector,
         bool isDesc = false
     )
     {
-        if(isDesc)
+        if (isDesc)
         {
             query = query.OrderByDescending(keySelector);
-        } else 
+        }
+        else
         {
             query = query.OrderBy(keySelector);
         }
@@ -83,9 +171,13 @@ public abstract class GenericRepository<TDomain, TEntity>
     {
         IQueryable<TEntity> query = db.Set<TEntity>();
 
-        if(queryParam.Include is not null)
+        if (queryParam.Include is not null)
         {
             query = IncludeWith(query, queryParam.GetIncludeList);
+        }
+        if (queryParam.Filter is not null)
+        {
+            query = Filter(query, queryParam.GetFilterList());
         }
 
         List<TEntity> entity = await query.ToListAsync();
@@ -110,7 +202,7 @@ public abstract class GenericRepository<TDomain, TEntity>
     {
         IQueryable<TEntity> query = WhereId(id);
 
-        if(queryParam.Include is not null)
+        if (queryParam.Include is not null)
         {
             query = IncludeWith(query, queryParam.GetIncludeList);
         }
@@ -128,7 +220,7 @@ public abstract class GenericRepository<TDomain, TEntity>
     public virtual async Task<IEnumerable<TDomain>> GetBy(IQueryable<TEntity> query, CriteriaQuery queryParam)
     {
 
-        if(queryParam.Include is not null)
+        if (queryParam.Include is not null)
         {
             query = IncludeWith(query, queryParam.GetIncludeList);
         }
@@ -153,7 +245,8 @@ public abstract class GenericRepository<TDomain, TEntity>
         PropertyInfo[] properties = typeOfModel.GetProperties();
         foreach (PropertyInfo property in properties)
         {
-            if(property.Name == "CreatedAt") {
+            if (property.Name == "CreatedAt")
+            {
                 continue;
             }
             if (property.GetValue(domain) is not null)

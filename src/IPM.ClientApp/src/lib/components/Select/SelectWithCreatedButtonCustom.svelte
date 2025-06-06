@@ -3,6 +3,7 @@
   import ChevronDownIcon from "@components/Icons/ChevronDownIcon.svelte";
   import CloseCircleSolidIcon from "@components/Icons/CloseCircleSolidIcon.svelte";
   import PlusIcon from "@components/Icons/PlusIcon.svelte";
+  import handleElementClickBoundary from "@lib/helpers/handleElementClickBoundary";
   import type { OptionType } from "@useCases/useCases.types";
   import Fuse from "fuse.js";
 
@@ -51,26 +52,19 @@
     selectFn(selectValue);
   }
 
-  let container: HTMLDivElement | null = $state(null);
   let input: HTMLInputElement | null = $state(null);
 
-  function onWindowClick(e: WindowMouseEvent) {
-    if (!container) {
-      return;
-    }
-    if (container.contains(e.target as Node) == false) {
-      isShowDropdown = false;
-    }
-  }
-
   $effect(() => {
-    if(input) {
-      input.focus()
+    if (input) {
+      input.focus();
     }
-  })
+  });
+
+  const handleClickBoundary = {
+    onOutside: () => (isShowDropdown = false),
+  };
 </script>
 
-<svelte:window onclick={onWindowClick} />
 <div class="select-container">
   {#if label != null}
     <p>
@@ -80,12 +74,15 @@
       {/if}
     </p>
   {/if}
-  <div bind:this={container} class="select-with-button">
+  <div
+    class="select-with-button"
+    {@attach handleElementClickBoundary(handleClickBoundary)}
+  >
     <div class="select">
-      <button class="value-show" onclick={() => (isShowDropdown = true)}> 
+      <button class="value-show" onclick={() => (isShowDropdown = true)}>
         {#if value}
           <span class="value">{value}</span>
-          {:else}
+        {:else}
           <span class="placeHolder">{placeHolder}</span>
         {/if}
       </button>

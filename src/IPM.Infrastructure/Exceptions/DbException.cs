@@ -7,6 +7,8 @@ public class DbException: Exception
 
     public const string FOREIGN_KEY_VIOLATION = "23503";
 
+    public const string NOT_FOUND = "NOT_FOUND";
+
     public DbException(string? message) : base(message)
     {
     }
