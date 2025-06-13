@@ -11,10 +11,9 @@
   import Table from "@components/Table/Table.svelte";
   import TableRow from "@components/Table/TableRow.svelte";
   import type { Participation } from "@useCases/useCases.types";
-  import Container from "@components/Container/Container.svelte";
-  import Title from "@components/Title/Title.svelte";
-  import TitleRow from "@components/Row/TitleRow.svelte";
   import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
+  import Card from "@components/Card/Card.svelte";
+  import BoxRowButton from "@components/BoxRow/BoxRowButton.svelte";
   const { data }: { data: PageData } = $props();
 
   const transformParticipateToTable = (e: Participation) => {
@@ -57,8 +56,7 @@
       Chỉnh sửa
     </IconButton>
   </Row>
-  <div class="container">
-    <h2>Thông tin dự án</h2>
+  <Card --card-padding="1em" title={"Thông tin dự án"}>
     <Col2>
       <FieldDisplay.Root>
         <FieldDisplay.Label>Tên dự án (Tiếng Việt)</FieldDisplay.Label>
@@ -133,11 +131,13 @@
         >
       </FieldDisplay.Root>
     </Col2>
-  </div>
-  <Container --margin-top="1em">
-    <TitleRow --margin-bottom="1em" --margin-top="0">
-      <Title>Thành viên</Title>
-    </TitleRow>
+  </Card>
+  <Card
+    --margin-top="1em"
+    title={"Thành viên"}
+    description="Danh sách thành viên"
+  >
+    <Row></Row>
     <Table headers={["Họ lót", "Tên", "Email"]}>
       {#each data.project.participations as member}
         {@const row = transformParticipateToTable(member)}
@@ -145,11 +145,9 @@
       {/each}
     </Table>
     <Row></Row>
-  </Container>
-  <Container --margin-top="1em">
-    <TitleRow --margin-bottom="1em" --margin-top="0">
-      <Title>File</Title>
-    </TitleRow>
+  </Card>
+  <Card --margin-top="1em" title={"File"}>
+    <Row></Row>
     <Table headers={["Tên File"]}>
       {#await data.files}
         <RowSkeleton col={1} />
@@ -160,18 +158,22 @@
       {/await}
     </Table>
     <Row></Row>
-  </Container>
+  </Card>
+  <Card>
+    <BoxRowButton
+      title={"Báo cáo dự án"}
+      description={"Gửi dự án báo cáo"}
+      btnLabel={"Báo cáo"}
+      onclick={() => {}}
+      --border-bottom="none"
+      --border-top="none"
+    />
+    <BoxRowButton
+      title={"Kết thúc dự án"}
+      description={"Dự án này sẽ kết thúc và không ai có thể chỉnh sửa"}
+      btnLabel={"Kết thúc"}
+      onclick={() => {}}
+      --border-bottom="none"
+    />
+  </Card>
 </BasicCenterLayout>
-
-<style lang="scss">
-  .container {
-    background-color: $white-clr;
-    border: 1px solid $gray-clr;
-    border-radius: 15px;
-    padding: 1em;
-    margin-top: 1em;
-  }
-  h2 {
-    margin-bottom: 1em;
-  }
-</style>

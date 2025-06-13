@@ -68,7 +68,7 @@
   </div>
   <LoadingButton {isLoading} type="submit">Đăng nhập</LoadingButton>
 </form>
-<p class="register">Chưa có tài khoản? <a href="/register">Đăng kí</a></p>
+<p class="register">Chưa có tài khoản? <a href="/register?no_check_user=true">Đăng kí</a></p>
 
 <style lang="scss">
   h1 {

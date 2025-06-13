@@ -1,5 +1,5 @@
 <script lang="ts">
-  import handleElementClickBoundary from "@/lib/helpers/handleElementClickBoundary";
+  import clickOutside from "@lib/helpers/clickOutside";
   import type { Snippet } from "svelte";
   import { fly } from "svelte/transition";
 
@@ -9,16 +9,12 @@
   };
   const { centerChild, menuContainer }: FloatMenuWrapperProps = $props();
   let isShow = $state(false);
-  const handleClickBoundary = {
-    onInside: () => isShow = !isShow,
-    onOutside: () => isShow = false,
-  }
 </script>
 
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="float-menu-wrapper" {@attach handleElementClickBoundary(handleClickBoundary) }>
+<div class="float-menu-wrapper" onclick={() => isShow = !isShow} onclickoutside={() => isShow = false} {@attach clickOutside({}) } >
   <div class="center-child">
     {@render centerChild()}
   </div>

@@ -7,7 +7,28 @@ const api = ky.create({
   prefixUrl: 'http://localhost:5286/api/v1',
 });
 
-const apiWithBearerToken = api.extend({
+const apiWithoutAutoLogout = api.extend({
+  retry: {
+    limit: 3,
+    statusCodes: [401]
+  },
+  hooks: {
+    beforeRetry: [
+      async ({ error }) => {
+        if (error instanceof HTTPError && error.response.status == 401) {
+            const res = await refreshToken();
+            if (res.isSuccess && res.accessToken) {
+              AppLog.info("send refresh token successfully")
+            } else {
+              AppLog.info("send refresh token fail")
+            }
+        }
+      }
+    ],
+  }
+})
+
+const apiWithAutoLogout = api.extend({
   retry: {
     limit: 3,
     statusCodes: [401]
@@ -20,15 +41,19 @@ const apiWithBearerToken = api.extend({
       // }
     ],
     beforeRetry: [
-      async ({ error }) => {
+      async ({ error, retryCount }) => {
+        AppLog.info("Retry " + retryCount)
+        if(retryCount == 3) {
+          logout();
+          return;
+        }
         if (error instanceof HTTPError && error.response.status == 401) {
             const res = await refreshToken();
             if (res.isSuccess && res.accessToken) {
               // saveAccessToken(res.accessToken)
               AppLog.info("send refresh token successfully")
             } else {
-              AppLog.info("send refresh token fail, log out!")
-              logout();
+              AppLog.info("send refresh token fail")
             }
         }
       }
@@ -36,12 +61,16 @@ const apiWithBearerToken = api.extend({
   }
 });
 
-const apiEndPointFactory = (endpoint: string) => apiWithBearerToken.extend((option) => ({
+const apiEndPointFactory = (endpoint: string) => apiWithAutoLogout.extend((option) => ({
   prefixUrl: `${option.prefixUrl}/${endpoint}`,
 }));
 
 export const authEndPoint = api.extend((option) => ({
   prefixUrl: `${option.prefixUrl}/auth`,
+}));
+
+export const userInfoEndPoint = apiWithoutAutoLogout.extend((option) => ({
+  prefixUrl: `${option.prefixUrl}/auth`
 }));
 
 export const affiliatedUnitEndPoint = apiEndPointFactory("affiliatedUnits");

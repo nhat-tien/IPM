@@ -7,17 +7,17 @@
   import PencilIcon from "@components/Icons/PencilIcon.svelte";
   import TrashIcon from "@components/Icons/TrashIcon.svelte";
 
-  const {
-    row,
-    onView,
-    onEdit,
-    onDelete,
-  }: {
+  interface Params {
     row: string[];
     onDelete?: () => void;
     onEdit?: () => void;
     onView?: () => void;
-  } = $props();
+    onDeleteLabel?: string; 
+    onEditLabel?: string;
+    onViewLabel?: string; 
+  }
+  const { row, onView, onEdit, onDelete, onViewLabel, onEditLabel, onDeleteLabel }: Params = $props();
+
 </script>
 
 <tr>
@@ -36,34 +36,34 @@
           {#snippet menuContainer()}
             <FloatMenu>
               {#if onView}
-              <FloatMenuItem>
-                <button class="button-view" onclick={onView}>
-                  <div class="icon">
-                    <EyeIcon --stroke="hsl(30, 0%, 30%)" />
-                  </div>
-                  Xem
-                </button>
-              </FloatMenuItem>
+                <FloatMenuItem>
+                  <button class="button-view" onclick={onView}>
+                    <div class="icon">
+                      <EyeIcon --stroke="hsl(30, 0%, 30%)" />
+                    </div>
+                    {onViewLabel ?? "Xem"}
+                  </button>
+                </FloatMenuItem>
               {/if}
               {#if onEdit}
-              <FloatMenuItem>
-                <button class="button-edit" onclick={onEdit}>
-                  <div class="icon">
-                    <PencilIcon --stroke="hsl(40, 84%, 48%)" />
-                  </div>
-                  Chỉnh sửa
-                </button>
-              </FloatMenuItem>
+                <FloatMenuItem>
+                  <button class="button-edit" onclick={onEdit}>
+                    <div class="icon">
+                      <PencilIcon --stroke="hsl(40, 84%, 48%)" />
+                    </div>
+                    {onEditLabel ?? "Chỉnh sửa"}
+                  </button>
+                </FloatMenuItem>
               {/if}
               {#if onDelete}
-              <FloatMenuItem>
-                <button class="button-delete" onclick={onDelete}>
-                  <div class="icon">
-                    <TrashIcon --stroke=" hsl(0, 84%, 48%)" />
-                  </div>
-                  Xóa
-                </button>
-              </FloatMenuItem>
+                <FloatMenuItem>
+                  <button class="button-delete" onclick={onDelete}>
+                    <div class="icon">
+                      <TrashIcon --stroke=" hsl(0, 84%, 48%)" />
+                    </div>
+                    {onDeleteLabel ?? "Xóa"}
+                  </button>
+                </FloatMenuItem>
               {/if}
             </FloatMenu>
           {/snippet}

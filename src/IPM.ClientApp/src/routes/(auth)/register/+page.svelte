@@ -34,7 +34,7 @@
     isLoading = false;
     if (result.isSuccess) {
       toast.success("Đăng kí thành công");
-      goto("/login");
+      goto("/login?no_check_user=true");
     } else {
       let zodError = result.error as ZodError;
       error = zodError.issues[0].message;
@@ -106,7 +106,7 @@
   </div>
   <LoadingButton --margin-top="1em" {isLoading}>Đăng kí</LoadingButton>
 </form>
-<p>Đã có tài khoản <a href="/login">Đăng nhập</a></p>
+<p>Đã có tài khoản <a href="/login?no_check_user=true">Đăng nhập</a></p>
 
 <style lang="scss">
   form {

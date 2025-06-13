@@ -1,6 +1,7 @@
 using IPM.Application.UseCases.Auth.LoginUseCase;
 using IPM.Application.UseCases.Auth.RefreshTokenUseCase;
 using IPM.Application.UseCases.Auth.RegisterUseCase;
+using IPM.Application.UseCases.Auth.LogoutUseCase;
 
 using IPM.Application.UseCases.ApprovingAgency.CreateApprovingAgencyUseCase;
 using IPM.Application.UseCases.ApprovingAgency.DeleteApprovingAgencyUseCase;
@@ -75,6 +76,7 @@ public static class UseCaseServiceRegister
     public static IServiceCollection AddUseCaseServices(this IServiceCollection services)
     {
         services.AddScoped<ILoginUseCase, LoginHandler>();
+        services.AddScoped<ILogoutUseCase, LogoutHandler>();
         services.AddScoped<IRegisterUseCase, RegisterHandler>();
         services.AddScoped<IRefreshTokenUseCase, RefreshTokenHandler>();
         services.AddScoped<IGetAllRoleUseCase, GetAllRoleUseCase>();

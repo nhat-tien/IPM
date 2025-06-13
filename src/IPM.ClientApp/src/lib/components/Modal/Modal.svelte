@@ -1,10 +1,13 @@
 <script lang="ts">
+  import clickOutside from "@lib/helpers/clickOutside";
+  import { closeModal } from "@stores/modal.svelte";
   import type { Snippet } from "svelte";
   const { children }: { children: Snippet } = $props();
+  let parentNode: Node | undefined = $state(undefined);
 </script>
 
-<div class="modal-backdrop">
-  <div class="modal">
+<div bind:this={parentNode} class="modal-backdrop" >
+  <div class="modal" onclickoutside={() => closeModal()} {@attach clickOutside({ limit: parentNode}) } >
     <div class="content">
       {@render children()}
     </div>

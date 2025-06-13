@@ -10,6 +10,8 @@ public class UpdateProjectRequest
     public string? ProjectBudget { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
+    public bool IsDeleted {get; set; }
+    public bool IsReported {get; set; }
     public string? ProjectProgress { get; set; }
     public string? PercentageOfProgress { get; set; }
     public int? AffiliatedUnitId { get; set; }
@@ -33,6 +35,8 @@ public class UpdateProjectRequest
             StartDate = this.StartDate,
             EndDate = this.EndDate,
             ProjectProgress = this.ProjectProgress,
+            IsDeleted = this.IsDeleted,
+            IsReported = this.IsReported,
             PercentageOfProgress = this.PercentageOfProgress,
             AffiliatedUnitId = this.AffiliatedUnitId,
             CategoryId = this.CategoryId,

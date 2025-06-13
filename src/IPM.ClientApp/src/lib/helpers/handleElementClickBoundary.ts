@@ -1,22 +1,25 @@
 import type { Attachment } from "svelte/attachments"
 
-function handleElementClickBoundary({ onInside, onOutside }: 
+function handleElementClickBoundary({ onInside, onOutside }:
   {
     onInside?: () => void,
     onOutside?: () => void,
   }
 ): Attachment {
   return (element) => {
-    function onClick(e: any) {
-      if (element.contains(e.target as Node)) {
-        onInside?.();
-      } else {
+    function onClickOutside(e: Event) {
+      if (!element.contains(e.target as Node)) {
         onOutside?.();
       }
     }
-    document.body.addEventListener("click", onClick);
+    function onClickInside() {
+      onInside?.();
+    }
+    document.body.addEventListener("click", onClickOutside);
+    element.addEventListener("click", onClickInside);
     return () => {
-      document.body.removeEventListener("click", onClick)
+      document.body.removeEventListener("click", onClickOutside);
+      element.removeEventListener("click", onClickInside);
     }
   }
 }

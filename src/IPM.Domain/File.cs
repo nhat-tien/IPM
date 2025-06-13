@@ -1,3 +1,4 @@
+
 namespace IPM.Domain;
 
 public class File
@@ -8,6 +9,8 @@ public class File
     public string? Url { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+
+    public bool IsDeleted {get; set; }
 
     public int ProjectId { get; set; }
     public Project? Project { get; set; }

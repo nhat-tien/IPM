@@ -5,6 +5,7 @@ namespace IPM.Application.IRepositories;
 public interface IRefreshTokenRepository
 {
     Task Add(Domain.RefreshToken refreshToken);
+    Task Delete(string refreshToken);
     Task<RefreshToken?> FindByTokenIncludeUser(string refreshToken);
     Task Update(string oldToken, string newToken);
 }

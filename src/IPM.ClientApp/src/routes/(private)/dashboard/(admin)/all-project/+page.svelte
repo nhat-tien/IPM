@@ -41,6 +41,7 @@
       {#each transformProjectToTable(listData) as item}
         <TableRow
           row={item}
+          onViewLabel="Chi tiết"
           onView={() => goto(`project/${item[0]}/view`)}
           onEdit={() => goto(`project/${item[0]}/edit`)}
         />

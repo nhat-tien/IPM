@@ -1,12 +1,10 @@
 using IPM.Application.Queries;
 using IPM.Application.UseCases.User.GetCurrentUserUseCase;
-using IPM.WebApi.Helper;
 using IPM.Application.UseCases.User.GetAllUserUseCase;
 using IPM.Application.UseCases.User.UpdateUserInfoUseCase;
 using IPM.Application.UseCases.User.UploadAvatarUseCase;
+using IPM.WebApi.Helper;
 using IPM.WebApi.Utils;
-using System.Security.Claims;
-using IPM.Application.ResponseDto;
 
 namespace IPM.WebApi.ApiEndpoints.V1;
 
@@ -90,21 +88,5 @@ public class UserEndpoints
             )
             .RequireAuthorization("UserPermission");
 
-        endpoints.MapGet("/info",(
-                    HttpContext context
-                    ) => {
-            if (context.User is ClaimsPrincipal principal)
-            {
-                var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
-                var userEmail = principal.FindFirst(ClaimTypes.Email)?.Value ?? "";
-                var firstName = principal.FindFirst("firstName")?.Value ?? "";
-                var lastName = principal.FindFirst("lastName")?.Value ?? "";
-                var role = principal.FindFirst(ClaimTypes.Role)?.Value ?? "";
-                return Results.Ok(new UserInfo(userId, userEmail, firstName,lastName, role));
-            } else {
-                return Results.BadRequest();
-            }
-        })
-        .RequireAuthorization("UserPermission");
     }
 }

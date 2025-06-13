@@ -43,6 +43,7 @@
     {#each data.user.participations as { project }}
       <TableRow
         row={transformParticipation(project)}
+        onViewLabel="Chi tiết"
         onView={() => goto(`project/${project?.projectId}/view`)}
         onEdit={() => goto(`project/${project?.projectId}/edit`)}
       />

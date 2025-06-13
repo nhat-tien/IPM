@@ -1,9 +1,12 @@
 namespace IPM.WebApi.ApiEndpoints.V1;
 
 using IPM.Application.UseCases.Auth.LoginUseCase;
+using IPM.Application.ResponseDto;
+using IPM.Application.UseCases.Auth.LogoutUseCase;
 using IPM.Application.UseCases.Auth.RefreshTokenUseCase;
 using IPM.Application.UseCases.Auth.RegisterUseCase;
 using IPM.WebApi.EndpointFilters;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 public class AuthEndpoints
@@ -80,6 +83,37 @@ public class AuthEndpoints
             }
         );
 
+        endpoints.MapPost(
+            "/refresh/logout",
+            async Task<Results<Ok, BadRequest>> (HttpContext httpContext, ILogoutUseCase handler) =>
+            {
+                httpContext.Request.Cookies.TryGetValue("RefreshToken", out var refreshToken);
+                if(refreshToken is not null)
+                {
+                    await handler.Handle(refreshToken);
+                }
+                ClearCookies(httpContext);
+                return TypedResults.Ok();
+            }
+        );
+
+        endpoints.MapGet("/info",(
+                    HttpContext context
+                    ) => {
+            if (context.User is ClaimsPrincipal principal)
+            {
+                var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+                var userEmail = principal.FindFirst(ClaimTypes.Email)?.Value ?? "";
+                var firstName = principal.FindFirst("firstName")?.Value ?? "";
+                var lastName = principal.FindFirst("lastName")?.Value ?? "";
+                var role = principal.FindFirst(ClaimTypes.Role)?.Value ?? "";
+                return Results.Ok(new UserInfo(userId, userEmail, firstName,lastName, role));
+            } else {
+                return Results.BadRequest();
+            }
+        })
+        .RequireAuthorization("UserPermission");
+
     }
 
     public static void SetTokenInsideCookie(string accessToken, string refreshToken, HttpContext context)
@@ -111,6 +145,23 @@ public class AuthEndpoints
                 Domain = "localhost",
                 Path = "/api/v1/auth/refresh",
                 SameSite = SameSiteMode.Strict,
+            }
+        );
+    }
+    public static void ClearCookies(HttpContext context)
+    {
+        context.Response.Cookies.Delete("AccessToken",
+                new CookieOptions
+                {
+                    Domain = "localhost",
+                    Path = "/",
+                }
+        );
+        context.Response.Cookies.Delete("RefreshToken",
+            new CookieOptions
+            {
+                Domain = "localhost",
+                Path = "/api/v1/auth/refresh",
             }
         );
     }

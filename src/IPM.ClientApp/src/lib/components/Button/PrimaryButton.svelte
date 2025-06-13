@@ -1,16 +1,19 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
+
+  interface Props {
+    children: Snippet;
+    onclick?: (e: MouseEvent) => void;
+    variant?: "orange" | "black";
+    type?: "button" | "submit" | "reset" | null | undefined;
+    disabled?: boolean;
+  }
   const {
     children,
     onclick = () => {},
-    variant,
+    variant = "orange",
     type = "button",
-  }: {
-    children: Snippet;
-    onclick?: (e: MouseEvent) => void;
-    variant?: "orange";
-    type?: "button" | "submit" | "reset" | null | undefined;
-  } = $props();
+  }: Props = $props();
 
   let variantName = () => {
     switch (variant) {

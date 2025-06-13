@@ -12,6 +12,11 @@ public class RefreshTokenRepository(AppDBContext db) : IRefreshTokenRepository
         await db.SaveChangesAsync();
     }
 
+    public async Task Delete(string refreshToken)
+    {
+        await db.RefreshTokens.Where(e => e.Token == refreshToken).ExecuteDeleteAsync();
+    }
+
     public async Task<Domain.RefreshToken?> FindByTokenIncludeUser(string token)
     {
         RefreshToken? refreshToken = await db.RefreshTokens
