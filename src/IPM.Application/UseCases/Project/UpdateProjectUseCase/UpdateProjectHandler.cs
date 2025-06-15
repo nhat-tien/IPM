@@ -8,6 +8,6 @@ public class UpdateProjectHandler(IProjectRepository repo) : IUpdateProjectUseCa
     { 
         Domain.Project domain = req.MapTo();
         domain.ProjectId = id;
-        await repo.UpdateAsync(domain);
+        await repo.UpdateAsync(domain, req.SetValueProperties);
     }
 }

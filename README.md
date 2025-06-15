@@ -13,18 +13,26 @@
 - Entity Framework Core Tools (dotnet tool install --global dotnet-ef) 
 
 ### Development 
+
+**1. Clone this repo**
+
+```bash
+git clone https://github.com/nhat-tien/IPM.git
+```
+
 > [!tip]
 > ```bash
 > # make file ipm executable
 > chmod +x ipm
+>
 > # run with flag --help to see available commands
 > ./ipm --help
+>
+> # Run this if you want to add it to PATH, 
+> # then you can run just by 'ipm', no need './ipm'
+> ./ipm path:add
 > ```
 
-**1. Clone this repo**
-```bash
-git clone https://github.com/nhat-tien/IPM.git
-```
 
 **2. Setup database connection**
 

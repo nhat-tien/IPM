@@ -1,19 +1,22 @@
 <script lang="ts">
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
+  import type { Snippet } from "svelte";
 
   type Props = {
     title: string;
     description?: string;
-    btnLabel: string;
+    btnLabel?: string;
     isDisableBtn?: boolean;
-    onclick: () => void;
+    button?: Snippet;
+    onclick?: () => void;
   };
   const {
     title,
     description,
-    btnLabel,
-    onclick,
+    btnLabel = "",
+    onclick = () => {},
     isDisableBtn = false,
+    button,
   }: Props = $props();
 </script>
 
@@ -22,9 +25,13 @@
     <p class="title">{title}</p>
     <p class="description">{description}</p>
   </div>
-  <PrimaryButton variant="orange" {onclick} disabled={isDisableBtn}
-    >{btnLabel}</PrimaryButton
-  >
+  {#if button}
+    {@render button()}
+  {:else}
+    <PrimaryButton variant="orange" {onclick} disabled={isDisableBtn}
+      >{btnLabel}</PrimaryButton
+    >
+  {/if}
 </div>
 
 <style lang="scss">
@@ -41,6 +48,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 0.3em;
+    color: var(--box-row-button-color, $text-clr);
   }
   .title {
     font-weight: 700;

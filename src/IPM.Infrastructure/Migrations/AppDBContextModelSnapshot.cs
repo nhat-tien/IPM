@@ -171,6 +171,9 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<int?>("FileTypeId")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("ObjectName")
                         .HasColumnType("text");
 

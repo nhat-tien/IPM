@@ -1,3 +1,4 @@
+
 namespace IPM.Application.UseCases.Project.UpdateProjectUseCase;
 
 public class UpdateProjectRequest
@@ -21,6 +22,7 @@ public class UpdateProjectRequest
     public int? ApprovingAgencyId { get; set; }
     public int? CounterpartyId { get; set; }
     public int? CurrencyUnitId { get; set; }
+    public required List<string> SetValueProperties {get; set;}
 
     public Domain.Project MapTo()
     {

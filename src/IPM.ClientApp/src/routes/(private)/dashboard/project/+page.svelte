@@ -8,7 +8,7 @@
   import { goto } from "$app/navigation";
   import Row from "@components/Row/Row.svelte";
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
-    import Container from "@components/Container/Container.svelte";
+  import Container from "@components/Container/Container.svelte";
 
   const { data }: { data: PageData } = $props();
   let header = "Dự án của tôi";

@@ -11,7 +11,7 @@ export function getDateOrNull(datetime: string): Date | null {
 export function dateToString(date: Date | null): string {
   if(date != null) {
     date.setUTCHours(0,0,0,0);
-    return date.toISOString();
+    return date.toISOString().replace(/\.[0-9]{3}/, '');
   } else {
     return DATETIME_MIN_VALUE_STR;
   }

@@ -20,6 +20,7 @@
     margin-top: var(--margin-top, 0);
     margin-bottom: var(--margin-bottom, 0);
     background-color: $white-clr;
+    width: var(--width, max-content);
     color: var(--color, $text-clr);
     font-family: "Inter SemiBold";
     padding: 0.6em;

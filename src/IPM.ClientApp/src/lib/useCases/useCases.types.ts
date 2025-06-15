@@ -110,19 +110,21 @@ export type Project = {
   percentageOfProgress: string,
   affiliatedUnitId: number,
   affiliatedUnit: AffiliatedUnit | null,
-  categoryId: number,
+  categoryId: number | null,
   category: Category | null,
-  sponsorId: number,
+  sponsorId: number | null,
   sponsor: Sponsor | null,
-  aidTypeId: number,
+  aidTypeId: number | null,
   aidType: AidType | null,
-  approvingAgencyId: number,
+  approvingAgencyId: number | null,
   approvingAgency: ApprovingAgency | null,
-  counterpartyId: number,
+  counterpartyId: number | null,
   counterparty: Counterparty | null,
-  currencyUnitId: number,
-  currencyUnit: CurrencyUnit | null
-  participations: Participation[]
+  currencyUnitId: number | null,
+  currencyUnit: CurrencyUnit | null,
+  participations: Participation[],
+  isDeleted: boolean,
+  isReported: boolean,
 }
 
 export type Role = {

@@ -1,3 +1,4 @@
+using System.Reflection;
 using IPM.Application.IRepositories;
 using IPM.Application.Queries;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
@@ -90,4 +91,28 @@ public class ProjectRepository : GenericRepository<Domain.Project, Project>, IPr
         await this.UpdateAsync(project);
     }
 
+    public async Task UpdateAsync(Domain.Project model, List<string> setValueProperties)
+    {
+        var domainId = GetDomainId(model);
+        Project? entity = await WhereId(domainId).FirstOrDefaultAsync();
+        if (entity is null)
+            return;
+        db.Set<Project>().Attach(entity);
+
+        Type typeOfModel = model.GetType();
+        PropertyInfo[] properties = typeOfModel.GetProperties();
+        foreach (PropertyInfo property in properties)
+        {
+            if (property.Name == "CreatedAt")
+            {
+                continue;
+            }
+            if (property.GetValue(model) is not null || setValueProperties.Contains(property.Name))
+            {
+                db.Entry(entity).Property(property.Name).CurrentValue = property.GetValue(model);
+            }
+        }
+        entity.UpdatedAt = DateTime.UtcNow;
+        await db.SaveChangesAsync();
+    }
 }

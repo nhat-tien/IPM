@@ -18,6 +18,7 @@
   import getIcon from "@utils/getIcon";
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import { invalidate } from "$app/navigation";
+    import Card from "@components/Card/Card.svelte";
 
   let { data }: { data: EditProjectDataPage } = $props();
 
@@ -61,8 +62,12 @@
   }
 </script>
 
-<section class="container">
-  <h2>File đính kèm</h2>
+<Card
+  --card-margin-top="1em"
+  --card-margin-bottom="5em"
+  --card-padding="1em"
+  title="File đính kèm"
+>
   <h3>Danh sách file</h3>
   <ul class="file-list">
     {#await data.files}
@@ -103,7 +108,7 @@
             required
             items={transformFileTypeToOption(fileType)}
             placeHolder=""
-            selectFn={(e) => (fileState.fileTypeId = e.value + "")}
+            selectFn={(e) => (fileState.fileTypeId = e != null ? e.value : "")}
             btnClickFn={() => openModal(createFileTypeModal)}
             --width="60%"
           />
@@ -116,7 +121,7 @@
       <FileUploader callback={(file) => (fileState.file = file)} />
     </div>
   {/if}
-</section>
+</Card>
 
 {#snippet createFileTypeModal()}
   <SingleFieldCreateModal
@@ -131,17 +136,6 @@
 {/snippet}
 
 <style lang="scss">
-  .container {
-    background-color: $white-clr;
-    border: 1px solid $gray-clr;
-    border-radius: 15px;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 5em;
-  }
-  h2 {
-    margin-bottom: 1em;
-  }
   .file-list {
     margin-top: 1em;
   }

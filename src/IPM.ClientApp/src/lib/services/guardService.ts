@@ -18,6 +18,7 @@ type HandlerProps = {
 type Routes = {
   path: string[],
   roles?: string[],
+  ignoreWhen?: (url: URL | undefined) => boolean,
   handler: (props: HandlerProps) => void
 }
 
@@ -37,7 +38,13 @@ export async function isCurrentUserHasRole(roles: string[]): Promise<boolean> {
 
 function guard(options: Options) {
 
-  return async (pathname: string) => {
+  return async ({
+    url,
+    pathname,
+  }: {
+    url?: URL,
+    pathname: string;
+  }) => {
 
     AppLog.info("Guard work");
 
@@ -50,7 +57,12 @@ function guard(options: Options) {
           return pathname === path;
         }
       });
+
       if (!matches) continue;
+
+      if(route.ignoreWhen?.(url)) {
+          continue
+      }
 
       const user = await options.getUserInfo();
 
@@ -80,6 +92,12 @@ const options: Options = {
   routes: [
     {
       path: ["/login", "/register"],
+      ignoreWhen: (url) => {
+        if(url == null) {
+          return false
+        }
+        return url.searchParams.get("no_check_user") === "true";
+      },
       handler: ({ isLoggedIn }) => {
         if (isLoggedIn) {
           goto("/dashboard");

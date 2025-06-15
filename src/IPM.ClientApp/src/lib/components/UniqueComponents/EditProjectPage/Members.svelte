@@ -15,6 +15,7 @@
   import removeMember from "@useCases/projectUseCase/removeMember";
   import toast from "svelte-5-french-toast";
   import { invalidateCache } from "@stores/cache.svelte";
+    import Card from "@components/Card/Card.svelte";
 
   let {
     modelState = $bindable(),
@@ -99,8 +100,12 @@
   }
 </script>
 
-<section class="container">
-  <h2>Thành viên</h2>
+<Card
+  --card-margin-top="1em"
+  --card-margin-bottom="5em"
+  --card-padding="1em"
+  title="Thành viên"
+>
   {#await data.users}
     <SquareSkeleton --width="100%" --height="2em" --radius="5px" />
   {:then users}
@@ -143,7 +148,7 @@
       >Lưu</PrimaryButton
     >
   </Row >
-</section>
+</Card>
 
 <style lang="scss">
   .container {

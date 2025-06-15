@@ -2,7 +2,5 @@ import type { LayoutLoad } from "./$types";
 import guardHook from "@services/guardService";
 
 export const load: LayoutLoad = async ({ url }) => {
-  if(url.searchParams.get("no_check_user") != "true") {
-    await guardHook(url.pathname);
-  }
+    await guardHook({ url: url, pathname: url.pathname });
 }

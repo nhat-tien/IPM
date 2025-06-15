@@ -6,7 +6,6 @@
   import Row from "@components/Row/Row.svelte";
   import IconButton from "@components/Button/IconButton.svelte";
   import PencilIcon from "@components/Icons/PencilIcon.svelte";
-  import Col2 from "@components/Col/Col2.svelte";
   import FieldDisplay from "@components/FieldDisplay";
   import Table from "@components/Table/Table.svelte";
   import TableRow from "@components/Table/TableRow.svelte";
@@ -14,6 +13,13 @@
   import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
   import Card from "@components/Card/Card.svelte";
   import BoxRowButton from "@components/BoxRow/BoxRowButton.svelte";
+  import SecondaryButton from "@components/Button/SecondaryButton.svelte";
+  import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
+  import { closeModal, openModal } from "@stores/modal.svelte";
+  import Grid from "@components/Grid/Grid.svelte";
+  import { invalidateCache } from "@stores/cache.svelte";
+  import toast from "svelte-5-french-toast";
+  import endProject from "@useCases/projectUseCase/endProject";
   const { data }: { data: PageData } = $props();
 
   const transformParticipateToTable = (e: Participation) => {
@@ -22,6 +28,17 @@
       e.user?.firstName ?? "",
       e.user?.email ?? "",
     ];
+  };
+
+  const handleEndProject = async () => {
+    const result = await endProject({
+      id: data.id,
+    });
+
+    if (result.isSuccess) {
+      invalidateCache(`project:${data.id}`);
+      toast.success("Chỉnh sửa dự án thành công");
+    }
   };
 </script>
 
@@ -57,7 +74,7 @@
     </IconButton>
   </Row>
   <Card --card-padding="1em" title={"Thông tin dự án"}>
-    <Col2>
+    <Grid --grid-col="2">
       <FieldDisplay.Root>
         <FieldDisplay.Label>Tên dự án (Tiếng Việt)</FieldDisplay.Label>
         <FieldDisplay.Content>
@@ -130,10 +147,10 @@
           >{data.project.category?.categoryName}</FieldDisplay.Content
         >
       </FieldDisplay.Root>
-    </Col2>
+    </Grid>
   </Card>
   <Card
-    --margin-top="1em"
+    --card-margin-top="1em"
     title={"Thành viên"}
     description="Danh sách thành viên"
   >
@@ -146,7 +163,7 @@
     </Table>
     <Row></Row>
   </Card>
-  <Card --margin-top="1em" title={"File"}>
+  <Card --card-margin-top="1em" title={"File"}>
     <Row></Row>
     <Table headers={["Tên File"]}>
       {#await data.files}
@@ -159,7 +176,7 @@
     </Table>
     <Row></Row>
   </Card>
-  <Card>
+  <Card --card-margin-top="1em" title="Cài đặt">
     <BoxRowButton
       title={"Báo cáo dự án"}
       description={"Gửi dự án báo cáo"}
@@ -172,8 +189,39 @@
       title={"Kết thúc dự án"}
       description={"Dự án này sẽ kết thúc và không ai có thể chỉnh sửa"}
       btnLabel={"Kết thúc"}
-      onclick={() => {}}
+      onclick={() => openModal(confirmEnd)}
       --border-bottom="none"
     />
+    <BoxRowButton
+      title={"Xóa"}
+      description={"Xóa dự án"}
+      --border-bottom="none"
+      --box-row-button-color="hsl(0, 84%, 48%)"
+    >
+      {#snippet button()}
+        <SecondaryButton
+          onclick={() => openModal(confirmDelete)}
+          --color="hsl(0, 84%, 48%)"
+          --border-color="hsl(0, 84%, 48%)">Xóa</SecondaryButton
+        >
+      {/snippet}
+    </BoxRowButton>
   </Card>
 </BasicCenterLayout>
+
+{#snippet confirmEnd()}
+  <MessageBoxConfirm
+    title="Bạn có chắc muốn kết thúc?"
+    description="Dự án sẽ kết thúc và không ai có thể chỉnh sửa"
+    onYes={() => handleEndProject()}
+    onNo={() => closeModal()}
+  />
+{/snippet}
+
+{#snippet confirmDelete()}
+  <MessageBoxConfirm
+    title="Bạn có chắc muốn xóa?"
+    onYes={() => {}}
+    onNo={() => closeModal()}
+  />
+{/snippet}

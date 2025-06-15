@@ -13,7 +13,7 @@
     <button onclick={item.callback}>{item.name}</button>
     {#if index < listOfTitle.length - 1}
       <div class="icon">
-        <ChevronRightIcon --stroke="$text-light-clr" />
+        <ChevronRightIcon --stroke="$text_light_clr" />
       </div>
     {/if}
   {/each}
@@ -27,11 +27,11 @@
     flex-direction: row;
     align-items: center;
     gap: 0.5em;
-    color: $text-light-clr;
+    color: $text_light_clr;
   }
   .icon {
     width: 1em;
-    stroke: $text-light-clr;
+    stroke: $text_light_clr;
     @include center;
   }
   button:hover {

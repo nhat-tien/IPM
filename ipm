@@ -4,17 +4,18 @@ print_help() {
     echo -e "  \e[3mA small script to make dev life better\e[0m"
     echo "  USAGE: ipm [COMMAND]"
     echo ""
-    echo "  COMMAND:  fe:dev          Run FE dev"
-    echo "            fe:build        Build FE"
-    echo "            fe:install      Install FE dependencies"
-    echo "            be:run          Run"
-    echo "            be:dev          Run and hot reload"
-    echo "            be:build        Build"
-    echo "            mg:new <name>   Make new migration"
-    echo "            mg:remove       Remove migration"
-    echo "            db:update       Update database"
-    echo "            db:drop         Drop database"
-    echo "            dk:run          Docker run (not available now)"
+    echo "  COMMAND:  fe:dev           Run FE dev"
+    echo "            fe:build         Build FE"
+    echo "            fe:install       Install FE dependencies"
+    echo "            be:run           Run"
+    echo "            be:dev           Run and hot reload"
+    echo "            be:build         Build"
+    echo "            mg:new <name>    Make new migration"
+    echo "            mg:remove        Remove migration"
+    echo "            db:update        Update database"
+    echo "            db:drop          Drop database"
+    echo "            dk:run           Docker run (not available now)"
+    echo "            path:add <path>  Add ipm cli alias to folder in PATH, default is '~/.local/bin'"
 }
 
 main() {
@@ -70,6 +71,12 @@ main() {
         "be:build")
             echo "dotnet build --project src/IPM.WebApi"
             dotnet build --project src/IPM.WebApi
+            ;;
+        "path:add")
+            echo "CURRENT_FOLDER=\$(cd \"\$(dirname \"\${BASH_SOURCE[0]}\")\" && pwd)"
+            echo "ln -s \"\${\CURRENT_FOLDER}/ipm\" \"\${HOME}/.local/bin/ipm\""
+            CURRENT_FOLDER=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+            ln -s "${CURRENT_FOLDER}/ipm" "${HOME}/.local/bin/ipm"
             ;;
         *)
             echo "Command not found: $1"

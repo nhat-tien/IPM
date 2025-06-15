@@ -20,7 +20,6 @@
         {/if}
       </div>
     </div>
-    <hr class="divider" />
   {/if}
   <div class="body">
     {@render children()}
@@ -32,11 +31,8 @@
     background-color: $white-clr;
     border: 1px solid $gray-clr;
     border-radius: 15px;
-    margin-top: var(--margin-top, 0.5em);
-    margin-bottom: var(--margin-bottom, 0.5em);
-  }
-  .divider {
-    border: 1px solid $gray-clr;
+    margin-top: var(--card-margin-top, 0.5em);
+    margin-bottom: var(--card-margin-bottom, 0.5em);
   }
   .body {
     padding: var(--card-padding, 0);
@@ -46,7 +42,10 @@
   }
   .description {
     margin-top: 0.5em;
-    color: $text-light-clr;
+    color: $text_light_clr;
     font-size: 0.9rem;
+  }
+  .heading {
+    border-bottom: 1px solid $gray-clr;
   }
 </style>

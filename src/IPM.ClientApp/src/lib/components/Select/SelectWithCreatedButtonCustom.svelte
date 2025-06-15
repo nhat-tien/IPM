@@ -1,9 +1,8 @@
 <script lang="ts">
-  import type { WindowMouseEvent } from "@/shared.types";
   import ChevronDownIcon from "@components/Icons/ChevronDownIcon.svelte";
   import CloseCircleSolidIcon from "@components/Icons/CloseCircleSolidIcon.svelte";
   import PlusIcon from "@components/Icons/PlusIcon.svelte";
-  import handleElementClickBoundary from "@lib/helpers/handleElementClickBoundary";
+  import clickOutside from "@lib/helpers/clickOutside";
   import type { OptionType } from "@useCases/useCases.types";
   import Fuse from "fuse.js";
 
@@ -26,7 +25,7 @@
     error?: any[];
     errorId?: string;
     btnClickFn?: () => void;
-    selectFn: (value: OptionType) => void;
+    selectFn: (value: OptionType | null) => void;
   } = $props();
 
   let searchString = $state("");
@@ -45,10 +44,10 @@
     return fuse.search(searchString, { limit: 5 }).map((e) => e.item);
   });
 
-  function handleSelect(selectValue: OptionType) {
+  function handleSelect(selectValue: OptionType | null) {
     searchString = "";
     isShowDropdown = false;
-    value = selectValue.name;
+    value = selectValue ? selectValue.name : null;
     selectFn(selectValue);
   }
 
@@ -59,10 +58,6 @@
       input.focus();
     }
   });
-
-  const handleClickBoundary = {
-    onOutside: () => (isShowDropdown = false),
-  };
 </script>
 
 <div class="select-container">
@@ -76,7 +71,8 @@
   {/if}
   <div
     class="select-with-button"
-    {@attach handleElementClickBoundary(handleClickBoundary)}
+    onclickoutside={() => (isShowDropdown = false)}
+    {@attach clickOutside({})}
   >
     <div class="select">
       <button class="value-show" onclick={() => (isShowDropdown = true)}>
@@ -87,7 +83,7 @@
         {/if}
       </button>
       {#if isShowRemoveIcon}
-        <button class="select-icon remove-icon" onclick={() => (value = null)}>
+        <button class="select-icon remove-icon" onclick={() => handleSelect(null)}>
           <CloseCircleSolidIcon />
         </button>
       {:else}

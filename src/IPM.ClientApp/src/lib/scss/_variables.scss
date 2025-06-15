@@ -1,7 +1,7 @@
 $primary-clr: hsl(0, 0%, 97%);
 $secondary-clr: hsl(20, 100%, 58%); //#ff722b;
 $text-clr: hsl(30, 0%, 0%);
-$text-light-clr: hsl(30, 0%, 50%);
+$text_light_clr: hsl(30, 0%, 50%);
 $gray-clr: hsl(0, 0%, 84%);
 $red-clr: hsl(1, 100%, 60%);
 $white-clr: hsl(0,100%, 100%);
@@ -14,3 +14,8 @@ $icon-clr: #000;
 $delete-clr: hsl(0, 84%, 48%);
 $edit-clr: hsl(40, 84%, 48%);
 $view-clr: hsl(30, 0%, 30%);
+
+
+// Warning icon
+$warning_icon_bg_clr: hsl(0, 84%, 95%);
+$warning_icon_stroke_clr: hsl(0, 84%, 48%);

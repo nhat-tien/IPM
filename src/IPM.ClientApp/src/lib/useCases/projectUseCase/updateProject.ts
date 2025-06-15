@@ -43,14 +43,17 @@ type UpdateProjectData = {
   counterPartyId: number | null,
 }
 
-type UpdateProjectRequest = Omit<Partial<UpdateProjectData>, 'startDate' | 'endDate'> & {
+export type UpdateProjectRequest = Omit<Partial<UpdateProjectData>, 'startDate' | 'endDate'> & {
   startDate?: string,
   endDate?: string,
+  setValueProperties: string[],
 };
 
 export default async function updateProject({ formData, id, project }: { formData: UpdateProjectData, id: string, project: Project }): Promise<UseCaseResult> {
   try {
-    let request: UpdateProjectRequest = {}
+    let request: UpdateProjectRequest = {
+      setValueProperties: []
+    }
 
     if (checkTextField(formData.projectNameVietnamese, project.projectNameVietnamese)) {
       request.projectNameVietnamese = formData.projectNameVietnamese;
@@ -85,42 +88,46 @@ export default async function updateProject({ formData, id, project }: { formDat
     }
 
     if (checkTextField(formData.percentageOfProgress, project.percentageOfProgress)) {
-      request.percentageOfProgress= formData.percentageOfProgress;
+      request.percentageOfProgress = formData.percentageOfProgress;
     }
-    
-    if(checkDate(formData.startDate, project.startDate)) {
+
+    if (checkDate(formData.startDate, project.startDate)) {
       request.startDate = dateToString(formData.startDate);
     }
 
-    if(checkDate(formData.endDate, project.endDate)) {
+    if (checkDate(formData.endDate, project.endDate)) {
       request.endDate = dateToString(formData.endDate);
     }
 
-    if(checkOption(formData.affiliatedUnitId, project.affiliatedUnitId)) {
+    if (checkOption(formData.affiliatedUnitId, project.affiliatedUnitId)) {
       request.affiliatedUnitId = formData.affiliatedUnitId;
+      request.setValueProperties.push("AffiliatedUnitId");
     }
 
-    if(checkOption(formData.categoryId, project.categoryId)) {
+    if (checkOption(formData.categoryId, project.categoryId)) {
       request.categoryId = formData.categoryId;
+      request.setValueProperties.push("CategoryId");
     }
 
-    if(checkOption(formData.sponsorId, project.sponsorId)) {
+    if (checkOption(formData.sponsorId, project.sponsorId)) {
       request.sponsorId = formData.sponsorId;
+      request.setValueProperties.push("SponsorId");
     }
 
-    if(checkOption(formData.aidTypeId, project.aidTypeId)) {
+    if (checkOption(formData.aidTypeId, project.aidTypeId)) {
       request.aidTypeId = formData.aidTypeId;
+      request.setValueProperties.push("AidTypeId");
     }
 
-    if(checkOption(formData.approvingAgencyId, project.approvingAgencyId)) {
+    if (checkOption(formData.approvingAgencyId, project.approvingAgencyId)) {
       request.approvingAgencyId = formData.approvingAgencyId;
+      request.setValueProperties.push("ApprovingAgencyId");
     }
 
-    if(checkOption(formData.counterPartyId, project.counterpartyId)) {
+    if (checkOption(formData.counterPartyId, project.counterpartyId)) {
       request.counterPartyId = formData.counterPartyId;
+      request.setValueProperties.push("CounterPartyId");
     }
-
-    console.log("Update: ", request);
 
     await projectEndPoint.patch(id, {
       json: request,
@@ -151,10 +158,10 @@ function checkTextField(updateProperty: string, oldValue: string): boolean {
 }
 
 function checkDate(updateProperty: Date | null, oldValue: string): boolean {
-    return updateProperty != null && dateToString(updateProperty) != oldValue 
+  return dateToString(updateProperty) != oldValue
 }
 
-function checkOption(updateProperty: number | null, oldValue: number): boolean {
-  return updateProperty != null && updateProperty > 0 && updateProperty != oldValue;
+function checkOption(updateProperty: number | null, oldValue: number | null): boolean {
+  return updateProperty !== oldValue;
 }
 

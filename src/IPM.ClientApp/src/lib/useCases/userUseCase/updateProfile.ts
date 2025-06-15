@@ -21,7 +21,7 @@ type UpdateProfileReqPartial = Partial<UpdateProfileReq>;
 
 export default async function updateProfile(formData: UpdateProfileReq, data: User): Promise<UseCaseResult> {
   try {
-    const info = getUserInfo();
+    const info = await getUserInfo();
 
     UpdateProfileReqScheme.parse(formData);
 

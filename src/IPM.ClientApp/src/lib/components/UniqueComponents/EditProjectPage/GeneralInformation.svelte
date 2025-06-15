@@ -27,6 +27,7 @@
   import updateProject from "@useCases/projectUseCase/updateProject";
   import toast from "svelte-5-french-toast";
   import { invalidateCache } from "@stores/cache.svelte";
+    import Card from "@components/Card/Card.svelte";
 
   let {
     modelState = $bindable(),
@@ -69,8 +70,12 @@
   }
 </script>
 
-<section class="container">
-  <h2>Thông tin dự án</h2>
+<Card
+  --card-margin-top="1em"
+  --card-margin-bottom="5em"
+  --card-padding="1em"
+  title="Thông tin dự án"
+>
   <PrimaryTextFieldBindable
     id="projectNameVietnamese"
     label="Tên dự án Tiếng Việt"
@@ -166,7 +171,7 @@
       value={data.project.affiliatedUnit?.affiliatedUnitName}
       items={transformAffliatedUnitToOption(affiliatedUnit)}
       placeHolder="Chọn đơn vị trực thuộc"
-      selectFn={(e) => (modelState.affiliatedUnitId = parseInt(e.value))}
+      selectFn={(e) => (modelState.affiliatedUnitId = e ? parseInt(e.value) : null)}
       btnClickFn={() => openModal(createAffiliatedUnitModal)}
       --margin-top="1em"
     />
@@ -180,7 +185,7 @@
       value={data.project.category?.categoryName}
       items={transformCategoryToOption(categories)}
       placeHolder="Chọn danh mục"
-      selectFn={(e) => (modelState.categoryId = parseInt(e.value))}
+      selectFn={(e) => (modelState.categoryId = e ? parseInt(e.value) : null)}
       btnClickFn={() => openModal(createCategoryModal)}
       --margin-top="1em"
     />
@@ -194,7 +199,7 @@
       value={data.project.approvingAgency?.approvingAgencyName}
       items={transformApprovingAgencyToOption(approvingAgencies)}
       placeHolder="Chọn cơ quan phê duyệt"
-      selectFn={(e) => (modelState.approvingAgencyId = parseInt(e.value))}
+      selectFn={(e) => (modelState.approvingAgencyId = e ? parseInt(e.value) : null)}
       btnClickFn={() => openModal(createApprovingAgencyModal)}
       --margin-top="1em"
     />
@@ -208,7 +213,7 @@
       value={data.project.sponsor?.sponsorName}
       items={transformSponsorToOption(sponsors)}
       placeHolder="Chọn nhà tài trợ"
-      selectFn={(e) => (modelState.sponsorId = parseInt(e.value))}
+      selectFn={(e) => (modelState.sponsorId = e ? parseInt(e.value) : null)}
       btnClickFn={() => openModal(createSponsorModal)}
       --margin-top="1em"
     />
@@ -222,7 +227,7 @@
       value={data.project.aidType?.aidTypeName}
       items={transformAidTypeToOption(aidTypes)}
       placeHolder="Chọn loại viện trợ"
-      selectFn={(e) => (modelState.aidTypeId = parseInt(e.value))}
+      selectFn={(e) => (modelState.aidTypeId = e ? parseInt(e.value) : null)}
       btnClickFn={() => openModal(createAidTypeModal)}
       --margin-top="1em"
     />
@@ -236,7 +241,7 @@
       value={data.project.counterparty?.counterpartyName}
       items={transformCounterpartyToOption(counterparties)}
       placeHolder="Chọn đối tác"
-      selectFn={(e) => (modelState.counterPartyId = parseInt(e.value))}
+      selectFn={(e) => (modelState.counterPartyId = e ? parseInt(e.value) : null)}
       btnClickFn={() => openModal(createCounterpartyModal)}
       --margin-top="1em"
     />
@@ -250,7 +255,7 @@
       >Lưu</PrimaryButton
     >
   </Row >
-</section>
+</Card>
 
 {#snippet createAffiliatedUnitModal()}
   <SingleFieldCreateModal
@@ -324,12 +329,12 @@
 {/snippet}
 
 <style lang="scss">
-  .container {
-    background-color: $white-clr;
-    border: 1px solid $gray-clr;
-    border-radius: 15px;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 5em;
-  }
+  // .container {
+  //   background-color: $white-clr;
+  //   border: 1px solid $gray-clr;
+  //   border-radius: 15px;
+  //   padding: 1em;
+  //   margin-top: 1em;
+  //   margin-bottom: 5em;
+  // }
 </style>

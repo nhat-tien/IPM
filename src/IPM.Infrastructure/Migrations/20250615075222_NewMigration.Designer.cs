@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IPM.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20250606132233_NewMigration")]
+    [Migration("20250615075222_NewMigration")]
     partial class NewMigration
     {
         /// <inheritdoc />
@@ -173,6 +173,9 @@ namespace IPM.Infrastructure.Migrations
 
                     b.Property<int?>("FileTypeId")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ObjectName")
                         .HasColumnType("text");

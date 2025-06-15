@@ -18,7 +18,7 @@
 
 <style lang="scss">
   button {
-    color: $text-light-clr;
+    color: $text_light_clr;
     padding: 0.5em;
     transition: all .15s ease-in-out;
     border-radius: 5px;
