@@ -26,6 +26,8 @@ public static class ProjectEndpoints
                     string? sortBy,
                     string? sortOrd,
                     string? filter,
+                    int? page,
+                    int? pageSize,
                     IGetAllProjectUseCase handler
                 ) =>
                 {
@@ -35,6 +37,8 @@ public static class ProjectEndpoints
                        Include = include,
                        SortColumn = sortBy,
                        SortOrder = sortOrd,
+                       Page = page,
+                       PageSize = pageSize
                    };
                    return await handler.Handle(query);
                 }
