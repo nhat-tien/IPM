@@ -92,7 +92,10 @@
         </button>
       {/if}
     </div>
-    <button class="create-btn" onclick={btnClickFn}>
+    <button class="create-btn" onclick={() => {
+      btnClickFn?.();
+      isShowDropdown = false
+    }}>
       <PlusIcon --stroke="hsl(0,100%, 100%)" />
     </button>
     {#if isShowDropdown}

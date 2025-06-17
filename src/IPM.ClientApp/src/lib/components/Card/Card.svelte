@@ -5,9 +5,10 @@
     children: Snippet;
     title?: string;
     description?: string;
+    sideArea?: Snippet
   };
 
-  const { children, title, description }: Props = $props();
+  const { children, title, description, sideArea }: Props = $props();
 </script>
 
 <section>
@@ -19,6 +20,11 @@
           <p class="description">{description}</p>
         {/if}
       </div>
+      {#if sideArea}
+      <div class="right">
+          {@render sideArea()}
+      </div>
+      {/if}
     </div>
   {/if}
   <div class="body">
@@ -27,6 +33,9 @@
 </section>
 
 <style lang="scss">
+
+  $header-padding: var(--padding, 1em);
+
   section {
     background-color: $white-clr;
     border: 1px solid $gray-clr;
@@ -37,9 +46,6 @@
   .body {
     padding: var(--card-padding, 0);
   }
-  .left {
-    padding: var(--padding, 1em);
-  }
   .description {
     margin-top: 0.5em;
     color: $text_light_clr;
@@ -47,5 +53,10 @@
   }
   .heading {
     border-bottom: 1px solid $gray-clr;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: $header-padding;
   }
 </style>

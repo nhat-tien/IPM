@@ -1,9 +1,17 @@
 <script lang="ts">
 import { scale } from 'svelte/transition';
 </script>
-<span transition:scale={{duration: 500}} class="loader"></span>
+<div class="wrapper">
+  <span transition:scale={{duration: 500}} class="loader"></span>
+</div>
 <style lang="scss">
+.wrapper {
+  width: calc(var(--font-size, 12px)*5);
+  display: flex;
+  justify-content: center;
+}
 .loader {
+  transform: translateX(calc(var(--font-size, 12px)*1));
   font-size: var(--font-size, 12px);
   width: 1em;
   height: 1em;

@@ -56,11 +56,13 @@
     font-size: 1.4rem;
     font-weight: 700;
     margin: 0.1em 0;
+    text-align: center;
   }
   .description {
     font-size: 1rem;
     font-weight: 300;
     color: $text_light_clr;
     margin-bottom: 1.5em;
+    text-align: center;
   }
 </style>

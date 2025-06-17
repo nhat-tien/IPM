@@ -2,13 +2,13 @@
   import Header from "@components/UniqueComponents/Header.svelte";
   import SideMenu from "@components/UniqueComponents/SideMenu.svelte";
   import type { Snippet } from "svelte";
-
   const { children }: { children: Snippet } = $props();
+  let isSideMenuOpen = $state(true);
 </script>
 
-<Header />
+<Header onClickSideBar={() => isSideMenuOpen = !isSideMenuOpen} />
 <main>
-  <SideMenu />
+  <SideMenu {isSideMenuOpen}/>
   <section class="main-center">
     {@render children()}
   </section>

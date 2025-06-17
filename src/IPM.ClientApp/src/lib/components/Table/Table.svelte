@@ -18,7 +18,7 @@
             <th>{header}</th>
           {/each}
           {#if hasAction}
-            <th class="th-action"></th>
+            <th class="th-action">Thao tác</th>
           {/if}
         </tr>
       </thead>
@@ -31,6 +31,7 @@
 <style lang="scss">
   .table-wrapper {
     border-top: 1px solid $gray-clr;
+    overflow-x: auto;
   }
   table {
     border-spacing: 0;

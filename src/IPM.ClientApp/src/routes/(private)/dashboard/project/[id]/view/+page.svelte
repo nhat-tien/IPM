@@ -2,7 +2,7 @@
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
   import BasicCenterLayout from "@components/Layout/BasicCenterLayout.svelte";
   import type { PageData } from "./$types";
-  import { goto } from "$app/navigation";
+  import { goto, invalidate } from "$app/navigation";
   import Row from "@components/Row/Row.svelte";
   import IconButton from "@components/Button/IconButton.svelte";
   import PencilIcon from "@components/Icons/PencilIcon.svelte";
@@ -20,6 +20,11 @@
   import { invalidateCache } from "@stores/cache.svelte";
   import toast from "svelte-5-french-toast";
   import endProject from "@useCases/projectUseCase/endProject";
+  import Badge from "@components/Badge/Badge.svelte";
+  import { getDateOrNull } from "@utils/datetime";
+  import restartProject from "@useCases/projectUseCase/restartProject";
+  import reportProject from "@useCases/projectUseCase/reportProject";
+  import PrimaryButton from "@components/Button/PrimaryButton.svelte";
   const { data }: { data: PageData } = $props();
 
   const transformParticipateToTable = (e: Participation) => {
@@ -27,7 +32,42 @@
       e.user?.lastName ?? "",
       e.user?.firstName ?? "",
       e.user?.email ?? "",
+      e.owner ? "Chủ dự án" : "Thành viên"
     ];
+  };
+
+  let isLoadingReport = $state(false);
+
+  const handleCancelReportProject = async () => {
+    isLoadingReport = true;
+    const result = await reportProject({
+      id: data.id,
+      isReport: false,
+    });
+
+    if (result.isSuccess) {
+      isLoadingReport = false;
+      invalidateCache(`project:${data.id}`);
+      invalidate("project:view");
+      toast.success("Đã hủy báo cáo dự án");
+      closeModal();
+    }
+  };
+
+  const handleReportProject = async () => {
+    isLoadingReport = true;
+    const result = await reportProject({
+      id: data.id,
+      isReport: true,
+    });
+
+    if (result.isSuccess) {
+      isLoadingReport = false;
+      invalidateCache(`project:${data.id}`);
+      invalidate("project:view");
+      toast.success("Đã gửi báo cáo dự án ");
+      closeModal();
+    }
   };
 
   const handleEndProject = async () => {
@@ -37,9 +77,28 @@
 
     if (result.isSuccess) {
       invalidateCache(`project:${data.id}`);
-      toast.success("Chỉnh sửa dự án thành công");
+      invalidate("project:view");
+      toast.success("Cập nhật trạng thái dự án thành công");
+      closeModal();
     }
   };
+
+  const handleRestartProject = async () => {
+    const result = await restartProject({
+      id: data.id,
+    });
+
+    if (result.isSuccess) {
+      invalidateCache(`project:${data.id}`);
+      invalidate("project:view");
+      toast.success("Cập nhật trạng thái dự án thành công");
+      closeModal();
+    }
+  };
+
+  const isEnd = $derived(getDateOrNull(data.project.endDate) != null);
+
+  $inspect(data.project);
 </script>
 
 <TitleWebPage title="Dự án - Xem chi tiết" />
@@ -74,6 +133,13 @@
     </IconButton>
   </Row>
   <Card --card-padding="1em" title={"Thông tin dự án"}>
+    {#snippet sideArea()}
+      {#if isEnd}
+        <Badge variant="gray">Đã kết thúc</Badge>
+      {:else}
+        <Badge variant="blue">Đang tiến hành</Badge>
+      {/if}
+    {/snippet}
     <Grid --grid-col="2">
       <FieldDisplay.Root>
         <FieldDisplay.Label>Tên dự án (Tiếng Việt)</FieldDisplay.Label>
@@ -155,7 +221,7 @@
     description="Danh sách thành viên"
   >
     <Row></Row>
-    <Table headers={["Họ lót", "Tên", "Email"]}>
+    <Table headers={["Họ lót", "Tên", "Email", "Vai trò"]}>
       {#each data.project.participations as member}
         {@const row = transformParticipateToTable(member)}
         <TableRow {row} />
@@ -177,21 +243,54 @@
     <Row></Row>
   </Card>
   <Card --card-margin-top="1em" title="Cài đặt">
-    <BoxRowButton
-      title={"Báo cáo dự án"}
-      description={"Gửi dự án báo cáo"}
-      btnLabel={"Báo cáo"}
-      onclick={() => {}}
-      --border-bottom="none"
-      --border-top="none"
-    />
-    <BoxRowButton
-      title={"Kết thúc dự án"}
-      description={"Dự án này sẽ kết thúc và không ai có thể chỉnh sửa"}
-      btnLabel={"Kết thúc"}
-      onclick={() => openModal(confirmEnd)}
-      --border-bottom="none"
-    />
+    {#if data.project.isReported}
+      <BoxRowButton
+        title={"Thu hồi báo cáo"}
+        description={"Hủy báo cáo dự án"}
+        --border-bottom="none"
+        --border-top="none"
+      >
+        {#snippet button()}
+          <PrimaryButton
+            variant="orange"
+            onclick={() => handleCancelReportProject()}
+            isLoading={isLoadingReport}>Thu hồi</PrimaryButton
+          >
+        {/snippet}
+      </BoxRowButton>
+    {:else}
+      <BoxRowButton
+        title={"Báo cáo dự án"}
+        description={"Gửi dự án báo cáo"}
+        --border-bottom="none"
+        --border-top="none"
+      >
+        {#snippet button()}
+          <PrimaryButton
+            variant="orange"
+            onclick={() => handleReportProject()}
+            isLoading={isLoadingReport}>Báo cáo</PrimaryButton
+          >
+        {/snippet}
+      </BoxRowButton>
+    {/if}
+    {#if isEnd}
+      <BoxRowButton
+        title={"Khởi động lại dự án"}
+        description={"Khởi động lại dự án này"}
+        btnLabel={"Restart"}
+        onclick={() => openModal(confirmRestart)}
+        --border-bottom="none"
+      />
+    {:else}
+      <BoxRowButton
+        title={"Kết thúc dự án"}
+        description={"Dự án này sẽ kết thúc và không ai có thể chỉnh sửa"}
+        btnLabel={"Kết thúc"}
+        onclick={() => openModal(confirmEnd)}
+        --border-bottom="none"
+      />
+    {/if}
     <BoxRowButton
       title={"Xóa"}
       description={"Xóa dự án"}
@@ -208,6 +307,15 @@
     </BoxRowButton>
   </Card>
 </BasicCenterLayout>
+
+{#snippet confirmRestart()}
+  <MessageBoxConfirm
+    title="Bạn có chắc muốn thực hiện khởi động lại dự án?"
+    description="Dự án sẽ chuyển sang trạng thái đang tiến hành"
+    onYes={() => handleRestartProject()}
+    onNo={() => closeModal()}
+  />
+{/snippet}
 
 {#snippet confirmEnd()}
   <MessageBoxConfirm

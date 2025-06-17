@@ -45,7 +45,9 @@ type UpdateProjectData = {
 
 export type UpdateProjectRequest = Omit<Partial<UpdateProjectData>, 'startDate' | 'endDate'> & {
   startDate?: string,
-  endDate?: string,
+  endDate?: string | null,
+  isDeleted?: boolean,
+  isReported?: boolean,
   setValueProperties: string[],
 };
 

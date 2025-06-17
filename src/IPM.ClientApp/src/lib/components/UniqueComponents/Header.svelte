@@ -9,12 +9,21 @@
   import LogoutIcon from "@components/Icons/LogoutIcon.svelte";
   import Row from "@components/Row/Row.svelte";
   import UserIcon from "@components/Icons/UserIcon.svelte";
-  import { goto } from "$app/navigation";
+  import SideBarIcon from "@components/Icons/SideBarIcon.svelte";
 
+  interface Props {
+    onClickSideBar: () => void
+  }
+  const { onClickSideBar }:Props = $props();
 </script>
 
 <header>
-  <button onclick={() => goto("/dashboard")} class="logo">IPM Demo</button>
+  <div class="left-pane">
+    <button onclick={onClickSideBar} class="side-bar-icon">
+      <SideBarIcon />
+    </button>
+    <a href="/dashboard" class="logo">IPM Demo</a>
+  </div>
   <div class="right-pane">
     <div class="avatar">
       <FloatMenuWrapper>
@@ -75,9 +84,21 @@
     align-items: center;
     justify-content: center;
     font-family: "Inter Bold";
+    width: max-content;
   }
   .icon {
     width: 1.2em;
     @include center;
+  }
+  .side-bar-icon {
+    width: 2em;
+    @include center;
+  }
+
+  .left-pane {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1em;
   }
 </style>

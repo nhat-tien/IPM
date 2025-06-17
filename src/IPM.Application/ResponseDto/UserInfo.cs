@@ -2,7 +2,7 @@ namespace IPM.Application.ResponseDto;
 
 public record UserInfo
 (
-  string UserId,
+  string Sub,
   string Email,
   string FirstName,
   string LastName,

@@ -187,6 +187,30 @@ public abstract class GenericRepository<TDomain, TEntity>
         return listOfDomain;
     }
 
+    public virtual async Task<IEnumerable<TDomain>> GetAllAsync(CriteriaQuery queryParam, Expression<Func<TEntity, object>> sortColumn)
+    {
+        IQueryable<TEntity> query = db.Set<TEntity>();
+
+        if (queryParam.Include is not null)
+        {
+            query = IncludeWith(query, queryParam.GetIncludeList);
+        }
+        if (queryParam.Filter is not null)
+        {
+            query = Filter(query, queryParam.GetFilterList());
+        }
+        if (queryParam.SortColumn is not null && queryParam.SortOrder is not null)
+        {
+            query = Sort(query, sortColumn, queryParam.SortOrder == "desc");
+        }
+
+        List<TEntity> entity = await query.ToListAsync();
+
+        IEnumerable<TDomain> listOfDomain = entity.Select(entity => MapToDomain(entity));
+
+        return listOfDomain;
+    }
+
     public virtual async Task<TDomain?> FindByIdAsync(int id)
     {
         TEntity? entity = await db.Set<TEntity>().FindAsync(id);

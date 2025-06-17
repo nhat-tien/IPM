@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Dot from "@components/Loading/Dot.svelte";
   import type { Snippet } from "svelte";
 
   interface Props {
@@ -7,12 +8,15 @@
     variant?: "orange" | "black";
     type?: "button" | "submit" | "reset" | null | undefined;
     disabled?: boolean;
+    isLoading?: boolean;
   }
   const {
     children,
     onclick = () => {},
     variant = "orange",
     type = "button",
+    disabled = false,
+    isLoading = false 
   }: Props = $props();
 
   let variantName = () => {
@@ -25,7 +29,10 @@
   };
 </script>
 
-<button {onclick} class={variantName()} {type}>
+<button {onclick} class={variantName()} {type} disabled={disabled || isLoading}> 
+  {#if isLoading}
+    <Dot --font-size="10px" />
+  {/if}
   {@render children()}
 </button>
 
@@ -38,13 +45,22 @@
     background-color: var(--background-color, $text-clr);
     color: var(--color, $primary-clr);
     padding: 0.6em;
-    border-radius: 10px;
+    border-radius: 6px;
     opacity: 1;
     width: var(--width, max-content);
     font-size: var(--font-size, 1em);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
   }
   button:hover {
     opacity: 0.8;
+  }
+  button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
   .button--orange {
     background-color: var(--background-color, $text-second-clr);

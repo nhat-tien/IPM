@@ -38,6 +38,7 @@
       return;
     }
     try {
+      console.log(fileState.fileTypeId);
       uploadFileScheme.parse({
         fileTypeId: fileState.fileTypeId,
         file: fileState.file,
@@ -108,7 +109,7 @@
             required
             items={transformFileTypeToOption(fileType)}
             placeHolder=""
-            selectFn={(e) => (fileState.fileTypeId = e != null ? e.value : "")}
+            selectFn={(e) => (fileState.fileTypeId = e != null ? e.value + "" : "")}
             btnClickFn={() => openModal(createFileTypeModal)}
             --width="60%"
           />

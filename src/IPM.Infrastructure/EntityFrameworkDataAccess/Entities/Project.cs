@@ -71,6 +71,8 @@ public class Project : BaseEntity
             FundedEquipment = this.FundedEquipment,
             StartDate = this.StartDate,
             EndDate = this.EndDate,
+            IsDeleted = this.IsDeleted,
+            IsReported = this.IsReported,
             ProjectProgress = this.ProjectProgress,
             PercentageOfProgress = this.PercentageOfProgress,
             AffiliatedUnitId = this.AffiliatedUnitId,

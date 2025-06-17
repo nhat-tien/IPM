@@ -5,7 +5,7 @@ import type { UseCaseResult } from "@useCases/useCases.types";
 
 export default async function uploadAvatar({ avatar }: { avatar: File }): Promise<UseCaseResult> {
   try {
-  const info = getUserInfo();
+  const info = await getUserInfo();
 
   const formData = new FormData();
   formData.append("image", avatar);

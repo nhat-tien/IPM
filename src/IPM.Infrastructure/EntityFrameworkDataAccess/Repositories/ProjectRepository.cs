@@ -45,6 +45,27 @@ public class ProjectRepository : GenericRepository<Domain.Project, Project>, IPr
         return entity.MapTo();
     }
 
+    public override async Task<IEnumerable<Domain.Project>> GetAllAsync(CriteriaQuery queryParam)
+    {
+        if(queryParam.SortColumn is not null) 
+        {
+            IEnumerable<Domain.Project> listOfDomain;
+            switch(queryParam.SortColumn)
+            {
+                case "CreatedAt":
+                    listOfDomain = await GetAllAsync(queryParam, (e) => e.CreatedAt);
+                    break;
+                default:
+                    listOfDomain = await GetAllAsync(queryParam, (e) => e.ProjectId);
+                    break;
+            }
+            return listOfDomain;
+        } else {
+            IEnumerable<Domain.Project> listOfDomain = await GetAllAsync(queryParam, (e) => e.ProjectId);
+            return listOfDomain;
+        }
+    }
+
     protected override IQueryable<Project> IncludeWith(IQueryable<Project> query, string[] includeList)
     {
         foreach (var item in includeList)
