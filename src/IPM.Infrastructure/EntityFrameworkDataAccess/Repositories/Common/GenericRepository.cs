@@ -167,6 +167,18 @@ public abstract class GenericRepository<TDomain, TEntity>
         return query;
     }
 
+    protected virtual IQueryable<TEntity> Pagination(
+        IQueryable<TEntity> query,
+        int skip,
+        int take
+    )
+    {
+        query = query.Skip(skip).Take(take);
+        return query;
+    }
+
+
+
     public virtual async Task<IEnumerable<TDomain>> GetAllAsync(CriteriaQuery queryParam)
     {
         IQueryable<TEntity> query = db.Set<TEntity>();
@@ -178,6 +190,10 @@ public abstract class GenericRepository<TDomain, TEntity>
         if (queryParam.Filter is not null)
         {
             query = Filter(query, queryParam.GetFilterList());
+        }
+        if (queryParam.Page is int page && queryParam.PageSize is int size)
+        {
+            query = Pagination(query, page * size, size);
         }
 
         List<TEntity> entity = await query.ToListAsync();
@@ -202,6 +218,10 @@ public abstract class GenericRepository<TDomain, TEntity>
         if (queryParam.SortColumn is not null && queryParam.SortOrder is not null)
         {
             query = Sort(query, sortColumn, queryParam.SortOrder == "desc");
+        }
+        if (queryParam.Page is int page && queryParam.PageSize is int size)
+        {
+            query = Pagination(query, page * size, size);
         }
 
         List<TEntity> entity = await query.ToListAsync();
