@@ -6,6 +6,6 @@ public class DeleteProjectHandler(IProjectRepository repo): IDeleteProjectUseCas
 {
     public async Task Handle(int id)
     {
-        await repo.DeleteByIdAsync(id);
+        await repo.DeleteSoftByIdAsync(id);
     }
 }

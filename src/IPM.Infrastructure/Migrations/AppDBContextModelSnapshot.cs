@@ -752,31 +752,38 @@ namespace IPM.Infrastructure.Migrations
                 {
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.AffiliatedUnit", "AffiliatedUnit")
                         .WithMany()
-                        .HasForeignKey("AffiliatedUnitId");
+                        .HasForeignKey("AffiliatedUnitId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.AidType", "AidType")
                         .WithMany()
-                        .HasForeignKey("AidTypeId");
+                        .HasForeignKey("AidTypeId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.ApprovingAgency", "ApprovingAgency")
                         .WithMany()
-                        .HasForeignKey("ApprovingAgencyId");
+                        .HasForeignKey("ApprovingAgencyId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Counterparty", "Counterparty")
                         .WithMany()
-                        .HasForeignKey("CounterpartyId");
+                        .HasForeignKey("CounterpartyId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.CurrencyUnit", "CurrencyUnit")
                         .WithMany()
-                        .HasForeignKey("CurrencyUnitId");
+                        .HasForeignKey("CurrencyUnitId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Sponsor", "Sponsor")
                         .WithMany()
-                        .HasForeignKey("SponsorId");
+                        .HasForeignKey("SponsorId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("AffiliatedUnit");
 

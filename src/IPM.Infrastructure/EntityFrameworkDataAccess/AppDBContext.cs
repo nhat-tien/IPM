@@ -46,7 +46,7 @@ public class AppDBContext : IdentityDbContext<
         builder.ApplyConfiguration(new RoleConfiguration());
         builder.ApplyConfiguration(new RefreshTokenConfiguration());
         builder.ApplyConfiguration(new ParticipationConfiguration());
-        // builder.ApplyConfiguration(new ProjectConfiguration());
+        builder.ApplyConfiguration(new ProjectConfiguration());
         // builder.HasDefaultSchema();
     }
 }

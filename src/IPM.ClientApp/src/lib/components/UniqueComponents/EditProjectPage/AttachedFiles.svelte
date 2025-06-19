@@ -69,7 +69,6 @@
   --card-padding="1em"
   title="File đính kèm"
 >
-  <h3>Danh sách file</h3>
   <ul class="file-list">
     {#await data.files}
       <SquareSkeleton />

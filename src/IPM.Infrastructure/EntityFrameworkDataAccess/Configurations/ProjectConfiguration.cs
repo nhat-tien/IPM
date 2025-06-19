@@ -14,5 +14,14 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
         //             l => l.HasOne<User>().WithMany().HasForeignKey(e => e.UserId),
         //             r => r.HasOne<Project>().WithMany().HasForeignKey(e => e.ProjectId)
         //     );
+        foreach (var fk in builder.Metadata.GetForeignKeys())
+        {
+            var propName = fk.Properties.FirstOrDefault()?.Name;
+
+            if (propName?.EndsWith("Id") == true && !fk.IsRequired && propName != "ProjectId")
+            {
+                fk.DeleteBehavior = DeleteBehavior.SetNull;
+            }
+        }
     }
 }

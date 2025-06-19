@@ -6,25 +6,35 @@
   import EyeIcon from "@components/Icons/EyeIcon.svelte";
   import PencilIcon from "@components/Icons/PencilIcon.svelte";
   import TrashIcon from "@components/Icons/TrashIcon.svelte";
+  import type { Snippet } from "svelte";
 
   interface Params {
     row: string[];
     onDelete?: () => void;
     onEdit?: () => void;
     onView?: () => void;
-    onDeleteLabel?: string; 
+    onDeleteLabel?: string;
     onEditLabel?: string;
-    onViewLabel?: string; 
+    onViewLabel?: string;
+    menu?: Snippet;
   }
-  const { row, onView, onEdit, onDelete, onViewLabel, onEditLabel, onDeleteLabel }: Params = $props();
-
+  const {
+    row,
+    onView,
+    onEdit,
+    onDelete,
+    onViewLabel,
+    onEditLabel,
+    onDeleteLabel,
+    menu,
+  }: Params = $props();
 </script>
 
 <tr>
   {#each row as cell}
     <td>{cell}</td>
   {/each}
-  {#if onEdit || onDelete || onView}
+  {#if onEdit || onDelete || onView || menu}
     <td class="td-action">
       <div class="action">
         <FloatMenuWrapper>
@@ -34,38 +44,42 @@
             </div>
           {/snippet}
           {#snippet menuContainer()}
-            <FloatMenu>
-              {#if onView}
-                <FloatMenuItem>
-                  <button class="button-view" onclick={onView}>
-                    <div class="icon">
-                      <EyeIcon --stroke="hsl(30, 0%, 30%)" />
-                    </div>
-                    {onViewLabel ?? "Xem"}
-                  </button>
-                </FloatMenuItem>
-              {/if}
-              {#if onEdit}
-                <FloatMenuItem>
-                  <button class="button-edit" onclick={onEdit}>
-                    <div class="icon">
-                      <PencilIcon --stroke="hsl(40, 84%, 48%)" />
-                    </div>
-                    {onEditLabel ?? "Chỉnh sửa"}
-                  </button>
-                </FloatMenuItem>
-              {/if}
-              {#if onDelete}
-                <FloatMenuItem>
-                  <button class="button-delete" onclick={onDelete}>
-                    <div class="icon">
-                      <TrashIcon --stroke=" hsl(0, 84%, 48%)" />
-                    </div>
-                    {onDeleteLabel ?? "Xóa"}
-                  </button>
-                </FloatMenuItem>
-              {/if}
-            </FloatMenu>
+            {#if menu}
+              {@render menu()}
+            {:else}
+              <FloatMenu>
+                {#if onView}
+                  <FloatMenuItem>
+                    <button class="button-view" onclick={onView}>
+                      <div class="icon">
+                        <EyeIcon --stroke="hsl(30, 0%, 30%)" />
+                      </div>
+                      {onViewLabel ?? "Xem"}
+                    </button>
+                  </FloatMenuItem>
+                {/if}
+                {#if onEdit}
+                  <FloatMenuItem>
+                    <button class="button-edit" onclick={onEdit}>
+                      <div class="icon">
+                        <PencilIcon --stroke="hsl(40, 84%, 48%)" />
+                      </div>
+                      {onEditLabel ?? "Chỉnh sửa"}
+                    </button>
+                  </FloatMenuItem>
+                {/if}
+                {#if onDelete}
+                  <FloatMenuItem>
+                    <button class="button-delete" onclick={onDelete}>
+                      <div class="icon">
+                        <TrashIcon --stroke=" hsl(0, 84%, 48%)" />
+                      </div>
+                      {onDeleteLabel ?? "Xóa"}
+                    </button>
+                  </FloatMenuItem>
+                {/if}
+              </FloatMenu>
+            {/if}
           {/snippet}
         </FloatMenuWrapper>
       </div>

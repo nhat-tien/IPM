@@ -64,6 +64,11 @@ public class UserEndpoints
                 "/profile",
                 async (
                     string? include,
+                    string? sortBy,
+                    string? sortOrd,
+                    string? filter,
+                    int? page,
+                    int? pageSize,
                     HttpContext context,
                     IGetCurrentUserUseCase handler
                 ) =>
@@ -71,6 +76,11 @@ public class UserEndpoints
                    var query = new CriteriaQuery()
                    {
                        Include = include,
+                       Filter = filter,
+                       SortColumn = sortBy,
+                       SortOrder = sortOrd,
+                       Page = page,
+                       PageSize = pageSize
                    };
 
                     var userId = GetUserIdFromHttpContext.Get(context);

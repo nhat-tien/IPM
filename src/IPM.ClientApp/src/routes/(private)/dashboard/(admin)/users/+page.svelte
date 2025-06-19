@@ -25,7 +25,7 @@
 <BasicCenterLayout header={modelName} breadcrumb={[modelName, "Danh sách"]}>
   <Container>
     <Row --padding="1em 1em 1em 1.5em"></Row>
-    <Table {headers}>
+    <Table {headers} hasAction={true}>
       {#await data.users}
         <RowSkeleton {headers} />
       {:then users}

@@ -17,6 +17,7 @@ type HandlerProps = {
 
 type Routes = {
   path: string[],
+  label?: string[],
   roles?: string[],
   ignoreWhen?: (url: URL | undefined) => boolean,
   handler: (props: HandlerProps) => void
@@ -40,16 +41,18 @@ function guard(options: Options) {
 
   return async ({
     url,
-    pathname,
+    label
   }: {
-    url?: URL,
-    pathname: string;
+    url: URL,
+    label?: string
   }) => {
 
     AppLog.info("Guard work");
 
+    const pathname = url.pathname;
+
     for (const route of options.routes) {
-      const matches = route.path.some(path => {
+      let matches = route.path.some(path => {
         if (path.endsWith("/*")) {
           const base = path.slice(0, -2);
           return pathname.startsWith(base);
@@ -57,6 +60,10 @@ function guard(options: Options) {
           return pathname === path;
         }
       });
+
+      if(label && route.label) {
+          matches = route.label?.some(routeLabel => routeLabel === label);
+      }
 
       if (!matches) continue;
 
@@ -106,7 +113,8 @@ const options: Options = {
     },
     {
       path: ["/dashboard/admin/*"],
-      roles: ["admin"],
+      label: ["admin"],
+      roles: ["Admin"],
       handler: ({ isRoleMatch }) => {
         if (!isRoleMatch) {
           goto("/dashboard");

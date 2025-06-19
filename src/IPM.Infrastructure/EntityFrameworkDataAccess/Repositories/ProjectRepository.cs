@@ -99,7 +99,7 @@ public class ProjectRepository : GenericRepository<Domain.Project, Project>, IPr
         return entity.MapTo();
     }
 
-    public override async Task DeleteByIdAsync(int id) 
+    public async Task DeleteSoftByIdAsync(int id) 
     {
         Domain.Project? project = await this.FindByIdAsync(id);
 

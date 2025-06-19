@@ -3,20 +3,26 @@
 
   type Props = {
     children: Snippet;
-    variant?: "blue" | "gray";
+    isHasDot?: boolean
+    variant?: "blue" | "gray" | "green";
   };
 
-  const { children, variant = "blue" }: Props = $props();
+  const { children, variant = "blue", isHasDot = true }: Props = $props();
 </script>
 
 <div class={`badge badge--${variant}`}>
-  <div class="badge-dot"></div>
+  {#if isHasDot}
+    <div class="badge-dot"></div>
+  {/if}
   {@render children()}
 </div>
 
 <style lang="scss">
-  @mixin badge-variant($front-color: hsl(0,100%,50%) , $back-color: hsl(0,100%,96%) ) {
-    color: $front-color; 
+  @mixin badge-variant(
+    $front-color: hsl(0, 100%, 50%),
+    $back-color: hsl(0, 100%, 96%)
+  ) {
+    color: $front-color;
     border-color: $front-color;
     background-color: $back-color;
     .badge-dot {
@@ -28,6 +34,7 @@
   }
 
   .badge {
+    width: max-content;
     font-size: var(--font-size, 0.8rem);
     padding: var(--padding, 0.5em 1em);
     border: var(--border, 1px solid);
@@ -37,10 +44,13 @@
     align-items: center;
     gap: 1ch;
     &--blue {
-      @include badge-variant(hsl(240,100%,60%), hsl(240,100%,96%));
+      @include badge-variant(hsl(240, 100%, 60%), hsl(240, 100%, 96%));
     }
     &--gray {
-      @include badge-variant(hsl(0,0%,30%), hsl(0,0%,96%));
+      @include badge-variant(hsl(0, 0%, 30%), hsl(0, 0%, 96%));
+    }
+    &--green {
+      @include badge-variant(hsl(100, 100%, 20%), hsl(100, 100%, 96%));
     }
   }
 </style>

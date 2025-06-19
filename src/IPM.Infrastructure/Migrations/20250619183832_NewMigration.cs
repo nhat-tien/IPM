@@ -296,37 +296,44 @@ namespace IPM.Infrastructure.Migrations
                         name: "FK_Projects_AffiliatedUnits_AffiliatedUnitId",
                         column: x => x.AffiliatedUnitId,
                         principalTable: "AffiliatedUnits",
-                        principalColumn: "AffiliatedUnitId");
+                        principalColumn: "AffiliatedUnitId",
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Projects_AidTypes_AidTypeId",
                         column: x => x.AidTypeId,
                         principalTable: "AidTypes",
-                        principalColumn: "AidTypeId");
+                        principalColumn: "AidTypeId",
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Projects_ApprovingAgencies_ApprovingAgencyId",
                         column: x => x.ApprovingAgencyId,
                         principalTable: "ApprovingAgencies",
-                        principalColumn: "ApprovingAgencyId");
+                        principalColumn: "ApprovingAgencyId",
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Projects_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "CategoryId");
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Projects_Counterparties_CounterpartyId",
                         column: x => x.CounterpartyId,
                         principalTable: "Counterparties",
-                        principalColumn: "CounterpartyId");
+                        principalColumn: "CounterpartyId",
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Projects_CurrencyUnits_CurrencyUnitId",
                         column: x => x.CurrencyUnitId,
                         principalTable: "CurrencyUnits",
-                        principalColumn: "CurrencyUnitId");
+                        principalColumn: "CurrencyUnitId",
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Projects_Sponsors_SponsorId",
                         column: x => x.SponsorId,
                         principalTable: "Sponsors",
-                        principalColumn: "SponsorId");
+                        principalColumn: "SponsorId",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(

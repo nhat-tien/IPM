@@ -9,4 +9,5 @@ public interface IProjectRepository: IGenericRepository<Project>
     Task<IEnumerable<Domain.Project>> GetAllAsync(CriteriaQuery queryParam);
     Task<Domain.Project?> FindByIdAsync(int id, CriteriaQuery queryParam);
     Task UpdateAsync(Domain.Project model, List<string> setValueProperties);
+    Task DeleteSoftByIdAsync(int id);
 }

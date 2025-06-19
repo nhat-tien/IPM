@@ -25,6 +25,7 @@
   import restartProject from "@useCases/projectUseCase/restartProject";
   import reportProject from "@useCases/projectUseCase/reportProject";
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
+  import softDeleteProject from "@useCases/projectUseCase/softDeleteProject";
   const { data }: { data: PageData } = $props();
 
   const transformParticipateToTable = (e: Participation) => {
@@ -32,7 +33,7 @@
       e.user?.lastName ?? "",
       e.user?.firstName ?? "",
       e.user?.email ?? "",
-      e.owner ? "Chủ dự án" : "Thành viên"
+      e.owner ? "Chủ dự án" : "Thành viên",
     ];
   };
 
@@ -80,6 +81,20 @@
       invalidate("project:view");
       toast.success("Cập nhật trạng thái dự án thành công");
       closeModal();
+    }
+  };
+
+  const handleDeleteProject = async () => {
+    const result = await softDeleteProject({
+      id: data.id,
+    });
+
+    if (result.isSuccess) {
+      invalidateCache(`project:${data.id}`);
+      closeModal();
+      toast.success("Đã xóa dự án");
+      goto("/dashboard/project");
+      // invalidate("project:view");
     }
   };
 
@@ -153,6 +168,7 @@
           {data.project.projectNameEnglish}
         </FieldDisplay.Content>
       </FieldDisplay.Root>
+    </Grid>
       <FieldDisplay.Root>
         <FieldDisplay.Label>Mục tiêu dự án</FieldDisplay.Label>
         <FieldDisplay.Content>
@@ -175,6 +191,7 @@
           >{data.project.percentageOfProgress}</FieldDisplay.Content
         >
       </FieldDisplay.Root>
+    <Grid --grid-col="2">
       <FieldDisplay.Root>
         <FieldDisplay.Label>Đơn vị trực thuộc</FieldDisplay.Label>
         <FieldDisplay.Content
@@ -224,7 +241,14 @@
     <Table headers={["Họ lót", "Tên", "Email", "Vai trò"]}>
       {#each data.project.participations as member}
         {@const row = transformParticipateToTable(member)}
-        <TableRow {row} />
+        <tr>
+          <td>{row[0]}</td>
+          <td>{row[1]}</td>
+          <td>{row[2]}</td>
+          <td>
+            <Badge isHasDot={false} variant="green" >{row[3]}</Badge>
+          </td>
+        </tr>
       {/each}
     </Table>
     <Row></Row>
@@ -329,7 +353,17 @@
 {#snippet confirmDelete()}
   <MessageBoxConfirm
     title="Bạn có chắc muốn xóa?"
-    onYes={() => {}}
+    onYes={() => handleDeleteProject()}
     onNo={() => closeModal()}
   />
 {/snippet}
+
+<style lang="scss">
+
+  td {
+    padding: 1em;
+    width: max-content;
+    max-width: 1000px;
+    border-bottom: 1px solid $gray-clr;
+  }
+</style>

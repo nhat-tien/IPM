@@ -9,7 +9,7 @@ export const load: PageLoad = async ({ params, depends }) => {
   depends(`project:view`);
   const id = params.id;
   const project = await cacheFetch<Project | null>(`project:${id}`,300,() => getProject(id));
-  if (!project) {
+  if (!project || project.isDeleted) {
     error(404, "Not Found");
   }
   return {

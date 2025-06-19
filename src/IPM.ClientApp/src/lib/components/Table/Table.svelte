@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Snippet } from "svelte";
+  import { type Snippet } from "svelte";
 
   type TableProps = {
     hasAction?: boolean;
@@ -41,13 +41,13 @@
   }
   thead {
     background-color: $primary-clr;
-  }
-  thead th {
-    border-bottom: 1px solid $gray-clr;
-    width: max-content;
-    max-width: 1000px;
-    text-align: left;
-    padding: 0.7em 1em;
+    th {
+      border-bottom: 1px solid $gray-clr;
+      width: max-content;
+      max-width: 1000px;
+      text-align: left;
+      padding: 0.7em 1em;
+    }
   }
   .th-action {
     width: fit-content;
