@@ -82,7 +82,7 @@ export type FileType = {
   updatedAt: string
 }
 
-export type File = {
+export type FileApp = {
   fileId: number;
   fileName: string;
   fileType: FileType;
@@ -216,7 +216,7 @@ export type EditProjectDataPage = {
   counterparty: Promise<Counterparty[]>;
   users: Promise<User[]>;
   fileType: Promise<FileType[]>;
-  files: Promise<File[]>;
+  files: Promise<FileApp[]>;
   id: string;
 };
 

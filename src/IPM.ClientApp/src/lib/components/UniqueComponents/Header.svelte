@@ -42,7 +42,7 @@
           <FloatMenu>
             <FloatMenuItem>
               <a href="/dashboard/profile">
-                <Row --margin-top="0" --margin-bottom="0">
+                <Row --padding="0.7em" --margin-top="0" --margin-bottom="0">
                   <div class="icon">
                     <UserIcon />
                   </div>

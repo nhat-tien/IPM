@@ -7,15 +7,16 @@
   const { children }: FloatMenuItemProps = $props();
 </script>
 
-<div>
+<li>
   {@render children()}
-</div>
+</li>
 
 <style lang="scss">
-div {
-  padding: 0.7em;
+li:hover {
+  background-color: hsl(0, 0%,97%);
+  border-radius: 5px;
 }
-div:not(:last-child) {
-  border-bottom: 1px solid $gray-clr;
-}
+// li:not(:last-child) {
+//   border-bottom: 1px solid $gray-clr;
+// }
 </style>

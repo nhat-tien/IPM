@@ -6,7 +6,6 @@
     EditState,
     ParticipationReduce,
   } from "@useCases/useCases.types";
-  import { goto } from "$app/navigation";
   import Tabs from "@components/Tabs/Tabs.svelte";
   import TabItem from "@components/Tabs/TabItem.svelte";
   import GeneralInformation from "@components/UniqueComponents/EditProjectPage/GeneralInformation.svelte";
@@ -14,7 +13,6 @@
   import AttachedFiles from "@components/UniqueComponents/EditProjectPage/AttachedFiles.svelte";
   import { getDateOrNull } from "@utils/datetime";
   import IconButton from "@components/Button/IconButton.svelte";
-  import PencilIcon from "@components/Icons/PencilIcon.svelte";
   import Row from "@components/Row/Row.svelte";
   import ArrowLeftIcon from "@components/Icons/ArrowLeftIcon.svelte";
   const { data }: { data: PageData } = $props();

@@ -1,18 +1,24 @@
 <script lang="ts">
   import clickOutside from "@lib/helpers/clickOutside";
-  import { closeModal } from "@stores/modal.svelte";
   import type { Snippet } from "svelte";
-  const { children }: { children: Snippet } = $props();
+    import { fly } from "svelte/transition";
+  interface Props {
+    children: Snippet;
+    isOpen: boolean;
+  }
+  let { children, isOpen = $bindable(false) }: Props = $props();
   let parentNode: Node | undefined = $state(undefined);
 </script>
 
+{#if isOpen}
 <div bind:this={parentNode} class="modal-backdrop" >
-  <div class="modal" onclickoutside={() => closeModal()} {@attach clickOutside({ limit: parentNode}) } >
+  <div transition:fly={{ x: 50, duration: 600 }} class="modal" onclickoutside={() => isOpen = false} {@attach clickOutside({ limit: parentNode}) } >
     <div class="content">
       {@render children()}
     </div>
   </div>
 </div>
+{/if}
 
 <style lang="scss">
   .modal-backdrop {
@@ -29,16 +35,20 @@
   }
   .modal {
     background-color: $white-clr;
+    position: fixed;
     display: flex;
+    height: 100vh;
+    top: 0;
+    right: 0;
+    width: 500px;
     flex-direction: column;
-    border-radius: 10px;
-    animation: scale-larger 0.07s linear;
     align-items: flex-start;
     text-align: left;
   }
 
   .content {
     padding: 1.5rem;
+    width: 100%;
   }
 
   @keyframes scale-larger {

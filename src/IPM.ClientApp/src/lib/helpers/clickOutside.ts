@@ -12,15 +12,15 @@ function clickOutside({ limit }: Params): Attachment {
       }
     }
     if(limit != null) {
-      limit.addEventListener("click", onClick);
+      limit.addEventListener("mousedown", onClick);
     } else {
-      window.addEventListener("click", onClick)
+      window.addEventListener("mousedown", onClick)
     }
     return () => {
       if(limit != null) {
-        limit.removeEventListener("click", onClick);
+        limit.removeEventListener("mousedown", onClick);
       } else {
-        window.removeEventListener("click", onClick)
+        window.removeEventListener("mousedown", onClick)
       }
     }
   }

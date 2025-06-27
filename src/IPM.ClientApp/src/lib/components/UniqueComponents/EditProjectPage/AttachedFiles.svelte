@@ -5,7 +5,7 @@
   import SquareSkeleton from "@components/Skeleton/SquareSkeleton.svelte";
   import type { EditProjectDataPage } from "@useCases/useCases.types";
   import transformFileTypeToOption from "@useCases/fileTypeUseCase/transformFileTypeToOption";
-  import { openModal } from "@stores/modal.svelte";
+  import { closeModal, openModal } from "@stores/modal.svelte";
   import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
   import createFileType from "@useCases/fileTypeUseCase/createFileType";
   import FileUploader from "@components/FileUploader/FileUploader.svelte";
@@ -21,7 +21,17 @@
   import Card from "@components/Card/Card.svelte";
   import { getUserInfo } from "@stores/userInfo.svelte";
   import Error from "@/routes/+error.svelte";
-    import { getDateOrNull, formatDate } from "@utils/datetime";
+  import { getDateOrNull, formatDate } from "@utils/datetime";
+  import ClockIcon from "@components/Icons/ClockIcon.svelte";
+  import DownloadIcon from "@components/Icons/DownloadIcon.svelte";
+  import ArrowTopRightOnSquare from "@components/Icons/ArrowTopRightOnSquare.svelte";
+  import deleteFile from "@useCases/fileUseCase/deleteFile";
+  import getUrlFile from "@useCases/fileUseCase/downloadFile";
+  import MessageBoxConfirm from "@components/MessageBox/MessageBoxConfirm.svelte";
+
+  import { type FileApp } from "@useCases/useCases.types";
+    import SideDrawer from "@components/SideDrawer/SideDrawer.svelte";
+    import UserBadge from "@components/Badge/UserBadge.svelte";
 
   let { data }: { data: EditProjectDataPage } = $props();
 
@@ -73,14 +83,24 @@
     }
   }
 
-  async function handleDelete() {
-    try {
-    } catch (e: any) {
-      if (e instanceof ZodError) {
-        toast.error(e.errors[0].message);
-      }
+  let deletedFile: FileApp | undefined = $state();
+
+  async function handleDelete(fileId: number) {
+    const result = await deleteFile(fileId);
+
+    if (result.isSuccess) {
+      toast.success("Đã xóa dự án");
+      invalidate("project:edit");
     }
   }
+
+  async function handleDownload(fileId: number) {
+    const result = await getUrlFile(fileId);
+    window.open(result?.url, "_blank");
+  }
+
+  let isOpenDetailFile = $state(false)
+  let selectedFile: FileApp | undefined = $state();
 </script>
 
 <Card
@@ -104,10 +124,30 @@
               <p class="file__filename">{file.fileName}</p>
             </div>
             <div class="file-info__date">
-              <p>{formatDate("H:M d/m/Y",getDateOrNull(file.createdAt))}</p>
+              <div class="icon-date">
+                <ClockIcon />
+              </div>
+              <p>{formatDate("H:M d/m/Y", getDateOrNull(file.createdAt))}</p>
             </div>
-            <div class="icon file-info__action">
-              <TrashIcon --stroke=" hsl(0, 84%, 48%)" />
+            <div class="file-info__action">
+              <button class="icon" onclick={() => {
+                isOpenDetailFile = true;
+                selectedFile = file;
+              }}>
+                <ArrowTopRightOnSquare />
+              </button>
+              <button class="icon" onclick={() => handleDownload(file.fileId)}>
+                <DownloadIcon />
+              </button>
+              <button
+                class="icon"
+                onclick={() => {
+                  deletedFile = file;
+                  openModal(confirmDelete);
+                }}
+              >
+                <TrashIcon --stroke="hsl(0, 84%, 48%)" />
+              </button>
             </div>
           </div>
         </li>
@@ -147,6 +187,28 @@
   {/if}
 </Card>
 
+<SideDrawer bind:isOpen={isOpenDetailFile}>
+  <h3>{selectedFile?.fileName}</h3>
+  <table class="file-detail">
+    <tbody>
+      <tr>
+        <td>Loại file</td>
+        <td>{selectedFile?.fileType.fileTypeName}</td>
+      </tr>
+      <tr>
+        <td>Người tải lên</td>
+        <td>
+          <UserBadge user={selectedFile?.user} />
+        </td>
+      </tr>
+      <tr>
+        <td>Thời gian</td>
+        <td>{formatDate("H:M:s d/m/Y", getDateOrNull(selectedFile?.createdAt ?? ""))}</td>
+      </tr>
+    </tbody>
+  </table>
+</SideDrawer>
+
 {#snippet createFileTypeModal()}
   <SingleFieldCreateModal
     title={`Thêm loại file`}
@@ -156,6 +218,18 @@
     invalidateStr="project:edit"
     successMessage="Thêm thành công"
     createFn={createFileType}
+  />
+{/snippet}
+
+{#snippet confirmDelete()}
+  <MessageBoxConfirm
+    title="Bạn có chắc muốn xóa?"
+    description={`Xóa file ${deletedFile?.fileName}`}
+    onYes={() => {
+      if(deletedFile) handleDelete(deletedFile.fileId)
+      closeModal();
+    }}
+    onNo={() => closeModal()}
   />
 {/snippet}
 
@@ -183,8 +257,10 @@
     font-weight: 600;
   }
   .icon {
-    width: 1.4em;
+    width: 2em;
     @include center;
+    padding: 0.2em;
+    @include hover-button-icon;
   }
   .file-upload-container {
     background-color: $white-clr;
@@ -195,10 +271,31 @@
   }
 
   .file-info__label {
-    width: 35%;
+    width: 50%;
   }
   .file-info__action {
     position: absolute;
     right: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+  }
+  .file-info__date {
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: row;
+    gap: 0.1em;
+  }
+
+  .icon-date {
+    width: 0.9rem;
+    @include center;
+  }
+  .file-detail {
+    width: 100%;
+    margin-top: 10px;
+    td {
+      padding: 10px 0;
+    }
   }
 </style>

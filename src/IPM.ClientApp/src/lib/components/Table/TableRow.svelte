@@ -104,6 +104,7 @@
       flex-direction: row;
       align-items: center;
       gap: 0.5em;
+      padding: 0.7em;
     }
     .icon {
       width: 1.4em;
