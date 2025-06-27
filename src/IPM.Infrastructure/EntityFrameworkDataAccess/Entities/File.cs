@@ -17,6 +17,9 @@ public class File : BaseEntity
     public int? FileTypeId { get; set; }
     public FileType? FileType { get; set; }
 
+    public required string UserId { get; set; }
+    public User? User {get; set;} 
+
     public Domain.File MapTo()
     {
         return new Domain.File()
@@ -26,7 +29,9 @@ public class File : BaseEntity
             ProjectId = this.ProjectId,
             FileTypeId = this.FileTypeId,
             ObjectName = this.ObjectName,
+            UserId = this.UserId,
             FileType = this.FileType is not null ? this.FileType.MapTo() : null,
+            User = this.User is not null ? this.User.MapTo(): null,
             CreatedAt = this.CreatedAt,
             UpdatedAt = this.UpdatedAt,
         };
@@ -40,6 +45,7 @@ public class File : BaseEntity
             FileName = model.FileName,
             ProjectId = model.ProjectId,
             FileTypeId = model.FileTypeId,
+            UserId = model.UserId,
             ObjectName = model.ObjectName,
             CreatedAt = model.CreatedAt,
             UpdatedAt = model.UpdatedAt,

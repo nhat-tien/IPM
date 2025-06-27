@@ -12,7 +12,7 @@ public class CreateProjectHandler(IProjectRepository projectRepo, IParticipation
         {
             ProjectId = project.ProjectId,
             UserId = userId,
-            Owner = true,
+            Role = "OWNER",
         };
         await partRepo.AddAsync(participation);
 

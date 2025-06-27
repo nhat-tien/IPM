@@ -12,6 +12,7 @@ export const load: PageLoad = async ({ params, depends }) => {
   if (!project || project.isDeleted) {
     error(404, "Not Found");
   }
+  console.log(project)
   return {
     project: project,
     files: getAttachedFiles(id),

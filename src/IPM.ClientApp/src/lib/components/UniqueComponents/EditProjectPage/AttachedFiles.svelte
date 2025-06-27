@@ -18,7 +18,10 @@
   import getIcon from "@utils/getIcon";
   import SecondaryButton from "@components/Button/SecondaryButton.svelte";
   import { invalidate } from "$app/navigation";
-    import Card from "@components/Card/Card.svelte";
+  import Card from "@components/Card/Card.svelte";
+  import { getUserInfo } from "@stores/userInfo.svelte";
+  import Error from "@/routes/+error.svelte";
+    import { getDateOrNull, formatDate } from "@utils/datetime";
 
   let { data }: { data: EditProjectDataPage } = $props();
 
@@ -38,23 +41,40 @@
       return;
     }
     try {
-      console.log(fileState.fileTypeId);
       uploadFileScheme.parse({
         fileTypeId: fileState.fileTypeId,
         file: fileState.file,
         projectId: data.id,
       });
 
+      const info = await getUserInfo();
+
+      if (!info) {
+        throw Error;
+      }
+
       const result = await uploadFile({
         fileTypeId: fileState.fileTypeId,
         file: fileState.file,
         projectId: data.id,
+        userId: info?.sub,
       });
       if (result.isSuccess) {
         toast.success("Upload thành công");
         invalidate("project:edit");
         isShowUploadArea = false;
       }
+    } catch (e: any) {
+      if (e instanceof ZodError) {
+        toast.error(e.errors[0].message);
+      } else {
+        toast.error("Xảy ra lỗi");
+      }
+    }
+  }
+
+  async function handleDelete() {
+    try {
     } catch (e: any) {
       if (e instanceof ZodError) {
         toast.error(e.errors[0].message);
@@ -79,11 +99,14 @@
             {@html getIcon(file.fileName)}
           </div>
           <div class="file__info">
-            <div>
+            <div class="file-info__label">
               <p class="file__filetype">{file.fileType.fileTypeName}</p>
               <p class="file__filename">{file.fileName}</p>
             </div>
-            <div class="icon">
+            <div class="file-info__date">
+              <p>{formatDate("H:M d/m/Y",getDateOrNull(file.createdAt))}</p>
+            </div>
+            <div class="icon file-info__action">
               <TrashIcon --stroke=" hsl(0, 84%, 48%)" />
             </div>
           </div>
@@ -108,7 +131,8 @@
             required
             items={transformFileTypeToOption(fileType)}
             placeHolder=""
-            selectFn={(e) => (fileState.fileTypeId = e != null ? e.value + "" : "")}
+            selectFn={(e) =>
+              (fileState.fileTypeId = e != null ? e.value + "" : "")}
             btnClickFn={() => openModal(createFileTypeModal)}
             --width="60%"
           />
@@ -151,8 +175,9 @@
   .file__info {
     flex: 1;
     display: flex;
+    position: relative;
     flex-direction: row;
-    justify-content: space-between;
+    align-items: center;
   }
   .file__filetype {
     font-weight: 600;
@@ -167,5 +192,13 @@
     border-radius: 15px;
     padding: 1em;
     margin-top: 1em;
+  }
+
+  .file-info__label {
+    width: 35%;
+  }
+  .file-info__action {
+    position: absolute;
+    right: 0;
   }
 </style>

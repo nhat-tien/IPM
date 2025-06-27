@@ -16,6 +16,7 @@
   import toast from "svelte-5-french-toast";
   import { invalidateCache } from "@stores/cache.svelte";
     import Card from "@components/Card/Card.svelte";
+    import Badge from "@components/Badge/Badge.svelte";
 
   let {
     modelState = $bindable(),
@@ -28,7 +29,7 @@
       lastName: user.lastName,
       firstName: user.firstName,
       email: user.email,
-      owner: false,
+      role: "MEMBER",
     };
 
     modelState.members.push(userPayload);
@@ -77,7 +78,7 @@
         addMember.push({
           userId: participation.payload.userId,
           projectId: parseInt(data.id),
-          owner: participation.payload.owner,
+          role: participation.payload.role,
         });
       }
       if (participation.type == "delete") {
@@ -128,15 +129,16 @@
           </p>
           <p class="member__email">{member.email}</p>
         </div>
-        {#if !member.owner}
-          <button class="delete-btn" onclick={() => removeUserHandler(member)}>
-            <div class="icon">
-              <TrashIcon --stroke=" hsl(0, 84%, 48%)" />
-            </div>
-          </button>
-        {:else}
-          <div class="owner-label">Chủ dự án</div>
-        {/if}
+        <Badge isHasDot={false} variant="green">{member.role}</Badge>
+        <div>
+          {#if member.role !== "OWNER"}
+            <button class="delete-btn" onclick={() => removeUserHandler(member)}>
+              <div class="icon">
+                <TrashIcon --stroke=" hsl(0, 84%, 48%)" />
+              </div>
+            </button>
+          {/if}
+        </div>
       </div>
     {/each}
   </div>
@@ -168,8 +170,7 @@
   .member {
     margin: 0.5em 0;
     padding: 0.5em;
-    border-radius: 5px;
-    border: 0.5px solid $gray-clr;
+    border-bottom: 0.5px solid $gray-clr;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

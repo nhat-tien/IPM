@@ -8,11 +8,11 @@ const UpdateProfileReqScheme = z.object({
   lastName: z.string(),
   phoneNumber: z.string()
     .length(10, { message: "Chưa đúng định dạng số điện thoại" })
-    .startsWith("0", { message: "Chưa đúng định dạng số điện thoại" }),
+    .startsWith("0", { message: "Chưa đúng định dạng số điện thoại" }).nullable(),
   sex: z.number().min(0).max(2),
-  address: z.string(),
-  positionId: z.number().gt(0),
-  affiliatedUnitId: z.number().gt(0),
+  address: z.string().nullable(),
+  positionId: z.number().gt(0).nullable(),
+  affiliatedUnitId: z.number().gt(0).nullable(),
 });
 
 type UpdateProfileReq = z.infer<typeof UpdateProfileReqScheme>;
@@ -59,6 +59,7 @@ export default async function updateProfile(formData: UpdateProfileReq, data: Us
       req.positionId = formData.positionId;
     }
 
+    console.log("jncj")
     await userEndPoint.patch(`${info?.sub}`, {
       json: req,
       credentials: "include"
@@ -79,7 +80,7 @@ export default async function updateProfile(formData: UpdateProfileReq, data: Us
 }
 
 
-function checkTextField(updateProperty: string, oldValue: string): boolean {
+function checkTextField(updateProperty: string | null, oldValue: string): boolean {
   return updateProperty !== oldValue && updateProperty !== "";
 }
 

@@ -8,7 +8,7 @@ const AssignMemberScheme = z.object({
   assignments: z.array(z.object({
     userId: z.string().nonempty(),
     projectId: z.number().gt(0),
-    owner: z.boolean()
+    role: z.string()
   }))
 });
 

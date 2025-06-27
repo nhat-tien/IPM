@@ -34,7 +34,7 @@ public class ProjectRepository : GenericRepository<Domain.Project, Project>, IPr
         return entity.MapTo();
     }
 
-    public override async Task<Domain.Project> AddAsync(Domain.Project domain) 
+    public override async Task<Domain.Project> AddAsync(Domain.Project domain)
     {
         Project entity = MapFromDomain(domain);
         entity.CreatedAt = DateTime.UtcNow;
@@ -45,49 +45,105 @@ public class ProjectRepository : GenericRepository<Domain.Project, Project>, IPr
         return entity.MapTo();
     }
 
-    public override async Task<IEnumerable<Domain.Project>> GetAllAsync(CriteriaQuery queryParam)
-    {
-        if(queryParam.SortColumn is not null) 
-        {
-            IEnumerable<Domain.Project> listOfDomain;
-            switch(queryParam.SortColumn)
-            {
-                case "CreatedAt":
-                    listOfDomain = await GetAllAsync(queryParam, (e) => e.CreatedAt);
-                    break;
-                default:
-                    listOfDomain = await GetAllAsync(queryParam, (e) => e.ProjectId);
-                    break;
-            }
-            return listOfDomain;
-        } else {
-            IEnumerable<Domain.Project> listOfDomain = await GetAllAsync(queryParam, (e) => e.ProjectId);
-            return listOfDomain;
-        }
-    }
+    // public override async Task<IEnumerable<Domain.Project>> GetAllAsync(CriteriaQuery queryParam)
+    // {
+    // if(queryParam.SortColumn is not null) 
+    // {
+    //     IEnumerable<Domain.Project> listOfDomain;
+    //     switch(queryParam.SortColumn)
+    //     {
+    //         case "CreatedAt":
+    //             listOfDomain = await GetAllAsync(queryParam, (e) => e.CreatedAt);
+    //             break;
+    //         default:
+    //             listOfDomain = await GetAllAsync(queryParam, (e) => e.ProjectId);
+    //             break;
+    //     }
+    //     return listOfDomain;
+    // } else {
+    //     IEnumerable<Domain.Project> listOfDomain = await GetAllAsync(queryParam, (e) => e.ProjectId);
+    //     return listOfDomain;
+    // }
+    //     IQueryable<Project> query = db.Projects;
+    //
+    //     if (queryParam.Include is not null)
+    //     {
+    //         query = IncludeWith(query, queryParam.GetIncludeList);
+    //     }
+    //     if (queryParam.Filter is not null)
+    //     {
+    //         query = Filter(query, queryParam.GetFilterList());
+    //     }
+    //
+    //     query = HandleSort(query, queryParam);
+    //
+    //     List<Project> entity = await query.ToListAsync();
+    //
+    //     IEnumerable<Domain.Project> listOfDomain = entity.Select(entity => MapToDomain(entity));
+    //
+    //     return listOfDomain;
+    // }
+    //
+    //
+    // public override async Task<PaginationResponse<Domain.Project>> GetAllWithPaginationAsync(CriteriaQuery queryParam)
+    // {
+    //     IQueryable<Project> query = db.Projects;
+    //     PaginationResponse<Domain.Project> paginationRes = new PaginationResponse<Domain.Project>();
+    //
+    //     if (queryParam.Include is not null)
+    //     {
+    //         query = IncludeWith(query, queryParam.GetIncludeList);
+    //     }
+    //
+    //     if (queryParam.Filter is not null)
+    //     {
+    //         query = Filter(query, queryParam.GetFilterList());
+    //     }
+    //
+    //     query = HandleSort(query, queryParam);
+    //
+    //     if (queryParam.Page is int page && queryParam.PageSize is int size)
+    //     {
+    //         query = Pagination(query, page * size, size);
+    //         paginationRes = await GeneratePaginationResponse(query, size, page);
+    //     }
+    //
+    //     List<Project> entity = await query.ToListAsync();
+    //
+    //     IEnumerable<Domain.Project> listOfDomain = entity.Select(entity => MapToDomain(entity));
+    //
+    //     paginationRes.Data = listOfDomain;
+    //
+    //     return paginationRes;
+    // }
 
-    protected override IQueryable<Project> IncludeWith(IQueryable<Project> query, string[] includeList)
+    protected override IQueryable<Project> IncludeWith(IQueryable<Project> query, CriteriaQuery queryParam)
     {
-        foreach (var item in includeList)
+        if (queryParam.Include is not null)
         {
-            if(item.Equals("Participations"))
+            var includeList = queryParam.GetIncludeList;
+
+            foreach (var item in includeList)
             {
-                query = query.Include(e => e.Participations)!.ThenInclude(e => e.User);
-            } else {
-                query = query.Include(item);
+                if (item.Equals("Participations"))
+                {
+                    query = query.Include(e => e.Participations)!.ThenInclude(e => e.User);
+                }
+                else
+                {
+                    query = query.Include(item);
+                }
             }
         }
         return query;
     }
 
+
     public override async Task<Domain.Project?> FindByIdAsync(int id, CriteriaQuery queryParam)
     {
         IQueryable<Project> query = WhereId(id);
 
-        if(queryParam.Include is not null)
-        {
-            query = IncludeWith(query, queryParam.GetIncludeList);
-        }
+        query = IncludeWith(query, queryParam);
 
         Project? entity = await query.FirstOrDefaultAsync();
 
@@ -99,15 +155,16 @@ public class ProjectRepository : GenericRepository<Domain.Project, Project>, IPr
         return entity.MapTo();
     }
 
-    public async Task DeleteSoftByIdAsync(int id) 
+    public async Task DeleteSoftByIdAsync(int id)
     {
         Domain.Project? project = await this.FindByIdAsync(id);
 
-        if(project is null) {
+        if (project is null)
+        {
             throw new DbException(DbException.NOT_FOUND, "ProjectRepository", "Not found entity");
         }
 
-        project.IsDeleted = true; 
+        project.IsDeleted = true;
 
         await this.UpdateAsync(project);
     }

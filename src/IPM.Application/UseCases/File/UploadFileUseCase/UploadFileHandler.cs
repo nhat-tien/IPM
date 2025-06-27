@@ -6,7 +6,7 @@ namespace IPM.Application.UseCases.File.UploadFileUseCase;
 
 public class UploadFileHandler(IFileService fileService, IFileRepository repo) : IUploadFileUseCase
 {
-    public async Task Handle(IFile file, string fileTypeId, string projectId)
+    public async Task Handle(IFile file, string fileTypeId, string projectId, string userId)
     {
         using (var streamData = new MemoryStream())
         {
@@ -30,6 +30,7 @@ public class UploadFileHandler(IFileService fileService, IFileRepository repo) :
                 FileTypeId = Convert.ToInt32(fileTypeId),
                 ObjectName = objectName,
                 ProjectId = Convert.ToInt32(projectId),
+                UserId = userId
             };
 
             await repo.AddAsync(fileInfo);

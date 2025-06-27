@@ -17,4 +17,7 @@ public class File
 
     public int? FileTypeId { get; set; }
     public FileType? FileType { get; set; }
+
+    public required string UserId { get; set; }
+    public User? User {get; set;} 
 }

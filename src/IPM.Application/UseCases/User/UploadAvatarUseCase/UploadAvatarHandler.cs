@@ -23,8 +23,6 @@ public class UploadAvatarHandler(IFileService fileService, IUserRepository repo)
                 "images"
             );
 
-            Console.WriteLine("Hello nckdsnksndcjdnscnk");
-            Console.WriteLine(isSuccess);
             if(!isSuccess) return;
 
             await repo.AddAvaterUrl(userId, objectName);

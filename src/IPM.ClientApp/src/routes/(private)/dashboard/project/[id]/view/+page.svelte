@@ -6,7 +6,6 @@
   import Row from "@components/Row/Row.svelte";
   import IconButton from "@components/Button/IconButton.svelte";
   import PencilIcon from "@components/Icons/PencilIcon.svelte";
-  import FieldDisplay from "@components/FieldDisplay";
   import Table from "@components/Table/Table.svelte";
   import TableRow from "@components/Table/TableRow.svelte";
   import type { Participation } from "@useCases/useCases.types";
@@ -26,6 +25,7 @@
   import reportProject from "@useCases/projectUseCase/reportProject";
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
   import softDeleteProject from "@useCases/projectUseCase/softDeleteProject";
+  import FieldDisplay from "@components/FieldDisplay/FieldDisplay.svelte";
   const { data }: { data: PageData } = $props();
 
   const transformParticipateToTable = (e: Participation) => {
@@ -33,7 +33,7 @@
       e.user?.lastName ?? "",
       e.user?.firstName ?? "",
       e.user?.email ?? "",
-      e.owner ? "Chủ dự án" : "Thành viên",
+      e.role == "OWNER" ? "Chủ dự án" : "Thành viên",
     ];
   };
 
@@ -156,80 +156,60 @@
       {/if}
     {/snippet}
     <Grid --grid-col="2">
-      <FieldDisplay.Root>
-        <FieldDisplay.Label>Tên dự án (Tiếng Việt)</FieldDisplay.Label>
-        <FieldDisplay.Content>
-          {data.project.projectNameVietnamese}
-        </FieldDisplay.Content>
-      </FieldDisplay.Root>
-      <FieldDisplay.Root>
-        <FieldDisplay.Label>Tên dự án (Tiếng Anh)</FieldDisplay.Label>
-        <FieldDisplay.Content>
-          {data.project.projectNameEnglish}
-        </FieldDisplay.Content>
-      </FieldDisplay.Root>
+      <FieldDisplay
+        label="Tên dự án (Tiếng Việt)"
+        content={data.project.projectNameVietnamese}
+      />
+      <FieldDisplay
+        label="Tên dự án (Tiếng Anh)"
+        content={data.project.projectNameEnglish}
+      />
     </Grid>
-      <FieldDisplay.Root>
-        <FieldDisplay.Label>Mục tiêu dự án</FieldDisplay.Label>
-        <FieldDisplay.Content>
-          {data.project.projectPurpose}
-        </FieldDisplay.Content>
-      </FieldDisplay.Root>
-      <FieldDisplay.Root>
-        <FieldDisplay.Label>Nội dung</FieldDisplay.Label>
-        <FieldDisplay.Content>{data.project.content}</FieldDisplay.Content>
-      </FieldDisplay.Root>
-      <FieldDisplay.Root>
-        <FieldDisplay.Label>Tiến độ dự án</FieldDisplay.Label>
-        <FieldDisplay.Content
-          >{data.project.projectProgress}</FieldDisplay.Content
-        >
-      </FieldDisplay.Root>
-      <FieldDisplay.Root>
-        <FieldDisplay.Label>Phần trăm tiến độ</FieldDisplay.Label>
-        <FieldDisplay.Content
-          >{data.project.percentageOfProgress}</FieldDisplay.Content
-        >
-      </FieldDisplay.Root>
+    <FieldDisplay
+      variant="textbox"
+      label="Mục tiêu dự án"
+      content={data.project.projectPurpose}
+    />
+    <FieldDisplay
+      variant="textbox"
+      label="Nội dung"
+      content={data.project.content}
+    />
+    <FieldDisplay
+      variant="textbox"
+      label="Tiến độ dự án"
+      content={data.project.projectProgress}
+    />
+    <FieldDisplay
+      variant="textbox"
+      label="Phần trăm tiến độ"
+      content={data.project.percentageOfProgress}
+    />
     <Grid --grid-col="2">
-      <FieldDisplay.Root>
-        <FieldDisplay.Label>Đơn vị trực thuộc</FieldDisplay.Label>
-        <FieldDisplay.Content
-          >{data.project.affiliatedUnit
-            ?.affiliatedUnitName}</FieldDisplay.Content
-        >
-      </FieldDisplay.Root>
-      <FieldDisplay.Root>
-        <FieldDisplay.Label>Cơ quan phê duyệt</FieldDisplay.Label>
-        <FieldDisplay.Content
-          >{data.project.approvingAgency
-            ?.approvingAgencyName}</FieldDisplay.Content
-        >
-      </FieldDisplay.Root>
-      <FieldDisplay.Root>
-        <FieldDisplay.Label>Nhà tài trợ</FieldDisplay.Label>
-        <FieldDisplay.Content
-          >{data.project.sponsor?.sponsorName}</FieldDisplay.Content
-        >
-      </FieldDisplay.Root>
-      <FieldDisplay.Root>
-        <FieldDisplay.Label>Loại viện trợ</FieldDisplay.Label>
-        <FieldDisplay.Content
-          >{data.project.aidType?.aidTypeName}</FieldDisplay.Content
-        >
-      </FieldDisplay.Root>
-      <FieldDisplay.Root>
-        <FieldDisplay.Label>Đối tác</FieldDisplay.Label>
-        <FieldDisplay.Content
-          >{data.project.counterparty?.counterpartyName}</FieldDisplay.Content
-        >
-      </FieldDisplay.Root>
-      <FieldDisplay.Root>
-        <FieldDisplay.Label>Danh mục</FieldDisplay.Label>
-        <FieldDisplay.Content
-          >{data.project.category?.categoryName}</FieldDisplay.Content
-        >
-      </FieldDisplay.Root>
+      <FieldDisplay
+        label="Đơn vị trực thuộc"
+        content={data.project.affiliatedUnit?.affiliatedUnitName}
+      />
+      <FieldDisplay
+        label="Cơ quan phê duyệt"
+        content={data.project.approvingAgency?.approvingAgencyName}
+      />
+      <FieldDisplay
+        label="Nhà tài trợ"
+        content={data.project.sponsor?.sponsorName}
+      />
+      <FieldDisplay
+        label="Loại viện trợ"
+        content={data.project.aidType?.aidTypeName}
+      />
+      <FieldDisplay
+        label="Đối tác"
+        content={data.project.counterparty?.counterpartyName}
+      />
+      <FieldDisplay
+        label="Danh mục"
+        content={data.project.category?.categoryName}
+      />
     </Grid>
   </Card>
   <Card
@@ -246,7 +226,7 @@
           <td>{row[1]}</td>
           <td>{row[2]}</td>
           <td>
-            <Badge isHasDot={false} variant="green" >{row[3]}</Badge>
+            <Badge isHasDot={false} variant="green">{row[3]}</Badge>
           </td>
         </tr>
       {/each}
@@ -359,7 +339,6 @@
 {/snippet}
 
 <style lang="scss">
-
   td {
     padding: 1em;
     width: max-content;

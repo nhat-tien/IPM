@@ -5,7 +5,7 @@ import { AppLog } from "@utils/log";
 
 export default async function getAttachedFiles(projectId: string) {
   try {
-    let data: File[] = await fileEndPoint.get("project/" + projectId, {
+    let data: File[] = await fileEndPoint.get("project/" + projectId + "?include=FileType,User", {
       credentials: "include",
     }).json();
 

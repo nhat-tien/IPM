@@ -14,14 +14,27 @@ export const uploadFileScheme = z.object({
   projectId:  z.string({ message: "projectId phai la string"}).nonempty({ message: "Thiếu project id"}),
 });
 
+type Params = {
+  file: File;
+  fileTypeId: string;
+  projectId: string;
+  userId: string;
+}
+
 export default async function uploadFile(
-  { file, fileTypeId, projectId }: { file: File, fileTypeId: string, projectId: string }): Promise<UseCaseResult> {
+  {
+    file,
+    fileTypeId,
+    projectId,
+    userId,
+  }: Params ): Promise<UseCaseResult> {
   try {
 
   const formData = new FormData();
 
   formData.append("fileTypeId", fileTypeId);
   formData.append("projectId", projectId);
+  formData.append("userId", userId);
   formData.append("file", file, file.name);
 
 

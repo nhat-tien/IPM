@@ -8,6 +8,7 @@ public class CriteriaQuery
     public string? SortOrder {get; set;}
     public string? Include {get; set;}
     public int? Page {get; set;}
+    public bool? PageMetadata {get; set;}
     public int? PageSize {get; set;}
     public string? Filter {get;set;}
 

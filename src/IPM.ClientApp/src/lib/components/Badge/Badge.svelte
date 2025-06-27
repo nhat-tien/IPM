@@ -37,7 +37,7 @@
     width: max-content;
     font-size: var(--font-size, 0.8rem);
     padding: var(--padding, 0.5em 1em);
-    border: var(--border, 1px solid);
+    // border: var(--border, 1px solid);
     border-radius: var(--border-radius, 1em);
     display: flex;
     flex-direction: row;

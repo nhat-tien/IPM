@@ -6,8 +6,8 @@ namespace IPM.Application.UseCases.File.GetFileInProject;
 
 public class GetFileInProjectHandler(IFileRepository repo): IGetFileInProject
 {
-    public Task<IEnumerable<Domain.File>> Handle(int projectId)
+    public Task<IEnumerable<Domain.File>> Handle(int projectId, CriteriaQuery query)
     {
-        return repo.GetByProjectId(projectId, new CriteriaQuery() { Include = "FileType"});
+        return repo.GetByProjectId(projectId, query);
     }
 }

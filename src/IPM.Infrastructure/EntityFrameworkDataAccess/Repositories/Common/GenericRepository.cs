@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using IPM.Application.Queries;
+using IPM.Application.ResponseDto;
 using IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 using IPM.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -55,17 +56,31 @@ public abstract class GenericRepository<TDomain, TEntity>
         return listOfDomain;
     }
 
-    protected virtual IQueryable<TEntity> IncludeWith(IQueryable<TEntity> query, string[] includeList)
+    protected virtual IQueryable<TEntity> IncludeWith(IQueryable<TEntity> query, CriteriaQuery queryParam)
     {
-        foreach (var item in includeList)
+
+        if (queryParam.Include is not null)
         {
-            query = query.Include(item);
+            var includeList = queryParam.GetIncludeList;
+
+            foreach (var item in includeList)
+            {
+                query = query.Include(item);
+            }
         }
         return query;
     }
 
-    protected virtual IQueryable<TEntity> Filter(IQueryable<TEntity> query, List<FilterItem> filterItem)
+    protected virtual IQueryable<TEntity> Filter(IQueryable<TEntity> query, CriteriaQuery queryParam)
     {
+
+        if (queryParam.Filter is null)
+        {
+            return query;
+        }
+
+        List<FilterItem> filterItem = queryParam.GetFilterList();
+
         foreach (var item in filterItem)
         {
             string property = item.Property;
@@ -150,31 +165,36 @@ public abstract class GenericRepository<TDomain, TEntity>
         return query;
     }
 
-    protected virtual IQueryable<TEntity> Sort(
+    protected virtual async Task<(IQueryable<TEntity>, PaginationResponse<TDomain>)> Pagination(
         IQueryable<TEntity> query,
-        Expression<Func<TEntity, object>> keySelector,
-        bool isDesc = false
+        CriteriaQuery queryParam
     )
     {
-        if (isDesc)
-        {
-            query = query.OrderByDescending(keySelector);
-        }
-        else
-        {
-            query = query.OrderBy(keySelector);
-        }
-        return query;
-    }
 
-    protected virtual IQueryable<TEntity> Pagination(
-        IQueryable<TEntity> query,
-        int skip,
-        int take
-    )
-    {
-        query = query.Skip(skip).Take(take);
-        return query;
+        PaginationResponse<TDomain> paginationRes = new PaginationResponse<TDomain>();
+
+        if (queryParam.Page is int page && queryParam.PageSize is int size)
+        {
+            query = query.Skip(page * size).Take(size);
+
+            int totalCount = await query.CountAsync();
+            int pageCount = (int)Math.Round((double)(totalCount / size));
+
+            paginationRes = new PaginationResponse<TDomain>()
+            {
+                Metadata = new PaginationResponseMetadata()
+                {
+                    TotalCount = totalCount,
+                    PageCount = pageCount,
+                    Page = page,
+                    PageSize = size
+                },
+                Data = []
+            };
+        }
+        ;
+
+        return (query, paginationRes);
     }
 
 
@@ -183,18 +203,11 @@ public abstract class GenericRepository<TDomain, TEntity>
     {
         IQueryable<TEntity> query = db.Set<TEntity>();
 
-        if (queryParam.Include is not null)
-        {
-            query = IncludeWith(query, queryParam.GetIncludeList);
-        }
-        if (queryParam.Filter is not null)
-        {
-            query = Filter(query, queryParam.GetFilterList());
-        }
-        if (queryParam.Page is int page && queryParam.PageSize is int size)
-        {
-            query = Pagination(query, page * size, size);
-        }
+        query = IncludeWith(query, queryParam);
+
+        query = Filter(query, queryParam);
+
+        query = HandleSort(query, queryParam);
 
         List<TEntity> entity = await query.ToListAsync();
 
@@ -203,32 +216,29 @@ public abstract class GenericRepository<TDomain, TEntity>
         return listOfDomain;
     }
 
-    public virtual async Task<IEnumerable<TDomain>> GetAllAsync(CriteriaQuery queryParam, Expression<Func<TEntity, object>> sortColumn)
+    public virtual async Task<PaginationResponse<TDomain>> GetAllWithPaginationAsync(CriteriaQuery queryParam)
     {
         IQueryable<TEntity> query = db.Set<TEntity>();
 
-        if (queryParam.Include is not null)
-        {
-            query = IncludeWith(query, queryParam.GetIncludeList);
-        }
-        if (queryParam.Filter is not null)
-        {
-            query = Filter(query, queryParam.GetFilterList());
-        }
-        if (queryParam.SortColumn is not null && queryParam.SortOrder is not null)
-        {
-            query = Sort(query, sortColumn, queryParam.SortOrder == "desc");
-        }
-        if (queryParam.Page is int page && queryParam.PageSize is int size)
-        {
-            query = Pagination(query, page * size, size);
-        }
+        PaginationResponse<TDomain> paginationRes = new PaginationResponse<TDomain>();
+
+        query = IncludeWith(query, queryParam);
+
+        query = Filter(query, queryParam);
+
+        query = HandleSort(query, queryParam);
+
+        var (newQuery, pagination) = await Pagination(query, queryParam);
+        query = newQuery;
+        paginationRes = pagination;
 
         List<TEntity> entity = await query.ToListAsync();
 
         IEnumerable<TDomain> listOfDomain = entity.Select(entity => MapToDomain(entity));
 
-        return listOfDomain;
+        paginationRes.Data = listOfDomain;
+
+        return paginationRes;
     }
 
     public virtual async Task<TDomain?> FindByIdAsync(int id)
@@ -239,6 +249,7 @@ public abstract class GenericRepository<TDomain, TEntity>
         {
             return null;
         }
+
         return MapToDomain(entity);
     }
 
@@ -246,10 +257,7 @@ public abstract class GenericRepository<TDomain, TEntity>
     {
         IQueryable<TEntity> query = WhereId(id);
 
-        if (queryParam.Include is not null)
-        {
-            query = IncludeWith(query, queryParam.GetIncludeList);
-        }
+        query = IncludeWith(query, queryParam);
 
         TEntity? entity = await query.FirstOrDefaultAsync();
 
@@ -264,10 +272,7 @@ public abstract class GenericRepository<TDomain, TEntity>
     public virtual async Task<IEnumerable<TDomain>> GetBy(IQueryable<TEntity> query, CriteriaQuery queryParam)
     {
 
-        if (queryParam.Include is not null)
-        {
-            query = IncludeWith(query, queryParam.GetIncludeList);
-        }
+        query = IncludeWith(query, queryParam);
 
         List<TEntity> entity = await query.ToListAsync();
 
@@ -301,4 +306,38 @@ public abstract class GenericRepository<TDomain, TEntity>
         entity.UpdatedAt = DateTime.UtcNow;
         await db.SaveChangesAsync();
     }
+
+
+    public virtual IQueryable<TEntity> HandleSort(IQueryable<TEntity> query, CriteriaQuery queryParam)
+    {
+        if (queryParam.SortColumn is not null && queryParam.SortOrder is not null)
+        {
+            switch (queryParam.SortColumn)
+            {
+                case "CreatedAt":
+                    query = Sort(query, (e) => e.CreatedAt, queryParam.SortOrder == "desc");
+                    break;
+            }
+        }
+
+        return query;
+    }
+
+    protected virtual IQueryable<TEntity> Sort(
+        IQueryable<TEntity> query,
+        Expression<Func<TEntity, object>> keySelector,
+        bool isDesc = false
+    )
+    {
+        if (isDesc)
+        {
+            query = query.OrderByDescending(keySelector);
+        }
+        else
+        {
+            query = query.OrderBy(keySelector);
+        }
+        return query;
+    }
+
 }

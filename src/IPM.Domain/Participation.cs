@@ -7,7 +7,7 @@ public class Participation
     public DateTime JoinDate { get; set;}
     public string? Status { get; set; }
     public string? Note { get; set; }
-    public bool Owner { get; set; }
+    public string? Role { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 

@@ -78,7 +78,7 @@ In url `/docs`
 ## Will fix
 - [ ] Catch email existing SQL error
 - [ ] Prevent users sign up with role
-- [ ] Data return in order by createDate 
+- [x] Data return in order by createDate 
 
 ## Feature Wishlist
 - [x] Implement JWT

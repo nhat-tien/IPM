@@ -15,7 +15,7 @@ public class ProjectUnitOfWork(AppDBContext db): IProjectUnitOfWork
         Participation participation = new Participation() {
             ProjectId = entity.ProjectId,
             UserId = userId,
-            Owner = true
+            Role = "OWNER" 
         };
         await db.Participations.AddAsync(participation);
 

@@ -12,7 +12,7 @@ public class AssignUserToProjectHandler(IParticipationRepository repo) : IAssign
             {
                 ProjectId = assignment.ProjectId,
                 UserId = assignment.UserId,
-                Owner = assignment.Owner,
+                Role = assignment.Role,
             };
             await repo.AddAsync(domain);
         }

@@ -53,4 +53,25 @@ public class MinioService(IMinioClient minio) : IFileService
             return false;
         }
     }
+
+
+    public async Task<string?> Download(string objectName, string bucketName)
+    {
+        try
+        {
+            PresignedGetObjectArgs args = new PresignedGetObjectArgs()
+                .WithBucket(bucketName)
+                .WithObject(objectName)
+                .WithExpiry(60 * 15);
+
+            string url = await minio.PresignedGetObjectAsync(args);
+
+            return url;
+        }
+        catch (MinioException e)
+        {
+            Console.WriteLine("[MinioException]: File Upload Error {0}", e.Message);
+            return null;
+        }
+    }
 }

@@ -13,6 +13,10 @@
   import Members from "@components/UniqueComponents/EditProjectPage/Members.svelte";
   import AttachedFiles from "@components/UniqueComponents/EditProjectPage/AttachedFiles.svelte";
   import { getDateOrNull } from "@utils/datetime";
+  import IconButton from "@components/Button/IconButton.svelte";
+  import PencilIcon from "@components/Icons/PencilIcon.svelte";
+  import Row from "@components/Row/Row.svelte";
+  import ArrowLeftIcon from "@components/Icons/ArrowLeftIcon.svelte";
   const { data }: { data: PageData } = $props();
 
   let pageState: 1 | 2 | 3 = $state(1);
@@ -28,17 +32,17 @@
     endDate: getDateOrNull(data.project.endDate),
     fundedEquipment: data.project.fundedEquipment,
     projectBudget: data.project.projectBudget,
-    categoryId: data.project.categoryId, 
-    affiliatedUnitId: data.project.affiliatedUnitId, 
+    categoryId: data.project.categoryId,
+    affiliatedUnitId: data.project.affiliatedUnitId,
     sponsorId: data.project.sponsorId,
-    aidTypeId: data.project.aidTypeId ,
+    aidTypeId: data.project.aidTypeId,
     approvingAgencyId: data.project.approvingAgencyId,
     counterPartyId: data.project.counterpartyId,
     members: data.project.participations.map(
       (e) =>
         ({
           userId: e.userId,
-          owner: e.owner,
+          role: e.role,
           lastName: e.user?.lastName,
           firstName: e.user?.firstName,
           email: e.user?.email,
@@ -47,18 +51,15 @@
     participationDiff: [],
     fileUpload: [],
   });
-
 </script>
 
 <TitleWebPage title="Dự án - Chỉnh sửa" />
 <BasicCenterLayout
-  header={"Dự án"}
+  header={"Cập nhật dự án #" + data.project.projectId}
   breadcrumbWithCallback={[
     {
       name: "Dự án",
-      callback: () => {
-        goto("/dashboard/all-project");
-      },
+      callback: () => {},
     },
     {
       name: "Chỉnh sửa",
@@ -66,6 +67,21 @@
     },
   ]}
 >
+  <Row --justify-content="flex-start">
+    <IconButton
+      onclick={() => {
+        history.back();
+      }}
+      variant="orange"
+      --margin-bottom="0.5em"
+      --icon-size="1.3em"
+    >
+      {#snippet icon()}
+        <ArrowLeftIcon --stroke="hsl(0, 0%, 97%)" />
+      {/snippet}
+      Trở về
+    </IconButton>
+  </Row>
   <Tabs>
     <TabItem isSelected={pageState == 1} onclick={() => (pageState = 1)}
       >Chung</TabItem

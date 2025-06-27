@@ -28,7 +28,9 @@ public static class ProjectEndpoints
                     string? filter,
                     int? page,
                     int? pageSize,
-                    IGetAllProjectUseCase handler
+                    bool? pageMetadata,
+                    IGetAllProjectUseCase handler,
+                    IGetAllProjectPagination paginationHandler
                 ) =>
                 {
                    var query = new CriteriaQuery()
@@ -38,9 +40,15 @@ public static class ProjectEndpoints
                        SortColumn = sortBy,
                        SortOrder = sortOrd,
                        Page = page,
-                       PageSize = pageSize
+                       PageSize = pageSize,
+                       PageMetadata = pageMetadata
                    };
-                   return await handler.Handle(query);
+                   if(page is not null && pageSize is not null)
+                   {
+                       return Results.Ok(await paginationHandler.Handle(query));
+                   } else {
+                       return Results.Ok(await handler.Handle(query));
+                   }
                 }
             )
             .RequireAuthorization("UserPermission");
