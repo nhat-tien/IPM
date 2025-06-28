@@ -83,3 +83,6 @@ In url `/docs`
 ## Feature Wishlist
 - [x] Implement JWT
 - [ ] Implement Google OAuth
+
+## Screenshot
+![](/docs/images/screenshot-from-2025-06-27-22-58-16.png)
