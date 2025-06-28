@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { CustomDragEvent } from "@/shared.types";
+    import ArrowUpTray from "@components/Icons/ArrowUpTray.svelte";
   import TrashIcon from "@components/Icons/TrashIcon.svelte";
     import getIcon from "@utils/getIcon";
 
@@ -131,6 +132,7 @@
   <div class="buttons">
     {#if !files.length}
       <button onclick={trigger} class="upload">
+        <ArrowUpTray />
         {buttonText}
       </button>
     {/if}
@@ -288,6 +290,11 @@
     border: 1px solid #0001;
     background: transparent;
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
   }
   .buttons button:hover {
     background: #0001;

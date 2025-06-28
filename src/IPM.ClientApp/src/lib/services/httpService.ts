@@ -10,7 +10,7 @@ const api = ky.create({
 const apiWithoutAutoLogout = api.extend({
   retry: {
     limit: 3,
-    methods: ["get", "put", "patch", "delete"],
+    methods: ["get", "post", "put", "patch", "delete"],
     statusCodes: [401]
   },
   hooks: {
@@ -32,7 +32,7 @@ const apiWithoutAutoLogout = api.extend({
 const apiWithAutoLogout = api.extend({
   retry: {
     limit: 3,
-    methods: ["get", "put", "patch", "delete"],
+    methods: ["get","post", "put", "patch", "delete"],
     statusCodes: [401]
   },
   hooks: {

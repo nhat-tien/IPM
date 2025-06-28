@@ -143,7 +143,7 @@ export type User = {
   roleId: number;
   phoneNumber: string;
   avatarUrl: string;
-  sex: number;
+  sex: 0 | 1 | 2;
   address: string;
   email: string;
   status: number;

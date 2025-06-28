@@ -11,14 +11,8 @@
   import getAvatar from "@utils/getAvatarUrl";
   import { openModal } from "@stores/modal.svelte";
   import UploadAvatar from "@components/UniqueComponents/Profile/UploadAvatar.svelte";
+  import Card from "@components/Card/Card.svelte";
   const { data }: { data: PageData } = $props();
-
-  const gender = (): 0 | 1 | 2 => {
-    if(data.user.sex === 1 || data.user.sex === 2) {
-      return data.user.sex;
-    }
-    return 0;
-  }
 </script>
 
 <TitleWebPage title="Dự án - Xem chi tiết" />
@@ -37,7 +31,7 @@
     },
   ]}
 >
-  <Row --justify-content="flex-end" >
+  <Row --justify-content="flex-end">
     <IconButton
       onclick={() => {
         goto(`profile/edit`);
@@ -51,38 +45,59 @@
       {/snippet}
       Chỉnh sửa
     </IconButton>
-  </Row >
-  <section class="container">
-    <section class="avatar-container">
-      {#if data.user.avatarUrl}
-        <img src={getAvatar(data.user.avatarUrl)} alt="avatar" />
-      {:else}
-        <UserCircle --fill="hsl(30, 0%, 30%)" />
-      {/if}
-      <button class="update-avatar-btn" onclick={() => openModal(uploadAvatar)}>
-        <PencilIcon />
-      </button>
-    </section>
-    <section class="info-container">
-      <h2>Thông tin cá nhân</h2>
-      <h3>Họ và tên</h3>
-      <p>{`${data.user.lastName} ${data.user.firstName}`}</p>
-      <h3>Email</h3>
-      <p>{data.user.email}</p>
-      <h3>Giới tính</h3>
-      <p>{Gender[gender()].vietnamese}</p>
-      <h3>Địa chỉ</h3>
-      <p>{data.user.address}</p>
-      <h3>Số điện thoại</h3>
-      <p>{data.user.phoneNumber}</p>
-      <h3>Vai trò</h3>
-      <p>{data.user.role?.roleName}</p>
-      <h3>Chức vụ</h3>
-      <p>{data.user.position?.positionName}</p>
-      <h3>Đơn vị trực thuộc</h3>
-      <p>{data.user.affiliatedUnit?.affiliatedUnitName}</p>
-    </section>
-  </section>
+  </Row>
+  <Card title="Thông tin cá nhân" --card-padding="1em">
+    <Row>
+      <section class="avatar-container">
+        {#if data.user.avatarUrl}
+          <img src={getAvatar(data.user.avatarUrl)} alt="avatar" />
+        {:else}
+          <UserCircle --fill="hsl(30, 0%, 30%)" />
+        {/if}
+        <button class="update-avatar-btn" onclick={() => openModal(uploadAvatar)}>
+          <PencilIcon />
+        </button>
+      </section>
+      <section class="info-container">
+        <table>
+          <tbody>
+            <tr>
+              <td><p class="label">Họ và tên</p></td>
+              <td><p class="data">{`${data.user.lastName} ${data.user.firstName}`}</p></td>
+            </tr>
+            <tr>
+              <td><p class="label">Email</p></td>
+              <td><p class="data">{data.user.email}</p></td>
+            </tr>
+            <tr>
+              <td><p class="label">Giới tính</p></td>
+              <td><p class="data">{Gender[data.user.sex].vietnamese}</p></td>
+            </tr>
+            <tr>
+              <td><p class="label">Địa chỉ</p></td>
+              <td><p class="data">{data.user.address}</p></td>
+            </tr>
+            <tr>
+              <td><p class="label">Số điện thoại</p></td>
+              <td><p class="data">{data.user.phoneNumber}</p></td>
+            </tr>
+            <tr>
+              <td><p class="label">Vai trò</p></td>
+              <td><p class="data">{data.user.role?.roleName}</p></td>
+            </tr>
+            <tr>
+              <td><p class="label">Chức vụ</p></td>
+              <td><p class="data">{data.user.position?.positionName}</p></td>
+            </tr>
+            <tr>
+              <td><p class="label">Đơn vị trực thuộc</p></td>
+              <td><p class="data">{data.user.affiliatedUnit?.affiliatedUnitName}</p></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </Row>
+  </Card>
 </BasicCenterLayout>
 
 {#snippet uploadAvatar()}
@@ -90,21 +105,15 @@
 {/snippet}
 
 <style lang="scss">
-  .container {
-    background-color: $white-clr;
-    border: 1px solid $gray-clr;
-    border-radius: 15px;
-    padding: 1em;
-    margin-top: 1em;
-    display: flex;
-    flex-direction: row;
-  }
   .avatar-container {
-    width: 15em;
+    width: max-content; 
     position: relative;
     height: max-content;
     img {
-      width: 100%;
+      width: 15em;
+      height: 15em;
+      object-fit: cover;
+      border-radius: 100%;
     }
     .update-avatar-btn {
       border: 2px solid $edit-clr;
@@ -113,7 +122,7 @@
       position: absolute;
       width: 40px;
       height: 40px;
-      bottom: 2px;
+      top: 2px;
       right: 2px;
       padding: 7px;
     }
@@ -121,11 +130,11 @@
   .info-container {
     margin-left: 1.5em;
     flex: 1;
-    h2 {
-      margin-bottom: 0.5em;
+    td {
+      padding: 3px 0;
     }
-    h3 {
-      margin-top: 0.3em;
+    .label {
+      font-weight: 600;
     }
   }
 </style>
