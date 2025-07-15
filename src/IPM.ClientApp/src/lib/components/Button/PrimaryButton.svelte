@@ -37,13 +37,14 @@
 </button>
 
 <style lang="scss">
+
   button {
     margin-top: var(--margin-top, 0);
     margin-bottom: var(--margin-bottom, 0);
     margin-left: var(--margin-left, "auto");
     margin-right: var(--margin-right, "auto");
     background-color: var(--background-color, $text-clr);
-    color: var(--color, $primary-clr);
+    color: var(--color, var(--background-clr));
     padding: 0.6em;
     border-radius: 6px;
     opacity: 1;

@@ -54,10 +54,10 @@
   }
   .highlight {
     .step__circle {
-      border: 3px solid $secondary-clr;
+      border: 3px solid var(--primary-500-clr);
     }
     &:not(:first-child)::before {
-      background-color: $secondary-clr;
+      background-color: var(--primary-500-clr);
     }
   }
 </style>

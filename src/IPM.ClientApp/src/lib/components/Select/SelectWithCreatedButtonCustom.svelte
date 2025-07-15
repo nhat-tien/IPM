@@ -170,7 +170,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: $secondary-clr;
+      background-color: var(--primary-500-clr);
       border-radius: 0 5px 5px 0;
       &:hover {
         opacity: 0.8;
@@ -202,7 +202,7 @@
       width: 100%;
       margin-top: 0.2em;
       &:focus {
-        border: 1px solid $secondary-clr;
+        border: 1px solid var(--primary-500-clr);
       }
     }
   }

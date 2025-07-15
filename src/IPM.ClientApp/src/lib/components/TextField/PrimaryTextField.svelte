@@ -1,5 +1,5 @@
 <script lang="ts">
-  const {
+  let {
     type,
     id,
     label,
@@ -9,7 +9,7 @@
     onfocus,
     error,
     errorId = "",
-    value,
+    value = $bindable(""),
   }: {
     label?: string;
     id: string;
@@ -39,7 +39,7 @@
     {id}
     placeholder={placeHolder}
     {name}
-    {value}
+    bind:value={value}
     {onfocus}
   />
   {#if error != null}
@@ -63,7 +63,7 @@
     margin-top: 0.2em;
   }
   input:focus {
-    box-shadow: $secondary-clr 0px 0px 0px 2px;
+    box-shadow: var(--primary-500-clr) 0px 0px 0px 2px;
   }
   sup {
     color: $red-clr;

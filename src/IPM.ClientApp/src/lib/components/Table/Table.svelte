@@ -40,7 +40,7 @@
     table-layout: fixed;
   }
   thead {
-    background-color: $primary-clr;
+    background-color: var(--background-clr);
     th {
       border-bottom: 1px solid $gray-clr;
       width: max-content;

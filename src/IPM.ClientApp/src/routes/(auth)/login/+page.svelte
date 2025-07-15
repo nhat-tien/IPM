@@ -8,7 +8,7 @@
   import toast from "svelte-5-french-toast";
   import { ZodError } from "zod";
   import type { EventSubmitElements } from "../../../shared.types";
-    import PrimaryButton from "@components/Button/PrimaryButton.svelte";
+  import PrimaryButton from "@components/Button/PrimaryButton.svelte";
 
   let isLoading = $state(false);
   let error: string | null = $state(null);
@@ -67,9 +67,13 @@
       {error}
     {/if}
   </div>
-  <PrimaryButton {isLoading} type="submit" --width="100%" variant="black">Đăng nhập</PrimaryButton>
+  <PrimaryButton {isLoading} type="submit" --width="100%" variant="black" 
+    >Đăng nhập</PrimaryButton
+  >
 </form>
-<p class="register">Chưa có tài khoản? <a href="/register?no_check_user=true">Đăng kí</a></p>
+<p class="register">
+  Chưa có tài khoản? <a href="/register?no_check_user=true">Đăng kí</a>
+</p>
 
 <style lang="scss">
   h1 {

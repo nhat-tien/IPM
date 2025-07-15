@@ -91,7 +91,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: $secondary-clr;
+      background-color: var(--primary-500-clr);
       border-radius: 0 5px 5px 0;
       &:hover {
         opacity: 0.8;

@@ -52,7 +52,7 @@
     margin-top: 0.2em;
   }
   input:focus {
-    border: 1px solid $secondary-clr;
+    border: 1px solid var(--primary-500-clr);
   }
   sup {
     color: $red-clr;

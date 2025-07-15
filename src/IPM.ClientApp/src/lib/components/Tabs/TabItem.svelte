@@ -24,15 +24,15 @@
     border-radius: 5px;
     &:hover {
       color: $text-clr;
-      background-color: $primary-clr;
+      background-color: var(--background-clr);
     }
   }
   .selected {
     color: $text-second-clr;
-    background-color: $primary-clr;
+    background-color: var(--background-clr);
     &:hover {
       color: $text-second-clr;
-      background-color: $primary-clr;
+      background-color: var(--background-clr);
     }
   }
 </style>

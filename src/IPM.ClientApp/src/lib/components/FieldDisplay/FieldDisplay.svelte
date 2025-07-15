@@ -2,7 +2,7 @@
    type Props = {
      label?: string 
      content?: string 
-     variant?: "text" | "textbox"
+     variant?: "text" | "textbox" | "html"
    }
    const { label, content, variant = "text"}: Props = $props()
 </script>
@@ -10,6 +10,10 @@
   <div class="label">{label}</div>
   {#if variant == "text" }
   <div class="content--text">{content}</div>
+  {:else if variant == "html"}
+    <div class="content--block">
+      {@html content}
+    </div>
   {:else}
   <div class="content--block">{content}</div>
   {/if}

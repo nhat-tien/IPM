@@ -26,13 +26,13 @@ main {
 }
 .img-container {
   width: 60%;
-  background-color: $primary-clr;
+  background-color: var(--background-clr);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
   .inner-rec {
-    background-color: $secondary-clr;
+    background-color: var(--primary-500-clr);
     width: 100%;
     height: 100%;
     border-radius: 10px;
@@ -48,7 +48,7 @@ main {
 }
 .float-rect {
   $radius: 300px;
-  background-color: $primary-clr;
+  background-color: var(--background-clr);
   border-radius: 999px;
   position: absolute;
   width: $radius;

@@ -171,7 +171,7 @@
       content={data.project.projectPurpose}
     />
     <FieldDisplay
-      variant="textbox"
+      variant="html"
       label="Nội dung"
       content={data.project.content}
     />

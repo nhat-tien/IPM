@@ -24,7 +24,7 @@
     margin-top: var(--margin-top, 0);
     margin-bottom: var(--margin-bottom, 0);
     background-color: $text-clr;
-    color: $primary-clr;
+    color: var(--background-clr);
     padding: 0.6em;
     border-radius: 6px;
     display: flex;

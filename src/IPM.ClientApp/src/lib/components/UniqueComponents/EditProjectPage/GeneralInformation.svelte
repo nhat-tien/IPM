@@ -1,5 +1,4 @@
 <script lang="ts">
-  import PrimaryTextFieldBindable from "@components/TextField/PrimaryTextFieldBindable.svelte";
   import SelectWithCreateButtonCustom from "@components/Select/SelectWithCreatedButtonCustom.svelte";
   import transformCategoryToOption from "@useCases/categoryUseCase/transformCategoryToOption";
   import transformAffliatedUnitToOption from "@useCases/affiliatedUnitUseCase/transformAffliatedUnitToOption";
@@ -28,6 +27,8 @@
   import toast from "svelte-5-french-toast";
   import { invalidateCache } from "@stores/cache.svelte";
     import Card from "@components/Card/Card.svelte";
+    import PrimaryTextField from "@components/TextField/PrimaryTextField.svelte";
+    import RichTextEditor from "@components/RichTextEditor/RichTextEditor.svelte";
 
   let {
     modelState = $bindable(),
@@ -76,7 +77,7 @@
   --card-padding="1em"
   title="Thông tin dự án"
 >
-  <PrimaryTextFieldBindable
+  <PrimaryTextField
     id="projectNameVietnamese"
     label="Tên dự án Tiếng Việt"
     placeHolder=""
@@ -85,7 +86,7 @@
     bind:value={modelState.projectNameVietnamese}
     --margin-top="1.5em"
   />
-  <PrimaryTextFieldBindable
+  <PrimaryTextField
     id="projectNameEnglish"
     label="Tên dự án Tiếng Anh"
     placeHolder=""
@@ -94,7 +95,7 @@
     bind:value={modelState.projectNameEnglish}
     --margin-top="1.5em"
   />
-  <PrimaryTextFieldBindable
+  <PrimaryTextField
     id="projectPurpose"
     label="Mục tiêu dự án"
     placeHolder=""
@@ -103,16 +104,12 @@
     bind:value={modelState.projectPurpose}
     --margin-top="1.5em"
   />
-  <PrimaryTextFieldBindable
-    id="content"
+  <RichTextEditor
     label="Nội dung"
-    placeHolder=""
-    type="text"
-    name="content"
     bind:value={modelState.content}
     --margin-top="1.5em"
   />
-  <PrimaryTextFieldBindable
+  <PrimaryTextField
     id="projectProgress"
     label="Tiến độ dự án"
     placeHolder=""
@@ -121,7 +118,7 @@
     bind:value={modelState.projectProgress}
     --margin-top="1.5em"
   />
-  <PrimaryTextFieldBindable
+  <PrimaryTextField
     id="percentageOfProgress"
     label="Phần trăm tiến độ"
     placeHolder=""
@@ -130,7 +127,7 @@
     bind:value={modelState.percentageOfProgress}
     --margin-top="1.5em"
   />
-  <PrimaryTextFieldBindable
+  <PrimaryTextField
     id="fundedEquipment"
     label="Thiết bị tài trợ"
     placeHolder=""
@@ -139,7 +136,7 @@
     bind:value={modelState.fundedEquipment}
     --margin-top="1.5em"
   />
-  <PrimaryTextFieldBindable
+  <PrimaryTextField
     id="projectBudget"
     label="Kinh phí dự án"
     placeHolder=""
