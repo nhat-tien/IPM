@@ -1,7 +1,7 @@
 # International Project Management System
 
 > [!WARNING]
-> WIP: Project still not working properly
+> WIP: Project under development 
 
 ## Features
 
@@ -81,8 +81,8 @@ In url `/docs`
 - [x] Data return in order by createDate 
 
 ## Feature Wishlist
-- [x] Implement JWT
 - [ ] Implement Google OAuth
+- [x] Implement JWT
 
 ## Screenshot
 ![](/docs/images/screenshot-from-2025-06-27-22-58-16.png)
