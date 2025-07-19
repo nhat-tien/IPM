@@ -7,7 +7,7 @@
 
 <style lang="scss">
   svg {
-    stroke: var(--stroke, $icon-clr);
+    stroke: var(--stroke, var(--icon-clr));
   }
 </style>
 

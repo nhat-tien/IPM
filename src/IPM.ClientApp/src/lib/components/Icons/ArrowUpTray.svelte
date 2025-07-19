@@ -4,7 +4,7 @@
 <style lang="scss">
   $size: var(--size,20px);
   svg {
-    stroke: var(--stroke, $icon-clr);
+    stroke: var(--stroke, var(--icon-clr));
     width: $size;
     height: $size;
   }
