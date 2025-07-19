@@ -1,5 +1,5 @@
 <script lang="ts">
-  import clickOutside from "@lib/helpers/clickOutside";
+  import clickOutside from "@lib/attachHelpers/clickOutside";
   import { tick, type Snippet } from "svelte";
   import { fly } from "svelte/transition";
 
@@ -59,7 +59,10 @@
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="float-menu-wrapper" onclick={onClick} onclickoutside={() => menuState.isShow = false} {@attach clickOutside({}) } >
+<div 
+  class="float-menu-wrapper" 
+  onclick={onClick} 
+  {@attach clickOutside(() => menuState.isShow = false) } >
   <div class="center-child" bind:this={anchor}>
     {@render centerChild()}
   </div>

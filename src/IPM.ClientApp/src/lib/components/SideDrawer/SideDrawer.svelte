@@ -1,7 +1,7 @@
 <script lang="ts">
-  import clickOutside from "@lib/helpers/clickOutside";
+  import clickOutside from "@lib/attachHelpers/clickOutside";
   import type { Snippet } from "svelte";
-    import { fly } from "svelte/transition";
+    import { fade, fly } from "svelte/transition";
   interface Props {
     children: Snippet;
     isOpen: boolean;
@@ -11,8 +11,11 @@
 </script>
 
 {#if isOpen}
-<div bind:this={parentNode} class="modal-backdrop" >
-  <div transition:fly={{ x: 50, duration: 600 }} class="modal" onclickoutside={() => isOpen = false} {@attach clickOutside({ limit: parentNode}) } >
+<div bind:this={parentNode} class="modal-backdrop" transition:fade={{ duration: 300 }} >
+  <div 
+      transition:fly={{ x: 50, duration: 300 }} 
+      class="modal" 
+      {@attach clickOutside(() => isOpen = false,{ limit: parentNode}) } >
     <div class="content">
       {@render children()}
     </div>
