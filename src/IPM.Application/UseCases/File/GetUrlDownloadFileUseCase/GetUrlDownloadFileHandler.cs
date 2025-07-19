@@ -9,12 +9,12 @@ public class GetUrlDownloadFileHandler(IFileService fileService, IFileRepository
     {
         Domain.File? file = await fileRepo.FindByIdAsync(fileId);
 
-        if(file is null) 
+        if(file is null || file.FileName is null) 
         {
             return null;
         }
 
-        string? presignUrl = await fileService.Download(file.ObjectName!, "files");
+        string? presignUrl = await fileService.Download(file.ObjectName!, "files", file.FileName);
 
         if(presignUrl is null)
         {
@@ -23,7 +23,8 @@ public class GetUrlDownloadFileHandler(IFileService fileService, IFileRepository
 
         return new UrlDownloadFileResponse()
         {
-            Url = presignUrl
+            Url = presignUrl,
+            Name = file.FileName
         };
 
     }

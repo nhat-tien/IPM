@@ -55,13 +55,17 @@ public class MinioService(IMinioClient minio) : IFileService
     }
 
 
-    public async Task<string?> Download(string objectName, string bucketName)
+    public async Task<string?> Download(string objectName, string bucketName, string fileName)
     {
         try
         {
+            string contentDisposition = $"attachment; filename=\"{fileName}\"";
             PresignedGetObjectArgs args = new PresignedGetObjectArgs()
                 .WithBucket(bucketName)
                 .WithObject(objectName)
+                .WithHeaders(new Dictionary<string, string> {
+                    { "response-content-disposition", contentDisposition }
+                })
                 .WithExpiry(60 * 15);
 
             string url = await minio.PresignedGetObjectAsync(args);
