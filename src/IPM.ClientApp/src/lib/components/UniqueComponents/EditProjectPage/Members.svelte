@@ -15,8 +15,10 @@
   import removeMember from "@useCases/projectUseCase/removeMember";
   import toast from "svelte-5-french-toast";
   import { invalidateCache } from "@stores/cache.svelte";
-    import Card from "@components/Card/Card.svelte";
-    import Badge from "@components/Badge/Badge.svelte";
+  import Card from "@components/Card/Card.svelte";
+  import Badge from "@components/Badge/Badge.svelte";
+  import projectRoleMapping from "@utils/projectRoleMapping";
+  import { useUserInfo } from "@lib/stores/userInfo.svelte";
 
   let {
     modelState = $bindable(),
@@ -99,6 +101,8 @@
       invalidateCache(`project:${data.id}`);
     }
   }
+
+  const userInfo = useUserInfo();
 </script>
 
 <Card
@@ -129,10 +133,18 @@
           </p>
           <p class="member__email">{member.email}</p>
         </div>
-        <Badge isHasDot={false} variant="green">{member.role}</Badge>
+        {#if $userInfo && $userInfo.email == member.email}
+          <div>(Bạn)</div>
+        {/if}
+        <Badge isHasDot={false} variant="green"
+          >{projectRoleMapping(member.role)}</Badge
+        >
         <div>
           {#if member.role !== "OWNER"}
-            <button class="delete-btn" onclick={() => removeUserHandler(member)}>
+            <button
+              class="delete-btn"
+              onclick={() => removeUserHandler(member)}
+            >
               <div class="icon">
                 <TrashIcon --stroke=" hsl(0, 84%, 48%)" />
               </div>
@@ -142,14 +154,14 @@
       </div>
     {/each}
   </div>
-  <Row --justify-content="flex-end"  --padding-right="1em" --margin-top="1.5em">
+  <Row --justify-content="flex-end" --padding-right="1em" --margin-top="1.5em">
     <SecondaryButton onclick={() => handleCancel()}
       >Hủy bỏ thay đổi</SecondaryButton
     >
     <PrimaryButton variant="orange" onclick={() => handleSave()}
       >Lưu</PrimaryButton
     >
-  </Row >
+  </Row>
 </Card>
 
 <style lang="scss">
@@ -174,6 +186,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
   }
   .member__name {
     font-family: "Inter SemiBold";

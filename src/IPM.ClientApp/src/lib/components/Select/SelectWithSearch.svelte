@@ -2,7 +2,7 @@
   import ChevronDownIcon from "@components/Icons/ChevronDownIcon.svelte";
   import CloseCircleSolidIcon from "@components/Icons/CloseCircleSolidIcon.svelte";
   import PlusIcon from "@components/Icons/PlusIcon.svelte";
-  import clickOutside from "@lib/helpers/clickOutside";
+  import clickOutside from "@lib/attachHelpers/clickOutside";
   import type { OptionType } from "@useCases/useCases.types";
   import Fuse from "fuse.js";
 
@@ -25,7 +25,7 @@
     error?: any[];
     errorId?: string;
     btnClickFn?: () => void;
-    selectFn: (value: OptionType | null) => void;
+    selectFn: (value: OptionType) => void;
   } = $props();
 
   let searchString = $state("");
@@ -44,10 +44,10 @@
     return fuse.search(searchString, { limit: 5 }).map((e) => e.item);
   });
 
-  function handleSelect(selectValue: OptionType | null) {
+  function handleSelect(selectValue: OptionType) {
     searchString = "";
     isShowDropdown = false;
-    value = selectValue ? selectValue.name : null;
+    value = selectValue.name;
     selectFn(selectValue);
   }
 
@@ -71,8 +71,7 @@
   {/if}
   <div
     class="select-with-button"
-    onclickoutside={() => (isShowDropdown = false)}
-    {@attach clickOutside({})}
+    {@attach clickOutside(() => (isShowDropdown = false))}
   >
     <div class="select">
       <button class="value-show" onclick={() => (isShowDropdown = true)}>
@@ -83,7 +82,7 @@
         {/if}
       </button>
       {#if isShowRemoveIcon}
-        <button class="select-icon remove-icon" onclick={() => handleSelect(null)}>
+        <button class="select-icon remove-icon" onclick={() => (value = null)}>
           <CloseCircleSolidIcon />
         </button>
       {:else}
@@ -92,12 +91,17 @@
         </button>
       {/if}
     </div>
-    <button class="create-btn" onclick={() => {
-      btnClickFn?.();
-      isShowDropdown = false
-    }}>
-      <PlusIcon --stroke="hsl(0,100%, 100%)" />
-    </button>
+    {#if btnClickFn}
+      <button
+        class="create-btn"
+        onclick={() => {
+          btnClickFn?.();
+          isShowDropdown = false;
+        }}
+      >
+        <PlusIcon --stroke="hsl(0,100%, 100%)" />
+      </button>
+    {/if}
     {#if isShowDropdown}
       <div class="float-container">
         <div class="input">
@@ -131,7 +135,7 @@
   .select {
     border: 0.5px solid $gray-clr;
     padding: 0.5em 0.8em;
-    border-radius: 5px 0 0 5px;
+    border-radius: 5px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
