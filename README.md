@@ -1,5 +1,9 @@
 # International Project Management System
 
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=plastic)](LICENSE)
+[![.Net Core](https://img.shields.io/badge/.Net%20Core-8.0-blue?style=plastic&logo=dotnet)](https://dotnet.microsoft.com/)
+[![SvelteKit](https://img.shields.io/badge/SvelteKit-2.21-orange?style=plastic&logo=svelte)](https://svelte.dev/)
+
 > [!WARNING]
 > WIP: Project under development 
 
@@ -86,3 +90,32 @@ In url `/docs`
 
 ## Screenshot
 ![](/docs/images/screenshot-from-2025-06-27-22-58-16.png)
+
+## Features
+
+### Authenticate
+- Login, sign-up (JWT, access-refresh token)
+
+### Project management
+- CRUD project
+- Report project
+- Cancel project
+- Add member, role management
+- Upload file, download file, delete file, update information of files
+
+### Profile
+- Update profile
+- Upload avatar
+
+## Todo
+
+### Authenticate
+- [ ] Find best way to sign-up admin account
+
+### User 
+- [ ] Lock account (admin)
+- [ ] Active account (admin)
+- [ ] Update role (admin)
+
+### Project management
+- [ ] Search project
