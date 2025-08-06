@@ -6,6 +6,7 @@ using IPM.Application.UseCases.Project.GetAllProjectUseCase;
 using IPM.Application.UseCases.Project.GetProjectUseCase;
 using IPM.Application.UseCases.Project.UpdateProjectUseCase;
 using IPM.Application.UseCases.Project.RemoveUserInProjectUseCase;
+using IPM.Application.UseCases.Project.GetOwnProjectUseCase;
 using IPM.WebApi.EndpointFilters;
 using Microsoft.AspNetCore.Mvc;
 using IPM.WebApi.Helper;
@@ -49,6 +50,41 @@ public static class ProjectEndpoints
                    } else {
                        return Results.Ok(await handler.Handle(query));
                    }
+                }
+            )
+            .RequireAuthorization("UserPermission");
+
+        endpoints
+            .MapGet(
+                "/my-project",
+                async (
+                    string? include,
+                    string? sortBy,
+                    string? sortOrd,
+                    string? filter,
+                    int? page,
+                    int? pageSize,
+                    bool? pageMetadata,
+                    HttpContext ctx,
+                    IGetOwnProjectUseCase handler
+                ) =>
+                {
+                   var query = new CriteriaQuery()
+                   {
+                       Filter = filter,
+                       Include = include,
+                       SortColumn = sortBy,
+                       SortOrder = sortOrd,
+                       Page = page,
+                       PageSize = pageSize,
+                       PageMetadata = pageMetadata
+                   };
+
+                    var userId = GetUserIdFromHttpContext.Get(ctx);
+                    if(userId is null) {
+                        return Results.BadRequest();
+                    }
+                       return Results.Ok(await handler.Handle(userId, query));
                 }
             )
             .RequireAuthorization("UserPermission");

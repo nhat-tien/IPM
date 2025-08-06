@@ -68,4 +68,15 @@ public class ParticipationRepository
             .Where(e => e.ProjectId == projectId)
             .ExecuteDeleteAsync();
     }
+
+    public async Task<IEnumerable<Domain.Participation>> GetByUserId(string userId)
+    {
+        var participations = await db.Participations
+            .Where(e => e.UserId == userId)
+            .Include("Project")
+            .ToListAsync();
+
+        var participationsDomain = participations.Select(e => e.MapToWithProject());
+        return participationsDomain;
+    }
 }
