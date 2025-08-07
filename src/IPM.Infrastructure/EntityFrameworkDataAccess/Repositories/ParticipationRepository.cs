@@ -73,7 +73,10 @@ public class ParticipationRepository
     {
         var participations = await db.Participations
             .Where(e => e.UserId == userId)
-            .Include("Project")
+            .Where(e => e.Project != null)
+            .Include(e => e.Project!.AffiliatedUnit)
+            .Include(e => e.Project!.AidType)
+
             .ToListAsync();
 
         var participationsDomain = participations.Select(e => e.MapToWithProject());

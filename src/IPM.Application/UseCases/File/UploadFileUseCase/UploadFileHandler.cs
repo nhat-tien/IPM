@@ -26,7 +26,9 @@ public class UploadFileHandler(IFileService fileService, IFileRepository repo) :
             if(!isSuccess) return;
 
             Domain.File fileInfo = new Domain.File() {
-                FileName = file.FileName,
+                FileName = file.FileNameWithoutExtension,
+                Extension = file.Extension,
+                Size = file.Length,
                 FileTypeId = Convert.ToInt32(fileTypeId),
                 ObjectName = objectName,
                 ProjectId = Convert.ToInt32(projectId),

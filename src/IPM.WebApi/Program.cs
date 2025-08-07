@@ -2,6 +2,7 @@ using IPM.Infrastructure;
 using IPM.WebApi.ApiEndpoints.V1;
 using IPM.WebApi.Exceptions;
 using IPM.WebApi.ServiceRegisters;
+using IPM.WebApi.Cli;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
@@ -45,6 +46,11 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
 
+if(args.Length > 0) {
+    await CliHandler.Handle(args, app);
+    return;
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -55,9 +61,10 @@ if (!app.Environment.IsDevelopment())
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger(o => {
-            o.RouteTemplate = "/docs/{documentName}/swagger.json";
-            });
+    app.UseSwagger(o =>
+    {
+        o.RouteTemplate = "/docs/{documentName}/swagger.json";
+    });
     app.UseSwaggerUI(c =>
     {
         c.RoutePrefix = "docs";
@@ -79,4 +86,7 @@ app.MapControllerRoute(
     defaults: new { controller = "Home", action = "Index" }
 );
 app.MapEndpointsApi();
+
+
+
 app.Run();

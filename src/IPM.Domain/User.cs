@@ -23,7 +23,7 @@ public class User
     //NOTE: I'm not sure about this property's type, maybe it's a string
     public int VerifiedCodeEmail { get; set; }
 
-    public int VerifiedStatus { get; set; }
+    public bool IsVerified { get; set; }
     public DateTime VerificationValidTime { get; set; }
     public List<Participation>? Participations {get; set;}
 

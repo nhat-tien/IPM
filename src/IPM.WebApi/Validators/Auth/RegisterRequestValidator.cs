@@ -11,7 +11,7 @@ public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
         RuleFor(req => req.FirstName).NotEmpty();
         RuleFor(req => req.LastName).NotEmpty();
         RuleFor(req => req.Password).NotEmpty().Length(6,20);
-        RuleFor(req => req.RoleId).NotEmpty();
+        RuleFor(req => req.RoleId).NotEmpty().Must(roleId => roleId == "2" || roleId == "3");
         // RuleFor(req => req.AffiliatedUnitId).NotEmpty();
         // RuleFor(req => req.PositionId).NotEmpty();
     }

@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using IPM.Domain;
 using Microsoft.AspNetCore.Identity;
 
@@ -7,25 +8,37 @@ namespace IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 public class User : IdentityUser
 {
     public string? FirstName { get; set; }
+
     public string? LastName { get; set; }
+
     public int? PositionId { get; set; }
+
     public int? AffiliatedUnitId { get; set; }
+
     public Sex Sex {get; set; }  
+
     public string? Address { get; set; }
+
     public string? AvatarUrl {get; set; }
+
     public int Status { get; set; }
+
     public DateTime CreatedAt { get; set; }
+
     public DateTime UpdatedAt { get; set; }
 
     //NOTE: I'm not sure about this property's type, maybe it's a string
     public int VerifiedCodeEmail { get; set; }
-    public int VerifiedStatus { get; set; }
+
+    [DefaultValue(false)]
+    public bool IsVerified { get; set; }
+
     public DateTime VerificationValidTime { get; set; }
 
     public Position? Position { get; set; }
+
     public AffiliatedUnit? AffiliatedUnit { get; set; }
 
-    // public List<Project>? Projects { get; set; }
     public List<Participation>? Participations {get; set;}
 
     public virtual ICollection<IdentityUserClaim<string>>? Claims { get; set; }
@@ -52,7 +65,7 @@ public class User : IdentityUser
             CreatedAt = this.CreatedAt,
             UpdatedAt = this.UpdatedAt,
             VerifiedCodeEmail = this.VerifiedCodeEmail,
-            VerifiedStatus = this.VerifiedStatus,
+            IsVerified = this.IsVerified,
             VerificationValidTime = this.VerificationValidTime,
             Role = this.UserRoles is not null ? this.UserRoles[0].Role!.MapTo() : null,
             AffiliatedUnit = this.AffiliatedUnit is not null ? this.AffiliatedUnit.MapTo() : null,
@@ -81,7 +94,7 @@ public class User : IdentityUser
             CreatedAt = this.CreatedAt,
             UpdatedAt = this.UpdatedAt,
             VerifiedCodeEmail = this.VerifiedCodeEmail,
-            VerifiedStatus = this.VerifiedStatus,
+            IsVerified = this.IsVerified,
             VerificationValidTime = this.VerificationValidTime,
             Role = this.UserRoles is not null ? this.UserRoles[0].Role!.MapTo() : null,
             AffiliatedUnit = this.AffiliatedUnit is not null ? this.AffiliatedUnit.MapTo() : null,
@@ -108,7 +121,7 @@ public class User : IdentityUser
                 CreatedAt = user.CreatedAt,
                 UpdatedAt = user.UpdatedAt,
                 VerifiedCodeEmail = user.VerifiedCodeEmail,
-                VerifiedStatus = user.VerifiedStatus,
+                IsVerified = user.IsVerified,
                 VerificationValidTime = user.VerificationValidTime,
             };
         }
@@ -130,7 +143,7 @@ public class User : IdentityUser
                 CreatedAt = user.CreatedAt,
                 UpdatedAt = user.UpdatedAt,
                 VerifiedCodeEmail = user.VerifiedCodeEmail,
-                VerifiedStatus = user.VerifiedStatus,
+                IsVerified = user.IsVerified,
                 VerificationValidTime = user.VerificationValidTime,
             };
         }

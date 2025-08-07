@@ -165,6 +165,9 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Extension")
+                        .HasColumnType("text");
+
                     b.Property<string>("FileName")
                         .HasColumnType("text");
 
@@ -179,6 +182,9 @@ namespace IPM.Infrastructure.Migrations
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("integer");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -536,6 +542,9 @@ namespace IPM.Infrastructure.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LastName")
                         .HasColumnType("text");
 
@@ -588,9 +597,6 @@ namespace IPM.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("VerifiedCodeEmail")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("VerifiedStatus")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");

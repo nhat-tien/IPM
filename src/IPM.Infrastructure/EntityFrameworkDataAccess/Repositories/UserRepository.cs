@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using System.Reflection;
 using IPM.Application.IRepositories;
 using IPM.Application.Queries;
@@ -43,10 +44,7 @@ public class UserRepository(UserManager<User> userManager, AppDBContext db) : IU
     {
         IQueryable<User> query = userManager.Users.Where(e => e.Id == id);
 
-        if (queryParam.Include is not null)
-        {
-            query = IncludeWith(query, queryParam.GetIncludeList);
-        }
+        query = IncludeWith(query, queryParam);
 
         User? user = await query.FirstOrDefaultAsync();
 
@@ -58,19 +56,27 @@ public class UserRepository(UserManager<User> userManager, AppDBContext db) : IU
     }
 
 
-    protected virtual IQueryable<User> IncludeWith(IQueryable<User> query, string[] includeList)
+    protected virtual IQueryable<User> IncludeWith(IQueryable<User> query, CriteriaQuery queryParam)
     {
-        foreach (var item in includeList)
+
+        if (queryParam.Include is not null)
         {
-            if (item.Equals("Role"))
+            var includeList = queryParam.GetIncludeList;
+
+            foreach (var item in includeList)
             {
-                query = query.Include(e => e.UserRoles)!.ThenInclude(e => e.Role);
-            } else if(item.Equals("Participations"))
-                query = query
-                    .Include(e => e.Participations!.Where(part => part.Project!.IsDeleted == false))
-                    !.ThenInclude(e => e.Project);
-            else {
-                query = query.Include(item);
+                if (item.Equals("Role"))
+                {
+                    query = query.Include(e => e.UserRoles)!.ThenInclude(e => e.Role);
+                }
+                else if (item.Equals("Participations"))
+                    query = query
+                        .Include(e => e.Participations!.Where(part => part.Project!.IsDeleted == false))
+                        !.ThenInclude(e => e.Project);
+                else
+                {
+                    query = query.Include(item);
+                }
             }
         }
         return query;
@@ -145,10 +151,9 @@ public class UserRepository(UserManager<User> userManager, AppDBContext db) : IU
     {
         IQueryable<User> query = userManager.Users;
 
-        if (queryParam.Include is not null)
-        {
-            query = IncludeWith(query, queryParam.GetIncludeList);
-        }
+        query = IncludeWith(query, queryParam);
+
+        query = Filter(query, queryParam);
 
         List<User> entity = await query.ToListAsync();
 
@@ -171,14 +176,15 @@ public class UserRepository(UserManager<User> userManager, AppDBContext db) : IU
 
         if (entity is null)
             return;
-        
+
         db.Users.Attach(entity);
 
         Type typeOfModel = model.GetType();
         PropertyInfo[] properties = typeOfModel.GetProperties();
         foreach (PropertyInfo property in properties)
         {
-            if(property.Name == "CreatedAt" || property.Name == "UserId" ) {
+            if (property.Name == "CreatedAt" || property.Name == "UserId")
+            {
                 continue;
             }
             if (property.GetValue(model) is not null)
@@ -188,5 +194,99 @@ public class UserRepository(UserManager<User> userManager, AppDBContext db) : IU
         }
         entity.UpdatedAt = DateTime.UtcNow;
         await db.SaveChangesAsync();
+    }
+
+    protected IQueryable<User> Filter(IQueryable<User> query, CriteriaQuery queryParam)
+    {
+
+        if (queryParam.Filter is null)
+        {
+            return query;
+        }
+
+        List<FilterItem> filterItem = queryParam.GetFilterList();
+
+        foreach (var item in filterItem)
+        {
+            string property = item.Property;
+            string op = item.Operator;
+            object value = item.Value;
+
+            var param = Expression.Parameter(typeof(User), "e");
+            var propExpression = Expression.Property(param, property);
+
+            if (propExpression.Type != typeof(string))
+                value = Convert.ChangeType(value, propExpression.Type);
+
+            Expression<System.Func<User, bool>> filterLambda;
+            switch (op)
+            {
+                case "<":
+                    filterLambda = Expression.Lambda<Func<User, bool>>(
+                       Expression.LessThan(
+                           propExpression,
+                           Expression.Constant(value)
+                       ),
+                       param
+                   );
+                    break;
+                case ">":
+                    filterLambda = Expression.Lambda<Func<User, bool>>(
+                       Expression.GreaterThan(
+                           propExpression,
+                           Expression.Constant(value)
+                       ),
+                       param
+                   );
+                    break;
+                case "=":
+                    filterLambda = Expression.Lambda<Func<User, bool>>(
+                       Expression.Equal(
+                           propExpression,
+                           Expression.Constant(value)
+                       ),
+                       param
+                   );
+                    break;
+                case ">=":
+                    filterLambda = Expression.Lambda<Func<User, bool>>(
+                       Expression.GreaterThanOrEqual(
+                           propExpression,
+                           Expression.Constant(value)
+                       ),
+                       param
+                   );
+                    break;
+                case "<=":
+                    filterLambda = Expression.Lambda<Func<User, bool>>(
+                       Expression.LessThanOrEqual(
+                           propExpression,
+                           Expression.Constant(value)
+                       ),
+                       param
+                   );
+                    break;
+                case "!=":
+                    filterLambda = Expression.Lambda<Func<User, bool>>(
+                       Expression.NotEqual(
+                           propExpression,
+                           Expression.Constant(value)
+                       ),
+                       param
+                   );
+                    break;
+                default:
+                    filterLambda = Expression.Lambda<Func<User, bool>>(
+                   Expression.Equal(
+                       propExpression,
+                       Expression.Constant(value)
+                   ),
+                   param
+                   );
+                    break;
+            }
+            query = query.Where(filterLambda);
+        }
+        return query;
     }
 }

@@ -15,10 +15,25 @@ public class UserEndpoints
         var endpoints = route.MapGroup("/users");
 
         endpoints
-            .MapGet("/", async (string? include, IGetAllUserUseCase handler) => {
+            .MapGet("/", async (
+                        string? include, 
+                        string? sortBy,
+                        string? sortOrd,
+                        string? filter,
+                        int? page,
+                        int? pageSize,
+                        bool? pageMetadata,
+                        IGetAllUserUseCase handler
+                    ) => {
                    var query = new CriteriaQuery()
                    {
+                       Filter = filter,
                        Include = include,
+                       SortColumn = sortBy,
+                       SortOrder = sortOrd,
+                       Page = page,
+                       PageSize = pageSize,
+                       PageMetadata = pageMetadata
                    };
                     return await handler.Handle(query);
             })

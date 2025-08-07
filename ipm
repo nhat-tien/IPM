@@ -16,6 +16,7 @@ print_help() {
     echo "            mg:remove        Remove migration"
     echo "            db:update        Update database"
     echo "            db:drop          Drop database"
+    echo "            seed:admin       Create admin account"
     echo "            dk:run           Docker run (not available now)"
     echo "            path:add <path>  Add ipm cli alias to folder has <path>, default is '~/.local/bin'"
 }
@@ -79,6 +80,10 @@ main() {
             echo "ln -s \"\${\CURRENT_FOLDER}/ipm\" \"\${HOME}/.local/bin/ipm\""
             CURRENT_FOLDER=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
             ln -s "${CURRENT_FOLDER}/ipm" "${HOME}/.local/bin/ipm"
+            ;;
+        "seed:admin")
+            echo "dotnet run --project src/IPM.WebApi -- seed-admin"
+            dotnet run --project src/IPM.WebApi -- seed-admin
             ;;
         *)
             echo "Command not found: $1"

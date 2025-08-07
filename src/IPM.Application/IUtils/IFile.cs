@@ -2,11 +2,15 @@ namespace IPM.Application.IUtils;
 
 public interface IFile
 {
-    string ContentType {get;}
+    string ContentType { get; }
 
-    long Length {get;}
+    long Length { get; }
 
-    string FileName {get;}
+    string FileName { get; }
+
+    string FileNameWithoutExtension { get; }
+
+    string Extension { get; }
 
     Task CopyToAsync(Stream target);
 }

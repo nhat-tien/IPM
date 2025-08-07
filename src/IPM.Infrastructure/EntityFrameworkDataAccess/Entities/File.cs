@@ -6,7 +6,9 @@ public class File : BaseEntity
 {
     public int FileId { get; set; }
     public string? FileName { get; set; }
+    public string? Extension { get; set; }
     public string? ObjectName { get; set; }
+    public long Size { get; set; }
 
     [DefaultValue(false)]
     public bool IsDeleted {get; set; }
@@ -28,6 +30,8 @@ public class File : BaseEntity
             FileName = this.FileName,
             ProjectId = this.ProjectId,
             FileTypeId = this.FileTypeId,
+            Extension = this.Extension,
+            Size = this.Size,
             ObjectName = this.ObjectName,
             UserId = this.UserId,
             FileType = this.FileType is not null ? this.FileType.MapTo() : null,
@@ -44,6 +48,8 @@ public class File : BaseEntity
             FileId = model.FileId,
             FileName = model.FileName,
             ProjectId = model.ProjectId,
+            Extension = model.Extension,
+            Size = model.Size,
             FileTypeId = model.FileTypeId,
             UserId = model.UserId,
             ObjectName = model.ObjectName,

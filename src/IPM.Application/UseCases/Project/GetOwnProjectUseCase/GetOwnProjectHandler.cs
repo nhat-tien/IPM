@@ -12,6 +12,8 @@ public class GetOwnProjectHandler(IParticipationRepository participationReposito
          return participations
              .Select(e => e.Project)
              .Where(e => e != null)
-             .Cast<Domain.Project>();
+             .Cast<Domain.Project>()
+             .Where(e => e.IsDeleted == false)
+             .OrderBy(e => e.ProjectId);
     }
 }

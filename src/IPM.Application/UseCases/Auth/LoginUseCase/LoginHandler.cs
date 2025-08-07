@@ -13,7 +13,7 @@ public class LoginHandler(
     public async Task<SignInResponse> Handle(SignInRequest req)
     {
         Domain.User? user = await userRepo.FindByName(req.Email);
-        if (user is null)
+        if (user is null || user.IsVerified == false)
         {
             return SignInResponse.Error("User was not found");
         }

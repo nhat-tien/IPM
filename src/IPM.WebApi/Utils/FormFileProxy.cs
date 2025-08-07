@@ -12,6 +12,10 @@ public sealed class FormFileProxy: IFile
 
     public string FileName => _formFile.FileName;
 
+    public string FileNameWithoutExtension => _formFile.FileName.Replace($".{Extension}", "");
+
+    public string Extension => Path.GetExtension(_formFile.FileName).Replace(".", "");
+
     public FormFileProxy(IFormFile formFile)
     {
         _formFile = formFile;

@@ -97,7 +97,7 @@ public class AuthEndpoints
             }
         );
 
-        endpoints.MapGet("/info",(
+        endpoints.MapGet("/check-health",(
                     HttpContext context
                     ) => {
             if (context.User is ClaimsPrincipal principal)
