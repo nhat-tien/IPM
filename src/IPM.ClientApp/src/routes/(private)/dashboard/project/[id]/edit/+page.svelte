@@ -23,7 +23,7 @@
     projectNameVietnamese: data.project.projectNameVietnamese,
     projectNameEnglish: data.project.projectNameEnglish,
     projectProgress: data.project.projectProgress,
-    content: data.project.content,
+    content: data.project.content ?? "",
     projectPurpose: data.project.projectPurpose,
     percentageOfProgress: data.project.percentageOfProgress,
     startDate: getDateOrNull(data.project.startDate),
@@ -51,7 +51,7 @@
   });
 </script>
 
-<TitleWebPage title="Dự án - Chỉnh sửa" />
+<TitleWebPage title="Dự án • Chỉnh sửa" />
 <BasicCenterLayout
   header={"Cập nhật dự án #" + data.project.projectId}
   breadcrumbWithCallback={[

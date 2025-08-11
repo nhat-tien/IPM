@@ -5,6 +5,7 @@
   import clickOutside from "@lib/attachHelpers/clickOutside";
   import type { OptionType } from "@useCases/useCases.types";
   import Fuse from "fuse.js";
+    import { tick } from "svelte";
 
   let {
     value,
@@ -52,12 +53,28 @@
   }
 
   let input: HTMLInputElement | null = $state(null);
+  let anchor: HTMLDivElement | undefined = $state();
+  let positionDisplay: "top" | "bottom" = $state("bottom");
 
   $effect(() => {
     if (input) {
       input.focus();
     }
   });
+
+  function openSearchPane() {
+    isShowDropdown = true;
+    tick().then(() => {
+      const anchorPosition = anchor?.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const y = anchorPosition?.top ?? 0;
+      if(y + 200 > windowHeight) {
+        positionDisplay = "top";
+      }
+    });
+  }
+
+
 </script>
 
 <div class="select-container">
@@ -71,10 +88,11 @@
   {/if}
   <div
     class="select-with-button"
+    bind:this={anchor}
     {@attach clickOutside(() => (isShowDropdown = false))}
   >
     <div class="select">
-      <button class="value-show" onclick={() => (isShowDropdown = true)}>
+      <button class="value-show" onclick={() => openSearchPane()}>
         {#if value}
           <span class="value">{value}</span>
         {:else}
@@ -86,7 +104,7 @@
           <CloseCircleSolidIcon />
         </button>
       {:else}
-        <button class="select-icon" onclick={() => (isShowDropdown = true)}>
+        <button class="select-icon" onclick={() => openSearchPane()}>
           <ChevronDownIcon />
         </button>
       {/if}
@@ -103,7 +121,7 @@
       </button>
     {/if}
     {#if isShowDropdown}
-      <div class="float-container">
+      <div class="float-container" style={positionDisplay === "bottom" ? `top: calc(100% + 5px)`: `bottom: calc(100% + 5px)`}>
         <div class="input">
           <input
             bind:this={input}
@@ -189,10 +207,10 @@
     font-size: 0.9rem;
     color: $red-clr;
   }
+
   .float-container {
     position: absolute;
     z-index: 1;
-    top: calc(100% + 5px);
     left: 0;
     width: 100%;
     border-radius: 5px;

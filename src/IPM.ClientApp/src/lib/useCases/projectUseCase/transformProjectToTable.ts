@@ -7,7 +7,7 @@ export default function transformProjectToTable(project: Project[]): any[][] {
     [
       model.projectId, 
       model.projectNameVietnamese,
-      model.category?.categoryName ?? ""
+      model.affiliatedUnit?.affiliatedUnitName ?? ""
     ]);
 }
 

@@ -38,7 +38,7 @@
     border-radius: 10px;
     border: 1px solid $gray-clr;
     .welcome-text {
-      font-family: "Inter Bold";
+      font-weight: 600;
       margin-bottom: 0.1em;
     }
     .name {
@@ -51,7 +51,6 @@
     background-color: var(--background-color, $white-clr);
     border-radius: 10px;
     border: 1px solid $gray-clr;
-    font-family: "Inter";
     color: $text-second-clr;
     display: flex;
     flex-direction: column;
@@ -59,7 +58,7 @@
     align-items: center;
     p {
       margin-top: 0.2em;
-      font-family: "Inter Bold";
+      font-weight: 600;
       font-size: 1.2rem;
     }
     .small {

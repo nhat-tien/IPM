@@ -40,7 +40,7 @@
   <Container>
     <Row --padding="1em 1em 1em 1.5em"></Row>
   <Table {headers} hasAction>
-    {#each data.user.participations as { project }}
+    {#each data.projects as project }
       <TableRow
         row={transformParticipation(project)}
         onViewLabel="Chi tiết"

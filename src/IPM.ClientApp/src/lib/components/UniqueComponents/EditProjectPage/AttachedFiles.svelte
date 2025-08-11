@@ -123,7 +123,7 @@
       {#each files as file}
         <li class="file">
           <div class="file__type-icon">
-            {@html getIcon(file.fileName)}
+            {@html getIcon(file.extension)}
           </div>
           <div class="file__info">
             <div class="file-info__label">
@@ -299,5 +299,8 @@
     td {
       padding: 10px 0;
     }
+  }
+  .file__type-icon {
+    @include size(50px)
   }
 </style>

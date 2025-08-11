@@ -15,7 +15,7 @@
   const { data }: { data: PageData } = $props();
 </script>
 
-<TitleWebPage title="Dự án - Xem chi tiết" />
+<TitleWebPage title="Profile" />
 <BasicCenterLayout
   header={"Profile"}
   breadcrumbWithCallback={[
@@ -52,7 +52,9 @@
         {#if data.user.avatarUrl}
           <img src={getAvatar(data.user.avatarUrl)} alt="avatar" />
         {:else}
-          <UserCircle --fill="hsl(30, 0%, 30%)" />
+          <div class="icon">
+            <UserCircle --fill="hsl(30, 0%, 30%)" />
+          </div>
         {/if}
         <button class="update-avatar-btn" onclick={() => openModal(uploadAvatar)}>
           <PencilIcon />
@@ -126,6 +128,10 @@
       right: 2px;
       padding: 7px;
     }
+    .icon {
+      width: 15em;
+      height: 15em;
+    }
   }
   .info-container {
     margin-left: 1.5em;
@@ -135,6 +141,9 @@
     }
     .label {
       font-weight: 600;
+    }
+    .data {
+      padding-left: 1em;
     }
   }
 </style>

@@ -8,8 +8,8 @@
   import type { PageData } from "./$types";
   import transformProjectToTable from "@useCases/projectUseCase/transformProjectToTable";
   import { goto } from "$app/navigation";
-    import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
-    import Container from "@components/Container/Container.svelte";
+  import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
+  import Container from "@components/Container/Container.svelte";
 
   let { data }: { data: PageData } = $props();
 
@@ -17,7 +17,7 @@
   let headers = [
     `Mã ${modelName.toLowerCase()}`,
     `Tên ${modelName.toLowerCase()}`,
-    "Danh mục",
+    "Đơn vị",
   ];
 </script>
 
@@ -26,7 +26,7 @@
   <Row --justify-content="flex-end" >
     <PrimaryButton
       onclick={() => {
-        goto("/dashboard/project/create");
+        goto("/dashboard/project/create?redirect=all-project");
       }}
       variant="orange"
       --margin-bottom="0.5em">Thêm</PrimaryButton
@@ -42,8 +42,8 @@
         <TableRow
           row={item}
           onViewLabel="Chi tiết"
-          onView={() => goto(`project/${item[0]}/view`)}
-          onEdit={() => goto(`project/${item[0]}/edit`)}
+          onView={() => goto(`project/${item[0]}/view?redirect=all-project`)}
+          onEdit={() => goto(`project/${item[0]}/edit?redirect=all-project`)}
         />
       {/each}
     {/await}

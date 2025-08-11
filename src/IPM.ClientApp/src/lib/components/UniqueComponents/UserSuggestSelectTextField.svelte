@@ -118,7 +118,7 @@
     }
   }
   .suggest-item__name {
-    font-family: "Inter SemiBold";
+    font-weight: 600;
   }
   .suggest-item__email {
     font-size: 0.9rem;

@@ -97,7 +97,7 @@
     bottom: 2em;
     font-size: 0.9rem;
     a {
-      font-family: "Inter Bold";
+      font-weight: 700;
       color: $text-second-clr;
     }
   }

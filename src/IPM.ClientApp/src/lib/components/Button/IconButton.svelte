@@ -44,7 +44,7 @@
     margin-bottom: var(--margin-bottom, 0);
     background-color: $white-clr;
     color: var(--color, $text-clr);
-    font-family: "Inter SemiBold";
+    font-weight: 600;
     padding: 0.4em 0.5em;
     border-radius: 10px;
     border: 1px solid var(--border-color, $gray-clr);
@@ -53,6 +53,7 @@
     justify-content: center;
     align-items: center;
     gap: 0.3em;
+    width: var(--btn-width, max-content);
     &:hover {
       background-color: hsl(0, 0%, 95%);
     }
@@ -61,7 +62,7 @@
   .button--orange {
     background-color: var(--background-color, $text-second-clr);
     color: var(--color, $white-clr);
-    font-family: "Inter SemiBold";
+    font-weight: 600;
     &:hover {
       background-color: var(--background-color, $text-second-clr);
       opacity: 0.8;

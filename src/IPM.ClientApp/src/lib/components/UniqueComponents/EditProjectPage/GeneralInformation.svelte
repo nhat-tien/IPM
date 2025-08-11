@@ -144,13 +144,13 @@
     id="startDate"
     bind:value={modelState.startDate}
   />
-  <DatePicker
-    --margin-top="1.5em"
-    --width="20ch"
-    label="Ngày kết thúc"
-    id="endDate"
-    bind:value={modelState.endDate}
-  />
+  <!-- <DatePicker -->
+  <!--   --margin-top="1.5em" -->
+  <!--   --width="20ch" -->
+  <!--   label="Ngày kết thúc" -->
+  <!--   id="endDate" -->
+  <!--   bind:value={modelState.endDate} -->
+  <!-- /> -->
   {#await data.affiliatedUnit}
     <SquareSkeleton --width="100%" --height="2em" --radius="5px" />
   {:then affiliatedUnit}

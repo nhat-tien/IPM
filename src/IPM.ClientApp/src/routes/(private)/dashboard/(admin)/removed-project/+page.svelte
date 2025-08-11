@@ -15,7 +15,7 @@
   import ArrowPathIcon from "@components/Icons/ArrowPathIcon.svelte";
   import restoreProject from "@useCases/projectUseCase/restoreProject";
   import toast from "svelte-5-french-toast";
-    import { invalidateCache } from "@stores/cache.svelte";
+  import { invalidateCache } from "@stores/cache.svelte";
 
   let { data }: { data: PageData } = $props();
 
@@ -86,5 +86,6 @@
     flex-direction: row;
     align-items: center;
     gap: 0.5em;
+    padding: 0.7em;
   }
 </style>

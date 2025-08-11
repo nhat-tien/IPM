@@ -50,9 +50,9 @@
               <FloatMenu>
                 {#if onView}
                   <FloatMenuItem>
-                    <button class="button-view" onclick={onView}>
+                    <button class="btn button-view" onclick={onView}>
                       <div class="icon">
-                        <EyeIcon --stroke="hsl(30, 0%, 30%)" />
+                        <EyeIcon />
                       </div>
                       {onViewLabel ?? "Xem"}
                     </button>
@@ -60,9 +60,9 @@
                 {/if}
                 {#if onEdit}
                   <FloatMenuItem>
-                    <button class="button-edit" onclick={onEdit}>
+                    <button class="btn button-edit" onclick={onEdit}>
                       <div class="icon">
-                        <PencilIcon --stroke="hsl(40, 84%, 48%)" />
+                        <PencilIcon />
                       </div>
                       {onEditLabel ?? "Chỉnh sửa"}
                     </button>
@@ -70,9 +70,9 @@
                 {/if}
                 {#if onDelete}
                   <FloatMenuItem>
-                    <button class="button-delete" onclick={onDelete}>
+                    <button class="btn button-delete" onclick={onDelete}>
                       <div class="icon">
-                        <TrashIcon --stroke=" hsl(0, 84%, 48%)" />
+                        <TrashIcon />
                       </div>
                       {onDeleteLabel ?? "Xóa"}
                     </button>
@@ -99,28 +99,31 @@
     flex-direction: row;
     gap: 0.5em;
     align-items: center;
-    button {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 0.5em;
-      padding: 0.7em;
-    }
     .icon {
-      width: 1.4em;
+      @include size(1.4em);
       @include center;
     }
   }
   .td-action {
     width: fit-content;
   }
+
+  .btn {
+    @include float-menu-item;
+  }
+
   .button-edit {
-    color: $edit-clr;
+    --icon-clr: var(--edit-500-clr);
+    color: var(--edit-500-clr);
   }
+
   .button-view {
-    color: $view-clr;
+    --icon-clr: var(--view-500-clr);
+    color: var(--view-500-clr);
   }
+
   .button-delete {
-    color: $delete-clr;
+    --icon-clr: var(--delete-500-clr);
+    color: var(--delete-500-clr);
   }
 </style>

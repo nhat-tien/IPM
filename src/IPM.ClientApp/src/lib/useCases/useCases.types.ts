@@ -87,6 +87,8 @@ export type FileApp = {
   fileName: string;
   fileType: FileType;
   fileTypeId: number;
+  extension: string;
+  size: number;
   objectName: string;
   projectId: number;
   createdAt: string;

@@ -18,7 +18,7 @@
   import Card from "@components/Card/Card.svelte";
   import Badge from "@components/Badge/Badge.svelte";
   import projectRoleMapping from "@utils/projectRoleMapping";
-  import { useUserInfo } from "@lib/stores/userInfo.svelte";
+  import useUserInfo from "@lib/states/userInfo.svelte";
 
   let {
     modelState = $bindable(),
@@ -133,7 +133,7 @@
           </p>
           <p class="member__email">{member.email}</p>
         </div>
-        {#if $userInfo && $userInfo.email == member.email}
+        {#if userInfo && userInfo.info?.email == member.email}
           <div>(Bạn)</div>
         {/if}
         <Badge isHasDot={false} variant="green"
@@ -165,13 +165,6 @@
 </Card>
 
 <style lang="scss">
-  .container {
-    background-color: $white-clr;
-    border: 1px solid $gray-clr;
-    border-radius: 15px;
-    padding: 1em;
-    margin-top: 1em;
-  }
   h2 {
     margin-bottom: 1em;
   }
@@ -189,7 +182,7 @@
     align-items: center;
   }
   .member__name {
-    font-family: "Inter SemiBold";
+    font-weight: 600;
   }
   .member__email {
     font-size: 0.9rem;

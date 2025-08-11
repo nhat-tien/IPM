@@ -4,17 +4,21 @@
   import FloatMenuItem from "@components/FloatMenu/FloatMenuItem.svelte";
   import FloatMenuWrapper from "@components/FloatMenu/FloatMenuWrapper.svelte";
   import logout from "$lib/useCases/authUseCases/logoutUseCase";
-  import { getUserInfo } from "@stores/userInfo.svelte";
+  import { getFullName, getUserInfo } from "@stores/userInfo.svelte";
   import IconButton from "@components/Button/IconButton.svelte";
   import LogoutIcon from "@components/Icons/LogoutIcon.svelte";
   import Row from "@components/Row/Row.svelte";
   import UserIcon from "@components/Icons/UserIcon.svelte";
   import SideBarIcon from "@components/Icons/SideBarIcon.svelte";
+  import useUserInfo from "@lib/states/userInfo.svelte";
+  import UserCircle from "@components/Icons/UserCircle.svelte";
 
   interface Props {
-    onClickSideBar: () => void
+    onClickSideBar: () => void;
   }
-  const { onClickSideBar }:Props = $props();
+  const { onClickSideBar }: Props = $props();
+
+  let userInfo = useUserInfo();
 </script>
 
 <header>
@@ -29,9 +33,7 @@
       <FloatMenuWrapper>
         {#snippet centerChild()}
           {#await getUserInfo()}
-            <CircleAvatar --radius="30px"
-              >{" "}</CircleAvatar
-            >
+            <CircleAvatar --radius="30px">{" "}</CircleAvatar>
           {:then info}
             <CircleAvatar --radius="30px"
               >{info?.firstName.charAt(0)}</CircleAvatar
@@ -40,6 +42,17 @@
         {/snippet}
         {#snippet menuContainer()}
           <FloatMenu>
+            {#if userInfo.info}
+              <div class="info-header">
+                <div class="icon-info">
+                  <UserCircle --fill="var(--text-300-clr)" />
+                </div>
+                <div class="information">
+                  <p class="information__name">{userInfo.info.lastName + " " + userInfo.info.firstName}</p>
+                  <p class="information__role">{userInfo.info.role}</p>
+                </div>
+              </div>
+            {/if}
             <FloatMenuItem>
               <a href="/dashboard/profile">
                 <Row --padding="0.7em" --margin-top="0" --margin-bottom="0">
@@ -51,12 +64,16 @@
               </a>
             </FloatMenuItem>
             <FloatMenuItem>
-              <IconButton onclick={logout}>
-                {#snippet icon()}
-                  <LogoutIcon --stroke="hsl(30, 0%, 50%)" />
-                {/snippet}
-                Đăng xuất
-              </IconButton>
+              <button onclick={logout}>
+                <Row --padding="0.7em" --margin-top="0" --margin-bottom="0">
+                  <div class="icon">
+                  <LogoutIcon />
+                  </div>
+                  <div>
+                    Đăng xuất
+                  </div>
+                </Row>
+              </button>
             </FloatMenuItem>
           </FloatMenu>
         {/snippet}
@@ -83,13 +100,15 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: "Inter Bold";
+    font-weight: 700;
     width: max-content;
   }
+
   .icon {
     width: 1.2em;
     @include center;
   }
+
   .side-bar-icon {
     width: 2em;
     @include center;
@@ -100,5 +119,27 @@
     flex-direction: row;
     justify-content: center;
     gap: 1em;
+  }
+
+  .info-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    gap: 0.5em;
+    padding: 0.5em 0;
+    border-bottom: var(--border-500);
+    min-width: 20ch;
+    .icon-info {
+      @include size(2em)
+    }
+    .information {
+      &__name {
+        font-size: 0.9rem;
+      }
+      &__role {
+        font-size: 0.8rem;
+        color: var(--text-400-clr);
+      }
+    }
   }
 </style>

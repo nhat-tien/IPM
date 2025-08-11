@@ -35,7 +35,7 @@
 
 <style lang="scss">
   h1 {
-    font-family: "Inter Bold";
+    font-weight: 700;
     font-size: 2rem;
     margin: 0.5em auto 0.2em auto;
   }

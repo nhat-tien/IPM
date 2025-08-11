@@ -10,7 +10,6 @@
   import type { OptionType } from "@useCases/useCases.types";
   import { Gender } from "@utils/getGenderFromNumber";
   import SquareSkeleton from "@components/Skeleton/SquareSkeleton.svelte";
-  import SelectCustom from "@components/Select/SelectCustom.svelte";
   import transformAffliatedUnitToOption from "@useCases/affiliatedUnitUseCase/transformAffliatedUnitToOption";
   import type { PageData } from "./$types";
   import transformPositionToOption from "@useCases/positionUseCase/transformPositionToOption";
@@ -18,6 +17,8 @@
   import toast from "svelte-5-french-toast";
   import { invalidateCache } from "@stores/cache.svelte";
   import { ZodError, type ZodIssue } from "zod";
+  import SelectWithSearch from "@components/Select/SelectWithSearch.svelte";
+    import Card from "@components/Card/Card.svelte";
 
   const { data }: { data: PageData } = $props();
 
@@ -88,8 +89,10 @@
     },
   ]}
 >
-  <section class="container">
-    <h2>Thông tin cá nhân</h2>
+  <Card
+    title="Thông tin cá nhân"
+    --card-padding="1em"
+  >
     <div class="name-input">
       <PrimaryTextFieldBindable
         id="lastName"
@@ -112,7 +115,7 @@
         name="firstName"
         {error}
         errorId="firstName"
-      onfocus={clearError}
+        onfocus={clearError}
         bind:value={formState.firstName}
         --margin-top="1.5em"
         --width="38%"
@@ -154,7 +157,7 @@
     {#await data.affiliatedUnit}
       <SquareSkeleton --width="100%" --height="2em" --radius="5px" />
     {:then affiliatedUnit}
-      <SelectCustom
+      <SelectWithSearch
         label="Đơn vị trực thuộc"
         required
         value={data.user.affiliatedUnit?.affiliatedUnitName}
@@ -167,7 +170,7 @@
     {#await data.position}
       <SquareSkeleton --width="100%" --height="2em" --radius="5px" />
     {:then position}
-      <SelectCustom
+      <SelectWithSearch
         label="Chức vụ"
         required
         value={data.user.position?.positionName}
@@ -177,7 +180,11 @@
         --margin-top="1.5em"
       />
     {/await}
-    <Row --justify-content="flex-end"  --padding-right="1em" --margin-top="1.5em">
+    <Row
+      --justify-content="flex-end"
+      --padding-right="1em"
+      --margin-top="1.5em"
+    >
       <SecondaryButton onclick={() => handleCancel()}
         >Hủy bỏ thay đổi</SecondaryButton
       >
@@ -185,7 +192,7 @@
         >Lưu</PrimaryButton
       >
     </Row>
-  </section>
+  </Card>
 </BasicCenterLayout>
 
 <style lang="scss">

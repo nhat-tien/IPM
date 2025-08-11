@@ -1,5 +1,13 @@
 import { getUserInfo, type UserInfo } from "@stores/userInfo.svelte";
 
+function delay(ms: number) {
+  return new Promise<void>(resolve => {
+    setTimeout(() => {
+      resolve(); // Resolve the promise after 'ms' milliseconds
+    }, ms);
+  });
+}
+
 export default function useUserInfo()  {
   let userInfo  = $state<UserInfo | null>(null);
 
@@ -11,5 +19,9 @@ export default function useUserInfo()  {
     fetchInfo();
   })
 
-  return userInfo;
+  return {
+    get info() {
+      return userInfo;
+    }
+  };
 }

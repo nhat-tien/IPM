@@ -11,7 +11,6 @@
   import type { EventSubmitElements } from "../../../shared.types";
 
   let roles = [
-    { value: "1", name: "Admin" },
     { value: "2", name: "Manager" },
     { value: "3", name: "User" },
   ];
@@ -29,7 +28,7 @@
       firstName: formData.get("firstName") as string,
       password: formData.get("password") as string,
       confirmPassword: formData.get("confirmPassword") as string,
-      roleId: formData.get("role") as "1" | "2" | "3",
+      roleId: formData.get("role") as "2" | "3",
     });
     isLoading = false;
     if (result.isSuccess) {
@@ -120,7 +119,7 @@
     bottom: 2em;
     font-size: 0.9rem;
     a {
-      font-family: "Inter Bold";
+      font-weight: 600;
       color: $text-second-clr;
     }
   }

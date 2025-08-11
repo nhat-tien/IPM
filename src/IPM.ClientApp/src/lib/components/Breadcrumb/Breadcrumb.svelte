@@ -21,7 +21,7 @@
 
 <style lang="scss">
   .breadcrumb {
-    font-family: "Inter Medium";
+    font-weight: 500;
     display: flex;
     padding: 0.2em;
     flex-direction: row;

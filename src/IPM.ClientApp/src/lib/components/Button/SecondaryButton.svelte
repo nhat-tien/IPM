@@ -22,7 +22,7 @@
     background-color: $white-clr;
     width: var(--width, max-content);
     color: var(--color, $text-clr);
-    font-family: "Inter SemiBold";
+    font-weight: 600;
     padding: 0.6em;
     border-radius: 10px;
     border: 1px solid var(--border-color, $gray-clr);

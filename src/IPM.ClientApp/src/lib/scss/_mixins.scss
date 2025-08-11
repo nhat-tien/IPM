@@ -1,9 +1,10 @@
 @use "variables" as *;
 
-@mixin hover-button-icon($border-radius: 5px, $background-color: $gray-clr){
+@mixin hover-button-icon($border-radius: 5px, $background-color: $gray-clr) {
   border-radius: $border-radius;
   background-color: inherit;
   transition: background-color .15s ease-in-out;
+
   &:hover {
     background-color: $background-color;
   }
@@ -13,4 +14,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@mixin size($size: 2em) {
+  width: $size;
+  height: $size;
+}
+
+@mixin float-menu-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.7em;
+
+  .icon {
+    @include size(1.3em);
+  }
 }

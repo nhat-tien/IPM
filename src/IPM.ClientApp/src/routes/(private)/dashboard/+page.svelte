@@ -9,7 +9,7 @@
 
 <style lang="scss">
   h1 {
-    font-family: "Inter Bold";
+    font-weight: 600;
   }
 </style>
 

@@ -4,16 +4,16 @@
   import TitleWebPage from "@components/Misc/TitleWebPage.svelte";
   import Row from "@components/Row/Row.svelte";
   import PrimaryTextFieldBindable from "@components/TextField/PrimaryTextFieldBindable.svelte";
-  import SingleFieldCreateModal from "@components/Modal/CreateModal/SingleFieldCreateModal.svelte";
   import transformCategoryToOption from "@useCases/categoryUseCase/transformCategoryToOption";
-  import createCategory from "@useCases/categoryUseCase/createCategory";
-  import { openModal } from "@stores/modal.svelte";
   import type { PageData } from "./$types";
   import createProject from "@useCases/projectUseCase/createProject";
   import { ZodError, type ZodIssue } from "zod";
   import toast from "svelte-5-french-toast";
-  import { invalidate } from "$app/navigation";
-  import SelectWithCreateButtonCustom from "@components/Select/SelectWithCreatedButtonCustom.svelte";
+  import { goto, invalidate } from "$app/navigation";
+  import SelectWithSearch from "@components/Select/SelectWithSearch.svelte";
+  import { page } from "$app/state";
+    import transformAffiliatedUnitToOption from "@useCases/affiliatedUnitUseCase/transformAffliatedUnitToOption";
+    import { invalidateCache } from "@stores/cache.svelte";
 
   let { data }: { data: PageData } = $props();
   let error: ZodIssue[] = $state([]);
@@ -21,19 +21,25 @@
   let modelState: {
     projectNameVietnamese: string;
     projectNameEnglish: string;
-    categoryId: string;
+    affiliatedUnitId: string;
   } = $state({
     projectNameVietnamese: "",
     projectNameEnglish: "",
-    categoryId: "",
+    affiliatedUnitId: "",
   });
 
   async function onCreate() {
     const result = await createProject(modelState);
     if (result.isSuccess) {
       toast.success("Tạo dự án thành công");
+      invalidateCache("my-project")
       resetForm();
-      invalidate("project:create");
+
+      if(page.url.searchParams.get("redirect") == "all-project") {
+        goto("/dashboard/all-project");
+      } else {
+        goto("/dashboard/project");
+      }
     } else {
       if (result.error instanceof ZodError) {
         error = result.error.issues;
@@ -48,7 +54,7 @@
   function resetForm() {
     modelState.projectNameVietnamese = "";
     modelState.projectNameEnglish = "";
-    modelState.categoryId = "";
+    modelState.affiliatedUnitId = "";
   }
 </script>
 
@@ -81,16 +87,15 @@
       --margin-top="1em"
       required
     />
-      {#await data.category}
+      {#await data.affliatedUnit}
       <div>Loading</div>
-      {:then categories}
-      <SelectWithCreateButtonCustom 
-        label="Danh mục"
+      {:then affliatedUnits}
+      <SelectWithSearch 
+        label="Đơn vị trực thuộc"
         required
-        items={transformCategoryToOption(categories)}
-        placeHolder="Chọn danh mục"
-        selectFn={(e) => modelState.categoryId = e.value}
-        btnClickFn={() => openModal(createCategoryModal)}
+        items={transformAffiliatedUnitToOption(affliatedUnits)}
+        placeHolder="Chọn đơn vị trực thuộc"
+        selectFn={(e) => modelState.affiliatedUnitId = e ? e.value : ""}
         --margin-top="1em"
       />
       {/await}
@@ -101,18 +106,6 @@
     </Row >
   </div>
 </BasicCenterLayout>
-
-{#snippet createCategoryModal()}
-  <SingleFieldCreateModal
-    title="Thêm danh mục"
-    label="Tên danh mục"
-    placeHolder="Vui lòng nhập tên danh mục"
-    fieldName="categoryName"
-    successMessage="Thêm thành công"
-    invalidateStr="project:create"
-    createFn={createCategory}
-  />
-{/snippet}
 
 <style lang="scss">
   .container {

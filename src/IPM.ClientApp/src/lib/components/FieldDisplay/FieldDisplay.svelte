@@ -27,10 +27,14 @@
   gap: var(--gap, 0.3em)
 }
 .label {
-  font-weight: 600;
+  font-weight: 500;
+  color: var(--text-400-clr);
 }
 
 .content {
+  &--text {
+    font-weight: 600;
+  }
   &--block {
     border: 1px solid $gray-clr;
     border-radius: 10px;

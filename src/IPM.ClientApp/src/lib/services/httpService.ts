@@ -93,6 +93,8 @@ export const sponsorEndPoint = apiEndPointFactory("sponsors");
 
 export const projectEndPoint = apiEndPointFactory("projects");
 
+export const myProjectEndPoint = apiEndPointFactory("projects/my-project");
+
 export const assignEndPoint = apiEndPointFactory("projects/assignment");
 
 export const userEndPoint = apiEndPointFactory("users");

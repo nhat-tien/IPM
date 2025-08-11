@@ -66,6 +66,6 @@
   .button--orange {
     background-color: var(--background-color, $text-second-clr);
     color: var(--color, $white-clr);
-    font-family: "Inter SemiBold";
+    font-weight: 600;
   }
 </style>

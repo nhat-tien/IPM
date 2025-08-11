@@ -3,5 +3,5 @@ import getAll from "@useCases/common/getAll";
 import type { Project } from "@useCases/useCases.types";
 
 export default function getAllProject() {
-  return getAll<Project>(projectEndPoint, "?sortBy=ProjectId&sortOrd=asc&include=Category&filter=IsDeleted[=]false");
+  return getAll<Project>(projectEndPoint, "?sortBy=ProjectId&sortOrd=asc&include=AffiliatedUnit&filter=IsDeleted[=]false");
 }

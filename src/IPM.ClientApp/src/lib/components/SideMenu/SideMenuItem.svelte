@@ -62,7 +62,7 @@
     background-color: hsl(0, 0%, 92%);
   }
   .side-menu-item.active {
-    background-color: var(--primary-500-clr);
+    background-color: var(--primary-400-clr);
     color: var(--white-clr);
     .icon {
       --icon-clr: var(--white-clr);

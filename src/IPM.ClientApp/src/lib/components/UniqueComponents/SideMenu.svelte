@@ -4,7 +4,7 @@
   import ListBulletIcon from "@components/Icons/ListBulletIcon.svelte";
   import PresentationChartBarIcon from "@components/Icons/PresentationChartBarIcon.svelte";
   import RectangleStackIcon from "@components/Icons/RectangleStackIcon.svelte";
-    import TrashIcon from "@components/Icons/TrashIcon.svelte";
+  import TrashIcon from "@components/Icons/TrashIcon.svelte";
   import UserGroupIcon from "@components/Icons/UserGroupIcon.svelte";
   import SideMenuGroup from "@components/SideMenu/SideMenuGroup.svelte";
   import SideMenuItem from "@components/SideMenu/SideMenuItem.svelte";

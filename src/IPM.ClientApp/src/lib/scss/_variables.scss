@@ -14,9 +14,24 @@ $warning_icon_bg_clr: hsl(0, 84%, 95%);
 $warning_icon_stroke_clr: hsl(0, 84%, 48%);
 
 :root {
+  --primary-900-clr: hsl(20, 100%, 95%);
   --primary-500-clr: hsl(20, 100%, 58%);
+  --primary-400-clr: hsl(20, 84%, 48%);
   --white-clr: hsl(0, 0%, 100%);
   --background-clr: hsl(0, 0%, 97%); 
   --icon-clr: #000;
+
+  --text-500-clr: hsl(30, 0%, 0%);
+  --text-400-clr: hsl(30, 0%, 40%);
+  --text-300-clr: hsl(30, 0%, 60%);
+  --text-200-clr: hsl(30, 0%, 70%);
+
+  --border-500-clr: hsl(0, 0%, 84%);
+
+  --border-500: 1px solid var(--border-500-clr);
+
+  --delete-500-clr: hsl(0, 84%, 48%);
+  --edit-500-clr: hsl(40, 84%, 48%);
+  --view-500-clr: hsl(30, 0%, 30%);
 }
 

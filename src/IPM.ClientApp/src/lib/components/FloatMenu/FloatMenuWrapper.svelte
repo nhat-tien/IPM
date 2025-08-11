@@ -30,8 +30,6 @@
       const menuWidth = menuPosition?.width ?? 0;
       const menuHeight = menuPosition?.height ?? 0;
 
-      console.log(anchorPosition)
-
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
 
