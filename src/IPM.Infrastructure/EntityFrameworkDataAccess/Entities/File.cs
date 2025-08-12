@@ -19,7 +19,7 @@ public class File : BaseEntity
     public int? FileTypeId { get; set; }
     public FileType? FileType { get; set; }
 
-    public required string UserId { get; set; }
+    public string? UserId { get; set; }
     public User? User {get; set;} 
 
     public Domain.File MapTo()

@@ -23,7 +23,7 @@ public interface IUserRepository
 public class CreateResult {
     public bool IsSucceeded {get; set;}
     public string? Message {get; set;}
-    public Dictionary<string, string[]>? Errors {get; set;}
+    public string? Errors {get; set;}
 
     public static CreateResult Ok(string message)
     {
@@ -35,7 +35,7 @@ public class CreateResult {
         };
     }
 
-    public static CreateResult Error(Dictionary<string, string[]> error)
+    public static CreateResult Error(string error)
     {
         return new CreateResult()
         {

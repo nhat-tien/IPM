@@ -1,6 +1,7 @@
 using IPM.Application.UseCases.File.UploadFileUseCase;
 using IPM.Application.UseCases.File.GetFileInProject;
 using IPM.Application.UseCases.File.GetUrlDownloadFileUseCase;
+using IPM.Application.UseCases.File.UpdateFileTypeOfFileUseCase;
 using IPM.WebApi.Utils;
 using Microsoft.AspNetCore.Mvc;
 using IPM.Application.UseCases.File.DeleteFileUseCase;
@@ -32,8 +33,8 @@ public class FileEndpoints
             .DisableAntiforgery()
             .RequireAuthorization("UserPermission");
 
-        endpoints.MapGet("/project/{id}", async (
-                    int id,
+        endpoints.MapGet("/project/{projectId}", async (
+                    int projectId,
                     string? include,
                     string? sortBy,
                     string? sortOrd,
@@ -54,7 +55,7 @@ public class FileEndpoints
                 PageMetadata = pageMetadata
             };
 
-            return await handler.Handle(id, query);
+            return await handler.Handle(projectId, query);
         }).RequireAuthorization("UserPermission");
 
 
@@ -75,5 +76,16 @@ public class FileEndpoints
             }
         ).RequireAuthorization("UserPermission");
 
+        endpoints.MapPatch(
+                "/{fileId}",
+                async (
+                    int fileId,
+                    UpdateFileTypeOfFileRequest req,
+                    IUpdateFileTypeOfFileUseCase handler
+                    ) =>
+                {
+                    await handler.Handle(fileId, req);
+                }
+        ).RequireAuthorization("UserPermission");
     }
 }

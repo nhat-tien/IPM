@@ -3,7 +3,7 @@ namespace IPM.Application.UseCases.Auth.RegisterUseCase;
 public class RegisterResponse {
     public bool IsSuccess {get; private set;}
     public string? Message {get; private set;}
-    public Dictionary<string, string[]>? Errors {get; private set;}
+    public string? Errors {get; private set;}
 
     public static RegisterResponse Ok(string message)
     {
@@ -14,7 +14,7 @@ public class RegisterResponse {
         };
     }
 
-    public static RegisterResponse Error(Dictionary<string, string[]>? errors)
+    public static RegisterResponse Error(string errors)
     {
         return new RegisterResponse() {
             IsSuccess = false,

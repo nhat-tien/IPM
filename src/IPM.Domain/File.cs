@@ -29,7 +29,7 @@ public class File
 
     public FileType? FileType { get; set; }
 
-    public required string UserId { get; set; }
+    public string? UserId { get; set; }
 
     public User? User {get; set;} 
 }

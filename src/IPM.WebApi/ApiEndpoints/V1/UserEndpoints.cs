@@ -3,6 +3,7 @@ using IPM.Application.UseCases.User.GetCurrentUserUseCase;
 using IPM.Application.UseCases.User.GetAllUserUseCase;
 using IPM.Application.UseCases.User.UpdateUserInfoUseCase;
 using IPM.Application.UseCases.User.UploadAvatarUseCase;
+using IPM.Application.UseCases.User.VerifyUserUseCase;
 using IPM.WebApi.Helper;
 using IPM.WebApi.Utils;
 
@@ -43,6 +44,13 @@ public class UserEndpoints
             "/{userId}",
             async (string userId, UpdateUserInfoRequest req, IUpdateUserInfoUseCase handler) => {
                 await handler.Handle(userId, req);
+            }
+        );
+
+        endpoints.MapPatch(
+            "/{userId}/verified",
+            async (string userId, IVerifyUserUseCase handler) => {
+                await handler.Handle(userId);
             }
         );
 

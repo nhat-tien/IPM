@@ -62,6 +62,7 @@ using IPM.Application.UseCases.File.UploadFileUseCase;
 using IPM.Application.UseCases.File.GetFileInProject;
 using IPM.Application.UseCases.File.GetUrlDownloadFileUseCase;
 using IPM.Application.UseCases.File.DeleteFileUseCase;
+using IPM.Application.UseCases.File.UpdateFileTypeOfFileUseCase;
 
 using IPM.Application.UseCases.Role;
 
@@ -69,6 +70,7 @@ using IPM.Application.UseCases.User.GetAllUserUseCase;
 using IPM.Application.UseCases.User.GetCurrentUserUseCase;
 using IPM.Application.UseCases.User.UploadAvatarUseCase;
 using IPM.Application.UseCases.User.UpdateUserInfoUseCase;
+using IPM.Application.UseCases.User.VerifyUserUseCase;
 
 
 namespace IPM.WebApi.ServiceRegisters;
@@ -142,11 +144,13 @@ public static class UseCaseServiceRegister
         services.AddScoped<IGetFileInProject, GetFileInProjectHandler>();
         services.AddScoped<IGetUrlDownloadFileUseCase, GetUrlDownloadFileHandler>();
         services.AddScoped<IDeleteFileUseCase, DeleteFileHandler>();
+        services.AddScoped<IUpdateFileTypeOfFileUseCase, UpdateFileTypeOfFileHandler>();
 
         services.AddScoped<IGetAllUserUseCase, GetAllUserHandler>();
         services.AddScoped<IGetCurrentUserUseCase, GetCurrentUserHandler>();
         services.AddScoped<IUploadAvatarUseCase, UploadAvatarHandler>();
         services.AddScoped<IUpdateUserInfoUseCase, UpdateUserInfoHandler>();
+        services.AddScoped<IVerifyUserUseCase, VerifyUserHandler>();
 
         return services;
     }

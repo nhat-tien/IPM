@@ -4,4 +4,5 @@ public class UrlDownloadFileResponse
 {
     required public string Url {get; set;}
     required public string Name {get; set;}
+    required public string Extension {get; set;}
 }

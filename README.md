@@ -110,7 +110,7 @@ In url `/docs`
 ## Todo
 
 ### Authenticate
-- [ ] Find best way to sign-up admin account
+- [x] Find best way to sign-up admin account
 
 ### User 
 - [ ] Lock account (admin)
