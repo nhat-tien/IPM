@@ -1,9 +1,9 @@
 using IPM.Application.IRepositories;
 using IPM.Application.IServices;
 
-namespace IPM.Application.UseCases.File.DeleteFileUseCase;
+namespace IPM.Application.UseCases.File.SoftDeleteFileUseCase;
 
-public class DeleteFileHandler(IFileService fileService, IFileRepository repo): IDeleteFileUseCase
+public class SoftDeleteFileHandler(IFileService fileService, IFileRepository repo):  ISoftDeleteFileUseCase
 {
     public async Task Handle(int fileId)
     {

@@ -29,6 +29,7 @@ public class AppDBContext : IdentityDbContext<
     public DbSet<RefreshToken> RefreshTokens {get; set;} = null!;
     public DbSet<File> Files {get; set;} = null!;
     public DbSet<FileType> FileTypes {get; set;} = null!;
+    public DbSet<AuditLog> AuditLog {get; set;} = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

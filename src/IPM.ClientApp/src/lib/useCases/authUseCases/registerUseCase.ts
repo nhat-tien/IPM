@@ -1,9 +1,9 @@
 import { authEndPoint } from "@services/httpService";
-import type { HttpError } from "@sveltejs/kit";
+import { type HttpError } from "@sveltejs/kit";
 import { z, ZodError } from "zod";
 
 const RegisterScheme = z.object({
-  roleId: z.enum(["1","2","3"], {message: "Xin hãy chọn vai trò"}),
+  roleId: z.enum(["1", "2", "3"], { message: "Xin hãy chọn vai trò" }),
   email: z.string().email({
     message: "Định dạng email chưa đúng",
   }),
@@ -21,17 +21,19 @@ const RegisterScheme = z.object({
     message: "password tối thiểu 6 và tối đa 20 kí tự",
   }).max(
     20,
-    {message: "password tối thiểu 6 và tối đa 20 kí tự"}
+    { message: "password tối thiểu 6 và tối đa 20 kí tự" }
   ),
   confirmPassword: z.string(),
-}).refine(({password, confirmPassword}) => password === confirmPassword, {
+}).refine(({ password, confirmPassword }) => password === confirmPassword, {
   message: "Nhập lại mật khẩu chưa chính xác"
 });
 
 type RegisterParam = z.infer<typeof RegisterScheme>;
+type ErrorType = "ZodError" | "AuthError" | null
 type RegisterResult = {
-  isSuccess: boolean,
-  error: ZodError | null 
+  isSuccess: boolean;
+  errorType: ErrorType;
+  error: any;
 };
 
 export default async function register(formData: RegisterParam): Promise<RegisterResult> {
@@ -47,18 +49,27 @@ export default async function register(formData: RegisterParam): Promise<Registe
       },
       credentials: "include",
     }).json();
-    if(response.isSuccess) {
+    if (response.isSuccess) {
       return {
         isSuccess: true,
+        errorType: null,
         error: null,
       }
     }
-      return {
-        isSuccess: false,
-        error: null,
-      }
-  } catch (e: ZodError | HttpError | any) {
     return {
+      errorType: null,
+      isSuccess: false,
+      error: null,
+    }
+  } catch (e: ZodError | HttpError | any) {
+    let errorType: ErrorType = null;
+    if (e instanceof ZodError) {
+      errorType = "ZodError";
+    } else {
+      errorType = "AuthError";
+    };
+    return {
+      errorType: errorType,
       isSuccess: false,
       error: e,
     }

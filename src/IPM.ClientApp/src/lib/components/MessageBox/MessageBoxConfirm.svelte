@@ -60,8 +60,8 @@
   }
   .description {
     font-size: 1rem;
-    font-weight: 300;
-    color: $text_light_clr;
+    font-weight: 400;
+    color: var(--text-400-clr);
     margin-bottom: 1.5em;
     text-align: center;
   }

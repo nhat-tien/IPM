@@ -3,12 +3,11 @@
   import Card from "@components/Card/Card.svelte";
   import FloatMenu from "@components/FloatMenu/FloatMenu.svelte";
   import FloatMenuItem from "@components/FloatMenu/FloatMenuItem.svelte";
-  import ArrowPathIcon from "@components/Icons/ArrowPathIcon.svelte";
+  import { handleDownload } from "@useCases/fileUseCase/downloadFile";
   import ArrowTopRightOnSquare from "@components/Icons/ArrowTopRightOnSquare.svelte";
   import DownloadIcon from "@components/Icons/DownloadIcon.svelte";
-  import PencilIcon from "@components/Icons/PencilIcon.svelte";
   import Row from "@components/Row/Row.svelte";
-    import SideDrawer from "@components/SideDrawer/SideDrawer.svelte";
+  import SideDrawer from "@components/SideDrawer/SideDrawer.svelte";
   import RowSkeleton from "@components/Skeleton/RowSkeleton.svelte";
   import Table from "@components/Table/Table.svelte";
   import TableRow from "@components/Table/TableRow.svelte";
@@ -44,7 +43,7 @@
           {#snippet menu()}
             <FloatMenu>
               <FloatMenuItem>
-                <button class="float-menu" onclick={() => {}}>
+                <button class="float-menu" onclick={() => handleDownload(file.fileId)}>
                   <div class="icon">
                     <DownloadIcon />
                   </div>
@@ -60,14 +59,6 @@
                     <ArrowTopRightOnSquare />
                   </div>
                   Chi tiết
-                </button>
-              </FloatMenuItem>
-              <FloatMenuItem>
-                <button class="float-menu" onclick={() => {}}>
-                  <div class="icon">
-                    <PencilIcon />
-                  </div>
-                  Chỉnh sửa
                 </button>
               </FloatMenuItem>
             </FloatMenu>
@@ -116,7 +107,7 @@
     width: 100%;
     margin-top: 10px;
     td {
-      padding: 10px 0;
+      padding: 10px 10px;
     }
   }
 </style>

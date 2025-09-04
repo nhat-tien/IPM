@@ -1,4 +1,4 @@
-# International Project Management System
+<h1 align="center">International Project Management System</h1>
 
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=plastic)](LICENSE)
 [![.Net Core](https://img.shields.io/badge/.Net%20Core-8.0-blue?style=plastic&logo=dotnet)](https://dotnet.microsoft.com/)
@@ -7,14 +7,13 @@
 > [!WARNING]
 > WIP: Project under development 
 
-## Features
-
 ## Getting started
 ### Prerequisite
 - PostgreSQL
 - .NET Core SDK 8.0
 - NodeJS (v20 or later)
 - Entity Framework Core Tools (dotnet tool install --global dotnet-ef) 
+- MinIO - Object storage server
 
 ### Development 
 
@@ -80,8 +79,8 @@ In url `/docs`
 [Documents](/docs/README.md)
 
 ## Will fix
-- [ ] Catch email existing SQL error
-- [ ] Prevent users sign up with role
+- [x] Prevent users sign up with role
+- [x] Catch email existing SQL error
 - [x] Data return in order by createDate 
 
 ## Feature Wishlist
@@ -106,16 +105,3 @@ In url `/docs`
 ### Profile
 - Update profile
 - Upload avatar
-
-## Todo
-
-### Authenticate
-- [x] Find best way to sign-up admin account
-
-### User 
-- [ ] Lock account (admin)
-- [ ] Active account (admin)
-- [ ] Update role (admin)
-
-### Project management
-- [ ] Search project

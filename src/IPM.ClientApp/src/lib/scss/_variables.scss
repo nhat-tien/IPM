@@ -28,10 +28,12 @@ $warning_icon_stroke_clr: hsl(0, 84%, 48%);
 
   --border-500-clr: hsl(0, 0%, 84%);
 
-  --border-500: 1px solid var(--border-500-clr);
 
   --delete-500-clr: hsl(0, 84%, 48%);
   --edit-500-clr: hsl(40, 84%, 48%);
   --view-500-clr: hsl(30, 0%, 30%);
+
+  --success-500-clr: #0e951b;
+  --border-500: 1px solid var(--border-500-clr);
 }
 

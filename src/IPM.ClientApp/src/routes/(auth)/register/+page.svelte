@@ -9,6 +9,7 @@
   import toast from "svelte-5-french-toast";
   import { ZodError } from "zod";
   import type { EventSubmitElements } from "../../../shared.types";
+    import handleAuthError from "@lib/errors/handleAuthError";
 
   let roles = [
     { value: "2", name: "Manager" },
@@ -35,8 +36,12 @@
       toast.success("Đăng kí thành công");
       goto("/login?no_check_user=true");
     } else {
-      let zodError = result.error as ZodError;
-      error = zodError.issues[0].message;
+      if(result.errorType == "AuthError" ) {
+        await handleAuthError(result.error);
+      } else {
+        let zodError = result.error as ZodError;
+        error = zodError.issues[0].message;
+      }
     }
   }
 

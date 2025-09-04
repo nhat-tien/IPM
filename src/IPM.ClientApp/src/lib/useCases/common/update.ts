@@ -15,7 +15,7 @@ export default async function update<T>({
   id: string,
 }): Promise<UseCaseResult> {
   try {
-    scheme.parse(formData);
+    await scheme.parseAsync(formData);
 
     await endpoint.patch(id, {
       json: formData,

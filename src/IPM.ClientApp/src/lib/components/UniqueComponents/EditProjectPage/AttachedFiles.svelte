@@ -13,7 +13,7 @@
   import { invalidate } from "$app/navigation";
   import { getUserInfo } from "@stores/userInfo.svelte";
   import { getDateOrNull, formatDate } from "@utils/datetime";
-  import getUrlFile from "@useCases/fileUseCase/downloadFile";
+  import { handleDownload } from "@useCases/fileUseCase/downloadFile";
   import deleteFile from "@useCases/fileUseCase/deleteFile";
   import PrimaryButton from "@components/Button/PrimaryButton.svelte";
   import SelectWithSearch from "@components/Select/SelectWithSearch.svelte";
@@ -29,6 +29,12 @@
   import { type FileApp } from "@useCases/useCases.types";
   import SideDrawer from "@components/SideDrawer/SideDrawer.svelte";
   import UserBadge from "@components/Badge/UserBadge.svelte";
+  import FloatMenuWrapper from "@components/FloatMenu/FloatMenuWrapper.svelte";
+  import EllipsisVerticalIcon from "@components/Icons/EllipsisVerticalIcon.svelte";
+  import FloatMenuItem from "@components/FloatMenu/FloatMenuItem.svelte";
+  import PencilIcon from "@components/Icons/PencilIcon.svelte";
+  import FloatMenu from "@components/FloatMenu/FloatMenu.svelte";
+    import UpdateFileModal from "@components/Modal/UpdateFileModal.svelte";
 
   let { data }: { data: EditProjectDataPage } = $props();
 
@@ -91,23 +97,13 @@
     }
   }
 
-  async function handleDownload(fileId: number) {
-    const result = await getUrlFile(fileId);
-    var link = document.createElement("a");
-
-    if(!result) return;
-
-    console.log(result.name)
-
-    link.setAttribute("download", result.name);
-    link.href = result?.url;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  }
-
   let isOpenDetailFile = $state(false);
   let selectedFile: FileApp | undefined = $state();
+
+  function handleOpenUpdateModel() {
+    
+    openModal(updateFile)
+  }
 </script>
 
 <Card
@@ -134,30 +130,74 @@
               <div class="icon-date">
                 <ClockIcon />
               </div>
-              <p>{formatDate("H:M AM d/m/Y", getDateOrNull(file.createdAt), { isAMPMformat: true})}</p>
+              <p>
+                {formatDate("H:M AM d/m/Y", getDateOrNull(file.createdAt), {
+                  isAMPMformat: true,
+                })}
+              </p>
             </div>
             <div class="file-info__action">
-              <button
-                class="icon"
-                onclick={() => {
-                  isOpenDetailFile = true;
-                  selectedFile = file;
-                }}
-              >
-                <ArrowTopRightOnSquare />
-              </button>
-              <button class="icon" onclick={() => handleDownload(file.fileId)}>
-                <DownloadIcon />
-              </button>
-              <button
-                class="icon"
-                onclick={() => {
-                  deletedFile = file;
-                  openModal(confirmDelete);
-                }}
-              >
-                <TrashIcon --stroke="hsl(0, 84%, 48%)" />
-              </button>
+              <FloatMenuWrapper>
+                {#snippet centerChild()}
+                  <div class="icon">
+                    <EllipsisVerticalIcon />
+                  </div>
+                {/snippet}
+                {#snippet menuContainer()}
+                  <FloatMenu>
+                    <FloatMenuItem>
+                      <button
+                        class="float-menu"
+                        onclick={() => handleDownload(file.fileId)}
+                      >
+                        <div class="icon">
+                          <DownloadIcon />
+                        </div>
+                        Tải xuống
+                      </button>
+                    </FloatMenuItem>
+                    <FloatMenuItem>
+                      <button
+                        class="float-menu"
+                        onclick={() => {
+                          isOpenDetailFile = true;
+                          selectedFile = file;
+                        }}
+                      >
+                        <div class="icon">
+                          <ArrowTopRightOnSquare />
+                        </div>
+                        Chi tiết
+                      </button>
+                    </FloatMenuItem>
+                    <FloatMenuItem>
+                      <button class="float-menu" onclick={() => {
+                        selectedFile = file;
+                        openModal(updateFile)
+                      }}>
+                        <div class="icon">
+                          <PencilIcon />
+                        </div>
+                        Chỉnh sửa
+                      </button>
+                    </FloatMenuItem>
+                    <FloatMenuItem>
+                      <button
+                        class="float-menu btn-delete"
+                        onclick={() => {
+                          deletedFile = file;
+                          openModal(confirmDelete);
+                        }}
+                      >
+                        <div class="icon">
+                          <TrashIcon --stroke="hsl(0, 84%, 48%)" />
+                        </div>
+                        Xóa
+                      </button>
+                    </FloatMenuItem>
+                  </FloatMenu>
+                {/snippet}
+              </FloatMenuWrapper>
             </div>
           </div>
         </li>
@@ -223,6 +263,13 @@
   </table>
 </SideDrawer>
 
+{#snippet updateFile()}
+ <UpdateFileModal 
+    fileTypes={data.fileType}
+    fileId={selectedFile?.fileId ?? 0}
+  />
+{/snippet}
+
 {#snippet confirmDelete()}
   <MessageBoxConfirm
     title="Bạn có chắc muốn xóa?"
@@ -259,10 +306,8 @@
     font-weight: 600;
   }
   .icon {
-    width: 2em;
+    @include size(1.4em);
     @include center;
-    padding: 0.2em;
-    @include hover-button-icon;
   }
   .file-upload-container {
     background-color: $white-clr;
@@ -301,6 +346,14 @@
     }
   }
   .file__type-icon {
-    @include size(50px)
+    @include size(50px);
+  }
+
+  .float-menu {
+    @include float-menu-item;
+  }
+
+  .btn-delete {
+    color: var(--delete-500-clr);
   }
 </style>

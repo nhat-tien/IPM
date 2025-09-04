@@ -59,7 +59,6 @@ export default async function updateProfile(formData: UpdateProfileReq, data: Us
       req.positionId = formData.positionId;
     }
 
-    console.log("jncj")
     await userEndPoint.patch(`${info?.sub}`, {
       json: req,
       credentials: "include"

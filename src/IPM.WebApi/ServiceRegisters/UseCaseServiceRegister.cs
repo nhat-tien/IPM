@@ -61,7 +61,7 @@ using IPM.Application.UseCases.FileType.UpdateFileTypeUseCase;
 using IPM.Application.UseCases.File.UploadFileUseCase;
 using IPM.Application.UseCases.File.GetFileInProject;
 using IPM.Application.UseCases.File.GetUrlDownloadFileUseCase;
-using IPM.Application.UseCases.File.DeleteFileUseCase;
+using IPM.Application.UseCases.File.SoftDeleteFileUseCase;
 using IPM.Application.UseCases.File.UpdateFileTypeOfFileUseCase;
 
 using IPM.Application.UseCases.Role;
@@ -143,7 +143,7 @@ public static class UseCaseServiceRegister
         services.AddScoped<IUploadFileUseCase, UploadFileHandler>();
         services.AddScoped<IGetFileInProject, GetFileInProjectHandler>();
         services.AddScoped<IGetUrlDownloadFileUseCase, GetUrlDownloadFileHandler>();
-        services.AddScoped<IDeleteFileUseCase, DeleteFileHandler>();
+        services.AddScoped<ISoftDeleteFileUseCase, SoftDeleteFileHandler>();
         services.AddScoped<IUpdateFileTypeOfFileUseCase, UpdateFileTypeOfFileHandler>();
 
         services.AddScoped<IGetAllUserUseCase, GetAllUserHandler>();

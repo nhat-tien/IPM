@@ -2,9 +2,9 @@ using IPM.Application.UseCases.File.UploadFileUseCase;
 using IPM.Application.UseCases.File.GetFileInProject;
 using IPM.Application.UseCases.File.GetUrlDownloadFileUseCase;
 using IPM.Application.UseCases.File.UpdateFileTypeOfFileUseCase;
+using IPM.Application.UseCases.File.SoftDeleteFileUseCase;
 using IPM.WebApi.Utils;
 using Microsoft.AspNetCore.Mvc;
-using IPM.Application.UseCases.File.DeleteFileUseCase;
 using IPM.Application.Queries;
 
 namespace IPM.WebApi.ApiEndpoints.V1;
@@ -69,7 +69,7 @@ public class FileEndpoints
             "/{fileId}",
             async (
                 int fileId,
-                IDeleteFileUseCase handler
+                ISoftDeleteFileUseCase handler
             ) =>
             {
                 await handler.Handle(fileId);

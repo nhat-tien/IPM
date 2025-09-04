@@ -91,7 +91,7 @@
   td {
     padding: 1em;
     width: max-content;
-    max-width: 1000px;
+    max-width: 150px;
     border-bottom: 1px solid $gray-clr;
   }
   .action {

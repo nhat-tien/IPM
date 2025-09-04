@@ -12,6 +12,11 @@
   import Card from "@components/Card/Card.svelte";
   import PlainTab from "@components/Tabs/PlainTab.svelte";
   import ArrowPathIcon from "@components/Icons/ArrowPathIcon.svelte";
+  import CheckIcon from "@components/Icons/CheckIcon.svelte";
+  import verifyUser from "@useCases/userUseCase/verifyUser";
+    import toast from "svelte-5-french-toast";
+    import { invalidate } from "$app/navigation";
+    import { invalidateCache } from "@stores/cache.svelte";
   let { data }: { data: PageData } = $props();
 
   let modelName = "Người dùng";
@@ -24,6 +29,18 @@
     `Vai trò`,
   ];
   let currentTab = $state(0);
+
+  async function handleVerifyUser(userId: string) {
+    const result = await verifyUser(userId);
+    if(result.isSuccess) {
+      toast.success("Xác nhận thành công");
+      invalidateCache("users");
+      invalidateCache("users:inactive");
+      invalidate("users:getAll");
+    } else {
+      toast.error("Đã xảy ra lỗi");
+    }
+  }
 </script>
 
 <TitleWebPage title={modelName} />
@@ -43,9 +60,7 @@
                   <FloatMenuItem>
                     <button class="float-menu-item" onclick={() => {}}>
                       <div class="icon">
-                        <ArrowPathIcon --stroke="hsl(30, 0%, 30%)" />
                       </div>
-                      Khôi phục
                     </button>
                   </FloatMenuItem>
                 </FloatMenu>
@@ -55,12 +70,25 @@
         {/await}
       </Table>
     {:else if currentTab == 1}
-      <Table {headers} hasAction={true}>
+      <Table headers={headers} hasAction={true}>
         {#await data.usersInactive}
           <RowSkeleton {headers} />
         {:then users}
           {#each transformUserToTable(users) as user}
-            <TableRow row={user} />
+            <TableRow row={user} >
+              {#snippet menu()}
+                <FloatMenu>
+                  <FloatMenuItem>
+                    <button class="float-menu-item" onclick={() => handleVerifyUser(user[0])}>
+                      <div class="icon">
+                        <CheckIcon --stroke="var(--success-500-clr)" />
+                      </div>
+                      Xác nhận
+                    </button>
+                  </FloatMenuItem>
+                </FloatMenu>
+              {/snippet}
+            </TableRow>
           {/each}
         {/await}
       </Table>
