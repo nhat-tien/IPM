@@ -17,7 +17,7 @@
   import endProject from "@useCases/projectUseCase/endProject";
   import softDeleteProject from "@useCases/projectUseCase/softDeleteProject";
   import { page } from "$app/state";
-    import restartProject from "@useCases/projectUseCase/restartProject";
+  import restartProject from "@useCases/projectUseCase/restartProject";
 
   type Props = {
     project: Project;
@@ -248,16 +248,17 @@
 {/snippet}
 
 <style lang="scss">
-.project-name {
-  font-size: 2rem;
-  font-weight: 600;
-  text-align: left;
-}
+  .project-name {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: left;
+  }
 
-.project-name-en {
-  text-align: left;
-  font-size: 1.5rem;
-  color: var(--text-400-clr);
-  margin-bottom: 1em;
-}
+  .project-name-en {
+    text-align: left;
+    font-size: 1.5rem;
+    color: var(--text-400-clr);
+    margin-bottom: 3em;
+    font-style: italic;
+  }
 </style>

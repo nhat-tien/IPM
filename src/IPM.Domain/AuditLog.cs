@@ -2,6 +2,8 @@ namespace IPM.Domain;
 
 public class AuditLog
 {
+    public int AuditLogId { get; set; }
+
     public int ProjectId {get; set;}
     public required string UserId {get; set;}
 

@@ -88,6 +88,44 @@ namespace IPM.Infrastructure.Migrations
                     b.ToTable("ApprovingAgencies");
                 });
 
+            modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.AuditLog", b =>
+                {
+                    b.Property<int>("AuditLogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AuditLogId"));
+
+                    b.Property<string>("Activity")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("AuditLogId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AuditLog");
+                });
+
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Category", b =>
                 {
                     b.Property<int>("CategoryId")
@@ -190,7 +228,6 @@ namespace IPM.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("FileId");
@@ -724,6 +761,25 @@ namespace IPM.Infrastructure.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.AuditLog", b =>
+                {
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.File", b =>
                 {
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.FileType", "FileType")
@@ -738,9 +794,7 @@ namespace IPM.Infrastructure.Migrations
 
                     b.HasOne("IPM.Infrastructure.EntityFrameworkDataAccess.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("FileType");
 

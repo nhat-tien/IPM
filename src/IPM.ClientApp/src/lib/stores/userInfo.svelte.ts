@@ -33,6 +33,7 @@ async function getUserInfo(): Promise<UserInfo> {
 
 function deleteUserInfo() {
   userInfo = null
+  AppLog.info("remove session")
 }
 
 function getFullName(): string {

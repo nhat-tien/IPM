@@ -442,6 +442,36 @@ namespace IPM.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AuditLog",
+                columns: table => new
+                {
+                    AuditLogId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProjectId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    Activity = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditLog", x => x.AuditLogId);
+                    table.ForeignKey(
+                        name: "FK_AuditLog_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "ProjectId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AuditLog_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Files",
                 columns: table => new
                 {
@@ -454,7 +484,7 @@ namespace IPM.Infrastructure.Migrations
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     ProjectId = table.Column<int>(type: "integer", nullable: false),
                     FileTypeId = table.Column<int>(type: "integer", nullable: true),
-                    UserId = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -476,8 +506,7 @@ namespace IPM.Infrastructure.Migrations
                         name: "FK_Files_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -519,6 +548,16 @@ namespace IPM.Infrastructure.Migrations
                     { "2", null, "Manager", "MANAGER" },
                     { "3", null, "User", "USER" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AuditLog_ProjectId",
+                table: "AuditLog",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AuditLog_UserId",
+                table: "AuditLog",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Files_FileTypeId",
@@ -643,6 +682,9 @@ namespace IPM.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AuditLog");
+
             migrationBuilder.DropTable(
                 name: "Files");
 

@@ -5,7 +5,7 @@ import { deleteUserInfo } from "@stores/userInfo.svelte";
 import { AppLog } from "@utils/log";
 
 export default async function logout() {
-  authEndPoint.post("refresh/logout",{ json: {}, credentials: "include" });
+  await authEndPoint.post("refresh/logout",{ json: {}, credentials: "include" });
   deleteUserInfo();
   await invalidateAll();
   invalidateCacheAll();

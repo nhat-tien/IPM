@@ -6,12 +6,12 @@
     name: string;
   };
   type SelectProps = {
-    name: string;
+    name?: string;
     label?: string;
     value?: string;
     items: SelectOption[];
-    id: string;
-    placeHolder: string;
+    id?: string;
+    placeHolder?: string;
   };
   let {
     value = $bindable(""),

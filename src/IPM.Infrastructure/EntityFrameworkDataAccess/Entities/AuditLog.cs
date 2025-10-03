@@ -2,6 +2,8 @@ namespace IPM.Infrastructure.EntityFrameworkDataAccess.Entities;
 
 public class AuditLog: BaseEntity 
 {
+    public int AuditLogId { get; set; }
+
     public int ProjectId {get; set;}
     public required string UserId {get; set;}
 

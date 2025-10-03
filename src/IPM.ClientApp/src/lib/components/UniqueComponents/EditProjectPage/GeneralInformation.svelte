@@ -21,6 +21,7 @@
   import Card from "@components/Card/Card.svelte";
   import PrimaryTextField from "@components/TextField/PrimaryTextField.svelte";
   import RichTextEditor from "@components/RichTextEditor/RichTextEditor.svelte";
+  import  * as DOMPurify from "dompurify";
 
   let {
     modelState = $bindable(),
@@ -36,7 +37,7 @@
       projectNameVietnamese: modelState.projectNameVietnamese,
       projectNameEnglish: modelState.projectNameEnglish,
       projectProgress: modelState.projectProgress,
-      content: modelState.content,
+      content: DOMPurify.default.sanitize(modelState.content),
       projectPurpose: modelState.projectPurpose,
       projectBudget: modelState.projectBudget,
       startDate: modelState.startDate,

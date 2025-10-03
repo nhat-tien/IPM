@@ -15,6 +15,7 @@
   import IconButton from "@components/Button/IconButton.svelte";
   import Row from "@components/Row/Row.svelte";
   import ArrowLeftIcon from "@components/Icons/ArrowLeftIcon.svelte";
+  import { getUserInfo } from "@stores/userInfo.svelte";
   const { data }: { data: PageData } = $props();
 
   let pageState: 1 | 2 | 3 = $state(1);
@@ -49,6 +50,12 @@
     participationDiff: [],
     fileUpload: [],
   });
+
+  const isOwner = async () => {
+    const user = await getUserInfo();
+    const emailOfOwner = data.project.participations.find(u => u.role == "OWNER")?.user?.email;
+    return user?.email === emailOfOwner;
+  }
 </script>
 
 <TitleWebPage title="Dự án • Chỉnh sửa" />
@@ -84,9 +91,13 @@
     <TabItem isSelected={pageState == 1} onclick={() => (pageState = 1)}
       >Chung</TabItem
     >
-    <TabItem isSelected={pageState == 2} onclick={() => (pageState = 2)}
-      >Thành viên</TabItem
-    >
+    {#await isOwner() then isOwnerValue}
+      {#if isOwnerValue}
+        <TabItem isSelected={pageState == 2} onclick={() => (pageState = 2)}
+        >Thành viên</TabItem
+        >
+      {/if}
+    {/await}
     <TabItem isSelected={pageState == 3} onclick={() => (pageState = 3)}
       >File</TabItem
     >

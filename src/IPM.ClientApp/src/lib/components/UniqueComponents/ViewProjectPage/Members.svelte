@@ -14,8 +14,7 @@
 
   const transformParticipateToTable = (e: Participation) => {
     return [
-      e.user?.lastName ?? "",
-      e.user?.firstName ?? "",
+      e.user?.lastName + " " + e.user?.firstName, 
       e.user?.email ?? "",
       projectRoleMapping(e.role),
     ];
@@ -28,15 +27,14 @@
   description="Danh sách thành viên"
 >
   <Row></Row>
-  <Table headers={["Họ lót", "Tên", "Email", "Vai trò"]}>
+  <Table headers={["Họ tên", "Email", "Vai trò"]}>
     {#each participations as member}
       {@const row = transformParticipateToTable(member)}
       <tr>
         <td>{row[0]}</td>
         <td>{row[1]}</td>
-        <td>{row[2]}</td>
         <td>
-          <Badge isHasDot={false} variant="green">{row[3]}</Badge>
+          <Badge isHasDot={false} variant="green">{row[2]}</Badge>
         </td>
       </tr>
     {/each}
