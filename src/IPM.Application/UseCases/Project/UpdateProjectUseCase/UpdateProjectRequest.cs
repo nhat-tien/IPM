@@ -23,6 +23,7 @@ public class UpdateProjectRequest
     public int? CounterpartyId { get; set; }
     public int? CurrencyUnitId { get; set; }
     public required List<string> SetValueProperties {get; set;}
+    public required string userId {get; set;}
 
     public Domain.Project MapTo()
     {

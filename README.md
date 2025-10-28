@@ -90,6 +90,16 @@ In url `/docs`
 ## Screenshot
 ![](/docs/images/screenshot-from-2025-06-27-22-58-16.png)
 
+## Todo
+- [ ] Audit log
+- [ ] Forget password
+- [ ] Lock account
+- [ ] Admin:End all project in quarter
+- [ ] Admin:List reported project
+- [ ] Admin:Send Email
+- [ ] Admin:Active "admin role" for user
+- [ ] Excel report
+
 ## Features
 
 ### Authenticate
@@ -105,3 +115,4 @@ In url `/docs`
 ### Profile
 - Update profile
 - Upload avatar
+

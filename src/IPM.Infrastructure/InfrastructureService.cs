@@ -41,6 +41,7 @@ public static class InfrastructureService
         services.AddScoped<IFileTypeRepository, FileTypeRepository>();
         services.AddScoped<IFileRepository, FileRepository>();
         services.AddScoped<IParticipationRepository, ParticipationRepository>();
+        services.AddScoped<IAuditLogRepository, AuditLogRepository>();
 
         services.AddScoped<IProjectUnitOfWork, ProjectUnitOfWork>();
         return services;
